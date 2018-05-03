@@ -8,3 +8,4 @@ To disable the touchpad::
 To re-enable it:
 
     synclient TouchpadOff=0
+
