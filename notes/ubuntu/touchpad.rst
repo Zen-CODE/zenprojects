@@ -9,3 +9,5 @@ To re-enable it::
 
     synclient TouchpadOff=0
 
+Note: This setting does not work in KDE. Please see the KDE Touchpad settings.
+
