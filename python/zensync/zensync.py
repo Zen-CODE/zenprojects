@@ -6,6 +6,7 @@ This module provides simple backup/sync functionality
 """
 import os
 from os.path import isdir, join, abspath, exists
+from shutil import copy
 
 
 class SyncHandler(object):
@@ -20,6 +21,9 @@ class SyncHandler(object):
     clean = False
     """ Remove files that are not in the source folder """
 
+    # TODO: Implement
+    follow_symlinks = False
+
     def sync_folder(self, source, dest):
         """
         Synchronizes the contents of the sources and destination folder.
@@ -31,11 +35,12 @@ class SyncHandler(object):
                 self.sync_folder(full_name, join(dest, file_name))
             else:
                 full_dest = join(dest, file_name)
-                UI.show_message("Got file {0}".format(full_name))
                 if exists(full_dest):
-                    UI.show_message("file exists")
+                    UI.show_message("File exists: {0}".format(full_dest))
                 else:
-                    UI.show_message("file does not exists")
+                    UI.show_message("Copying to {0}".format(full_dest))
+                    copy(full_name, full_dest,
+                         follow_symlinks=self.follow_symlinks)
 
 
 class UI(object):
@@ -54,7 +59,7 @@ class UI(object):
 
 if __name__ == "__main__":
     path = r"./"
-    dest = "/home/richard/Temp/"
+    dest = "/home/richard/Temp/zensync_test"
 
     UI.show_splash()
     sync = SyncHandler()
