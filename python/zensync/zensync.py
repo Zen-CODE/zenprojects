@@ -4,7 +4,7 @@ ZenSync
 
 This module provides simple backup/sync functionality
 """
-import os
+from os import makedirs, walk
 from os.path import isdir, join, abspath, exists, getsize
 from shutil import copy
 
@@ -36,12 +36,13 @@ class SyncHandler(object):
         """
         Synchronizes the contents of the sources and destination folder.
         """
-        for dirname, subdirs, files in os.walk(source):
+        for dirname, subdirs, files in walk(source):
             for fname in files:
-                full_name = os.path.join(dirname, fname)
+                full_name = join(dirname, fname)
                 full_dest = join(dest, fname)
                 if not exists(full_dest):
                     UI.show_message("Copying to {0}".format(full_dest))
+                    makedirs(dest)
                     copy(full_name, full_dest,
                          follow_symlinks=self.follow_symlinks)
                 elif self.file_different(full_name, full_dest):
