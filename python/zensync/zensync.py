@@ -9,15 +9,21 @@ from os.path import isdir, join, abspath
 
 
 path = r"./"
+dest = "/home/richard/Temp/"
 
 
-def sync_folder(folder):
-    for file_name in os.listdir(folder):
-        full_name = join(folder, file_name)
-        if isdir(full_name):
-            sync_folder(full_name)
-        else:
-            print("Got file {0}".format(full_name))
+class SyncHandler(object):
+    """
+    Handles the synchronization task between two given folders.
+    """
+
+    def sync_folder(self, source, dest):
+        for file_name in os.listdir(source):
+            full_name = join(source, file_name)
+            if isdir(full_name):
+                self.sync_folder(full_name)
+            else:
+                UI.show_message("Got file {0}".format(full_name))
 
 
 class UI(object):
@@ -28,7 +34,13 @@ class UI(object):
     def show_splash():
         print("\n".join(["=" * 11, "= ZenSync =", "=" * 11, "\n"]))
 
+    @staticmethod
+    def show_message(msg):
+        """ Display a message during processing. """
+        print(msg)
+
 
 if __name__ == "__main__":
     UI.show_splash()
-    sync_folder(abspath(path))
+    sync = SyncHandler()
+    sync.sync_folder(abspath(path), dest)
