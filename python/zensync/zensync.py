@@ -32,34 +32,45 @@ class SyncHandler(object):
         s_size, d_size = getsize(source), getsize(dest)
         return bool(s_size != d_size)
 
+    def _process_files(self, dirname, files, dest):
+        """
+        Process the litt of files
+        """
+        for fname in files:
+            full_name = join(dirname, fname)
+            full_dest = join(dest, fname)
+            if not exists(full_dest):
+                UI.show_message("Copying to {0}".format(full_dest))
+                makedirs(dest)
+                copy(full_name, full_dest,
+                     follow_symlinks=self.follow_symlinks)
+            elif self.file_different(full_name, full_dest):
+                UI.show_message(
+                    "Replacing file: {0}".format(full_dest))
+                copy(full_name, full_dest,
+                     follow_symlinks=self.follow_symlinks)
+            else:
+                UI.show_message(
+                    "File unchanged, skipping: {0}".format(full_dest))
+
     def sync_folder(self, source, dest):
         """
         Synchronizes the contents of the sources and destination folder.
         """
         for dirname, subdirs, files in walk(source):
-            for fname in files:
-                full_name = join(dirname, fname)
-                full_dest = join(dest, fname)
-                if not exists(full_dest):
-                    UI.show_message("Copying to {0}".format(full_dest))
-                    makedirs(dest)
-                    copy(full_name, full_dest,
-                         follow_symlinks=self.follow_symlinks)
-                elif self.file_different(full_name, full_dest):
-                    UI.show_message(
-                        "Replacing file: {0}".format(full_dest))
-                    copy(full_name, full_dest,
-                         follow_symlinks=self.follow_symlinks)
-                else:
-                    UI.show_message(
-                        "File unchanged, skipping: {0}".format(full_dest))
+            self._process_files(dirname, files, dest)
+            # Process folders
             [self.sync_folder(join(dirname, f_dir), join(dest, f_dir))
              for f_dir in subdirs]
 
-    def clean_dest(self, source, dest):
+            if self.clean:
+                self.clean_dest(dirname, files, dest)
+
+    def clean_dest(self,  dirname, files, dest):
         """
         Remove files that are in the dest folder and not in the source:
         """
+        UI.show_message(("Stub for cleaning {0}".format(dest)))
 
 
 class UI(object):
@@ -82,4 +93,5 @@ if __name__ == "__main__":
 
     UI.show_splash()
     sync = SyncHandler()
+    sync.clean = True
     sync.sync_folder(abspath(path), dest)
