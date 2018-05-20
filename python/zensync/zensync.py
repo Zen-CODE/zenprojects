@@ -166,10 +166,10 @@ if __name__ == "__main__":
     settings = Settings.load()
     UI.show_splash()
 
-    source = UI.input(
-        "Source path ({0}) : ".format(settings.get('source', './')), './')
-    dest = UI.input(
-        "Destination path ({0}) : ".format(settings.get('dest', './')), './')
+    default = settings.get('source', './')
+    source = UI.input("Source path ({0}) : ".format(default), default)
+    default = settings.get('dest', './')
+    dest = UI.input("Destination path ({0}) : ".format(default), default)
 
     if not exists(source) or not exists(dest) or source == dest:
         UI.show_message("Invalid paths specified. Aborting...")
