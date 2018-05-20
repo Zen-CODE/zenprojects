@@ -54,7 +54,7 @@ class Settings(object):
         or te default settings.
         """
         if exists(Settings.store_file):
-            with open(Settings.store_file, 'rb') as f:
+            with open(Settings.store_file, 'r') as f:
                 return load(f)
         else:
             return {}
