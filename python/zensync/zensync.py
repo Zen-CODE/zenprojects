@@ -18,13 +18,14 @@ class SyncHandler(object):
     """ Always replace files in the destination. """
 
     # TODO: Implement
-    clean = False
+    clean = True
     """ Remove files that are not in the source folder """
 
     # TODO: Implement
     follow_symlinks = False
 
-    def file_different(self, source, dest):
+    @staticmethod
+    def file_different(source, dest):
         """
         Return True if the files are different. The default check is for size
         only.
@@ -32,40 +33,31 @@ class SyncHandler(object):
         s_size, d_size = getsize(source), getsize(dest)
         return bool(s_size != d_size)
 
-    def _process_files(self, dirname, files, dest):
-        """
-        Process the litt of files
-        """
-        for fname in files:
-            full_name = join(dirname, fname)
-            full_dest = join(dest, fname)
-            if not exists(full_dest):
-                UI.show_message("Copying to {0}".format(full_dest))
-                if not exists(dest):
-                    makedirs(dest)
-                copy(full_name, full_dest,
-                     follow_symlinks=self.follow_symlinks)
-            elif self.file_different(full_name, full_dest):
-                UI.show_message(
-                    "Replacing file: {0}".format(full_dest))
-                copy(full_name, full_dest,
-                     follow_symlinks=self.follow_symlinks)
-            else:
-                UI.show_message(
-                    "File unchanged, skipping: {0}".format(full_dest))
-
     def sync_folder(self, source, dest):
         """
         Synchronizes the contents of the sources and destination folder.
         """
-        for dirname, subdirs, files in walk(source):
-            self._process_files(dirname, files, dest)
-            # Process folders
-            for f_dir in subdirs:
-                dest_dir = join(dest, f_dir)
-                self.sync_folder(join(dirname, f_dir), dest_dir)
-                if self.clean:
-                    self._clean_dest(files, dest_dir)
+        # Note: We use listdir i.s.o. walk to we need tighter control over
+        # iteration to maintain the mapping the the destination
+        files = listdir(source)
+        for item in files:
+            f_source, f_dest = join(source, item),  join(dest, item)
+            if isdir(f_source):
+                self.sync_folder(f_source, f_dest)
+            elif not exists(f_dest):
+                if not exists(dest):
+                    makedirs(dest)
+                UI.show_message("Copying to {0}".format(f_dest))
+                copy(f_source, f_dest, follow_symlinks=self.follow_symlinks)
+            elif self.file_different(f_source, f_dest):
+                UI.show_message("Replacing file {0}".format(f_dest))
+                copy(f_source, f_dest, follow_symlinks=self.follow_symlinks)
+            else:
+                UI.show_message("Skipping file {0}".format(f_dest))
+
+        if self.clean:
+            self._clean_dest(files, dest)
+
 
     @staticmethod
     def _clean_dest(files, dest):
