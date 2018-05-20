@@ -4,9 +4,39 @@ ZenSync
 
 This module provides simple backup/sync functionality
 """
-from os import makedirs, walk, listdir, remove
+from os import makedirs, listdir, remove
 from os.path import isdir, join, abspath, exists, getsize
 from shutil import copy
+
+
+class FileSystemOps(object):
+    """
+    Handle and log all file operation
+    """
+    follow_symlinks = False
+
+    copied, replaced, removed, skipped = 0, 0, 0, 0
+
+    def copy(self, source, dest):
+        """ Copy the source file to the destination. Overwrite if it exists. """
+        if exists(dest):
+            UI.show_message("Copying to {0}".format(dest))
+            self.copied = self.copied + 1  # Do not use += 1!
+        else:
+            UI.show_message("Replacing file {0}".format(dest))
+            self.replaced = self.replaced + 1
+        copy(source, dest, follow_symlinks=self.follow_symlinks)
+
+    def remove(self, dest):
+        """ Remove the specified file. """
+        UI.show_message(("Removing {0}".format(dest)))
+        self.removed = self.removed + 1
+        remove(dest)
+
+    def skip(self, dest):
+        """ Skip processing on the specified file. """
+        UI.show_message("Skipping file {0}".format(dest))
+        self.skipped = self.skipped
 
 
 class SyncHandler(object):
@@ -23,6 +53,9 @@ class SyncHandler(object):
 
     # TODO: Implement
     follow_symlinks = False
+
+    def __init__(self):
+        self.fso = FileSystemOps()
 
     @staticmethod
     def file_different(source, dest):
@@ -44,23 +77,17 @@ class SyncHandler(object):
             f_source, f_dest = join(source, item),  join(dest, item)
             if isdir(f_source):
                 self.sync_folder(f_source, f_dest)
-            elif not exists(f_dest):
+            elif not exists(f_dest) or self.file_different(f_source, f_dest):
                 if not exists(dest):
                     makedirs(dest)
-                UI.show_message("Copying to {0}".format(f_dest))
-                copy(f_source, f_dest, follow_symlinks=self.follow_symlinks)
-            elif self.file_different(f_source, f_dest):
-                UI.show_message("Replacing file {0}".format(f_dest))
-                copy(f_source, f_dest, follow_symlinks=self.follow_symlinks)
+                self.fso.copy(f_source, f_dest)
             else:
-                UI.show_message("Skipping file {0}".format(f_dest))
+                self.fso.skip(f_dest)
 
         if self.clean:
             self._clean_dest(files, dest)
 
-
-    @staticmethod
-    def _clean_dest(files, dest):
+    def _clean_dest(self, files, dest):
         """
         Remove files that are in the dest folder and not in the source.
 
@@ -71,8 +98,7 @@ class SyncHandler(object):
         for item in listdir(dest):
             sub_item = join(dest, item)
             if not isdir(sub_item) and item not in files:
-                UI.show_message(("Removing {0}".format(sub_item)))
-                remove(sub_item)
+                self.fso.remove(sub_item)
 
 
 class UI(object):
