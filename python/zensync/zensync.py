@@ -165,16 +165,15 @@ class UI(object):
 
 
 if __name__ == "__main__":
-    # path = "/home/richard/Temp/zensync_source"
-    # dest = "/home/richard/Temp/zensync_dest"
+    # Initialize
     settings = Settings.load()
+    def_source = settings.get('source', './')
+    def_dest = settings.get('dest', './')
+
+    # Start interaction
     UI.show_splash()
-
-    default = settings.get('source', './')
-    source = UI.input("Source path ({0}) : ".format(default), default)
-    default = settings.get('dest', './')
-    dest = UI.input("Destination path ({0}) : ".format(default), default)
-
+    source = UI.input("Source path ({0}) : ".format(def_source), def_source)
+    dest = UI.input("Destination path ({0}) : ".format(def_dest), def_dest)
     if not exists(source) or not exists(dest) or source == dest:
         UI.show_message("Invalid paths specified. Aborting...")
         exit(-1)
@@ -182,7 +181,10 @@ if __name__ == "__main__":
         settings['source'], settings['dest'] = source, dest
         Settings.save(settings)
 
+    # Start synchronisation
     sync = SyncHandler()
     sync.clean = False
     sync.sync_folder(abspath(source), dest)
+
+    # Shown summary and close
     UI.show_summary(settings, sync.fso)
