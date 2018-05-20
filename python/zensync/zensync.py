@@ -64,7 +64,7 @@ class Settings(object):
         """
         Save the specified dictionary of settings to the store file
         """
-        with open(Settings.store_file, 'wb') as f:
+        with open(Settings.store_file, 'w') as f:
             dump(settings, f)
 
 
