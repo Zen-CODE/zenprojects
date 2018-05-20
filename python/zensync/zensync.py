@@ -4,7 +4,7 @@ ZenSync
 
 This module provides simple backup/sync functionality
 """
-from os import makedirs, walk, listdir
+from os import makedirs, walk, listdir, remove
 from os.path import isdir, join, abspath, exists, getsize
 from shutil import copy
 
@@ -61,17 +61,18 @@ class SyncHandler(object):
         for dirname, subdirs, files in walk(source):
             self._process_files(dirname, files, dest)
             # Process folders
-            [self.sync_folder(join(dirname, f_dir), join(dest, f_dir))
-             for f_dir in subdirs]
+            for f_dir in subdirs:
+                dest_dir = join(dest, f_dir)
+                self.sync_folder(join(dirname, f_dir), dest_dir)
+                if self.clean:
+                    self._clean_dest(files, dest_dir)
 
-            if self.clean:
-                self._clean_dest(dirname, files, dest)
-
-    def _clean_dest(self,  dirname, files, dest):
+    @staticmethod
+    def _clean_dest(files, dest):
         """
         Remove files that are in the dest folder and not in the source.
 
-            files: the list of files in dirname
+            files: the list of files in that should NOT be removed
         """
         if not exists(dest):
             return
@@ -79,7 +80,8 @@ class SyncHandler(object):
             sub_item = join(dest, item)
             if not isdir(sub_item) and item not in files:
                 UI.show_message(("Removing {0}".format(sub_item)))
-                # TODO: Implement
+                remove(sub_item)
+
 
 class UI(object):
     """
