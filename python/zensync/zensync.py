@@ -53,7 +53,7 @@ class Settings(object):
         Return a dictionary containing the users previously selected settings
         or te default settings.
         """
-        if exists():
+        if exists(Settings.store_file):
             with open(Settings.store_file, 'rb') as f:
                 return load(f)
         else:
@@ -152,13 +152,33 @@ class UI(object):
                          "Removed:  {0}".format(fso.removed),
                          "=" * 11, "\n"]))
 
+    @staticmethod
+    def input(prompt, default=""):
+        """ Get input from the user with the specified prompt. """
+        # TODO: Handle python 3 input vs. python 2 raw_input
+        ret = input(prompt)
+        return ret if ret else default
+
 
 if __name__ == "__main__":
-    path = "/home/richard/Temp/zensync_source"
-    dest = "/home/richard/Temp/zensync_dest"
-
+    # path = "/home/richard/Temp/zensync_source"
+    # dest = "/home/richard/Temp/zensync_dest"
+    settings = Settings.load()
     UI.show_splash()
+
+    source = UI.input(
+        "Source path ({0}) : ".format(settings.get('source', './')), './')
+    dest = UI.input(
+        "Destination path ({0}) : ".format(settings.get('dest', './')), './')
+
+    if not exists(source) or not exists(dest) or source == dest:
+        UI.show_message("Invalid paths specified. Aborting...")
+        exit(-1)
+    else:
+        settings['source'], settings['dest'] = source, dest
+        Settings.save(settings)
+
     sync = SyncHandler()
-    sync.clean = True
-    sync.sync_folder(abspath(path), dest)
+    sync.clean = False
+    sync.sync_folder(abspath(source), dest)
     UI.show_summary(sync.fso)
