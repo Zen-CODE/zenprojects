@@ -7,6 +7,7 @@ This module provides simple backup/sync functionality
 from os import makedirs, listdir, remove
 from os.path import isdir, join, abspath, exists, getsize
 from shutil import copy
+from json import load, dump
 
 
 class FileSystemOps(object):
@@ -37,6 +38,34 @@ class FileSystemOps(object):
         """ Skip processing on the specified file. """
         UI.show_message("Skipping file {0}".format(dest))
         self.skipped = self.skipped
+
+
+class Settings(object):
+    """
+    Handles the loading and saving of system settings via a json file.
+    """
+    store_file = '.zensync.json'
+    """ The file used to store our settings."""
+
+    @staticmethod
+    def load():
+        """
+        Return a dictionary containing the users previously selected settings
+        or te default settings.
+        """
+        if exists():
+            with open(Settings.store_file, 'rb') as f:
+                return load(f)
+        else:
+            return {}
+
+    @staticmethod
+    def save(settings):
+        """
+        Save the specified dictionary of settings to the store file
+        """
+        with open(Settings.store_file, 'wb') as f:
+            dump(settings, f)
 
 
 class SyncHandler(object):
