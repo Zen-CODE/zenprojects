@@ -144,13 +144,17 @@ class UI(object):
         print(msg)
 
     @staticmethod
-    def show_summary(fso):
-        print("\n".join(["=" * 11,
-                         "Copied:   {0}".format(fso.copied),
-                         "Replaced: {0}".format(fso.replaced),
-                         "Skipped:  {0}".format(fso.skipped),
-                         "Removed:  {0}".format(fso.removed),
-                         "=" * 11, "\n"]))
+    def show_summary(settings, fso):
+        l = 80
+        print("\n".join(["=" * l,
+                         "Source   : {0}".format(settings['source']),
+                         "Dest     : {0}".format(settings['dest']),
+                         "=" * l,
+                         "Copied   : {0}".format(fso.copied),
+                         "Replaced : {0}".format(fso.replaced),
+                         "Skipped  : {0}".format(fso.skipped),
+                         "Removed  : {0}".format(fso.removed),
+                         "=" * l, "\n"]))
 
     @staticmethod
     def input(prompt, default=""):
@@ -181,4 +185,4 @@ if __name__ == "__main__":
     sync = SyncHandler()
     sync.clean = False
     sync.sync_folder(abspath(source), dest)
-    UI.show_summary(sync.fso)
+    UI.show_summary(settings, sync.fso)
