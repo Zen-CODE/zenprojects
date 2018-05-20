@@ -41,7 +41,8 @@ class SyncHandler(object):
             full_dest = join(dest, fname)
             if not exists(full_dest):
                 UI.show_message("Copying to {0}".format(full_dest))
-                makedirs(dest)
+                if not exists(dest):
+                    makedirs(dest)
                 copy(full_name, full_dest,
                      follow_symlinks=self.follow_symlinks)
             elif self.file_different(full_name, full_dest):
@@ -72,6 +73,8 @@ class SyncHandler(object):
 
             files: the list of files in dirname
         """
+        if not exists(dest):
+            return
         for item in listdir(dest):
             sub_item = join(dest, item)
             if not isdir(sub_item) and item not in files:
