@@ -114,6 +114,15 @@ class UI(object):
         """ Display a message during processing. """
         print(msg)
 
+    @staticmethod
+    def show_summary(fso):
+        print("\n".join(["=" * 11,
+                         "Copied:   {0}".format(fso.copied),
+                         "Replaced: {0}".format(fso.replaced),
+                         "Skipped:  {0}".format(fso.skipped),
+                         "Removed:  {0}".format(fso.removed),
+                         "=" * 11, "\n"]))
+
 
 if __name__ == "__main__":
     path = "/home/richard/Temp/zensync_source"
@@ -123,3 +132,4 @@ if __name__ == "__main__":
     sync = SyncHandler()
     sync.clean = True
     sync.sync_folder(abspath(path), dest)
+    UI.show_summary(sync.fso)
