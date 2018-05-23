@@ -21,22 +21,22 @@ class FileSystemOps(object):
     def copy(self, source, dest):
         """ Copy the source file to the destination. Overwrite if it exists. """
         if exists(dest):
-            UI.show_message("Replacing file {0}".format(dest))
+            UI.show_message("Replacing file {0}".format(dest), replace=True)
             self.replaced = self.replaced + 1
         else:
-            UI.show_message("Copying to {0}".format(dest))
+            UI.show_message("Copying to {0}".format(dest), replace=True)
             self.copied = self.copied + 1  # Do not use += 1!
         copy(source, dest, follow_symlinks=self.follow_symlinks)
 
     def remove(self, dest):
         """ Remove the specified file. """
-        UI.show_message(("Removing {0}".format(dest)))
+        UI.show_message(("Removing {0}".format(dest)), replace=True)
         self.removed = self.removed + 1
         remove(dest)
 
     def skip(self, dest):
         """ Skip processing on the specified file. """
-        UI.show_message("Skipping file {0}".format(dest))
+        UI.show_message("Skipping file {0}".format(dest), replace=True)
         self.skipped = self.skipped
 
 
@@ -141,9 +141,15 @@ class UI(object):
         print("\n".join(["=" * 11, "= ZenSync =", "=" * 11, "\n"]))
 
     @staticmethod
-    def show_message(msg):
-        """ Display a message during processing. """
-        print(UI.last_length * "\r" + msg, end=None)
+    def show_message(msg, replace=False):
+        """ Display a message during processing. If Replace is True, the last
+        message displayed is replaced.
+        """
+
+        if replace:
+            print(UI.last_length * chr(8), end='')
+        print(msg, end='')
+        UI.last_length = len(msg)
 
     @staticmethod
     def show_summary(settings, fso):
