@@ -134,7 +134,7 @@ class UI(object):
     """
     Handles the presentation
     """
-    last_length = 0
+    last_replace = None
 
     @staticmethod
     def show_splash():
@@ -143,18 +143,22 @@ class UI(object):
     @staticmethod
     def show_message(msg, replace=False):
         """ Display a message during processing. If Replace is True, the last
-        message displayed is replaced.
+        message displayed is replaced and no EOL character is printed.
         """
+        max_len = 79
 
-        if replace:
-            print(UI.last_length * chr(8), end='')
-        print(msg, end='')
-        UI.last_length = len(msg)
+        if replace and UI.last_replace:
+            print(UI.last_replace * chr(8), end='')
+
+        displayed = msg[-max_len:]
+        print(displayed, end='' if replace else chr(13))
+        UI.last_replace = len(displayed) if replace else None
 
     @staticmethod
     def show_summary(settings, fso):
         k = 80  # Length of line
-        print("\n".join(["=" * k,
+        print("\n".join([chr(13),
+                         "=" * k,
                          "Source   : {0}".format(settings['source']),
                          "Dest     : {0}".format(settings['dest']),
                          "=" * k,
