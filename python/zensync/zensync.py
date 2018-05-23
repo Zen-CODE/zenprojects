@@ -21,11 +21,11 @@ class FileSystemOps(object):
     def copy(self, source, dest):
         """ Copy the source file to the destination. Overwrite if it exists. """
         if exists(dest):
-            UI.show_message("Copying to {0}".format(dest))
-            self.copied = self.copied + 1  # Do not use += 1!
-        else:
             UI.show_message("Replacing file {0}".format(dest))
             self.replaced = self.replaced + 1
+        else:
+            UI.show_message("Copying to {0}".format(dest))
+            self.copied = self.copied + 1  # Do not use += 1!
         copy(source, dest, follow_symlinks=self.follow_symlinks)
 
     def remove(self, dest):
@@ -134,6 +134,8 @@ class UI(object):
     """
     Handles the presentation
     """
+    last_length = 0
+
     @staticmethod
     def show_splash():
         print("\n".join(["=" * 11, "= ZenSync =", "=" * 11, "\n"]))
@@ -141,20 +143,20 @@ class UI(object):
     @staticmethod
     def show_message(msg):
         """ Display a message during processing. """
-        print(msg)
+        print(UI.last_length * "\r" + msg, end=None)
 
     @staticmethod
     def show_summary(settings, fso):
-        l = 80
-        print("\n".join(["=" * l,
+        k = 80  # Length of line
+        print("\n".join(["=" * k,
                          "Source   : {0}".format(settings['source']),
                          "Dest     : {0}".format(settings['dest']),
-                         "=" * l,
+                         "=" * k,
                          "Copied   : {0}".format(fso.copied),
                          "Replaced : {0}".format(fso.replaced),
                          "Skipped  : {0}".format(fso.skipped),
                          "Removed  : {0}".format(fso.removed),
-                         "=" * l, "\n"]))
+                         "=" * k, "\n"]))
 
     @staticmethod
     def input(prompt, default=""):
