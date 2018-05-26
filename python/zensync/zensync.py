@@ -137,19 +137,24 @@ class UI(object):
     """
     Handles the presentation
     """
+    cols = 80
+
+
     @staticmethod
     def show_splash():
-        print("\n".join(["=" * 11, "= ZenSync =", "=" * 11, "\n"]))
+        print("\n".join(["=" * UI.cols,
+                         "{:^80}".format("ZenSync"),
+                         "=" * UI.cols, "\n"]))
 
     @staticmethod
-    def show_message(msg, truncated=''):
-        """ Display a message. If a truncated part is specified, it is cut to
-        fit into the 80 column screen.
+    def show_message(msg, folder='', file=''):
+        """ Display a message. If a folder and file are specified, the out is
+        truncated to fit into the 80 column screen.
         """
-        max_len = 79
 
-        if truncated:
-            print(msg, truncated[-(80 - len(msg) - 2):])
+        if folder:
+            out = "{0:<15} {1:<50} {2:<15} "
+            print(out.format(msg, folder[-49:], file))
         else:
             print(msg)
 
