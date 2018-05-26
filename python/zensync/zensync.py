@@ -46,6 +46,13 @@ class FileSystemOps(object):
 class Settings(object):
     """
     Handles the loading and saving of system settings via a json file.
+    Keys include:
+        source    : defaults to "./"
+        dest      : defaults to "./"
+        clean     : defaults tp False
+        log_level : defaults to 2
+
+
     """
     store_file = '.zensync.json'
     """ The file used to store our settings."""
@@ -146,12 +153,24 @@ class UI(object):
         """
         system("clear")
         UI.show_splash()
+        UI.show_settings(settings)
 
     @staticmethod
     def show_splash():
         print("\n".join(["=" * UI.cols,
                          "{:^80}".format("ZenSync"),
                          "=" * UI.cols, "\n"]))
+
+    @staticmethod
+    def show_settings(settings):
+        """ Display the currently active settings. """
+        print("\n".join([
+               "Source    : {0}".format(settings['source']),
+               "Dest      : {0}".format(settings['dest']),
+               "Clean     : {0}".format(
+                   "Y" if settings.get("clean", True) else "N"),
+               "Log level : {0}".format(settings.get("log_level", 2)),
+               "=" * UI.cols]))
 
     @staticmethod
     def show_message(msg, folder='', file=''):
@@ -168,10 +187,6 @@ class UI(object):
     @staticmethod
     def show_summary(settings, fso):
         print("\n".join([chr(13),
-                         "=" * UI.cols,
-                         "Source   : {0}".format(settings['source']),
-                         "Dest     : {0}".format(settings['dest']),
-                         "=" * UI.cols,
                          "Copied   : {0}".format(fso.copied),
                          "Replaced : {0}".format(fso.replaced),
                          "Skipped  : {0}".format(fso.skipped),
