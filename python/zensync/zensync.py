@@ -51,8 +51,6 @@ class Settings(object):
         dest      : defaults to "./"
         clean     : defaults tp False
         log_level : defaults to 2
-
-
     """
     store_file = '.zensync.json'
     """ The file used to store our settings."""
@@ -137,7 +135,7 @@ class SyncHandler(object):
         for item in listdir(dest):
             sub_item = join(dest, item)
             if not isdir(sub_item) and item not in files:
-                self.fso.remove(sub_item)
+                self.fso.remove(dest, item)
 
 
 class UI(object):
@@ -147,7 +145,7 @@ class UI(object):
     cols = 80
 
     @staticmethod
-    def render_uid(settings, fso=None):
+    def render_ui(settings, fso=None):
         """ Generate the screen and UI element displaying the current settings
         and fso state (if not None).
         """
@@ -208,21 +206,33 @@ if __name__ == "__main__":
     def_dest = settings.get('dest', './')
 
     # Start interaction
-    UI.render_uid(settings)
+    inp, step = "", 0
+    while True:
+        UI.render_ui(settings)
+        if step == 0:
+            inp = UI.input("Source path : ", def_source)
+            settings['source'] = inp
+        elif step == 1:
+            inp = UI.input("Destination path : ", def_dest)
+            settings['dest'] = inp
+        else:
+            source, dest = settings['source'], settings['dest']
+            if not exists(source) or not exists(dest) or source == dest:
+                UI.show_message("Invalid paths specified. Aborting...")
+                exit(-1)
+            else:
+                Settings.save(settings)
 
-    source = UI.input("Source path ({0}) : ".format(def_source), def_source)
-    dest = UI.input("Destination path ({0}) : ".format(def_dest), def_dest)
-    if not exists(source) or not exists(dest) or source == dest:
-        UI.show_message("Invalid paths specified. Aborting...")
-        exit(-1)
-    else:
-        settings['source'], settings['dest'] = source, dest
-        Settings.save(settings)
+            # Start synchronisation
+            sync = SyncHandler()
+            sync.clean = settings.get('clear', False)
+            sync.sync_folder(abspath(source), dest)
 
-    # Start synchronisation
-    sync = SyncHandler()
-    sync.clean = False
-    sync.sync_folder(abspath(source), dest)
+            # Shown summary and close
+            UI.show_summary(settings, sync.fso)
+            inp = "q"
 
-    # Shown summary and close
-    UI.show_summary(settings, sync.fso)
+        if inp.lower() == "q":
+            break
+        else:
+            step += 1
