@@ -4,7 +4,7 @@ ZenSync
 
 This module provides simple backup/sync functionality
 """
-from os import makedirs, listdir, remove
+from os import makedirs, listdir, remove, system
 from os.path import isdir, join, abspath, exists, getsize
 from shutil import copy
 from json import load, dump
@@ -139,6 +139,13 @@ class UI(object):
     """
     cols = 80
 
+    @staticmethod
+    def render_uid(settings, fso=None):
+        """ Generate the screen and UI element displaying the current settings
+        and fso state (if not None).
+        """
+        system("clear")
+        UI.show_splash()
 
     @staticmethod
     def show_splash():
@@ -160,17 +167,16 @@ class UI(object):
 
     @staticmethod
     def show_summary(settings, fso):
-        k = 80  # Length of line
         print("\n".join([chr(13),
-                         "=" * k,
+                         "=" * UI.cols,
                          "Source   : {0}".format(settings['source']),
                          "Dest     : {0}".format(settings['dest']),
-                         "=" * k,
+                         "=" * UI.cols,
                          "Copied   : {0}".format(fso.copied),
                          "Replaced : {0}".format(fso.replaced),
                          "Skipped  : {0}".format(fso.skipped),
                          "Removed  : {0}".format(fso.removed),
-                         "=" * k, "\n"]))
+                         "=" * UI.cols, "\n"]))
 
     @staticmethod
     def input(prompt, default=""):
@@ -187,7 +193,8 @@ if __name__ == "__main__":
     def_dest = settings.get('dest', './')
 
     # Start interaction
-    UI.show_splash()
+    UI.render_uid(settings)
+
     source = UI.input("Source path ({0}) : ".format(def_source), def_source)
     dest = UI.input("Destination path ({0}) : ".format(def_dest), def_dest)
     if not exists(source) or not exists(dest) or source == dest:
