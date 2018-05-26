@@ -18,8 +18,9 @@ class FileSystemOps(object):
 
     copied, replaced, removed, skipped = 0, 0, 0, 0
 
-    def copy(self, source, dest):
+    def copy(self, source, dest_folder, dest_file):
         """ Copy the source file to the destination. Overwrite if it exists. """
+        dest = join(dest_folder, dest_file)
         if exists(dest):
             UI.show_message("Replacing: ", dest)
             self.replaced = self.replaced + 1
@@ -28,14 +29,16 @@ class FileSystemOps(object):
             self.copied = self.copied + 1  # Do not use += 1!
         copy(source, dest, follow_symlinks=self.follow_symlinks)
 
-    def remove(self, dest):
+    def remove(self, dest_folder, dest_file):
         """ Remove the specified file. """
+        dest = join(dest_folder, dest_file)
         UI.show_message("Removing: ", dest)
         self.removed = self.removed + 1
         remove(dest)
 
-    def skip(self, dest):
+    def skip(self, dest_folder, dest_file):
         """ Skip processing on the specified file. """
+        dest = join(dest_folder, dest_file)
         UI.show_message("Skipping: ", dest)
         self.skipped = self.skipped
 
@@ -109,9 +112,9 @@ class SyncHandler(object):
             elif not exists(f_dest) or self.file_different(f_source, f_dest):
                 if not exists(dest):
                     makedirs(dest)
-                self.fso.copy(f_source, f_dest)
+                self.fso.copy(f_source, dest, item)
             else:
-                self.fso.skip(f_dest)
+                self.fso.skip(dest, item)
 
         if self.clean:
             self._clean_dest(files, dest)
