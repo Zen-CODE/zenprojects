@@ -91,8 +91,9 @@ class SyncHandler(object):
     # TODO: Implement
     follow_symlinks = False
 
-    def __init__(self):
+    def __init__(self, settings):
         self.fso = FileSystemOps()
+        self.clean = settings.get('clear', False)
 
     @staticmethod
     def file_different(source, dest):
@@ -224,8 +225,7 @@ if __name__ == "__main__":
                 Settings.save(settings)
 
             # Start synchronisation
-            sync = SyncHandler()
-            sync.clean = settings.get('clear', False)
+            sync = SyncHandler(settings)
             sync.sync_folder(abspath(source), dest)
 
             # Shown summary and close
