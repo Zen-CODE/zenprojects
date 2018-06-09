@@ -10,36 +10,50 @@ from shutil import copy
 from json import load, dump
 
 
+def reset_render(func):
+    """ Redraw the entire screen if needed so the output file output lines
+    appear in the same place.
+    """
+    def wrapper(fso, *args):
+
+        fso.ui.render()
+        return func(fso, *args)
+    return wrapper
+
+
 class FileSystemOps(object):
     """
     Handle and log all file operation
     """
-    follow_symlinks = False
-
     copied, replaced, removed, skipped = 0, 0, 0, 0
+
+    def __init__(self, ui):
+        """ Set the UI to display messages """
+        self.ui = ui
 
     def copy(self, source, dest_folder, dest_file):
         """ Copy the source file to the destination. Overwrite if it exists. """
         dest = join(dest_folder, dest_file)
         if exists(dest):
-            UI.show_message("Replacing: ", dest)
+            self.ui.show_message("Replacing: ", dest)
             self.replaced = self.replaced + 1
         else:
-            UI.show_message("Copying: ", dest)
+            self.ui.show_message("Copying: ", dest)
             self.copied = self.copied + 1  # Do not use += 1!
-        copy(source, dest, follow_symlinks=self.follow_symlinks)
+        copy(source, dest)
 
     def remove(self, dest_folder, dest_file):
         """ Remove the specified file. """
         dest = join(dest_folder, dest_file)
-        UI.show_message("Removing: ", dest)
+        self.ui.show_message("Removing: ", dest)
         self.removed = self.removed + 1
         remove(dest)
 
+    @reset_render
     def skip(self, dest_folder, dest_file):
         """ Skip processing on the specified file. """
         dest = join(dest_folder, dest_file)
-        UI.show_message("Skipping: ", dest)
+        self.ui.show_message("Skipping: ", dest)
         self.skipped = self.skipped
 
 
@@ -88,11 +102,8 @@ class SyncHandler(object):
     clean = True
     """ Remove files that are not in the source folder """
 
-    # TODO: Implement
-    follow_symlinks = False
-
-    def __init__(self, settings):
-        self.fso = FileSystemOps()
+    def __init__(self, settings, ui):
+        self.fso = FileSystemOps(ui)
         self.clean = settings.get('clear', False)
 
     @staticmethod
@@ -145,23 +156,23 @@ class UI(object):
     """
     cols = 80
 
-    @staticmethod
-    def render_ui(settings, fso=None):
+    def __init__(self, settings):
+        self.settings = settings
+
+    def render(self, fso=None):
         """ Generate the screen and UI element displaying the current settings
         and fso state (if not None).
         """
         system("clear")
-        UI.show_splash()
-        UI.show_settings(settings)
+        self.show_splash()
+        ui.show_settings()
 
-    @staticmethod
-    def show_splash():
+    def show_splash(self):
         print("\n".join(["=" * UI.cols,
                          "{:^80}".format("ZenSync"),
                          "=" * UI.cols, "\n"]))
 
-    @staticmethod
-    def show_settings(settings):
+    def show_settings(self):
         """ Display the currently active settings. """
         print("\n".join([
                "Source    : {0}".format(settings['source']),
@@ -169,7 +180,7 @@ class UI(object):
                "Clean     : {0}".format(
                    "Y" if settings.get("clean", True) else "N"),
                "Log level : {0}".format(settings.get("log_level", 2)),
-               "=" * UI.cols]))
+               "=" * self.cols]))
 
     @staticmethod
     def show_message(msg, folder='', file=''):
@@ -184,7 +195,7 @@ class UI(object):
             print(msg)
 
     @staticmethod
-    def show_summary(settings, fso):
+    def show_summary(fso):
         print("\n".join([chr(13),
                          "Copied   : {0}".format(fso.copied),
                          "Replaced : {0}".format(fso.replaced),
@@ -207,29 +218,29 @@ if __name__ == "__main__":
     def_dest = settings.get('dest', './')
 
     # Start interaction
-    inp, step = "", 0
+    inp, step, ui = "", 0, UI(settings)
     while True:
-        UI.render_ui(settings)
+        ui.render()
         if step == 0:
-            inp = UI.input("Source path : ", def_source)
+            inp = ui.input("Source path : ", def_source)
             settings['source'] = inp
         elif step == 1:
-            inp = UI.input("Destination path : ", def_dest)
+            inp = ui.input("Destination path : ", def_dest)
             settings['dest'] = inp
         else:
             source, dest = settings['source'], settings['dest']
             if not exists(source) or not exists(dest) or source == dest:
-                UI.show_message("Invalid paths specified. Aborting...")
+                ui.show_message("Invalid paths specified. Aborting...")
                 exit(-1)
             else:
                 Settings.save(settings)
 
             # Start synchronisation
-            sync = SyncHandler(settings)
+            sync = SyncHandler(settings, ui)
             sync.sync_folder(abspath(source), dest)
 
             # Shown summary and close
-            UI.show_summary(settings, sync.fso)
+            ui.show_summary(sync.fso)
             inp = "q"
 
         if inp.lower() == "q":
