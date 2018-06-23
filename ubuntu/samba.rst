@@ -11,6 +11,14 @@ To set the linux uset password ::
 
     sudo passwd <username>
 
+Don't forget to give the user the appropriate file permissions. For reading:
+
+    sudo chmod +r -R <folder>
+
+OR for writing:
+
+    sudo chmod +rw -R <folder>
+
 To restart
 
     sudo /etc/init.d/samba restart
