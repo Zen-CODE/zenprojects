@@ -16,8 +16,7 @@ def print_dot(func):
     appear in the same place.
     """
     def wrapper(fso, *args):
-
-        fso.ui.render()
+        print(".", end='')
         return func(fso, *args)
     return wrapper
 
