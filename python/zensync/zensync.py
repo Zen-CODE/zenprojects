@@ -167,27 +167,9 @@ class UI(object):
                          "{:^80}".format("ZenSync"),
                          "=" * UI.cols, "\n"]))
 
-    def show_settings(self):
-        """ Display the currently active settings. """
-        print("\n".join([
-               "Source    : {0}".format(settings['source']),
-               "Dest      : {0}".format(settings['dest']),
-               "Clean     : {0}".format(
-                   "Y" if settings.get("clean", True) else "N"),
-               "Log level : {0}".format(settings.get("log_level", 2)),
-               "=" * self.cols]))
-
     @staticmethod
-    def show_message(msg, folder='', file=''):
-        """ Display a message. If a folder and file are specified, the out is
-        truncated to fit into the 80 column screen.
-        """
-
-        if folder:
-            out = "{0:<15} {1:<50} {2:<15} "
-            print(out.format(msg, folder[-49:], file))
-        else:
-            print(msg)
+    def show_message(msg):
+        print(msg)
 
     @staticmethod
     def show_summary(fso):
