@@ -10,17 +10,6 @@ from shutil import copy
 from json import load, dump
 
 
-def reset_render(func):
-    """ Redraw the entire screen if needed so the output file output lines
-    appear in the same place.
-    """
-    def wrapper(fso, *args):
-
-        fso.ui.render()
-        return func(fso, *args)
-    return wrapper
-
-
 class FileSystemOps(object):
     """
     Handle and log all file operation
@@ -49,7 +38,6 @@ class FileSystemOps(object):
         self.removed = self.removed + 1
         remove(dest)
 
-    @reset_render
     def skip(self, dest_folder, dest_file):
         """ Skip processing on the specified file. """
         dest = join(dest_folder, dest_file)
