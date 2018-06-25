@@ -161,16 +161,9 @@ class UI(object):
     def __init__(self, settings):
         self.settings = settings
 
-    def render(self, fso=None):
-        """ Generate the screen and UI element displaying the current settings
-        and fso state (if not None).
-        """
-        system("clear")
-        self.show_splash()
-        ui.show_settings()
-
     def show_splash(self):
-        print("\n".join(["=" * UI.cols,
+        print("\n".join(["",
+                         "=" * UI.cols,
                          "{:^80}".format("ZenSync"),
                          "=" * UI.cols, "\n"]))
 
@@ -203,6 +196,7 @@ class UI(object):
                          "Replaced : {0}".format(fso.replaced),
                          "Skipped  : {0}".format(fso.skipped),
                          "Removed  : {0}".format(fso.removed),
+                         "Log file  : zensync.log",
                          "=" * UI.cols, "\n"]))
 
     @staticmethod
@@ -220,37 +214,29 @@ if __name__ == "__main__":
     def_dest = settings['dest']
 
     # Start interaction
-    inp, step, ui = "", 0, UI(settings)
-    while True:
-        ui.render()
-        if step == 0:
-            inp = ui.input("Source path : ", def_source)
-            settings['source'] = inp
-        elif step == 1:
-            inp = ui.input("Destination path : ", def_dest)
-            settings['dest'] = inp
-        else:
-            # Start synchronisation
-            logging.basicConfig(filename="zensync.log",
-                                filemode="w",
-                                level=logging.INFO)
-            logging.info(" = ZenSync = \n\nSettings: " + str(settings) + "\n")
+    ui = UI(settings)
+    ui.show_splash()
+    settings['source'] = ui.input("Source path ({}): ".format(def_source),
+                                  def_source)
+    settings['dest'] = ui.input("Destination path ({0}): ".format(def_dest),
+                                def_dest)
 
-            source, dest = settings['source'], settings['dest']
-            if not exists(source) or not exists(dest) or source == dest:
-                ui.show_message("Invalid paths specified. Aborting...")
-                exit(-1)
-            else:
-                Settings.save(settings)
+    source, dest = settings['source'], settings['dest']
+    if not exists(source) or not exists(dest) or source == dest:
+        ui.show_message("Invalid paths specified. Aborting...")
+    else:
+        Settings.save(settings)
 
-            sync = SyncHandler(settings, ui)
-            sync.sync_folder(abspath(source), abspath(dest))
+    # Start synchronisation
+    logging.basicConfig(filename="zensync.log",
+                        filemode="w",
+                        format='%(asctime)-15s : %(message)s',
+                        level=logging.INFO)
+    logging.info(" = ZenSync = \n\nSettings: " + str(settings) + "\n")
 
-            # Shown summary and close
-            ui.show_summary(sync.fso)
-            inp = "q"
+    sync = SyncHandler(settings, ui)
+    sync.sync_folder(abspath(source), abspath(dest))
 
-        if inp.lower() == "q":
-            break
-        else:
-            step += 1
+    # Shown summary and close
+    ui.show_summary(sync.fso)
+
