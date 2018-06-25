@@ -47,7 +47,7 @@ class FileSystemOps(object):
     def remove(self, dest_folder, dest_file):
         """ Remove the specified file. """
         dest = join(dest_folder, dest_file)
-        logging.info("Removing: ", dest)
+        logging.info("Removing: " + dest)
         self.removed += 1
         remove(dest)
 
@@ -65,8 +65,6 @@ class Settings(object):
     Keys include:
         source    : defaults to "./"
         dest      : defaults to "./"
-        clean     : defaults tp False
-        log_level : defaults to 2
     """
     store_file = '.zensync.json'
     """ The file used to store our settings."""
@@ -100,13 +98,12 @@ class SyncHandler(object):
     replace = False
     """ Always replace files in the destination. """
 
-    # TODO: Implement
     clean = True
     """ Remove files that are not in the source folder """
 
     def __init__(self, settings, ui):
         self.fso = FileSystemOps(ui)
-        self.clean = settings.get('clear', False)
+        self.clean = bool(settings['clean'].lower() == "y")
 
     @staticmethod
     def file_different(source, dest):
@@ -202,6 +199,8 @@ if __name__ == "__main__":
                                   def_source)
     settings['dest'] = ui.input("Destination path ({0}): ".format(def_dest),
                                 def_dest)
+    settings['clean'] = ui.input(
+        "Remove missing ({}): ".format(settings.get('clean', 'n')), 'n')
 
     source, dest = settings['source'], settings['dest']
     if not exists(source) or not exists(dest) or source == dest:
