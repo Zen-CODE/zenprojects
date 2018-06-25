@@ -8,6 +8,18 @@ from os import makedirs, listdir, remove, system
 from os.path import isdir, join, abspath, exists, getsize
 from shutil import copy
 from json import load, dump
+import logging
+
+
+def print_dot(func):
+    """ Redraw the entire screen if needed so the output file output lines
+    appear in the same place.
+    """
+    def wrapper(fso, *args):
+
+        fso.ui.render()
+        return func(fso, *args)
+    return wrapper
 
 
 class FileSystemOps(object):
@@ -20,29 +32,32 @@ class FileSystemOps(object):
         """ Set the UI to display messages """
         self.ui = ui
 
+    @print_dot
     def copy(self, source, dest_folder, dest_file):
         """ Copy the source file to the destination. Overwrite if it exists. """
         dest = join(dest_folder, dest_file)
         if exists(dest):
-            self.ui.show_message("Replacing: ", dest)
-            self.replaced = self.replaced + 1
+            logging.info("Replacing: " + dest)
+            self.replaced += 1
         else:
-            self.ui.show_message("Copying: ", dest)
-            self.copied = self.copied + 1  # Do not use += 1!
+            logging.info("Copying: " + dest)
+            self.copied += 1
         copy(source, dest)
 
+    @print_dot
     def remove(self, dest_folder, dest_file):
         """ Remove the specified file. """
         dest = join(dest_folder, dest_file)
-        self.ui.show_message("Removing: ", dest)
-        self.removed = self.removed + 1
+        logging.info("Removing: ", dest)
+        self.removed += 1
         remove(dest)
 
+    @print_dot
     def skip(self, dest_folder, dest_file):
         """ Skip processing on the specified file. """
         dest = join(dest_folder, dest_file)
-        self.ui.show_message("Skipping: ", dest)
-        self.skipped = self.skipped
+        logging.info("Skipping: " + dest)
+        self.skipped += 1
 
 
 class Settings(object):
@@ -216,6 +231,12 @@ if __name__ == "__main__":
             inp = ui.input("Destination path : ", def_dest)
             settings['dest'] = inp
         else:
+            # Start synchronisation
+            logging.basicConfig(filename="zensync.log",
+                                filemode="w",
+                                level=logging.INFO)
+            logging.info(" = ZenSync = \n\nSettings: " + str(settings) + "\n")
+
             source, dest = settings['source'], settings['dest']
             if not exists(source) or not exists(dest) or source == dest:
                 ui.show_message("Invalid paths specified. Aborting...")
@@ -223,9 +244,8 @@ if __name__ == "__main__":
             else:
                 Settings.save(settings)
 
-            # Start synchronisation
             sync = SyncHandler(settings, ui)
-            sync.sync_folder(abspath(source), dest)
+            sync.sync_folder(abspath(source), abspath(dest))
 
             # Shown summary and close
             ui.show_summary(sync.fso)
