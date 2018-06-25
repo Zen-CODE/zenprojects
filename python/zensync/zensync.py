@@ -79,7 +79,7 @@ class Settings(object):
             with open(Settings.store_file, 'r') as f:
                 return load(f)
         else:
-            return {}
+            return {'source': './', 'dest': './'}
 
     @staticmethod
     def save(settings):
@@ -214,8 +214,8 @@ class UI(object):
 if __name__ == "__main__":
     # Initialize
     settings = Settings.load()
-    def_source = settings.get('source', './')
-    def_dest = settings.get('dest', './')
+    def_source = settings['source']
+    def_dest = settings['dest']
 
     # Start interaction
     inp, step, ui = "", 0, UI(settings)
