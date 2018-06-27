@@ -1,0 +1,9 @@
+[Unit]
+After=network.target
+Description=Gives all users permissions to use any touch input devices
+
+[Service]
+ExecStart=/home/fruitbat/Repos/zenprojects/ubuntu/service/touch-dev-permisssions.sh
+
+[Install]
+WantedBy=default.target
