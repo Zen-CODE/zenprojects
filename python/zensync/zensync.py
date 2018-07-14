@@ -11,12 +11,13 @@ from json import load, dump
 import logging
 
 
-def print_dot(func):
+def print_inline(func):
     """ Redraw the entire screen if needed so the output file output lines
     appear in the same place.
     """
     def wrapper(fso, *args):
-        print(".", end='')
+        print(" " * 80, end='\r')  # Clear previous
+        print(func.__name__ + ": " + args[-1], end='\r')
         return func(fso, *args)
     return wrapper
 
@@ -31,7 +32,7 @@ class FileSystemOps(object):
         """ Set the UI to display messages """
         self.ui = ui
 
-    @print_dot
+    @print_inline
     def copy(self, source, dest_folder, dest_file):
         """ Copy the source file to the destination. Overwrite if it exists. """
         dest = join(dest_folder, dest_file)
@@ -43,7 +44,7 @@ class FileSystemOps(object):
             self.copied += 1
         copy(source, dest)
 
-    @print_dot
+    @print_inline
     def remove(self, dest_folder, dest_file):
         """ Remove the specified file. """
         dest = join(dest_folder, dest_file)
@@ -51,7 +52,7 @@ class FileSystemOps(object):
         self.removed += 1
         remove(dest)
 
-    @print_dot
+    @print_inline
     def skip(self, dest_folder, dest_file):
         """ Skip processing on the specified file. """
         dest = join(dest_folder, dest_file)
