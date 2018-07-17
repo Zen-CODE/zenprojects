@@ -17,7 +17,7 @@ def print_inline(func):
     """
     def wrapper(fso, *args):
         print(" " * 80, end='\r')  # Clear previous
-        print(func.__name__ + ": " + args[-1], end='\r')
+        print(func.__name__ + ": " + args[-1][-70:], end='\r')
         return func(fso, *args)
     return wrapper
 
