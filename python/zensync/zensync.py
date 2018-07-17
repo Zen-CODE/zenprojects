@@ -4,7 +4,7 @@ ZenSync
 
 This module provides simple backup/sync functionality
 """
-from os import makedirs, listdir, remove, system
+from os import makedirs, listdir, remove
 from os.path import isdir, join, abspath, exists, getsize
 from shutil import copy
 from json import load, dump
@@ -159,7 +159,8 @@ class UI(object):
     def __init__(self, settings):
         self.settings = settings
 
-    def show_splash(self):
+    @staticmethod
+    def show_splash():
         print("\n".join(["",
                          "=" * UI.cols,
                          "{:^80}".format("ZenSync"),
@@ -221,4 +222,3 @@ if __name__ == "__main__":
 
     # Shown summary and close
     ui.show_summary(sync.fso)
-
