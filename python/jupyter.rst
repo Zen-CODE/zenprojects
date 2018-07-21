@@ -21,12 +21,17 @@ not already have one).
 
     $ jupyter notebook --generate-config
 
-Then enable the password option in the config file.
+Then enable the password option in the config file and restart juypter. It will
+then prompt you for the password.:
 
+    c.NotebookApp.password_required = True
 
-    NotebookApp.allow_password_change=False
-
-
-Then set the password
+Or set the password
 
     $ jupyter notebook password
+
+To ernable access from other IP's:
+
+    c.NotebookApp.ip = '10.0.0.3'
+
+
