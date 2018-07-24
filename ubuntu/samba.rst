@@ -21,4 +21,4 @@ OR for writing:
 
 To restart
 
-    sudo /etc/init.d/samba restart
+    sudo systemctl restart smbd
