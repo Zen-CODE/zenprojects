@@ -18,7 +18,7 @@ def print_inline(func):
     def wrapper(fso, *args):
         # logging.info("{0}: {1} ({2}))".format(
         #     func.__name__.title(), args[-1], args[-2]))
-        logging.info("{0}: {1}{2}{3}))".format(
+        logging.info("{0}: {1}{2}{3}".format(
             func.__name__.title(), args[-2], sep, args[-1]))
         return func(fso, *args)
     return wrapper
