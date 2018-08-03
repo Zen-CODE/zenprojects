@@ -5,7 +5,7 @@ ZenSync
 This module provides simple backup/sync functionality
 """
 from os import makedirs, listdir, remove
-from os.path import isdir, join, abspath, exists, getsize, basename
+from os.path import isdir, join, abspath, exists, getsize, sep
 from shutil import copy
 from json import load, dump
 import logging
@@ -16,13 +16,10 @@ def print_inline(func):
     appear in the same place.
     """
     def wrapper(fso, *args):
-        d = {'file_name': basename(args[-1]),
-             'func': func.__name__,
-             'full_path': args[-1]}
-
-        print(" " * 80, end='\r')  # Clear previous
-        print("{func:<7}: {file_name:<20} ({full_path:<57})".format(**d),
-              end='\r')
+        # logging.info("{0}: {1} ({2}))".format(
+        #     func.__name__.title(), args[-1], args[-2]))
+        logging.info("{0}: {1}{2}{3}))".format(
+            func.__name__.title(), args[-2], sep, args[-1]))
         return func(fso, *args)
     return wrapper
 
@@ -37,15 +34,25 @@ class FileSystemOps(object):
         """ Set the UI to display messages """
         self.ui = ui
 
-    @print_inline
     def copy(self, source, dest_folder, dest_file):
         """ Copy the source file to the destination. Overwrite if it exists. """
+
+        @print_inline
+        def copying(_self, _s, _d, _df):
+            """ Dummy function for making use of single decorator for logging"""
+            pass
+
+        @print_inline
+        def replacing(_self, _s, _d, _df):
+            """ Dummy function for making use of single decorator for logging"""
+            pass
+
         dest = join(dest_folder, dest_file)
         if exists(dest):
-            logging.info("Replacing: " + dest)
+            replacing(self, source, dest_folder, dest_file)
             self.replaced += 1
         else:
-            logging.info("Copying: " + dest)
+            copying(self, source, dest_folder, dest_file)
             self.copied += 1
         copy(source, dest)
 
@@ -53,15 +60,13 @@ class FileSystemOps(object):
     def remove(self, dest_folder, dest_file):
         """ Remove the specified file. """
         dest = join(dest_folder, dest_file)
-        logging.info("Removing: " + dest)
         self.removed += 1
         remove(dest)
 
     @print_inline
     def skip(self, dest_folder, dest_file):
         """ Skip processing on the specified file. """
-        dest = join(dest_folder, dest_file)
-        logging.info("Skipping: " + dest)
+        join(dest_folder, dest_file)
         self.skipped += 1
 
 
@@ -223,12 +228,17 @@ if __name__ == "__main__":
         Settings.save(settings)
 
     # Start synchronisation
-    logging.basicConfig(filename="zensync.log",
-                        filemode="w",
-                        format='%(asctime)-15s : %(message)s',
-                        level=logging.INFO)
-    logging.info(" = ZenSync = \n\nSettings: " + str(settings) + "\n")
 
+    # # Complete loging
+    # logging.basicConfig(filename="zensync.log",
+    #                     filemode="w",
+    #                     format='%(asctime)-15s : %(message)s',
+    #                     level=logging.INFO)
+
+    # # Display only the message
+    logging.basicConfig(format='%(message)s', level=logging.INFO)
+
+    logging.info(" = ZenSync = \n\nSettings: " + str(settings) + "\n")
     sync = SyncHandler(settings, ui)
     sync.sync_folder(abspath(source), abspath(dest))
 
