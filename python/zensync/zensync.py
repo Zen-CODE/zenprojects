@@ -5,7 +5,7 @@ ZenSync
 This module provides simple backup/sync functionality
 """
 from os import makedirs, listdir, remove
-from os.path import isdir, join, abspath, exists, getsize
+from os.path import isdir, join, abspath, exists, getsize, basename
 from shutil import copy
 from json import load, dump
 import logging
@@ -16,8 +16,12 @@ def print_inline(func):
     appear in the same place.
     """
     def wrapper(fso, *args):
+        d = {'file_name': basename(args[-1]),
+             'func': func.__name__,
+             'full_path': args[-1]}
+
         print(" " * 80, end='\r')  # Clear previous
-        print(func.__name__ + ": " + args[-1][-70:], end='\r')
+        print("{func:<7}: {file_name:<20} ({full_path:<57})".format(**d) , end='\r')
         return func(fso, *args)
     return wrapper
 
