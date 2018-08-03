@@ -21,7 +21,8 @@ def print_inline(func):
              'full_path': args[-1]}
 
         print(" " * 80, end='\r')  # Clear previous
-        print("{func:<7}: {file_name:<20} ({full_path:<57})".format(**d) , end='\r')
+        print("{func:<7}: {file_name:<20} ({full_path:<57})".format(**d),
+              end='\r')
         return func(fso, *args)
     return wrapper
 
