@@ -70,13 +70,19 @@ class Settings(object):
     store_file = '.zensync.json'
     """ The file used to store our settings."""
 
+    enabled = False
+    """ Determines whether or not to use a settings file to store previous
+    choices. This is switched of by default for cleaner folders and write-only
+    friendliness. """
+
+
     @staticmethod
     def load():
         """
         Return a dictionary containing the users previously selected settings
         or te default settings.
         """
-        if exists(Settings.store_file):
+        if exists(Settings.store_file) and Settings.enabled:
             with open(Settings.store_file, 'r') as f:
                 return load(f)
         else:
@@ -87,8 +93,9 @@ class Settings(object):
         """
         Save the specified dictionary of settings to the store file
         """
-        with open(Settings.store_file, 'w') as f:
-            dump(settings, f)
+        if Settings.enabled:
+            with open(Settings.store_file, 'w') as f:
+                dump(settings, f)
 
 
 class SyncHandler(object):
