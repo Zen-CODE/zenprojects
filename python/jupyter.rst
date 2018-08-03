@@ -30,8 +30,15 @@ Or set the password
 
     $ jupyter notebook password
 
-To ernable access from other IP's:
+To enable access from other IP's:
 
     c.NotebookApp.ip = '10.0.0.3'
 
+To set the password:
 
+    $ jupyter notebook password
+
+To allow access from other ips':
+
+    ## The IP address the notebook server will listen on.
+    c.NotebookApp.ip = '0.0.0.0'
