@@ -6,7 +6,7 @@ This module provides simple backup/sync functionality
 """
 from os import makedirs, listdir, remove
 from os.path import isdir, join, abspath, exists, getsize, sep
-from shutil import copy
+from shutil import copy, rmtree
 from json import load, dump
 import logging
 
@@ -64,9 +64,8 @@ class FileSystemOps(object):
         remove(dest)
 
     @print_inline
-    def skip(self, dest_folder, dest_file):
+    def skip(self, _dest_folder, _dest_file):
         """ Skip processing on the specified file. """
-        join(dest_folder, dest_file)
         self.skipped += 1
 
 
@@ -84,7 +83,6 @@ class Settings(object):
     """ Determines whether or not to use a settings file to store previous
     choices. This is switched of by default for cleaner folders and write-only
     friendliness. """
-
 
     @staticmethod
     def load():
@@ -112,12 +110,11 @@ class SyncHandler(object):
     """
     Handles the synchronization task between two given folders.
     """
-    # TODO: Implement
     replace = False
     """ Always replace files in the destination. """
 
     clean = True
-    """ Remove files that are not in the source folder """
+    """ Remove files and folders that are not in the source folder """
 
     def __init__(self, settings, ui):
         self.fso = FileSystemOps(ui)
@@ -163,8 +160,11 @@ class SyncHandler(object):
             return
         for item in listdir(dest):
             sub_item = join(dest, item)
-            if not isdir(sub_item) and item not in files:
-                self.fso.remove(dest, item)
+            if exists(sub_item) and item not in files:
+                if isdir(sub_item):
+                    rmtree(sub_item)
+                else:
+                    self.fso.remove(dest, item)
 
 
 class UI(object):
