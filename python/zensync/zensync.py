@@ -28,7 +28,7 @@ class FileSystemOps(object):
     """
     Handle and log all file operation
     """
-    copied, replaced, removed, skipped = 0, 0, 0, 0
+    copied, replaced, removed, skipped, removed_dirs = 0, 0, 0, 0, 0
 
     def __init__(self, ui):
         """ Set the UI to display messages """
@@ -62,6 +62,13 @@ class FileSystemOps(object):
         dest = join(dest_folder, dest_file)
         self.removed += 1
         remove(dest)
+
+    @print_inline
+    def remove_dir(self, dest_folder, dest_file):
+        """ Remove the specified folder. """
+        dest = join(dest_folder, dest_file)
+        self.removed_dirs += 1
+        rmtree(dest_folder)
 
     @print_inline
     def skip(self, _dest_folder, _dest_file):
@@ -162,7 +169,7 @@ class SyncHandler(object):
             sub_item = join(dest, item)
             if exists(sub_item) and item not in files:
                 if isdir(sub_item):
-                    rmtree(sub_item)
+                    self.fso.remove_dir(dest, item)
                 else:
                     self.fso.remove(dest, item)
 
@@ -190,10 +197,11 @@ class UI(object):
     @staticmethod
     def show_summary(fso):
         print("\n".join([chr(13),
-                         "Copied   : {0}".format(fso.copied),
-                         "Replaced : {0}".format(fso.replaced),
-                         "Skipped  : {0}".format(fso.skipped),
-                         "Removed  : {0}".format(fso.removed),
+                         "Copied          : {0}".format(fso.copied),
+                         "Replaced        : {0}".format(fso.replaced),
+                         "Skipped         : {0}".format(fso.skipped),
+                         "Removed         : {0}".format(fso.removed),
+                         "Removed folders : {0}".format(fso.removed_dirs),
                          "Log file  : zensync.log",
                          "=" * UI.cols, "\n"]))
 
