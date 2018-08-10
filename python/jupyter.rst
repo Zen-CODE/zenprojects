@@ -42,3 +42,7 @@ To allow access from other ips':
 
     ## The IP address the notebook server will listen on.
     c.NotebookApp.ip = '0.0.0.0'
+
+To add your own custom css, create a "~/.jupyter/custom/" folder and place a
+a 'custom.css' file there. My own custom one for the origami notebooks is in
+the 'jupyter/custom' folder relative to here.
