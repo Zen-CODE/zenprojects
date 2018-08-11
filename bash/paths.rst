@@ -8,3 +8,7 @@ To check the current value of your path variable:
 To add, say, the ~/bin folder:
 
     $ PATH=~/bin:$PATH
+
+To reset it:
+
+    $ export PATH=<new_value>
