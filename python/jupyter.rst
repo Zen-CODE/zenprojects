@@ -46,3 +46,15 @@ To allow access from other ips':
 To add your own custom css, create a "~/.jupyter/custom/" folder and place a
 a 'custom.css' file there. My own custom one for the origami notebooks is in
 the 'jupyter/custom' folder relative to here.
+
+To list magical commands:
+
+    %lsmagic
+
+Retrieving documentation on the alias_magic command
+
+    ?%alias_magic
+
+Retrieving information on the range() function
+
+    ?range
