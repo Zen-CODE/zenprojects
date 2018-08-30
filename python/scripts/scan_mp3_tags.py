@@ -1,9 +1,19 @@
 from os.path import join, isdir
 from os import listdir
+from mutagen.easyid3 import EasyID3
+
+log_file = "error.log"
 
 def check_tag(f_name):
-    """ Test f_name to seee if it has a valid mp3 tag. """
-    print("test - " + f_name)
+    """ Test f_name to seee if it has a valid mp3 tag. """    
+    try:
+        mp3info = EasyID3(f_name)
+        mp3info.items()
+        print("validated " + f_name)
+    except Exception as e:
+        print("Error processing: " + f_name)
+        with open(log_file, "a") as f:
+            f.write(f_name + '\r\n')
 
 def scan_folder(source):
     """
