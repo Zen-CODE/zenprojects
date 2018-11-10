@@ -22,3 +22,7 @@ OR for writing:
 To restart
 
     sudo systemctl restart smbd
+
+To mount the share. You may need to install cifs-utils.
+
+    sudo mount -t cifs -o username=<user>,ro,password=<pwd> //myServerIpAdress/sharename /mnt/myFolder/
