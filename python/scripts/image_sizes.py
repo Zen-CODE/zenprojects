@@ -20,7 +20,14 @@ class ImageSize(object):
                 if item.endswith(ext):
                     sizes.append((item, self.get_size(join(folder, item))))
 
-        self.write_to_file(sizes, out_file)
+        sizes = self._sort_by_width(sizes)
+        self.write_atlas_cmd(sizes, out_file)
+
+    @staticmethod
+    def _sort_by_width(name_size_list):
+        """ Sort the name_size_list by the image width. """
+        return reversed(
+            sorted(name_size_list, key=lambda i: i[1][0]))
 
     @staticmethod
     def write_to_file(name_size_list, out_file):
@@ -29,6 +36,13 @@ class ImageSize(object):
             for name, size in name_size_list:
                 f.write(str(name + " " + str(size) + "\n").encode('utf-8'))
 
+    @staticmethod
+    def write_atlas_cmd(name_size_list, out_file):
+        """ Write the name and size into the to specified file. """
+        with open(out_file, 'wb') as f:
+            files = " ".join([name[0] for name in name_size_list])
+            f.write(str("python -m kivy.atlas cami.atlas 1002 " + files + "\n"
+                        ).encode('utf-8'))
 
     @staticmethod
     def get_size(img_path):
