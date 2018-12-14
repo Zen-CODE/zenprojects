@@ -56,9 +56,9 @@ class Zip
                 }
             }
             zipStream.close();
-            System.out.println("Unzip" + " " + "Unzipping complete. path :  " + destination);
+            System.out.println("Unzip: Unzipping complete. path :  " + destination);
         } catch (Exception e) {
-            System.out.println("Unzip" +" " + "Unzipping failed");
+            System.out.println("Unzip: Unzipping failed");
             e.printStackTrace();
         }
 
