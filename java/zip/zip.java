@@ -78,7 +78,7 @@ class Zip
 
     }
 
-    public static void handleDirectory(String dir, String destination) {
+    private static void handleDirectory(String dir, String destination) {
         File f = new File(destination + dir);
         if (!f.isDirectory()) {
             f.mkdirs();
