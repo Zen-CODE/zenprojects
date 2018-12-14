@@ -8,12 +8,16 @@
  * This will compiled the class to a zip.class file. To run it:
  *   java -cp . Zip
  */
+//import java.util.List;
+import java.util.ArrayList;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 
 class Zip
@@ -35,7 +39,12 @@ class Zip
     public static void main( String[] args ) {
         System.out.println("Hello World!");
         Zip myZip = new Zip("Warrender.zip");
-        myZip.extractFile("/home/fruitbat/Temp/");
+        // myZip.extractFile("/home/fruitbat/Temp/");
+
+        ArrayList<String> contents = myZip.getFileList();
+        for (String fileName: contents){
+            System.out.println(fileName);
+        }
     }
 
     /**
@@ -77,6 +86,29 @@ class Zip
         }
 
     }
+
+    /**
+     * Return a list of strins specifying the contents of the zip
+     * 
+     * @return A list of files and folders in the zip
+     */
+    public ArrayList<String> getFileList(){
+
+        ArrayList<String> contents = new ArrayList<String>();
+        try {
+            FileInputStream inputStream = new FileInputStream(this.zipFile);
+            ZipInputStream zipStream = new ZipInputStream(inputStream);
+            ZipEntry zEntry = null;
+            while ((zEntry = zipStream.getNextEntry()) != null) {
+                contents.add(zEntry.getName());
+            }
+            zipStream.close();
+        } catch (Exception e) {
+            System.out.println("Unzip: Unzipping failed");
+            e.printStackTrace();
+    }
+    return contents;
+}
 
     private static void handleDirectory(String dir, String destination) {
         File f = new File(destination + dir);
