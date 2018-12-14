@@ -18,10 +18,24 @@ import java.util.zip.ZipInputStream;
 
 class Zip
 {
+    /**
+     * The full path to the zip file to to extracted/examined.
+     */
+    public String zipFile;
+
+    /**
+     * The class constructor
+     * @param zipFile - The path to the zip to be opened or examined.
+     */
+    public Zip(String zipFile){
+        this.zipFile = zipFile;
+
+    }
 
     public static void main( String[] args ) {
         System.out.println("Hello World!");
-        Zip.extractFile("Warrender.zip", "/home/fruitbat/Temp/");
+        Zip myZip = new Zip("Warrender.zip");
+        myZip.extractFile("/home/fruitbat/Temp/");
     }
 
     /**
@@ -31,9 +45,9 @@ class Zip
      * @params zipPath The full path to the zip file.
      * @params destination The folder to extract the contents to.
      */
-    public static void extractFile(String zipPath, String destination) {
+    public void extractFile(String destination) {
         try {
-            FileInputStream inputStream = new FileInputStream(zipPath);
+            FileInputStream inputStream = new FileInputStream(this.zipFile);
             ZipInputStream zipStream = new ZipInputStream(inputStream);
             ZipEntry zEntry = null;
             while ((zEntry = zipStream.getNextEntry()) != null) {
