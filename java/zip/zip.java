@@ -19,48 +19,55 @@ import java.util.zip.ZipInputStream;
 class Zip
 {
 
-public static void main( String[] args ) {
-    System.out.println("Hello World!");
-}
+    public static void main( String[] args ) {
+        System.out.println("Hello World!");
+        Zip.extractFile("Warrender.zip", "/home/fruitbat/Temp/");
+    }
 
-public void extractFile(String filePath, String destination) {
+    /**
+     * Extracts the contents of zip file given by 'zipPath' and extracts the 
+     * contents to the 'destination' folder
+     * 
+     * @params zipPath The full path to the zip file.
+     * @params destination The folder to extract the contents to.
+     */
+    public static void extractFile(String zipPath, String destination) {
+        try {
+            FileInputStream inputStream = new FileInputStream(zipPath);
+            ZipInputStream zipStream = new ZipInputStream(inputStream);
+            ZipEntry zEntry = null;
+            while ((zEntry = zipStream.getNextEntry()) != null) {
 
-    try {
-        FileInputStream inputStream = new FileInputStream(filePath);
-        ZipInputStream zipStream = new ZipInputStream(inputStream);
-        ZipEntry zEntry = null;
-        while ((zEntry = zipStream.getNextEntry()) != null) {
+                if (zEntry.isDirectory()) {
+                    handleDirectory(zEntry.getName(), destination);
+                } else {
+                    FileOutputStream fout = new FileOutputStream(
+                            destination + "/" + zEntry.getName());
+                    BufferedOutputStream bufout = new BufferedOutputStream(fout);
+                    byte[] buffer = new byte[1024];
+                    int read = 0;
+                    while ((read = zipStream.read(buffer)) != -1) {
+                        bufout.write(buffer, 0, read);
+                    }
 
-            if (zEntry.isDirectory()) {
-                handleDirectory(zEntry.getName(), destination);
-            } else {
-                FileOutputStream fout = new FileOutputStream(
-                        destination + "/" + zEntry.getName());
-                BufferedOutputStream bufout = new BufferedOutputStream(fout);
-                byte[] buffer = new byte[1024];
-                int read = 0;
-                while ((read = zipStream.read(buffer)) != -1) {
-                    bufout.write(buffer, 0, read);
+                    zipStream.closeEntry();
+                    bufout.close();
+                    fout.close();
                 }
-
-                zipStream.closeEntry();
-                bufout.close();
-                fout.close();
             }
+            zipStream.close();
+            System.out.println("Unzip" + " " + "Unzipping complete. path :  " + destination);
+        } catch (Exception e) {
+            System.out.println("Unzip" +" " + "Unzipping failed");
+            e.printStackTrace();
         }
-        zipStream.close();
-        System.out.println("Unzip" + " " + "Unzipping complete. path :  " + destination);
-    } catch (Exception e) {
-        System.out.println("Unzip" +" " + "Unzipping failed");
-        e.printStackTrace();
+
     }
 
-}
-
-public void handleDirectory(String dir, String destination) {
-    File f = new File(destination + dir);
-    if (!f.isDirectory()) {
-        f.mkdirs();
+    public static void handleDirectory(String dir, String destination) {
+        File f = new File(destination + dir);
+        if (!f.isDirectory()) {
+            f.mkdirs();
+        }
     }
-}
 }
