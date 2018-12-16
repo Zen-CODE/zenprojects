@@ -40,7 +40,7 @@ class Zip
     public static void main( String[] args ) {
         System.out.println("Hello World!");
         Zip myZip = new Zip("Warrender.zip");
-        myZip.extractFile("/home/fruitbat/Temp/");
+        myZip.extractAll("/home/fruitbat/Temp/");
 
         ArrayList<String> contents = myZip.getFileList();
         for (String fileName: contents){
@@ -55,7 +55,7 @@ class Zip
      * @params zipPath The full path to the zip file.
      * @params destination The folder to extract the contents to.
      */
-    public void extractFile(String destination) {
+    public void extractAll(String destination) {
         try {
             FileInputStream inputStream = new FileInputStream(this.zipFile);
             ZipInputStream zipStream = new ZipInputStream(inputStream);
