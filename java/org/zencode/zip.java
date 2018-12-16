@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipFile;
+import java.io.InputStream;
 
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
@@ -34,18 +36,24 @@ class Zip
      */
     public Zip(String zipFile){
         this.zipFile = zipFile;
-
     }
 
     public static void main( String[] args ) {
         System.out.println("Hello World!");
-        Zip myZip = new Zip("Warrender.zip");
-        myZip.extractAll("/home/fruitbat/Temp/");
+        Zip myZip = new Zip("/home/fruitbat/Repos/zenprojects/java/Warrender.zip");
 
-        ArrayList<String> contents = myZip.getFileList();
-        for (String fileName: contents){
-            System.out.println(fileName);
-        }
+        // Test extractAll
+        // myZip.extractAll("/home/fruitbat/Temp/");
+
+        // Test getFileList function
+        // ArrayList<String> contents = myZip.getFileList();
+        // for (String fileName: contents){
+        //     System.out.println(fileName);
+        // }
+
+        // Test extract_file
+        myZip.extract_file("Warrender.ods", "/home/fruitbat/Temp/Warrender.ods");
+
     }
 
     /**
@@ -89,6 +97,37 @@ class Zip
     }
 
     /**
+     * Extract the specified *file_name* from the current zip file.
+     * @param file_name
+     * @param dest_file
+     */
+    public void extract_file(String file_name, String dest_file){
+        try {
+            ZipFile zip = new ZipFile(this.zipFile);
+            ZipEntry zipEntry = zip.getEntry(file_name);
+            InputStream zipStream = zip.getInputStream(zipEntry);
+
+            FileOutputStream fout = new FileOutputStream(dest_file);
+            BufferedOutputStream bufout = new BufferedOutputStream(fout);
+            byte[] buffer = new byte[1024];
+            int read = 0;
+
+            while ((read = zipStream.read(buffer)) != -1) {
+                bufout.write(buffer, 0, read);
+            }
+
+            zipStream.close();
+            bufout.close();
+            fout.close();
+            zip.close();
+        } catch (Exception e) {
+            System.out.println("zip: extract_file failed");
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
      * Return a list of strins specifying the contents of the zip
      * 
      * @return A list of files and folders in the zip
@@ -106,10 +145,9 @@ class Zip
             zipStream.close();
         } catch (Exception e) {
             System.out.println("Unzip: Unzipping failed");
-            e.printStackTrace();
+            e.printStackTrace();}
+        return contents;
     }
-    return contents;
-}
 
     private static void handleDirectory(String dir, String destination) {
         File f = new File(destination + dir);
