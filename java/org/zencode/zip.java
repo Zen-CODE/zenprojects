@@ -3,10 +3,10 @@
  * to assist with handling them in CAMI-Apps
  * 
  * To compile this file:
- *   javac zip.java
+ *   javac org.zencode.zip
  * 
  * This will compiled the class to a zip.class file. To run it:
- *   java -cp . Zip
+ *   java -cp . org.zencode.Zip
  */
 package org.zencode;
 //import java.util.List;
@@ -52,7 +52,7 @@ class Zip
         // }
 
         // Test extract_file
-        myZip.extract_file("Warrender.ods", "/home/fruitbat/Temp/Warrender.ods");
+        myZip.extractFile("Warrender.ods", "/home/fruitbat/Temp/Warrender.ods");
 
     }
 
@@ -98,10 +98,10 @@ class Zip
 
     /**
      * Extract the specified *file_name* from the current zip file.
-     * @param file_name
-     * @param dest_file
+     * @param file_name - the name of the source file contained in the zip
+     * @param dest_file - the name of the destination file to be written
      */
-    public void extract_file(String file_name, String dest_file){
+    public void extractFile(String file_name, String dest_file){
         try {
             ZipFile zip = new ZipFile(this.zipFile);
             ZipEntry zipEntry = zip.getEntry(file_name);
