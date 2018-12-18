@@ -1,2 +1,3 @@
 .zensync.json
 .ipynb_checkpoints
+*.class
