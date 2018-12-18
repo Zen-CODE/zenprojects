@@ -38,24 +38,6 @@ class Zip
         this.zipFile = zipFile;
     }
 
-    public static void main( String[] args ) {
-        System.out.println("Hello World!");
-        Zip myZip = new Zip("/home/fruitbat/Repos/zenprojects/java/Warrender.zip");
-
-        // Test extractAll
-        // myZip.extractAll("/home/fruitbat/Temp/");
-
-        // Test getFileList function
-        // ArrayList<String> contents = myZip.getFileList();
-        // for (String fileName: contents){
-        //     System.out.println(fileName);
-        // }
-
-        // Test extract_file
-        myZip.extractFile("Warrender.ods", "/home/fruitbat/Temp/Warrender.ods");
-
-    }
-
     /**
      * Extracts the contents of zip file given by 'zipPath' and extracts the 
      * contents to the 'destination' folder
