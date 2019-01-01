@@ -1,7 +1,11 @@
 Groups
 ======
 
-To list groupp members:
+To list all the groups of which the current member is a member:
+
+    groups
+
+To list group members:
 
    getent group groupname
 
@@ -12,3 +16,7 @@ To add a user to a group:
 To remove a user form a group:
 
    sudo deluser user group
+
+To change the group owner of file or folder:
+
+   sudo chgrp -R groupname /the/folder
