@@ -58,3 +58,7 @@ Retrieving documentation on the alias_magic command
 Retrieving information on the range() function
 
     ?range
+
+To include images in latex output, try:
+
+    ![Caption](image.png)
