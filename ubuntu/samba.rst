@@ -13,11 +13,11 @@ To set the linux uset password ::
 
 Don't forget to give the user the appropriate file permissions. For reading:
 
-    sudo chmod +r -R <folder>
+    sudo chmod a+r -R <folder>
 
 OR for writing:
 
-    sudo chmod +rw -R <folder>
+    sudo chmod a+rwx -R <folder>
 
 To restart
 
