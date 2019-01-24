@@ -1,6 +1,10 @@
 Groups
 ======
 
+To create a group:
+
+    sudo groupadd <groupname>
+
 To list all the groups of which the current member is a member:
 
     groups
