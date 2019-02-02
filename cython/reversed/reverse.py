@@ -1,5 +1,6 @@
 # To build the reverse module
 # python setup.py build_ext --inplace
+from __future__ import print_function
 from reverse import is_palindrome as is_palindrome_cy
 
 def is_palindrome_py(text):
@@ -10,17 +11,20 @@ def is_palindrome_py(text):
 
 
 cases = ["bob", "chop", "level"]
-cases += [itm * 300 for itm in cases]
+for k in range(2, 11):
+    cases += [itm * k for itm in cases]
 
 def do_python():
     print("Using python reversed")
     for case in cases:
-        print(" is" if is_palindrome_py(case) else " not")
+        print(" is" if is_palindrome_py(case) else " not", end='')
+    print('')
 
 def do_cython():
     print("Using cython reversed")
     for case in cases:
-        print(" is" if is_palindrome_cy(case) else " not")
+        print(" is" if is_palindrome_cy(case) else " not", end='')
+    print('')
 
 
 do_python()

@@ -1,4 +1,8 @@
-# https://cython.readthedocs.io/en/latest/src/tutorial/strings.html
+"""
+This module implements a optimized 'is_palindrom' function using cython
+memoryviews to avoid overhead of iterating over the reversed sting in python
+"""
+# https://cython.readthedocs.io/en/latest/src/userguide/memoryviews.html
 
 def is_palindrome(const unsigned char[:] text):
     cdef int k
