@@ -1,3 +1,4 @@
 .zensync.json
 .ipynb_checkpoints
 *.class
+__pycache__
