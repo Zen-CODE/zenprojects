@@ -8,4 +8,5 @@ def index(request):
 
 def import_csv(request):
     response = "This is the import screen"
-    return HttpResponse(response)
+    return render(request, "import.html", {})
+    # return HttpResponse(response)
