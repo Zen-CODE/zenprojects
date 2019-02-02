@@ -44,3 +44,6 @@ print("Python 1000 chars : ", py_cases[0])
 print("Cython 1000 chars: ", cy_cases[0])
 print("Python 2000 chars : ", py_cases[-1])
 print("Cython 2000 chars: ", cy_cases[-1])
+print("Python time/Cython time for  1000 chars : ", py_cases[0]/cy_cases[0])
+print("Python time/Cython time for  2000 chars : ", py_cases[-1]/cy_cases[-1])
+
