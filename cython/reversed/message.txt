@@ -1,0 +1,19 @@
+Hi Dan
+
+Thanks for interview, and I got the job! Awesome! Really looking forward to working with you peeps!
+
+Anyhow, the question over panlindromes stuck in my mind, and it really bothered me that the example I gave did not work! "text == reversed(text)" compares the text object with the reversed generator, so is always False. You actually do need to loop.
+
+Also, I did not think of another way to speed it up: using cython! Both the python and cython version scale linearly, but the cython version (using a memoryview of the string) executes in 1/55th of the time for 1000 chars! A nice speedup.
+
+# Palindrome test for 1000 iterations over a strings of length 1000 to 2000
+Python 1000 chars :  0.0596678256989
+Cython 1000 chars:  0.00106406211853
+Python 2000 chars :  0.114173173904
+Cython 2000 chars:  0.00176000595093
+Python time/Cython time for  1000 chars :  56.0755097468
+Python time/Cython time for  2000 chars :  64.8709021945
+
+https://github.com/Zen-CODE/zenprojects/tree/master/cython/reversed
+
+Ciao
