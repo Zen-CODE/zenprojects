@@ -17,8 +17,12 @@ def import_csv(request):
         if form.is_valid():
             print("# Handle uploaded file!")
             # handle_uploaded_file(request.FILES['file'])
-            return HttpResponseRedirect('/success/url/')
+            return HttpResponseRedirect('/budget/view_transactions')
     else:
         form = UploadCSVForm()
     return render(request, 'import.html', {'form': form})
 
+
+def view_transactions(request):
+    """ View the last transactions the were imported. """
+    return render(request, 'view_transactions.html', {})
