@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UploadCSVForm
+from .helpers.csv_import import csv_import
 
 
 def index(_request):
@@ -15,8 +16,7 @@ def import_csv(request):
     if request.method == 'POST':
         form = UploadCSVForm(request.POST, request.FILES)
         if form.is_valid():
-            print("# Handle uploaded file!")
-            # handle_uploaded_file(request.FILES['file'])
+            csv_import(request.FILES['file'])
             return HttpResponseRedirect('/budget/view_transactions')
     else:
         form = UploadCSVForm()
