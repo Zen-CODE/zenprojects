@@ -8,7 +8,7 @@ class Account(models.Model):
     bank = models.TextField(max_length=200)
     type = models.TextField(max_length=200)
     number = models.IntegerField()
-    models.DecimalField(decimal_places=2, max_digits=100)
+    # models.DecimalField(decimal_places=2, max_digits=100)
 
 
 class Transaction(models.Model):
