@@ -56,4 +56,4 @@ class Transaction(models.Model):
     balance = models.DecimalField(decimal_places=2, max_digits=100)
     ''' The balance on the account after the amount has been credited. '''
 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
