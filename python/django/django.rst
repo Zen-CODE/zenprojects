@@ -18,3 +18,6 @@ To create/synchronize the database:
     python manage.py makemigrations
     python manage.py migrate
 
+To initialize the models on first use:
+
+    python manage.py makemigrations <app>
