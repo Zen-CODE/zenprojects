@@ -11,10 +11,14 @@ class Account(models.Model):
 
 
 '''
-Capitec's export to csv (updated) provides the following columns:
-     Sequence Number,Account,Posting Date,Transaction Date,
-     Statement Description,Long Description,Parent Category,Sub-category,
-     Debit Amount,Credit Amount,Balance
+Capitec's export to csv (not updated) provides the following columns:
+     Account,Transaction Date,Journal Number,Transaction Type,Branch,
+     Description,DebitAmount,CreditAmount,Narrative,BalanceAmount
+     
+e.g.
+    1227278150,22/01/2019,17035382395,FINANCIAL,"",
+    "Internet Banking Transfer to 1344338583 Stuart Bindon",850.00,,
+    "STUART BINDON",23056.69
 '''
 
 
@@ -41,15 +45,15 @@ class Transaction(models.Model):
     Model of a transaction as described in the imported CSV file.
     """
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    posting_date = models.DateField()
     transaction_date = models.DateField()
+    journal_no = models.IntegerField()
     description = models.TextField()
-    description_long = models.TextField()
-    capi_category = models.TextField()
-    capi_sub_category = models.TextField()
     credit = models.DecimalField(decimal_places=2, max_digits=100)
     ''' The amount credited to the account. This is negative if it's an expense.
     '''
+    narrative = models.TextField()
+
     balance = models.DecimalField(decimal_places=2, max_digits=100)
     ''' The balance on the account after the amount has been credited. '''
+
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
