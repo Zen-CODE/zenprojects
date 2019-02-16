@@ -7,7 +7,7 @@ To run the django server:
 
 To create a superuser:
 
-    python3 manage.py createsuperuser --username=joe --email=joe@example.com
+    python3 manage.py createsuperuser --username=admin --email=zenkey.zencode@gmail.com
 
 To reset the password:
 
