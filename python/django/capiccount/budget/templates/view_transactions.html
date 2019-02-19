@@ -2,5 +2,7 @@
 {% block content %}
 
 <p> Your last transactions here.</p>
-
+{% for t in trans %}
+{{t}}<br/>
+{% endfor %}
 {% endblock %}

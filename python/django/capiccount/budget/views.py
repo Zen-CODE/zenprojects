@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UploadCSVForm
 from .helpers.csv_import import csv_import
 from django.forms import Form
+from .models import Transaction
 
 
 def index(_request):
@@ -15,7 +16,10 @@ def delete(request):
     if request.method == 'POST':
         form = Form(request.POST)
         if form.is_valid():
-            print("Delete all records!")
+            if 'delete' in request.POST:
+                print("Delete all records!")
+            else:
+                print("Cancelled!")
             return HttpResponseRedirect('/budget/view_transactions')
     else:
         form = Form
@@ -36,4 +40,6 @@ def import_csv(request):
 
 def view_transactions(request):
     """ View the last transactions the were imported. """
-    return render(request, 'view_transactions.html', {})
+    trans = Transaction.objects.all()
+    print("No. of transaction = ", len(trans))
+    return render(request, 'view_transactions.html', {'trans': trans})
