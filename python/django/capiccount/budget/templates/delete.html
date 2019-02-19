@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<p> Are you sure you would like to delete all records?</p>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Delete all" />
+    <input type="submit" value="Cancel" />
+</form>
+{% endblock %}

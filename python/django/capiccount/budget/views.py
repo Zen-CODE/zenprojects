@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import UploadCSVForm
 from .helpers.csv_import import csv_import
+from django.forms import Form
 
 
 def index(_request):
@@ -9,10 +10,20 @@ def index(_request):
     return HttpResponse("Hello, world. You're at the budget index.")
 
 
-def import_csv(request):
+def delete(request):
+    """ Delete all records. """
+    if request.method == 'POST':
+        form = Form(request.POST)
+        if form.is_valid():
+            print("Delete all records!")
+            return HttpResponseRedirect('/budget/view_transactions')
+    else:
+        form = Form
+    return render(request, 'delete.html', {'form': form})
 
-    # return render(request, "import.html", {})
-    print("# Request.method: {0}".format(request.method))
+
+def import_csv(request):
+    """ Import transaction from the Capitec csv file export."""
     if request.method == 'POST':
         form = UploadCSVForm(request.POST, request.FILES)
         if form.is_valid():
