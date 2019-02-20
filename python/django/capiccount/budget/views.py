@@ -6,9 +6,9 @@ from django.forms import Form
 from .models import Transaction
 
 
-def index(_request):
+def index(request):
     """ The landing page. """
-    return HttpResponse("Hello, world. You're at the budget index.")
+    return render(request, 'index.html', {})
 
 
 def delete(request):
