@@ -4,28 +4,38 @@ A helper module to handle the import of Capitec CSV files
 from budget.models import Transaction, Account
 from datetime import date
 
+
 class CapitecCSV(object):
     """
     Handles the unpacking of Capitec CSV files,
     """
-    def __init__(self, file_name):
+    def __init__(self):
         super(CapitecCSV, self).__init__()
-
-        with open(file_name, 'r') as f:
-            # Read in the meta data included in the file
-            sep = f.readline().rstrip().split("=")[1]
-            fields = f.readline().rstrip().split(sep)
-
-            recs = []
-            for line in f.readlines():
-                parts = line.rstrip().split(sep)
-                recs.append({fields[k]: parts[k] for k in range(len(fields))})
-
-        self.records = recs
+        self.records = []
         '''
         A list of dictionaries corresponding to each line in the csv file,
         ignoring the first two.
         '''
+
+    def load(self, file_name):
+        """ Load the specified filename into the data, returning True if that
+        works, False otherwise. """
+
+        try:
+            with open(file_name, 'r') as f:
+                # Read in the meta data included in the file
+                sep = f.readline().rstrip().split("=")[1]
+                fields = f.readline().rstrip().split(sep)
+
+                recs = []
+                for line in f.readlines():
+                    parts = line.rstrip().split(sep)
+                    recs.append({fields[k]: parts[k] for k in range(len(fields))})
+
+            self.records = recs
+            return True
+        except Exception as e:
+            return False
 
     def __str__(self):
         """ Override the string display method. """
@@ -63,6 +73,11 @@ def csv_import(csv_file):
     """
     Import the uploaded csv file
     """
-    print("helpers.import: got file")
-    for line in csv_file.readlines():
-        print(">{0}".format(line.rstrip()))
+    csv = CapitecCSV()
+    if csv.load(csv_file):
+        csv.do_import()
+        return True
+    return False
+
+    # for line in csv_file.readlines():
+    #     print(">{0}".format(line.rstrip()))
