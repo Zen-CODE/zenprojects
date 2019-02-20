@@ -17,9 +17,7 @@ def delete(request):
         form = Form(request.POST)
         if form.is_valid():
             if 'delete' in request.POST:
-                print("Delete all records!")
-            else:
-                print("Cancelled!")
+                Transaction.objects.all().delete()
             return HttpResponseRedirect('/budget/view_transactions')
     else:
         form = Form
@@ -31,6 +29,8 @@ def import_csv(request):
     if request.method == 'POST':
         form = UploadCSVForm(request.POST, request.FILES)
         if form.is_valid():
+            print("Form is valid. Importing")
+
             if csv_import(request.FILES['file']):
                 print("Success!")
             return HttpResponseRedirect('/budget/view_transactions')

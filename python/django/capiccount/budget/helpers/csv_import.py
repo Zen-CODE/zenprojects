@@ -20,23 +20,24 @@ class CapitecCSV(object):
     def load(self, file_name):
         """ Load the specified filename into the data, returning True if that
         works, False otherwise. """
+        # The file _name ia bytes object, starting and ending with a [ and ]
+        # respectively
+        f = file_name.read().decode("utf-8")[1:-1]
+        f = f.split("\n")
+        sep = f.pop(0).split("=")[1]
+        fields = f.pop(0).split(sep)
 
-        try:
-            with open(file_name, 'r') as f:
-                # Read in the meta data included in the file
-                sep = f.readline().rstrip().split("=")[1]
-                fields = f.readline().rstrip().split(sep)
+        recs = []
+        while f:
+            line = f.pop(0)
+            parts = line.rstrip().split(sep)
+            recs.append({fields[k]: parts[k] for k in range(len(fields))})
 
-                recs = []
-                for line in f.readlines():
-                    parts = line.rstrip().split(sep)
-                    recs.append({fields[k]: parts[k] for k in range(len(fields))})
-
-            self.records = recs
-            return True
-        except Exception as e:
-            return False
-
+        self.records = recs
+        return True
+#        except Exception as e:
+#            return False
+#
     def __str__(self):
         """ Override the string display method. """
         return str("\n".join([str(rec) for rec in self.records]))
@@ -75,6 +76,7 @@ def csv_import(csv_file):
     """
     csv = CapitecCSV()
     if csv.load(csv_file):
+        print("Loaded. About to do import")
         csv.do_import()
         return True
     return False
