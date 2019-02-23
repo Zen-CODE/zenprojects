@@ -17,27 +17,41 @@ class CapitecCSV(object):
         ignoring the first two.
         '''
 
-    def load(self, file_name):
-        """ Load the specified filename into the data, returning True if that
-        works, False otherwise. """
-        # The file _name ia bytes object, starting and ending with a [ and ]
-        # respectively
-        f = file_name.read().decode("utf-8")[1:-1]
+    @staticmethod
+    def _validate_csv(uploaded_file):
+        """
+        Return the (separator, col_names, lines) if it's a valid file, otherwise
+        return False
+        """
+        f = uploaded_file.read().decode("utf-8")[1:-1]
         f = f.split("\n")
-        sep = f.pop(0).split("=")[1]
-        fields = f.pop(0).split(sep)
+        parts = f.pop(0).split("=")
+        if len(parts) > 1:
+            sep = parts[1]
+            fields = f.pop(0).split(sep)
+            if 'Journal Number' in fields:
+                return (sep, fields, f)
+        return False, False
 
-        recs = []
-        while f:
-            line = f.pop(0)
-            parts = line.rstrip().split(sep)
-            recs.append({fields[k]: parts[k] for k in range(len(fields))})
+    def load(self, uploaded_file):
+        """
+        Load the specified filename into the data, returning True if that
+        works, False otherwise.
 
-        self.records = recs
+        The uploaded_file is a bytes object, starting and ending with a [ and ]
+        respectively. See InMemoryUploadedFile
+        """
+        ret = self._validate_csv(uploaded_file)
+        if ret:
+            sep, fields, lines = ret
+            recs = []
+            while lines:
+                parts = lines.pop(0).rstrip().split(sep)
+                recs.append({fields[k]: parts[k] for k in range(len(fields))})
+
+            self.records = recs
         return True
-#        except Exception as e:
-#            return False
-#
+
     def __str__(self):
         """ Override the string display method. """
         return str("\n".join([str(rec) for rec in self.records]))
