@@ -4,6 +4,7 @@ from .forms import UploadCSVForm
 from .helpers.csv_import import csv_import
 from django.forms import Form
 from .models import Transaction
+from django.urls import reverse
 
 
 def index(request):
@@ -29,17 +30,16 @@ def import_csv(request):
     if request.method == 'POST':
         form = UploadCSVForm(request.POST, request.FILES)
         if form.is_valid():
-            print("Form is valid. Importing")
-
-            if csv_import(request.FILES['file']):
-                print("Success!")
-            return HttpResponseRedirect('/budget/view_transactions')
+            success = csv_import(request.FILES['file'])
+            url = reverse('budget:view_transactions',
+                          kwargs={'import': success})
+            return HttpResponseRedirect(url)
     else:
         form = UploadCSVForm()
     return render(request, 'import.html', {'form': form})
 
 
-def view_transactions(request):
+def view_transactions(request, **kwargs):
     """ View the last transactions the were imported. """
     trans = Transaction.objects.all()
     print("No. of transaction = ", len(trans))
