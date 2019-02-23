@@ -23,15 +23,20 @@ class CapitecCSV(object):
         Return the (separator, col_names, lines) if it's a valid file, otherwise
         return False
         """
-        f = uploaded_file.read().decode("utf-8")[1:-1]
+        try:
+            f = uploaded_file.read().decode("utf-8")[1:-1]
+        except UnicodeDecodeError:
+            # Typical of a binary file
+            return False
+
         f = f.split("\n")
         parts = f.pop(0).split("=")
         if len(parts) > 1:
             sep = parts[1]
             fields = f.pop(0).split(sep)
             if 'Journal Number' in fields:
-                return (sep, fields, f)
-        return False, False
+                return sep, fields, f
+        return False
 
     def load(self, uploaded_file):
         """
