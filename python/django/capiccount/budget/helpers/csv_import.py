@@ -55,7 +55,9 @@ class CapitecCSV(object):
                 recs.append({fields[k]: parts[k] for k in range(len(fields))})
 
             self.records = recs
-        return True
+            return True
+        else:
+            return False
 
     def __str__(self):
         """ Override the string display method. """

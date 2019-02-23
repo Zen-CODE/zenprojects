@@ -30,17 +30,24 @@ def import_csv(request):
     if request.method == 'POST':
         form = UploadCSVForm(request.POST, request.FILES)
         if form.is_valid():
-            success = csv_import(request.FILES['file'])
-            url = reverse('budget:view_transactions',
-                          kwargs={'import': success})
+            success = 2 if csv_import(request.FILES['file']) else 1
+            # url = reverse('budget:view_transactions',
+            #               args=(success,))
+            url = "view_transactions/" + str(success)
             return HttpResponseRedirect(url)
     else:
         form = UploadCSVForm()
     return render(request, 'import.html', {'form': form})
 
 
-def view_transactions(request, **kwargs):
+def view_transactions(request, imp=0, * args, **kwargs):
     """ View the last transactions the were imported. """
     trans = Transaction.objects.all()
-    print("No. of transaction = ", len(trans))
-    return render(request, 'view_transactions.html', {'trans': trans})
+    if imp == 0:
+        msg = ""
+    else:
+        msg = "Import successful" if imp == 2 else "Import failed..."
+
+    print("Msg = ", msg)
+    return render(request, 'view_transactions.html', {'trans': trans,
+                                                      'msg': msg})
