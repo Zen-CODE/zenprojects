@@ -40,9 +40,11 @@ def import_csv(request):
     return render(request, 'import.html', {'form': form})
 
 
-def view_transactions(request, imp=0, * args, **kwargs):
+def view_transactions(request, imp=0):
     """ View the last transactions the were imported. """
     trans = Transaction.objects.all()
+    number = len(trans)
     msg = ["", "Import failed...", "Import successful"][imp]
-    return render(request, 'view_transactions.html', {'trans': trans,
-                                                      'msg': msg})
+    return render(request, 'view_transactions.html', {'trans': trans[:20],
+                                                      'msg': msg,
+                                                      'number': number})

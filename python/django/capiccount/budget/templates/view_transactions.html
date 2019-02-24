@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ msg }}
-<p> Your last transactions here.</p>
+<p>There are {{number}} transctions in total.</p>
+<p>Shwoing the last 20.</p>
 {% for t in trans %}
 {{t}}<br/>
 {% endfor %}
