@@ -42,7 +42,8 @@ def import_csv(request):
 
 def view_transactions(request, imp=0):
     """ View the last transactions the were imported. """
-    trans = Transaction.objects.all()
+    # trans = Transaction.objects.all()
+    trans = Transaction.objects.order_by("-journal_no")
     number = len(trans)
     msg = ["", "Import failed...", "Import successful"][imp]
     return render(request, 'view_transactions.html', {'trans': trans[:20],
