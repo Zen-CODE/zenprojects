@@ -8,6 +8,7 @@ class Account(models.Model):
     bank = models.TextField(max_length=50)
     type = models.TextField(max_length=50)
     account_number = models.IntegerField()
+    name = models.TextField(max_length=50, default="Savings")
 
 
 '''
@@ -61,7 +62,7 @@ class Transaction(models.Model):
     def as_p(self):
         """Returns this form rendered as HTML <p>s."""
         return self._html_output(
-            normal_row = u'<p%(html_class_attr)s> --- %(label)s</p> %(field)s%(help_text)s',
+            normal_row = u'<p%(html_class_attr)s> Test!--- %(label)s</p> %(field)s%(help_text)s',
             error_row = u'%s',
             row_ender = '</p>',
             help_text_html = u' <span class="helptext">%s</span>',
