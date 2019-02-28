@@ -28,7 +28,7 @@ class FileSystemOps(object):
     """
     Handle and log all file operation
     """
-    copied, replaced, removed, skipped, removed_dirs = 0, 0, 0, 0, 0
+    copied, replaced, removed, skipped = 0, 0, 0, 0
 
     def __init__(self, ui):
         """ Set the UI to display messages """
@@ -62,13 +62,6 @@ class FileSystemOps(object):
         dest = join(dest_folder, dest_file)
         self.removed += 1
         remove(dest)
-
-    @print_inline
-    def remove_dir(self, dest_folder, dest_file):
-        """ Remove the specified folder. """
-        dest = join(dest_folder, dest_file)
-        self.removed_dirs += 1
-        rmtree(dest_folder)
 
     @print_inline
     def skip(self, _dest_folder, _dest_file):
@@ -126,6 +119,7 @@ class SyncHandler(object):
     def __init__(self, settings, ui):
         self.fso = FileSystemOps(ui)
         self.clean = bool(settings['clean'].lower() == "y")
+        self.force = bool(settings['force'].lower() == "y")
 
     @staticmethod
     def file_different(source, dest):
@@ -133,8 +127,8 @@ class SyncHandler(object):
         Return True if the files are different. The default check is for size
         only.
         """
-        s_size, d_size = getsize(source), getsize(dest)
-        return bool(s_size != d_size)
+        return getsize(source) != getsize(dest)
+
 
     def sync_folder(self, source, dest):
         """
@@ -147,7 +141,8 @@ class SyncHandler(object):
             f_source, f_dest = join(source, item),  join(dest, item)
             if isdir(f_source):
                 self.sync_folder(f_source, f_dest)
-            elif not exists(f_dest) or self.file_different(f_source, f_dest):
+            elif not exists(f_dest) or self.force or \
+                    self.file_different(f_source, f_dest):
                 if not exists(dest):
                     makedirs(dest)
                 self.fso.copy(f_source, dest, item)
@@ -169,7 +164,7 @@ class SyncHandler(object):
             sub_item = join(dest, item)
             if exists(sub_item) and item not in files:
                 if isdir(sub_item):
-                    self.fso.remove_dir(dest, item)
+                    rmtree(sub_item)
                 else:
                     self.fso.remove(dest, item)
 
@@ -197,11 +192,10 @@ class UI(object):
     @staticmethod
     def show_summary(fso):
         print("\n".join([chr(13),
-                         "Copied          : {0}".format(fso.copied),
-                         "Replaced        : {0}".format(fso.replaced),
-                         "Skipped         : {0}".format(fso.skipped),
-                         "Removed         : {0}".format(fso.removed),
-                         "Removed folders : {0}".format(fso.removed_dirs),
+                         "Copied   : {0}".format(fso.copied),
+                         "Replaced : {0}".format(fso.replaced),
+                         "Skipped  : {0}".format(fso.skipped),
+                         "Removed  : {0}".format(fso.removed),
                          "Log file  : zensync.log",
                          "=" * UI.cols, "\n"]))
 
@@ -227,7 +221,9 @@ if __name__ == "__main__":
     settings['dest'] = ui.input("Destination path ({0}): ".format(def_dest),
                                 def_dest)
     settings['clean'] = ui.input(
-        "Remove missing ({}): ".format(settings.get('clean', 'n')), 'n')
+        "Remove missing? ({}): ".format(settings.get('clean', 'n')), 'n')
+    settings['force'] = ui.input(
+        "Force overwrite? ({}): ".format(settings.get('force', 'n')), 'n')
 
     source, dest = settings['source'], settings['dest']
     if not exists(source) or not exists(dest) or source == dest:
