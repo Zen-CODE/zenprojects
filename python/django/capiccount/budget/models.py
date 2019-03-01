@@ -28,7 +28,7 @@ class Category(models.Model):
     Describes the type of transaction, so that we can separate transactions 
     into categories.
     """
-    name = models.TextField()
+    name = models.TextField(max_length=100)
     importance = models.IntegerField()
 
 

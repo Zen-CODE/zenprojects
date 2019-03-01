@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Category</h1>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Importance</th>
+</tr>
+</thead>
+<tbody>
+{% for category in object_list %}
+<tr>
+<td>{{ category.name }}</td>
+<td>{{ category.importance }}</td>
+</td>
+</tr>
+
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

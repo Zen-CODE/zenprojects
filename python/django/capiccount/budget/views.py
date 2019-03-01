@@ -3,7 +3,9 @@ from django.http import HttpResponseRedirect
 from .forms import UploadCSVForm
 from .helpers.csv_import import csv_import
 from django.forms import Form
-from .models import Transaction
+from .models import Transaction, Category
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 
 
@@ -49,3 +51,24 @@ def view_transactions(request, imp=0):
     return render(request, 'view_transactions.html', {'trans': trans[:20],
                                                       'msg': msg,
                                                       'number': number})
+
+
+class CategoryList(ListView):
+    model = Category
+
+
+class CategoryDetail(DetailView):
+    model = Category
+
+
+class CategoryCreate(CreateView):
+    model = Category
+    fields = ['name', 'importance']
+
+
+class CategoryUpdate(UpdateView):
+    model = Category
+
+
+class CategoryDelete(DeleteView):
+    model = Category
