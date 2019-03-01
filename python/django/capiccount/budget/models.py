@@ -31,6 +31,11 @@ class Category(models.Model):
     name = models.TextField(max_length=100)
     importance = models.IntegerField()
 
+    def __str__(self):
+        """ Override the default behavior of just rendering 'Object 1' in views.
+        """
+        return self.name
+
 
 class Categorization(models.Model):
     """
