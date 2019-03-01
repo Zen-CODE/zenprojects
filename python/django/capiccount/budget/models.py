@@ -46,9 +46,17 @@ class Transaction(models.Model):
     Model of a transaction as described in the imported CSV file.
     """
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    ''' The account based on the account number. '''
+
     transaction_date = models.DateField()
+
     journal_no = models.IntegerField()
+    ''' The unique journal identifier, also specifying sequence. '''
+
     description = models.TextField()
+    ''' A Textual description of the transaction. This is used to determine the
+    category.'''
+
     credit = models.DecimalField(decimal_places=2, max_digits=100)
     ''' The amount credited to the account. This is negative if it's an expense.
     '''
@@ -56,14 +64,3 @@ class Transaction(models.Model):
 
     balance = models.DecimalField(decimal_places=2, max_digits=100)
     ''' The balance on the account after the amount has been credited. '''
-
-    category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
-
-    def as_p(self):
-        """Returns this form rendered as HTML <p>s."""
-        return self._html_output(
-            normal_row = u'<p%(html_class_attr)s> Test!--- %(label)s</p> %(field)s%(help_text)s',
-            error_row = u'%s',
-            row_ender = '</p>',
-            help_text_html = u' <span class="helptext">%s</span>',
-            errors_on_separate_row = True)
