@@ -14,7 +14,7 @@ def index(request):
     return render(request, 'index.html', {})
 
 
-def delete(request):
+def clear(request):
     """ Delete all records. """
     if request.method == 'POST':
         form = Form(request.POST)
