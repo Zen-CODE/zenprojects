@@ -73,6 +73,7 @@ class CategoryCreate(CreateView):
 
 class CategoryUpdate(UpdateView):
     model = Category
+    fields = ['name', 'importance']
 
 
 class CategoryDelete(DeleteView):
@@ -100,6 +101,7 @@ class CategorizationCreate(CreateView):
 
 class CategorizationUpdate(UpdateView):
     model = Categorization
+    fields = ['description', 'category']
 
 
 class CategorizationDelete(DeleteView):
