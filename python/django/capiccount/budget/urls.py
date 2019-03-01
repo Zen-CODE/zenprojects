@@ -18,7 +18,7 @@ urlpatterns = [
          success_url="/budget/category"),
          name='category_create'),
     path('category/update/<int:pk>', views.CategoryUpdate.as_view(),
-         name='category_update'),
+         name='category_edit'),
     path('category/delete/<int:pk>', views.CategoryDelete.as_view(),
          name='category_delete'),
 ]
