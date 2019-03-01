@@ -15,13 +15,15 @@
 <td>{{ category.name }}</td>
 <td>{{ category.importance }}</td>
 <td>
-<a  href="{% url "budget:category_detail"  category.id  %}">details</a>
-<a  href="{% url "budget:category_edit"  category.id  %}">edit</a>
-<a  href="{% url "budget:category_delete"  category.id  %}">delete</a>
+<a  href="{% url "budget:category_detail"  category.id  %}"> Details </a>
+<a  href="{% url "budget:category_edit"  category.id  %}"> Edit </a>
+<a  href="{% url "budget:category_delete"  category.id  %}"> Delete </a>
 </td>
 </tr>
 
 {% endfor %}
 </tbody>
 </table>
-{% endblock %}
+<br />
+<a href="{% url "budget:category_create" %}">Create a new category</a>
+{% endblock %}`
