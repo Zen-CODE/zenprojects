@@ -36,8 +36,7 @@ class Categorization(models.Model):
     """
     Describes how transactions are mapped to categories.
     """
-    capi_category = models.TextField()
-    capi_sub_category = models.TextField()
+    description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
