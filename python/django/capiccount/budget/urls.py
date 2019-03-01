@@ -23,5 +23,17 @@ urlpatterns = [
     path('category/delete/<int:pk>', views.CategoryDelete.as_view(
          success_url="/budget/category"),
          name='category_delete'),
+    path('categorization', views.CategorizationList.as_view(),
+         name='categorization_list'),
+    path('categorization/<int:pk>', views.CategorizationDetail.as_view(),
+         name='categorization_detail'),
+    path('categorization/create', views.CategorizationCreate.as_view(
+         success_url="/budget/categorization"),
+         name='categorization_create'),
+    path('categorization/update/<int:pk>', views.CategorizationUpdate.as_view(),
+         name='categorization_edit'),
+    path('categorization/delete/<int:pk>', views.CategoryDelete.as_view(
+         success_url="/budget/categorization"),
+         name='categorization_delete'),
 ]
 # path(r'view_transactions/(?P<import>\w+)/$', views.view_transactions,

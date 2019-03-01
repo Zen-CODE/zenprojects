@@ -3,10 +3,9 @@ from django.http import HttpResponseRedirect
 from .forms import UploadCSVForm
 from .helpers.csv_import import csv_import
 from django.forms import Form
-from .models import Transaction, Category
+from .models import Transaction, Category, Categorization
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse
 
 
 def index(request):
@@ -53,6 +52,12 @@ def view_transactions(request, imp=0):
                                                       'number': number})
 
 
+'''
+View classes for Categories
+===========================
+'''
+
+
 class CategoryList(ListView):
     model = Category
 
@@ -72,3 +77,30 @@ class CategoryUpdate(UpdateView):
 
 class CategoryDelete(DeleteView):
     model = Category
+
+
+'''
+View classes for Categorizations
+================================
+'''
+
+
+class CategorizationList(ListView):
+    model = Categorization
+
+
+class CategorizationDetail(DetailView):
+    model = Categorization
+
+
+class CategorizationCreate(CreateView):
+    model = Categorization
+    fields = ['description', 'category']
+
+
+class CategorizationUpdate(UpdateView):
+    model = Categorization
+
+
+class CategorizationDelete(DeleteView):
+    model = Categorization
