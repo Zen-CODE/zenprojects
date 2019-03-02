@@ -111,3 +111,18 @@ class CategorizationUpdate(UpdateView):
 
 class CategorizationDelete(DeleteView):
     model = Categorization
+
+
+"""
+View classes for Transaction
+"""
+
+
+class TransactionList(ListView):
+    model = Transaction
+    paginate_by = 25
+    ordering = "-transaction_date"
+
+
+class TransactionDetail(DetailView):
+    model = Transaction
