@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import Textarea
 
 
 class Account(models.Model):
@@ -28,7 +29,7 @@ class Category(models.Model):
     Describes the type of transaction, so that we can separate transactions 
     into categories.
     """
-    name = models.TextField(max_length=100)
+    name = models.TextField(max_length=50)
     importance = models.IntegerField()
 
     def __str__(self):
@@ -43,6 +44,8 @@ class Categorization(models.Model):
     """
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    widgets = {
+            'description': Textarea(attrs={'cols': 50, 'rows': 1})}
 
 
 class Transaction(models.Model):
