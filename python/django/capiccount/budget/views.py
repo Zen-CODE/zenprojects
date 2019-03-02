@@ -6,7 +6,7 @@ from django.forms import Form
 from .models import Transaction, Category, Categorization
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import CategoryForm
+from .forms import CategoryForm, CategorizationForm
 
 
 def index(request):
@@ -91,20 +91,22 @@ View classes for Categorizations
 
 class CategorizationList(ListView):
     model = Categorization
+    form_class = CategorizationForm
 
 
 class CategorizationDetail(DetailView):
     model = Categorization
+    form_class = CategorizationForm
 
 
 class CategorizationCreate(CreateView):
     model = Categorization
-    fields = ['description', 'category']
+    form_class = CategorizationForm
 
 
 class CategorizationUpdate(UpdateView):
     model = Categorization
-    fields = ['description', 'category']
+    form_class = CategorizationForm
 
 
 class CategorizationDelete(DeleteView):

@@ -44,8 +44,6 @@ class Categorization(models.Model):
     """
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    widgets = {
-            'description': Textarea(attrs={'cols': 50, 'rows': 1})}
 
 
 class Transaction(models.Model):

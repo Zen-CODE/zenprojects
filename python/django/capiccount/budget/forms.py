@@ -1,5 +1,5 @@
 from django.forms import Form, ModelForm, FileField, Textarea
-from .models import Category
+from .models import Category, Categorization
 
 
 class UploadCSVForm(Form):
@@ -19,3 +19,15 @@ class CategoryForm(ModelForm):
         fields = ['name', 'importance']
         widgets = {
           'name': Textarea(attrs={'rows': 1, 'cols': 50})}
+
+
+class CategorizationForm(ModelForm):
+    """
+    Handles CRUD operation for the Categorization models.
+    """
+
+    class Meta:
+        model = Categorization
+        fields = ['description', 'category']
+        widgets = {
+          'description': Textarea(attrs={'rows': 1, 'cols': 50})}
