@@ -7,6 +7,7 @@ from .models import Transaction, Category, Categorization
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import CategoryForm, CategorizationForm
+from django.core.paginator import Paginator
 
 
 def index(request):
@@ -120,8 +121,17 @@ View classes for Transaction
 
 class TransactionList(ListView):
     model = Transaction
-    paginate_by = 20
     ordering = "-transaction_date"
+
+    def get(self, request, *args, **kwargs):
+
+        trans_list = Transaction.objects.all()
+        paginator = Paginator(trans_list, 25) # Show 25 contacts per page
+
+        page = request.GET.get('page')
+        transactions = paginator.get_page(page)
+        return render(request, 'budget/transaction_list.html',
+                      {'tran_list': transactions})
 
 
 class TransactionDetail(DetailView):
