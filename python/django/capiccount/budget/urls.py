@@ -6,11 +6,18 @@ app_name = "budget"
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('import_csv', views.import_csv, name='import_csv'),
+
     path('clear', views.clear, name='clear'),
     path('view_transactions', views.view_transactions),
     path('view_transactions/<int:imp>/', views.view_transactions,
          name='view_transactions_import'),
+
+    # Import
+    path('import_csv', views.import_csv, name='import_csv'),
+    path('import_result/<int:success>', views.import_result,
+         name='import_result'),
+
+    # Categories
     path('category', views.CategoryList.as_view(),
          name='category_list'),
     path('category/<int:pk>', views.CategoryDetail.as_view(),
@@ -23,6 +30,8 @@ urlpatterns = [
     path('category/delete/<int:pk>', views.CategoryDelete.as_view(
          success_url="/budget/category"),
          name='category_delete'),
+
+    # Categorizations
     path('categorization', views.CategorizationList.as_view(),
          name='categorization_list'),
     path('categorization/<int:pk>', views.CategorizationDetail.as_view(),
@@ -35,6 +44,7 @@ urlpatterns = [
     path('categorization/delete/<int:pk>', views.CategoryDelete.as_view(
          success_url="/budget/categorization"),
          name='categorization_delete'),
+
     # Transactions
     path('transaction', views.TransactionList.as_view(),
          name='transaction_list'),
