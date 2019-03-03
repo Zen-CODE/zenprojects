@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Transaction</h1>
+<p>These transactions are created using the 'Import CSV' function and as not editable..</p>
+<table>
+<thead>
+<tr>
+    <th>Account</th>
+    <th>Date</th>
+    <th>Description</th>
+    <th>Credit</th>
+    <th>Balance</th>
+</tr>
+</thead>
+<tbody>
+{% for trans in tran_list %}
+<tr>
+    <td>{{ trans.account.name }}</td><td>{{ trans.transaction_date }}</td>
+    <td>{{ trans.description }}</td><td>{{ trans.credit }}</td>
+     <td>{{ trans.balance }}</td>
+<td>
+<a  href="{% url "budget:transaction_detail"  trans.id  %}"> Details </a>
+</td>
+</tr>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if tran_list.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ tran_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ tran_list.number }} of {{ tran_list.paginator.num_pages }}.
+        </span>
+
+        {% if tran_list.has_next %}
+            <a href="?page={{ tran_list.next_page_number }}">next</a>
+            <a href="?page={{ tran_list.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</tbody>
+</table>
+{% endblock %}`
