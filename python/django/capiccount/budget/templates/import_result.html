@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if success %}
+<p> CSV successfully imported.</p>
+{% else %}
+<p><b>CSV import failed! </b>It is probably the wrong format.</p>
+{% endif %}
+<a href="{% url "budget:index" %}">Home</a> -
+<a href="{% url "budget:transaction_list" %}">View transactions</a>
+{% endblock %}
