@@ -121,12 +121,11 @@ View classes for Transaction
 
 class TransactionList(ListView):
     model = Transaction
-    ordering = "-transaction_date"
 
     def get(self, request, *args, **kwargs):
 
-        trans_list = Transaction.objects.all()
-        paginator = Paginator(trans_list, 25) # Show 25 contacts per page
+        trans_list = Transaction.objects.order_by("-transaction_date")
+        paginator = Paginator(trans_list, 20)  # Show 20 transactions per page
 
         page = request.GET.get('page')
         transactions = paginator.get_page(page)
