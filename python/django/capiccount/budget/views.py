@@ -134,7 +134,10 @@ class TransactionList(ListView):
         paginator = Paginator(trans_list, 20)  # Show 20 transactions per page
 
         page = request.GET.get('page')
-        transactions = paginator.get_page(page)
+        if page is not None:
+            transactions = paginator.get_page(page)
+        else:
+            transactions = []
         return render(request, 'budget/transaction_list.html',
                       {'tran_list': transactions})
 
