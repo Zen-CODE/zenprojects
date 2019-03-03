@@ -120,7 +120,7 @@ View classes for Transaction
 
 class TransactionList(ListView):
     model = Transaction
-    paginate_by = 25
+    paginate_by = 20
     ordering = "-transaction_date"
 
 
