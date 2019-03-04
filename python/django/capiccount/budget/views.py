@@ -59,11 +59,8 @@ def view_transactions(request, imp=0):
                                                       'msg': msg,
                                                       'number': number})
 
-
-'''
-View classes for Categories
-===========================
-'''
+# View classes for Categories
+# ===========================
 
 
 class CategoryList(ListView):
@@ -90,10 +87,8 @@ class CategoryDelete(DeleteView):
     model = Category
 
 
-'''
-View classes for Categorizations
-================================
-'''
+# View classes for Categorizations
+# ================================
 
 
 class CategorizationList(ListView):
@@ -120,15 +115,14 @@ class CategorizationDelete(DeleteView):
     model = Categorization
 
 
-"""
-View classes for Transaction
-"""
-
+# View classes for Transactions
+# =============================
 
 class TransactionList(ListView):
     model = Transaction
 
     def get(self, request, *args, **kwargs):
+        """ Override the HTML GET request to provide pagination. """
 
         trans_list = Transaction.objects.order_by("-transaction_date")
         paginator = Paginator(trans_list, 20)  # Show 20 transactions per page
