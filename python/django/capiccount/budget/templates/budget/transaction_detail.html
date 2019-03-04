@@ -1,6 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Category Details</h1>
-<p>Name: {{object.name}}</p>
-<p>Importance: {{object.importance}}</p>
+<h1>Transaction Details</h1>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>Account</td><td>{{object.account.name}}</td>
+</tr>
+<tr>
+    <td>Transaction date</td><td>{{object.transaction_date}}</td>
+</tr>
+<tr>
+    <td>Journal number</td><td>{{object.journal_no}}</td>
+</tr>
+<tr>
+    <td>Description</td><td>{{object.description}}</td>
+</tr>
+<tr>
+    <td>Credit</td><td>{{object.credit}}</td>
+</tr>
+<tr>
+    <td>Narrative</td><td>{{object.narrative}}</td>
+</tr>
+<tr>
+    <td>Balance</td><td>{{object.balance}}</td>
+</tr>
+</table>
+
 {% endblock %}
