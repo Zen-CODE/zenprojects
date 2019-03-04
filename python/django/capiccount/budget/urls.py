@@ -6,11 +6,7 @@ app_name = "budget"
 
 urlpatterns = [
     path('', views.index, name='index'),
-
     path('clear', views.clear, name='clear'),
-    path('view_transactions', views.view_transactions),
-    path('view_transactions/<int:imp>/', views.view_transactions,
-         name='view_transactions_import'),
 
     # Import
     path('import_csv', views.import_csv, name='import_csv'),
