@@ -133,8 +133,8 @@ class TransactionList(ListView):
         trans_list = Transaction.objects.order_by("-transaction_date")
         paginator = Paginator(trans_list, 20)  # Show 20 transactions per page
 
-        page = request.GET.get('page')
-        if page is not None:
+        if paginator.count > 0:
+            page = request.GET.get('page')
             transactions = paginator.get_page(page)
         else:
             transactions = []
