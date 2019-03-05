@@ -3,7 +3,7 @@ Virtual environments
 
 To create a Python3 virtual environment:
 
-    python -m venv c:\path\to\myenv
+    python -m venv /path/to/myenv
 
 To activate:
 
