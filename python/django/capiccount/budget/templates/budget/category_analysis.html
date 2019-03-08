@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Category Analysis</h1>
+<p>Start date: {{ form.start_date.value|date:'Y-m-d' }}</p>
+<p>End date: {{ form.end_date.value|date:'Y-m-d' }}</p>
+
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}

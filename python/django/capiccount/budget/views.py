@@ -55,8 +55,6 @@ def category_analysis(request):
     """ Show a category analysis between the dates specified. """
     if request.method == 'POST':
         form = CategoryAnalysis(request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect("index")
     else:
         today = datetime.today()
         start_date = today.replace(day=1)
