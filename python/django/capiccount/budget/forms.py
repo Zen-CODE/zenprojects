@@ -37,5 +37,5 @@ class CategoryAnalysis(forms.Form):
     """
     Provide the data selection logic as parameters for category analysis
     """
-    start__date = forms.DateField(widget=forms.SelectDateWidget())
+    start_date = forms.DateField(widget=forms.SelectDateWidget())
     end_date = forms.DateField(widget=forms.SelectDateWidget())

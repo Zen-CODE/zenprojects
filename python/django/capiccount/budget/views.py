@@ -8,6 +8,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import CategoryForm, CategorizationForm
 from django.core.paginator import Paginator
+from datetime import datetime
+from calendar import monthrange
 
 
 def index(request):
@@ -56,7 +58,12 @@ def category_analysis(request):
         if form.is_valid():
             return HttpResponseRedirect("index")
     else:
-        form = CategoryAnalysis()
+        today = datetime.today()
+        start_date = today.replace(day=1)
+        last_day = monthrange(today.year, today.month)[1]
+        end_date = today.replace(day=last_day)
+        form = CategoryAnalysis(initial={'start_date': start_date,
+                                         'end_date': end_date})
 
     return render(request, 'budget/category_analysis.html', {'form': form})
 
