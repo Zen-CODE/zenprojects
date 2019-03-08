@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import UploadCSVForm
+from .forms import UploadCSVForm, CategoryAnalysis
 from .helpers.csv_import import csv_import
 from django.forms import Form
 from .models import Transaction, Category, Categorization
@@ -49,10 +49,16 @@ def import_result(request, success):
     return render(request, 'import_result.html', {'success': success})
 
 
-def category_analysis(request, start_date=None, end_date=None):
+def category_analysis(request):
     """ Show a category analysis between the dates specified. """
+    if request.method == 'POST':
+        form = CategoryAnalysis(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect("index")
+    else:
+        form = CategoryAnalysis()
 
-    return render(request, 'budget/category_analysis.html', {})
+    return render(request, 'budget/category_analysis.html', {'form': form})
 
 
 # View classes for Categories

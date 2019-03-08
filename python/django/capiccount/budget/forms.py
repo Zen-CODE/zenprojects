@@ -1,4 +1,4 @@
-from django.forms import Form, ModelForm, FileField, Textarea
+from django.forms import Form, ModelForm, FileField, Textarea, DateField
 from .models import Category, Categorization
 
 
@@ -31,3 +31,11 @@ class CategorizationForm(ModelForm):
         fields = ['description', 'category']
         widgets = {
           'description': Textarea(attrs={'rows': 1, 'cols': 50})}
+
+
+class CategoryAnalysis(Form):
+    """
+    Provide the data selection logic as parameters for category analysis
+    """
+    start__date = DateField()
+    end_date = DateField()
