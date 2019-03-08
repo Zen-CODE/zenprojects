@@ -1,15 +1,15 @@
-from django.forms import Form, ModelForm, FileField, Textarea, DateField
+from django import forms
 from .models import Category, Categorization
 
 
-class UploadCSVForm(Form):
+class UploadCSVForm(forms.Form):
     """
     Handle the upload of the Capitec CSV file
     """
-    file = FileField()
+    file = forms.FileField()
 
 
-class CategoryForm(ModelForm):
+class CategoryForm(forms.ModelForm):
     """
     Handles CRUD operation for the Category models.
     """
@@ -18,10 +18,10 @@ class CategoryForm(ModelForm):
         model = Category
         fields = ['name', 'importance']
         widgets = {
-          'name': Textarea(attrs={'rows': 1, 'cols': 50})}
+          'name': forms.Textarea(attrs={'rows': 1, 'cols': 50})}
 
 
-class CategorizationForm(ModelForm):
+class CategorizationForm(forms.ModelForm):
     """
     Handles CRUD operation for the Categorization models.
     """
@@ -30,12 +30,12 @@ class CategorizationForm(ModelForm):
         model = Categorization
         fields = ['description', 'category']
         widgets = {
-          'description': Textarea(attrs={'rows': 1, 'cols': 50})}
+          'description': forms.Textarea(attrs={'rows': 1, 'cols': 50})}
 
 
-class CategoryAnalysis(Form):
+class CategoryAnalysis(forms.Form):
     """
     Provide the data selection logic as parameters for category analysis
     """
-    start__date = DateField()
-    end_date = DateField()
+    start__date = forms.DateField(widget=forms.SelectDateWidget())
+    end_date = forms.DateField(widget=forms.SelectDateWidget())
