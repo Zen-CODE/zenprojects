@@ -4,6 +4,7 @@
 <p>This is Zen-CODE's Capitec banking app.</p>
 <hr/>
 <p>What you you like to do?</p>
+<p><b>Maintenance</b></p>
 <ul>
     <li><a href="{% url "budget:category_list" %}">View categories</a></li>
     <li><a href="{% url "budget:categorization_list" %}">View categorizations</a></li>
@@ -11,4 +12,9 @@
     <li><a href="clear">Clear transactions</a></li>
     <li><a href="import_csv">Import a CSV file</a></li>
 </ul>
+<p><b>Maintenance</b></p>
+<ul>
+    <li><a href="{% url "budget:category_analysis" %}">Category analysis</a></li>
+</ul>
+
 {% endblock %}

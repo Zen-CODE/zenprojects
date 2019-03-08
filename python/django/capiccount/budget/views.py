@@ -49,6 +49,12 @@ def import_result(request, success):
     return render(request, 'import_result.html', {'success': success})
 
 
+def category_analysis(request, start_date=None, end_date=None):
+    """ Show a category analysis between the dates specified. """
+
+    return render(request, 'budget/category_analysis.html', {})
+
+
 # View classes for Categories
 # ===========================
 

@@ -47,5 +47,9 @@ urlpatterns = [
     path('transaction/<int:pk>', views.TransactionDetail.as_view(),
          name='transaction_detail'),
 
+    # Category Analysis
+    path('category_analysis', views.category_analysis,
+         name='category_analysis'),
+
 ]
 # path(r'view_transactions/(?P<import>\w+)/$', views.view_transactions,
