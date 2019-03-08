@@ -2,3 +2,4 @@
 .ipynb_checkpoints
 *.class
 __pycache__
+python/django/capiccount/budget/migrations/*
