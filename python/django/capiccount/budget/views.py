@@ -52,18 +52,35 @@ def import_result(request, success):
 
 
 def category_analysis(request):
-    """ Show a category analysis between the dates specified. """
+    """
+    Show a category analysis between the dates specified.
+    """
+    def get_def_dates():
+        """ Return the start and end dates of the current month """
+        today = datetime.today()
+        _start_date = today.replace(day=1)
+        last_day = monthrange(today.year, today.month)[1]
+        _end_date = today.replace(day=last_day)
+        return _start_date, _end_date
+
+    # The processed form has the date values in a different place to the
+    # initial form ('cleaned_data'), so we can't access these values generically
+    # in the template. We thus extract here and pass them in.
     if request.method == 'POST':
         form = CategoryAnalysis(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+        else:
+            start_date, end_date = get_def_dates()
     else:
-        today = datetime.today()
-        start_date = today.replace(day=1)
-        last_day = monthrange(today.year, today.month)[1]
-        end_date = today.replace(day=last_day)
+        start_date, end_date = get_def_dates()
         form = CategoryAnalysis(initial={'start_date': start_date,
                                          'end_date': end_date})
 
-    return render(request, 'budget/category_analysis.html', {'form': form})
+    return render(request, 'budget/category_analysis.html',
+                  {'form': form,
+                   'start_date': start_date, 'end_date': end_date})
 
 
 # View classes for Categories
