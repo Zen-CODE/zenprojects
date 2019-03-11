@@ -1,6 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Category Analysis</h1>
+<table>
+<thead>
+<tr>
+    <th>Account</th>
+    <th>Date</th>
+    <th>Description</th>
+    <th>Credit</th>
+    <th>Balance</th>
+</tr>
+</thead>
+<tbody>
+{% for trans in trans_list %}
+<tr>
+    <td>{{ trans.account.name }}</td><td>{{ trans.transaction_date }}</td>
+    <td>{{ trans.description }}</td><td>{{ trans.credit }}</td>
+     <td>{{ trans.balance }}</td>
+<td>
+<a  href="{% url "budget:transaction_detail"  trans.id  %}"> Details </a>
+</td>
+</tr>
+{% endfor %}
+<br />
 <p>Start date: {{ start_date|date:'Y-m-d' }}</p>
 <p>End date: {{ end_date|date:'Y-m-d' }}</p>
 
@@ -9,5 +31,5 @@
     {{ form.as_p }}
     <input type="submit" value="Submit" />
 </form>
-
+<br />
 {% endblock %}
