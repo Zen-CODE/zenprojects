@@ -149,16 +149,25 @@ def cat_assign(request, pk):
     categorization is based on a real-time lookup, we need to do a lookup to
     find the applicable transaction (if there is one).
     """
+    def save_categorization(_categorization, descrip, category):
+        """ Update and save to supplied categorization"""
+        _categorization.description = descrip
+        _categorization.category = form.cleaned_data['category']
+        _categorization.save()
+
+    trans = Transaction.objects.get(pk=pk)
+    categorization = Categorization.objects.all().filter(
+        description=trans.description)
     if request.method == 'POST':
         form = CategorizationForm(request.POST)
         if form.is_valid():
-            form.save()
+            if categorization:
+                save_categorization(categorization[0],
+                                    form.cleaned_data['description'],
+                                    form.cleaned_data['category'])
             return HttpResponseRedirect(reverse("budget:transaction_detail",
                                                 args=[pk]))
     else:
-        trans = Transaction.objects.get(pk=pk)
-        categorization = Categorization.objects.all().filter(
-            description=trans.description)
         if categorization:
             # Update an existing categorization
             form = CategorizationForm(instance=categorization[0])
