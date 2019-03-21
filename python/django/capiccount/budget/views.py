@@ -142,8 +142,20 @@ class CategorizationDelete(DeleteView):
 
 
 def cat_assign(request, pk):
-    """ Assign or update the categorization for the specified transaction"""
-    form = CategorizationForm()
+    """
+    Assign or update the categorization for the specified transaction. As this
+    categorization is based on a real-time lookup, we need to do a lookup to
+    find the applicable transaction (if there is one).
+    """
+    trans = Transaction.objects.get(pk=pk)
+    categorization = Categorization.objects.all().filter(
+        description=trans.description)
+    if categorization:
+        # Update an existing categorization
+        form = CategorizationForm()
+    else:
+        # Create a new categorization
+        form = CategorizationForm()
     return render(request, 'budget/categorization_form.html', {'form': form})
 
 
