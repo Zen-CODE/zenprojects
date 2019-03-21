@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import Textarea
 
 
 class Account(models.Model):
