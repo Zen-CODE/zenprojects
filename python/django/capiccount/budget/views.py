@@ -158,7 +158,7 @@ def cat_assign(request, pk):
     trans = Transaction.objects.get(pk=pk)
     categorization = Categorization.objects.all().filter(
         description=trans.description)
-    if request.method == 'POST' and categorization:
+    if request.method == 'POST':
         form = CategorizationForm(request.POST)
         if form.is_valid():
             if categorization:
