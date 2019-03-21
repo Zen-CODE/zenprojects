@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if form.instance.pk %}
 <h1>Categorization Update</h1>
-
+{% else %}
+<h1>Create Categorization</h1>
+{% endif %}
 <form  method="post">
 {% csrf_token %}
 {{ form.as_p }}

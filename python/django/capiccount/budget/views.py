@@ -152,7 +152,7 @@ def cat_assign(request, pk):
     def save_categorization(_categorization, descrip, category):
         """ Update and save to supplied categorization"""
         _categorization.description = descrip
-        _categorization.category = form.cleaned_data['category']
+        _categorization.category = category
         _categorization.save()
 
     trans = Transaction.objects.get(pk=pk)
@@ -169,12 +169,9 @@ def cat_assign(request, pk):
                 form.save()
             return HttpResponseRedirect(reverse("budget:transaction_detail",
                                                 args=[pk]))
-    elif categorization:
-        # Update an existing categorization
+    elif categorization:  # Update existing
         form = CategorizationForm(instance=categorization[0])
-    else:
-        # Create a new categorization
-        # TODO: Change form header from "Update"....
+    else:  # Create
         form = CategorizationForm(
             initial={'description': trans.description})
     return render(request, 'budget/categorization_form.html', {'form': form})
