@@ -32,10 +32,11 @@
 </tr>
 <tr>
     {% if object.get_category_descrip %}
-        <td>Category</td><td>{{object.get_category_descrip}} (<a  href="{% url "budget:categorization_create" %}"> Change </a>)</td>
+        <td>Category</td><td>{{object.get_category_descrip}} (<a  href="{% url 'budget:cat_assign' object.id %}"> Change </a>)</td>
     {% else %}
-        <td>Category</td><td><a  href="{% url "budget:categorization_create" %}"> Assign </a></td>
+        <td>Category</td><td><a  href="{% url 'budget:cat_assign' object.id %}"> Assign </a></td>
     {% endif %}
+
 </tr>
 </table>
 <button onclick="window.history.back()">Go Back</button>
