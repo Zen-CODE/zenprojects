@@ -152,9 +152,10 @@ def cat_assign(request, pk):
         description=trans.description)
     if categorization:
         # Update an existing categorization
-        form = CategorizationForm()
+        form = CategorizationForm(instance=categorization[0])
     else:
         # Create a new categorization
+        # TODO: Change form header from "Update"....
         form = CategorizationForm(initial={'description': trans.description})
     return render(request, 'budget/categorization_form.html', {'form': form})
 
