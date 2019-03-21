@@ -158,7 +158,7 @@ def cat_assign(request, pk):
     trans = Transaction.objects.get(pk=pk)
     categorization = Categorization.objects.all().filter(
         description=trans.description)
-    if request.method == 'POST':
+    if request.method == 'POST' and categorization:
         form = CategorizationForm(request.POST)
         if form.is_valid():
             if categorization:
@@ -167,15 +167,14 @@ def cat_assign(request, pk):
                                     form.cleaned_data['category'])
             return HttpResponseRedirect(reverse("budget:transaction_detail",
                                                 args=[pk]))
+    elif categorization:
+        # Update an existing categorization
+        form = CategorizationForm(instance=categorization[0])
     else:
-        if categorization:
-            # Update an existing categorization
-            form = CategorizationForm(instance=categorization[0])
-        else:
-            # Create a new categorization
-            # TODO: Change form header from "Update"....
-            form = CategorizationForm(
-                initial={'description': trans.description})
+        # Create a new categorization
+        # TODO: Change form header from "Update"....
+        form = CategorizationForm(
+            initial={'description': trans.description})
     return render(request, 'budget/categorization_form.html', {'form': form})
 
 
