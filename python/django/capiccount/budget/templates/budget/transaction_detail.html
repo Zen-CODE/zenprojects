@@ -19,7 +19,7 @@
     <td>Journal number</td><td>{{object.journal_no}}</td>
 </tr>
 <tr>
-    <td>Description</td><td>{{object.description}}</td>
+    <td>Description</td><td>{{object.description}} ()</td>
 </tr>
 <tr>
     <td>Credit</td><td>{{object.credit}}</td>
@@ -29,6 +29,13 @@
 </tr>
 <tr>
     <td>Balance</td><td>{{object.balance}}</td>
+</tr>
+<tr>
+    {% if object.get_category_descrip %}
+        <td>Category</td><td>{{object.get_category_descrip}} (<a  href="{% url "budget:categorization_create" %}"> Change </a>)</td>
+    {% else %}
+        <td>Category</td><td><a  href="{% url "budget:categorization_create" %}"> Assign </a></td>
+    {% endif %}
 </tr>
 </table>
 <button onclick="window.history.back()">Go Back</button>
