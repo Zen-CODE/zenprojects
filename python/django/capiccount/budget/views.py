@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import UploadCSVForm, CategoryAnalysis, CategorizationForm
+from .forms import (UploadCSVForm, CategoryAnalysis, CategorizationForm,
+                    CategoryForm)
 from .helpers.csv_import import csv_import
 from django.forms import Form
 from .models import Transaction, Category, Categorization
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import CategoryForm, CategorizationForm
 from django.core.paginator import Paginator
 from datetime import datetime
 from calendar import monthrange
+from django.urls import reverse
 
 
 def index(request):
@@ -139,6 +140,7 @@ class CategorizationUpdate(UpdateView):
 
 class CategorizationDelete(DeleteView):
     model = Categorization
+    form_class = CategorizationForm
 
 
 def cat_assign(request, pk):
@@ -147,16 +149,24 @@ def cat_assign(request, pk):
     categorization is based on a real-time lookup, we need to do a lookup to
     find the applicable transaction (if there is one).
     """
-    trans = Transaction.objects.get(pk=pk)
-    categorization = Categorization.objects.all().filter(
-        description=trans.description)
-    if categorization:
-        # Update an existing categorization
-        form = CategorizationForm(instance=categorization[0])
+    if request.method == 'POST':
+        form = CategorizationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("budget:transaction_detail",
+                                                args=[pk]))
     else:
-        # Create a new categorization
-        # TODO: Change form header from "Update"....
-        form = CategorizationForm(initial={'description': trans.description})
+        trans = Transaction.objects.get(pk=pk)
+        categorization = Categorization.objects.all().filter(
+            description=trans.description)
+        if categorization:
+            # Update an existing categorization
+            form = CategorizationForm(instance=categorization[0])
+        else:
+            # Create a new categorization
+            # TODO: Change form header from "Update"....
+            form = CategorizationForm(
+                initial={'description': trans.description})
     return render(request, 'budget/categorization_form.html', {'form': form})
 
 
