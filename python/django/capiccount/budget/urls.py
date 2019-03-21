@@ -37,7 +37,7 @@ urlpatterns = [
          name='categorization_create'),
     path('categorization/update/<int:pk>', views.CategorizationUpdate.as_view(),
          name='categorization_edit'),
-    path('categorization/delete/<int:pk>', views.CategoryDelete.as_view(
+    path('categorization/delete/<int:pk>', views.CategorizationDelete.as_view(
          success_url="/budget/categorization"),
          name='categorization_delete'),
     path('cat_assign/<int:pk>', views.cat_assign, name='cat_assign'),
