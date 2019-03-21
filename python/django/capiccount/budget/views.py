@@ -155,7 +155,7 @@ def cat_assign(request, pk):
         form = CategorizationForm()
     else:
         # Create a new categorization
-        form = CategorizationForm()
+        form = CategorizationForm(initial={'description': trans.description})
     return render(request, 'budget/categorization_form.html', {'form': form})
 
 
