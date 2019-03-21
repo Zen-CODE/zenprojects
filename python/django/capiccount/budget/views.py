@@ -165,6 +165,8 @@ def cat_assign(request, pk):
                 save_categorization(categorization[0],
                                     form.cleaned_data['description'],
                                     form.cleaned_data['category'])
+            else:
+                form.save()
             return HttpResponseRedirect(reverse("budget:transaction_detail",
                                                 args=[pk]))
     elif categorization:
