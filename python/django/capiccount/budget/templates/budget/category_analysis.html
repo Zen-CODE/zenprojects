@@ -9,6 +9,7 @@
     <th>Description</th>
     <th>Credit</th>
     <th>Balance</th>
+    <th>Category</th>
 </tr>
 </thead>
 <tbody>
@@ -16,7 +17,7 @@
 <tr>
     <td>{{ trans.account.name }}</td><td>{{ trans.transaction_date }}</td>
     <td>{{ trans.description }}</td><td>{{ trans.credit }}</td>
-     <td>{{ trans.balance }}</td>
+     <td>{{ trans.balance }}</td><td>{{ trans.get_category_descrip }}</td>
 <td>
 <a  href="{% url "budget:transaction_detail"  trans.id  %}"> Details </a>
 </td>

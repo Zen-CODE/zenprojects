@@ -69,3 +69,14 @@ class Transaction(models.Model):
 
     balance = models.DecimalField(decimal_places=2, max_digits=100)
     ''' The balance on the account after the amount has been credited. '''
+
+    def get_category_descrip(self):
+        """ Return the categorization of the item. We do not have this as a set
+        field because it is a very dynamic value, and constantly changing.
+        """
+        matches = Categorization.objects.all().filter(
+            description=self.description)
+        if matches:
+            return matches[0].category.name
+        else:
+            return ""
