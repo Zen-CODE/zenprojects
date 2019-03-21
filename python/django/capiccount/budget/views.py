@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import UploadCSVForm, CategoryAnalysis
+from .forms import UploadCSVForm, CategoryAnalysis, CategorizationForm
 from .helpers.csv_import import csv_import
 from django.forms import Form
 from .models import Transaction, Category, Categorization
@@ -141,9 +141,14 @@ class CategorizationDelete(DeleteView):
     model = Categorization
 
 
+def cat_assign(request, pk):
+    """ Assign or update the categorization for the specified transaction"""
+    form = CategorizationForm()
+    return render(request, 'budget/categorization_form.html', {'form': form})
+
+
 # View classes for Transactions
 # =============================
-
 class TransactionList(ListView):
     model = Transaction
 

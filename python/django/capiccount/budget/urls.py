@@ -40,6 +40,7 @@ urlpatterns = [
     path('categorization/delete/<int:pk>', views.CategoryDelete.as_view(
          success_url="/budget/categorization"),
          name='categorization_delete'),
+    path('cat_assign/<int:pk>', views.cat_assign, name='cat_assign'),
 
     # Transactions
     path('transaction', views.TransactionList.as_view(),
