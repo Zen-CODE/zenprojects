@@ -49,6 +49,6 @@ urlpatterns = [
          name='transaction_detail'),
 
     # Category Analysis
-    path('category_analysis', views.category_analysis,
+    path('category_analysis', category.analysis,
          name='category_analysis')]
 
