@@ -4,6 +4,7 @@ from budget.forms import UploadCSVForm
 from budget.helpers.csv_import import csv_import
 from django.forms import Form
 from budget.models import Transaction
+from django.urls import reverse
 
 
 def index(request):
@@ -13,12 +14,13 @@ def index(request):
 
 def clear(request):
     """ Delete all records. """
+
     if request.method == 'POST':
         form = Form(request.POST)
         if form.is_valid():
             if 'delete' in request.POST:
                 Transaction.objects.all().delete()
-            return HttpResponseRedirect('/budget/view_transactions')
+            return HttpResponseRedirect(reverse("budget:transaction_list"))
     else:
         form = Form
     return render(request, 'delete.html', {'form': form})
