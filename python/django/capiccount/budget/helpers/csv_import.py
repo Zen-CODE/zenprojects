@@ -85,9 +85,9 @@ class CapitecCSV(object):
                     account=acc,
                     transaction_date=date(*date_parts),
                     journal_no=int(line['Journal Number']),
-                    description=line['Description'],
+                    description=line['Description'][1:-1],
                     credit=credit,
-                    narrative=line['Narrative'],
+                    narrative=line['Narrative'][1:-1],
                     balance=float(line['BalanceAmount'])).save()
 
 
