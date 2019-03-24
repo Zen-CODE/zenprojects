@@ -67,5 +67,5 @@ def analysis(request):
     trans_list = Transaction.objects.filter(transaction_date__lte=end_date,
                                             transaction_date__gte=start_date)
     return render(request, 'budget/category_analysis.html',
-                  {'form': form, 'trans_list': trans_list,
+                  {'form': form, 'trans_list': trans_list, 'cat_summary': [],
                    'start_date': start_date, 'end_date': end_date})

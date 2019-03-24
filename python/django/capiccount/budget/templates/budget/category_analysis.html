@@ -1,29 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Category Analysis</h1>
+<h2>Summary</h2>
 <table>
-<thead>
-<tr>
-    <th>Account</th>
-    <th>Date</th>
-    <th>Description</th>
-    <th>Credit</th>
-    <th>Balance</th>
-    <th>Category</th>
-</tr>
-</thead>
-<tbody>
-{% for trans in trans_list %}
-<tr>
-    <td>{{ trans.account.name }}</td><td>{{ trans.transaction_date }}</td>
-    <td>{{ trans.description }}</td><td>{{ trans.credit }}</td>
-     <td>{{ trans.balance }}</td><td>{{ trans.get_category_descrip }}</td>
-<td>
-<a  href="{% url "budget:transaction_detail"  trans.id  %}"> Details </a>
-</td>
-</tr>
-{% endfor %}
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Importance</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for trans in cat_summary %}
+        <tr>
+            <td>{{ trans.account.name }}</td><td>{{ trans.transaction_date }}</td>
+            <td>{{ trans.description }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h2>Details</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Account</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Credit</th>
+            <th>Balance</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for trans in trans_list %}
+        <tr>
+            <td>{{ trans.account.name }}</td><td>{{ trans.transaction_date }}</td>
+            <td>{{ trans.description }}</td><td>{{ trans.credit }}</td>
+            <td>{{ trans.balance }}</td><td>{{ trans.get_category_descrip }}</td>
+            <td><a  href="{% url "budget:transaction_detail"  trans.id  %}"> Details </a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 <br />
+<h2>Date Selection</h2>
 <p>Start date: {{ start_date|date:'Y-m-d' }}</p>
 <p>End date: {{ end_date|date:'Y-m-d' }}</p>
 
