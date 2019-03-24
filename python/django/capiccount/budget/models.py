@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Account(models.Model):
@@ -35,6 +36,12 @@ class Category(models.Model):
         """ Override the default behavior of just rendering 'Object 1' in views.
         """
         return self.name
+
+    def get_absolute_url(self):
+        """ Define a URL to view this object, and to go to on successful editing
+        or creating.
+        """
+        return reverse("budget:category_detail", args=[self.pk])
 
 
 class Categorization(models.Model):
