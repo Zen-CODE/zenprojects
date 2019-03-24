@@ -51,6 +51,12 @@ class Categorization(models.Model):
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+    def get_absolute_url(self):
+        """ Define a URL to view this object, and to go to on successful editing
+        or creating.
+        """
+        return reverse("budget:categorization_detail", args=[self.pk])
+
 
 class Transaction(models.Model):
     """
