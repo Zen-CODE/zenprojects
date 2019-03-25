@@ -32,10 +32,8 @@ def import_csv(request):
         form = UploadCSVForm(request.POST, request.FILES)
         if form.is_valid():
             success = 1 if csv_import(request.FILES['file']) else 0
-            # url = reverse('budget:view_transactions',
-            #               args=(success,))
-            url = "import_result/" + str(success)
-            return HttpResponseRedirect(url)
+            return HttpResponseRedirect(reverse("budget:import_result",
+                                                args=(success,)))
     else:
         form = UploadCSVForm()
     return render(request, 'import.html', {'form': form})
