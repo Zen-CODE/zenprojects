@@ -43,6 +43,3 @@ def import_result(request, success):
     """ Display the results of the csv import. """
 
     return render(request, 'import_result.html', {'success': success})
-
-
-
