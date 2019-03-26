@@ -53,7 +53,28 @@ class Analysis(object):
             total: the total amount spend in this category
             items: the number of items making up this total
         """
-        return [{"category": None, "total": 0, "items":0}]
+
+        def get_cat_count_dict(_cat, _cat_dict):
+            """ Create and return a dictionary for the category used to track
+            it's stats. Also add it to the _cat_dict with the name as it's key
+            if it does not exist.
+            """
+            name = _cat.name if _cat is not None else "None"
+            if name in _cat_dict.keys():
+                return _cat_dict[name]
+            else:
+                _cat_dict[name] = {'items': 0, 'total': 0, 'category': _cat,
+                                   'name': name}
+                return _cat_dict[name]
+
+        cats = {}
+        for trans in trans_list:
+            cat = trans.get_category()
+            cat_dict = get_cat_count_dict(cat, cats)
+            cat_dict['items'] = cat_dict['items'] + 1
+            cat_dict['total'] = cat_dict['total'] + trans.credit
+
+        return cats
 
     @staticmethod
     def analysis(request):
