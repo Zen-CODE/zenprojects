@@ -6,15 +6,15 @@
     <thead>
         <tr>
             <th>Category</th>
-            <th>Importance</th>
+            <th>Transactions</th>
             <th>Total</th>
         </tr>
     </thead>
     <tbody>
-    {% for trans in cat_summary %}
+    {% for key, value in analysis.items %}
         <tr>
-            <td>{{ trans.account.name }}</td><td>{{ trans.transaction_date }}</td>
-            <td>{{ trans.description }}</td>
+            <td>{{ key }}</td><td>{{ value.items }}</td>
+            <td>{{ value.total }}</td>
         </tr>
     {% endfor %}
     </tbody>

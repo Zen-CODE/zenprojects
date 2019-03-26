@@ -44,12 +44,12 @@ class Analysis(object):
     """
 
     @staticmethod
-    def get_analysis_date(trans_list):
+    def get_analysis(trans_list):
         """
         Perform an analysis and return the results in the as a list, with each
         item in the list being a dictionary with the following keys:
 
-            category: a Category object
+            name: the name of the category
             total: the total amount spend in this category
             items: the number of items making up this total
         """
@@ -63,8 +63,7 @@ class Analysis(object):
             if name in _cat_dict.keys():
                 return _cat_dict[name]
             else:
-                _cat_dict[name] = {'items': 0, 'total': 0, 'category': _cat,
-                                   'name': name}
+                _cat_dict[name] = {'items': 0, 'total': 0}
                 return _cat_dict[name]
 
         cats = {}
@@ -111,6 +110,6 @@ class Analysis(object):
             'budget/category_analysis.html',
             {'form': form,
              'trans_list': trans_list,
-             'analysis': Analysis.get_analysis_date(trans_list),
+             'analysis': Analysis.get_analysis(trans_list),
              'start_date': start_date,
              'end_date': end_date})
