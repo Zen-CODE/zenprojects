@@ -68,7 +68,7 @@ class MusicLib(object):
         else:
             raise (Exception("No albums found for {0}".format(artist)))
 
-    def albums(self, artist):
+    def get_albums(self, artist):
         """ Return a list of albums for the *artist*. """
         path = join(self.path, artist)
         return [name for name in listdir(path) if isdir(join(path, name))]

@@ -27,8 +27,13 @@ def index():
 
 
 @app.route('/tunez/api/v1.0/artists', methods=['GET'])
-def get_albums():
+def get_artists():
     return jsonify({'artists': lib.get_artists()})
+
+
+@app.route('/tunez/api/v1.0/albums/<artist>', methods=['GET'])
+def get_albums(artist):
+    return jsonify({'artists': lib.get_albums(artist)})
 
 
 if __name__ == '__main__':
