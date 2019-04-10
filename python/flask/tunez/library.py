@@ -1,5 +1,5 @@
 from os import listdir
-from os.path import join, isdir, basename, expanduser
+from os.path import join, isdir, basename, exists
 from random import sample
 from glob import glob
 from textwrap import dedent
@@ -71,7 +71,10 @@ class MusicLib(object):
     def get_albums(self, artist):
         """ Return a list of albums for the *artist*. """
         path = join(self.path, artist)
-        return [name for name in listdir(path) if isdir(join(path, name))]
+        if exists(path):
+            return [name for name in listdir(path) if isdir(join(path, name))]
+        else:
+            return []
 
     @staticmethod
     def get_inline_image(file_name):
