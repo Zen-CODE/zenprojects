@@ -112,7 +112,7 @@ class MusicLib(object):
                 return matches
         return None
 
-    def get_album_tracks(self, artist, album):
+    def get_tracks(self, artist, album):
         """
         Return a list of the album tracks
         """
