@@ -3,6 +3,17 @@ from flask import Flask, jsonify
 from library import MusicLib
 from os.path import expanduser
 
+albums = [
+    {
+        'artist': 'Ace Of Base',
+        'album': 'Da Capo'
+    },
+    {
+        'artist': 'Astrix',
+        'album': 'Artcore'
+    }
+]
+
 
 class TunezApp(object):
     """
@@ -17,27 +28,15 @@ class TunezApp(object):
         super(TunezApp, self).__init__()
         self.lib = MusicLib(expanduser("~/Zen/Music/"))
 
+    @staticmethod
+    @app.route('/')
+    def index():
+        return "Hello, World!"
 
-albums = [
-    {
-        'artist': 'Ace Of Base',
-        'album': 'Da Capo'
-    },
-    {
-        'artist': 'Astrix',
-        'album': 'Artcore'
-    }
-]
-
-
-@TunezApp.app.route('/')
-def index():
-    return "Hello, World!"
-
-
-@TunezApp.app.route('/tunez/api/v1.0/albums', methods=['GET'])
-def get_albums():
-    return jsonify({'albums': albums})
+    @staticmethod
+    @app.route('/tunez/api/v1.0/albums', methods=['GET'])
+    def get_albums():
+        return jsonify({'albums': albums})
 
 
 if __name__ == '__main__':
