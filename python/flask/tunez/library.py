@@ -50,7 +50,7 @@ class MusicLib(object):
     def __init__(self, path):
         self.path = path
 
-    def artists(self):
+    def get_artists(self):
         """ Return a list of lartists. """
         return [name for name in listdir(self.path) if
                 isdir(join(self.path, name))]

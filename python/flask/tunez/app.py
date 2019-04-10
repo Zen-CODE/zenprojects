@@ -14,30 +14,22 @@ albums = [
     }
 ]
 
+app = Flask(__name__)
+""" The instance of the Flask application. """
 
-class TunezApp(object):
-    """
-    The main Application object, managing object instantiation and shared
-    data.
-    """
+lib = MusicLib(expanduser("~/Zen/Music/"))
+""" An instance of the MusicLib to serve our library information. """
 
-    app = Flask(__name__)
-    """ The instance of the Flask application. """
 
-    def __init__(self):
-        super(TunezApp, self).__init__()
-        self.lib = MusicLib(expanduser("~/Zen/Music/"))
+@app.route('/')
+def index():
+    return "Hello, World!"
 
-    @staticmethod
-    @app.route('/')
-    def index():
-        return "Hello, World!"
 
-    @staticmethod
-    @app.route('/tunez/api/v1.0/albums', methods=['GET'])
-    def get_albums():
-        return jsonify({'albums': albums})
+@app.route('/tunez/api/v1.0/artists', methods=['GET'])
+def get_albums():
+    return jsonify({'artists': lib.get_artists()})
 
 
 if __name__ == '__main__':
-    TunezApp().app.run(debug=True)
+    app.run(debug=True)
