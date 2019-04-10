@@ -1,7 +1,21 @@
 #!flask/bin/python
 from flask import Flask, jsonify
+from library import MusicLib
+from os.path import expanduser
 
-app = Flask(__name__)
+
+class TunezApp(object):
+    """
+    The main Application object, managing object instantiation and shared
+    data.
+    """
+
+    app = Flask(__name__)
+    """ The instance of the Flask application. """
+
+    def __init__(self):
+        super(TunezApp, self).__init__()
+        self.lib = MusicLib(expanduser("~/Zen/Music/"))
 
 
 albums = [
@@ -16,15 +30,15 @@ albums = [
 ]
 
 
-@app.route('/')
+@TunezApp.app.route('/')
 def index():
     return "Hello, World!"
 
 
-@app.route('/tunez/api/v1.0/albums', methods=['GET'])
+@TunezApp.app.route('/tunez/api/v1.0/albums', methods=['GET'])
 def get_albums():
     return jsonify({'albums': albums})
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    TunezApp().app.run(debug=True)
