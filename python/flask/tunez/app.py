@@ -65,12 +65,12 @@ def get_tracks(artist, album):
 @app.route('/tunez/api/v1.0/cover/<artist>/<album>', methods=['GET'])
 @auth.login_required
 def get_cover(artist, album):
+    """
+    Return the cover image file. If there is none, return the default cover
+    image.
+    """
     cover = lib.get_cover(artist, album)
-    if cover:
-        file_name = cover
-    else:        
-        file_name = "static/audio_icon.png"
-
+    file_name = cover if cover else "static/audio_icon.png"
     with open(file_name, 'rb') as f:
         return send_file(BytesIO(f.read()),
                          attachment_filename=file_name,
