@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask, jsonify, make_response, send_file
+from flask import Flask, jsonify, make_response, send_file, render_template
 from library import MusicLib
 from os.path import expanduser
 from flask_httpauth import HTTPBasicAuth
@@ -30,7 +30,7 @@ def unauthorized():
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return render_template('index.html')
 
 
 # ==============================================================================
