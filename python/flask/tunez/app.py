@@ -1,7 +1,7 @@
 #!flask/bin/python
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, abort
 from library import MusicLib
-from os.path import expanduser
+from os.path import expanduser, exists
 from flask_httpauth import HTTPBasicAuth
 
 
@@ -59,6 +59,16 @@ def get_albums(artist):
 @auth.login_required
 def get_tracks(artist, album):
     return jsonify({'artists': lib.get_tracks(artist, album)})
+
+
+@app.route('/tunez/api/v1.0/cover/<artist>/<album>', methods=['GET'])
+@auth.login_required
+def get_cover(artist, album):
+    cover = lib.get_cover(artist, album)
+    if cover:
+        return jsonify({'cover': cover})
+    else:        
+        abort(404)  # Not found
 
 
 if __name__ == '__main__':
