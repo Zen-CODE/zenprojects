@@ -1,8 +1,9 @@
 #!flask/bin/python
-from flask import Flask, jsonify, make_response, abort
+from flask import Flask, jsonify, make_response, send_file
 from library import MusicLib
-from os.path import expanduser, exists
+from os.path import expanduser
 from flask_httpauth import HTTPBasicAuth
+from io import BytesIO
 
 
 albums = [
@@ -66,9 +67,14 @@ def get_tracks(artist, album):
 def get_cover(artist, album):
     cover = lib.get_cover(artist, album)
     if cover:
-        return jsonify({'cover': cover})
+        file_name = cover
     else:        
-        abort(404)  # Not found
+        file_name = "static/audio_icon.png"
+
+    with open(file_name, 'rb') as f:
+        return send_file(BytesIO(f.read()),
+                         attachment_filename=file_name,
+                         mimetype='image/png')
 
 
 if __name__ == '__main__':
