@@ -6,17 +6,6 @@ from flask_httpauth import HTTPBasicAuth
 from io import BytesIO
 
 
-albums = [
-    {
-        'artist': 'Ace Of Base',
-        'album': 'Da Capo'
-    },
-    {
-        'artist': 'Astrix',
-        'album': 'Artcore'
-    }
-]
-
 app = Flask(__name__)
 """ The instance of the Flask application. """
 
@@ -44,21 +33,35 @@ def index():
     return "Hello, World!"
 
 
+# ==============================================================================
+# API
+# ==============================================================================
+
+
 @app.route('/tunez/api/v1.0/artists', methods=['GET'])
 @auth.login_required
 def get_artists():
+    """
+    Return a list of all the artists in our music library.
+    """
     return jsonify({'artists': lib.get_artists()})
 
 
 @app.route('/tunez/api/v1.0/albums/<artist>', methods=['GET'])
 @auth.login_required
 def get_albums(artist):
+    """
+    Return a list of albums by the specified artist.
+    """
     return jsonify({'artists': lib.get_albums(artist)})
 
 
 @app.route('/tunez/api/v1.0/tracks/<artist>/<album>', methods=['GET'])
 @auth.login_required
 def get_tracks(artist, album):
+    """
+    Return a list of tracks in the specified album.
+    """
     return jsonify({'artists': lib.get_tracks(artist, album)})
 
 
