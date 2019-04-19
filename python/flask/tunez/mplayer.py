@@ -4,6 +4,8 @@ player.
 """
 
 from mpris2 import get_players_uri, Player
+from urllib.parse import urlparse, unquote
+from os.path import exists
 
 
 class MPlayer(object):
@@ -59,3 +61,23 @@ class MPlayer(object):
         Turn the volume down.
         """
         self.change_volume(-0.05)
+
+    def cover(self):
+        """
+        Return the album cover art if available, otherwise return False.
+        """
+
+        def get_cover(url):
+            """ Return the path to the cover art """
+            parsed = urlparse(url)
+            if parsed.scheme == 'file':
+                return unquote(parsed.path)
+            else:
+                return "Music/audio_icon.png"
+
+        data = self.mp2_player.Metadata
+        fname = get_cover(str(data['mpris:artUrl']))
+        if exists(fname):
+            return fname
+        else:
+            return False

@@ -1,15 +1,15 @@
 <!doctype html>
 <html>
     <head>
-        <title>CapiCount</title>
+        <title>ZenTunez</title>
         <link rel="stylesheet" href="bootstrap.min.css">
         <link rel="stylesheet" href="bootstrap-theme.min.css">
         <link href="google.fonts.css">
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
-        <title>Tunez</title>
-        <h1>Welcome to Richie's Tunez!</h1>
+        <title>ZenTunez</title>
+        <h1>Welcome to ZenTunez!</h1>
         <p>Hmmm. What would you like to do?</p>
         <h2>Player</h2>
         <a href="{{ url_for('previous_track') }}">Previous</a> -
@@ -19,5 +19,7 @@
         <p />
         <a href="{{ url_for('volume_up') }}">Volume_up</a> -
         <a href="{{ url_for('volume_down') }}">Volume_down</a>
+        <p />
+        <a href="{{ url_for('cover') }}">Album cover</a>
     </body>
 </html>

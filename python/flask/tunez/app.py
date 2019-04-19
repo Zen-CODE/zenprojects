@@ -1,7 +1,7 @@
 #!flask/bin/python
 from flask import Flask, jsonify, make_response, send_file, render_template
 from library import MusicLib
-from os.path import expanduser
+from os.path import expanduser, basename
 from flask_httpauth import HTTPBasicAuth
 from io import BytesIO
 from mplayer import MPlayer
@@ -126,6 +126,19 @@ def previous_track():
     """ Go back to the previous track. """
     MPlayer().previous_track()
     return make_response("Success", 200)
+
+
+@app.route(api_url + 'player/cover', methods=['GET'])
+def cover():
+    """ Show the album cover. """
+    _cover = MPlayer().cover()
+    if cover:
+        with open(_cover, 'rb') as f:
+            return send_file(BytesIO(f.read()),
+                             attachment_filename=basename(_cover),
+                             mimetype='image/png')
+
+    return make_response("Success, but no album cover for this baby...", 200)
 
 
 if __name__ == '__main__':
