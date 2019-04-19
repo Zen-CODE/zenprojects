@@ -3,9 +3,7 @@ This module provides functions for controlling the currently active MPRIS2
 player.
 """
 
-from mpris2 import get_players_uri
-from mpris2 import Player
-# from urllib.parse import urlparse, unquote
+from mpris2 import get_players_uri, Player
 
 
 class MPlayer(object):
@@ -26,7 +24,7 @@ class MPlayer(object):
         """
         self.mp2_player.Volume += val
 
-    def previous(self):
+    def previous_track(self):
         """
         Go back to the previous track.
         """
@@ -38,7 +36,7 @@ class MPlayer(object):
         """
         self.mp2_player.PlayPause()
 
-    def next(self):
+    def next_track(self):
         """
         Advance to the next track
         """
