@@ -4,6 +4,7 @@ from library import MusicLib
 from os.path import expanduser
 from flask_httpauth import HTTPBasicAuth
 from io import BytesIO
+from mplayer import MPlayer
 
 
 app = Flask(__name__)
@@ -36,9 +37,12 @@ def index():
 # ==============================================================================
 # API
 # ==============================================================================
+api_url = "/tunez/api/v1.0/"
+
+# Library
 
 
-@app.route('/tunez/api/v1.0/artists', methods=['GET'])
+@app.route(api_url + 'artists', methods=['GET'])
 @auth.login_required
 def get_artists():
     """
@@ -47,25 +51,25 @@ def get_artists():
     return jsonify({'artists': lib.get_artists()})
 
 
-@app.route('/tunez/api/v1.0/albums/<artist>', methods=['GET'])
+@app.route(api_url + 'albums/<artist>', methods=['GET'])
 @auth.login_required
 def get_albums(artist):
     """
     Return a list of albums by the specified artist.
     """
-    return jsonify({'artists': lib.get_albums(artist)})
+    return jsonify({'albums': lib.get_albums(artist)})
 
 
-@app.route('/tunez/api/v1.0/tracks/<artist>/<album>', methods=['GET'])
+@app.route(api_url + 'tracks/<artist>/<album>', methods=['GET'])
 @auth.login_required
 def get_tracks(artist, album):
     """
     Return a list of tracks in the specified album.
     """
-    return jsonify({'artists': lib.get_tracks(artist, album)})
+    return jsonify({'tracks': lib.get_tracks(artist, album)})
 
 
-@app.route('/tunez/api/v1.0/cover/<artist>/<album>', methods=['GET'])
+@app.route(api_url + 'cover/<artist>/<album>', methods=['GET'])
 @auth.login_required
 def get_cover(artist, album):
     """
@@ -78,6 +82,43 @@ def get_cover(artist, album):
         return send_file(BytesIO(f.read()),
                          attachment_filename=file_name,
                          mimetype='image/png')
+
+# Library
+
+
+@app.route(api_url + 'player/volume_up', methods=['GET'])
+def volume_up():
+    """ Turn the volume up. """
+    MPlayer().volume_up()
+    return make_response("Success", 200)
+
+
+@app.route(api_url + 'player/volume_down', methods=['GET'])
+def volume_down():
+    """ Turn the volume down. """
+    MPlayer().volume_down()
+    return make_response("Success", 200)
+
+
+@app.route(api_url + 'player/play_pause', methods=['GET'])
+def play_pause():
+    """ Play or pause the currently active player. """
+    MPlayer().play_pause()
+    return make_response("Success", 200)
+
+
+@app.route(api_url + 'player/next', methods=['GET'])
+def next_track():
+    """ Advance the player to the next track. """
+    MPlayer().next_track()
+    return make_response("Success", 200)
+
+
+@app.route(api_url + 'player/previous', methods=['GET'])
+def previous_track():
+    """ Go back to the previous track. """
+    MPlayer().previous_track()
+    return make_response("Success", 200)
 
 
 if __name__ == '__main__':
