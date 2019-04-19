@@ -8,14 +8,14 @@ from mpris2 import Player
 # from urllib.parse import urlparse, unquote
 
 
-class Player(object):
+class MPlayer(object):
     """
     This object sends command to the active MPRIS2 player, and retrieves
     information from it.
     """
 
     def __init__(self):
-        super(Player, self).__init__()
+        super(MPlayer, self).__init__()
         uri = next(get_players_uri())
         self.mp2_player = Player(dbus_interface_info={'dbus_uri': uri})
 
