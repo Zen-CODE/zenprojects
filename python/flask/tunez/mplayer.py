@@ -36,6 +36,12 @@ class MPlayer(object):
         """
         self.mp2_player.PlayPause()
 
+    def stop(self):
+        """
+        Stop the track.
+        """
+        self.mp2_player.Stop()
+
     def next_track(self):
         """
         Advance to the next track

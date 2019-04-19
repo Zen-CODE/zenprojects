@@ -100,6 +100,13 @@ def volume_down():
     return make_response("Success", 200)
 
 
+@app.route(api_url + 'player/stop', methods=['GET'])
+def stop():
+    """ Stop the currently active player. """
+    MPlayer().stop()
+    return make_response("Success", 200)
+
+
 @app.route(api_url + 'player/play_pause', methods=['GET'])
 def play_pause():
     """ Play or pause the currently active player. """
