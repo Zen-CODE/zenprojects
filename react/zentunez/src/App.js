@@ -2,6 +2,21 @@ import React, { Component } from 'react';
 import './App.css';
 
 
+class PlayerImage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {img_data: null, };
+  };
+  render(){
+    return (
+      <div>
+        <button>Fetch Image</button>
+        <img alt="Album cover"></img>
+      </div>
+    );
+  }
+}
+
 
 function PlayerButton(props) {
   return (
@@ -40,7 +55,7 @@ class App extends Component {
 
     fetch(url + api_call)
       .then(function(response) {
-        if (response.status == 200){
+        if (response.status === 200){
           console.log("Successful response")}
         else {
           console.log("Got reponse " + response.status + ", " + response.statusText)}
@@ -66,6 +81,9 @@ class App extends Component {
           {this.renderButton("Volume up", "player/volume_up")}
           {Divider()}
           {this.renderButton("Volume down", "player/volume_down")}          
+        </div>
+        <div className="PlayerButtons">
+          <PlayerImage />
         </div>
       </div>
     );
