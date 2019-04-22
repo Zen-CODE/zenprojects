@@ -16,15 +16,20 @@ class PlayerImage extends Component {
     /** 
      * Fetch the album cover and
     */
-    const url = "http://127.0.0.1:5000/tunez/api/v1.0/" + "player/cover"
-    this.setState({img_src: url});
+    const url = "http://127.0.0.1:5000/tunez/api/v1.0/"
+    this.setState({img_src: url + "player/cover"});
   }
 
   render(){
     return (
       <div>
-        <button onClick={ () => this.onClick() }>Fetch Image</button>
-        <img alt="Album cover" src={this.state.img_src}></img>
+        <div>
+          <button onClick={ () => this.onClick() }>Fetch Image</button>
+        </div>
+        <Divider />
+        <div>
+          <img alt="Album cover" src={this.state.img_src}></img>
+        </div>
       </div>
     );
   }
