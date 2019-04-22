@@ -40,7 +40,10 @@ class App extends Component {
 
     fetch(url + api_call)
       .then(function(response) {
-        console.log("Got response " + response)  
+        if (response.status == 200){
+          console.log("Successful response")}
+        else {
+          console.log("Got reponse " + response.status + ", " + response.statusText)}
       })
   }
 
