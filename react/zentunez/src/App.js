@@ -7,7 +7,8 @@ function PlayerButton(props) {
   return (
     <button
       className="PlayerButton"
-      onClick={() => props.callback()}
+      api_call={props.api_call}
+      onClick={() => props.callback(props.api_call)}
     >
       {props.caption}
     </button>
@@ -21,28 +22,29 @@ function Divider(props) {
 
 class App extends Component {
 
-  renderButton(caption, callback) {
+  renderButton(caption, api_call) {
     return <PlayerButton
               caption={caption} 
-              callback={callback}
+              callback={this.playerClick}
+              api_call={api_call}
             />;
   }
 
-  playerClick(){
-    console.log("Tuzez Text!")
+  playerClick(api_call){
+    console.log("Tuzez Text! " + api_call)
   }
 
   render() {
     return (
       <div className="App">
         <div className="PlayerButtons">
-          {this.renderButton("Previous", this.playerClick)}
+          {this.renderButton("Previous", "player/previous")}
           {Divider()}
-          {this.renderButton("Stop", this.playerClick)}          
+          {this.renderButton("Stop", "player/stop")}          
           {Divider()}
-          {this.renderButton("Play / Pause", this.playerClick)}
+          {this.renderButton("Play / Pause", "player/play_pause")}
           {Divider()}
-          {this.renderButton("Next", this.playerClick)}
+          {this.renderButton("Next", "player/next")}
         </div>
       </div>
     );
