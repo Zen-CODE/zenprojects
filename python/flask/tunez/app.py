@@ -37,12 +37,32 @@ def index():
 # ==============================================================================
 # API
 # ==============================================================================
-api_url = "/tunez/api/v1.0/"
+class ZenTunez(object):
+    """
+    The main application class
+    """
+    api_url = "/tunez/api/v1.0/"
+
+    @staticmethod
+    def get_route(path):
+        """
+        Return the fully qualified path to the API,
+        """
+        return ZenTunez.api_url + path
+
+    @staticmethod
+    def get_response(text="Success", code=200):
+        """
+        Generate and return the appropriate HTTP response object
+        """
+        resp = make_response(text, code)
+        resp.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+        return resp
 
 # Library
 
 
-@app.route(api_url + 'artists', methods=['GET'])
+@app.route(ZenTunez.get_route('artists'), methods=['GET'])
 @auth.login_required
 def get_artists():
     """
@@ -51,7 +71,7 @@ def get_artists():
     return jsonify({'artists': lib.get_artists()})
 
 
-@app.route(api_url + 'albums/<artist>', methods=['GET'])
+@app.route(ZenTunez.get_route('albums/<artist>'), methods=['GET'])
 @auth.login_required
 def get_albums(artist):
     """
@@ -60,7 +80,7 @@ def get_albums(artist):
     return jsonify({'albums': lib.get_albums(artist)})
 
 
-@app.route(api_url + 'tracks/<artist>/<album>', methods=['GET'])
+@app.route(ZenTunez.get_route('tracks/<artist>/<album>'), methods=['GET'])
 @auth.login_required
 def get_tracks(artist, album):
     """
@@ -69,7 +89,7 @@ def get_tracks(artist, album):
     return jsonify({'tracks': lib.get_tracks(artist, album)})
 
 
-@app.route(api_url + 'cover/<artist>/<album>', methods=['GET'])
+@app.route(ZenTunez.get_route('cover/<artist>/<album>'), methods=['GET'])
 @auth.login_required
 def get_cover(artist, album):
     """
@@ -86,49 +106,49 @@ def get_cover(artist, album):
 # Library
 
 
-@app.route(api_url + 'player/volume_up', methods=['GET'])
+@app.route(ZenTunez.get_route('player/volume_up'), methods=['GET'])
 def volume_up():
     """ Turn the volume up. """
     MPlayer().volume_up()
-    return make_response("Success", 200)
+    return ZenTunez.get_response()
 
 
-@app.route(api_url + 'player/volume_down', methods=['GET'])
+@app.route(ZenTunez.get_route('player/volume_down'), methods=['GET'])
 def volume_down():
     """ Turn the volume down. """
     MPlayer().volume_down()
-    return make_response("Success", 200)
+    return ZenTunez.get_response()
 
 
-@app.route(api_url + 'player/stop', methods=['GET'])
+@app.route(ZenTunez.get_route('player/stop'), methods=['GET'])
 def stop():
     """ Stop the currently active player. """
     MPlayer().stop()
-    return make_response("Success", 200)
+    return ZenTunez.get_response()
 
 
-@app.route(api_url + 'player/play_pause', methods=['GET'])
+@app.route(ZenTunez.get_route('player/play_pause'), methods=['GET'])
 def play_pause():
     """ Play or pause the currently active player. """
     MPlayer().play_pause()
-    return make_response("Success", 200)
+    return ZenTunez.get_response()
 
 
-@app.route(api_url + 'player/next', methods=['GET'])
+@app.route(ZenTunez.get_route('player/next'), methods=['GET'])
 def next_track():
     """ Advance the player to the next track. """
     MPlayer().next_track()
-    return make_response("Success", 200)
+    return ZenTunez.get_response()
 
 
-@app.route(api_url + 'player/previous', methods=['GET'])
+@app.route(ZenTunez.get_route('player/previous'), methods=['GET'])
 def previous_track():
     """ Go back to the previous track. """
     MPlayer().previous_track()
-    return make_response("Success", 200)
+    return ZenTunez.get_response()
 
 
-@app.route(api_url + 'player/cover', methods=['GET'])
+@app.route(ZenTunez.get_route('player/cover'), methods=['GET'])
 def cover():
     """ Show the album cover. """
     _cover = MPlayer().cover()
@@ -137,8 +157,7 @@ def cover():
             return send_file(BytesIO(f.read()),
                              attachment_filename=basename(_cover),
                              mimetype='image/png')
-
-    return make_response("Success, but no album cover for this baby...", 200)
+    return ZenTunez.get_response("Success, but no album cover for this baby...")
 
 
 if __name__ == '__main__':
