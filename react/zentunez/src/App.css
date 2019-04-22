@@ -2,4 +2,22 @@
   text-align: center;
 }
 
+.Divider{
+  width: 10px;
+  height: auto;
+  display: inline-block;
+}
+
+.PlayerButtons {
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+
+.PlayerButton {
+  padding-right: 10px;
+  padding-left: 10px;
+}
 

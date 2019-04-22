@@ -6,12 +6,16 @@ import './App.css';
 function PlayerButton(props) {
   return (
     <button
-      className="player"
+      className="PlayerButton"
       onClick={() => props.onClick()}
     >
       {props.caption}
     </button>
   );
+}
+
+function Divider(props) {
+  return (<div className="Divider" ></div>);
 }
 
 
@@ -26,10 +30,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="Player-Buttons">
+        <div className="PlayerButtons">
           {this.renderButton("Previous")}
+          {Divider()}
           {this.renderButton("Stop")}          
+          {Divider()}
           {this.renderButton("Play / Pause")}
+          {Divider()}
           {this.renderButton("Next")}
         </div>
       </div>
