@@ -16,6 +16,9 @@ function PlayerButton(props) {
 }
 
 function Divider(props) {
+  /**
+   * A convenience class for separating the buttons independently of styling
+   */
   return (<div className="Divider" ></div>);
 }
 
@@ -31,10 +34,20 @@ class App extends Component {
   }
 
   playerClick(api_call){
+    /* Handle the click on a Player media button */
     console.log("Tuzez Text! " + api_call)
+    const url = "http://127.0.0.1:5000/tunez/api/v1.0/"
+
+    fetch(url + api_call)
+      .then(function(response) {
+        console.log("Got response " + response)  
+      })
   }
 
   render() {
+    /** 
+     * The main application objects are build and returned here.
+    */
     return (
       <div className="App">
         <div className="PlayerButtons">
