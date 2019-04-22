@@ -59,6 +59,11 @@ class App extends Component {
           {Divider()}
           {this.renderButton("Next", "player/next")}
         </div>
+        <div className="PlayerButtons">
+          {this.renderButton("Volume up", "player/volume_up")}
+          {Divider()}
+          {this.renderButton("Volume down", "player/volume_down")}          
+        </div>
       </div>
     );
   }
