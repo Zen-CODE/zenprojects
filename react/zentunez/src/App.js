@@ -1,22 +1,9 @@
 import React, { Component } from 'react';
 import { Divider } from './components/Divider/Divider.js'
-import {PlayerImage} from "./components/PlayerImage/PlayerImage.js"
+import { PlayerImage } from "./components/PlayerImage/PlayerImage.js"
+import { PlayerButton } from "./components/PlayerButton/PlayerButton.js"
 import './App.css';
 
-
-
-
-function PlayerButton(props) {
-  return (
-    <button
-      className="PlayerButton"
-      api_call={props.api_call}
-      onClick={() => props.callback(props.api_call)}
-    >
-      {props.caption}
-    </button>
-  );
-}
 
 class App extends Component {
 
