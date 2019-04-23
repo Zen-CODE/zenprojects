@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Divider } from './components/Divider/Divider.js'
 import './App.css';
 
 
@@ -48,14 +49,6 @@ function PlayerButton(props) {
   );
 }
 
-function Divider(props) {
-  /**
-   * A convenience class for separating the buttons independently of styling
-   */
-  return (<div className="Divider" ></div>);
-}
-
-
 class App extends Component {
 
   renderButton(caption, api_call) {
@@ -88,16 +81,16 @@ class App extends Component {
       <div className="App">
         <div className="PlayerButtons">
           {this.renderButton("Previous", "player/previous")}
-          {Divider()}
+          <Divider />
           {this.renderButton("Stop", "player/stop")}          
-          {Divider()}
+          <Divider />
           {this.renderButton("Play / Pause", "player/play_pause")}
-          {Divider()}
+          <Divider />
           {this.renderButton("Next", "player/next")}
         </div>
         <div className="PlayerButtons">
           {this.renderButton("Volume down", "player/volume_down")}          
-          {Divider()}
+          <Divider />
           {this.renderButton("Volume up", "player/volume_up")}
         </div>
         <div className="PlayerButtons">
