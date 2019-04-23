@@ -96,8 +96,8 @@ def get_cover(artist, album):
     Return the cover image file. If there is none, return the default cover
     image.
     """
-    cover = lib.get_cover(artist, album)
-    file_name = cover if cover else "static/audio_icon.png"
+    _cover = lib.get_cover(artist, album)
+    file_name = _cover if _cover else "static/audio_icon.png"
     with open(file_name, 'rb') as f:
         return send_file(BytesIO(f.read()),
                          attachment_filename=file_name,
