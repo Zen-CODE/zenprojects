@@ -51,11 +51,15 @@ class ZenTunez(object):
         return ZenTunez.api_url + path
 
     @staticmethod
-    def get_response(text="Success", code=200):
+    def get_response(data_dict=None, code=200):
         """
-        Generate and return the appropriate HTTP response object
+        Generate and return the appropriate HTTP response object containing the
+        json version of the *data_dict" dictionary.
         """
-        resp = make_response(text, code)
+        if data_dict is None:
+            data_dict = {"message": "Success"}
+
+        resp = make_response(jsonify(data_dict), code)
         resp.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
         return resp
 
