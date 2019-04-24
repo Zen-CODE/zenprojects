@@ -27,10 +27,16 @@ class MPlayer(object):
         self.mp2_player.Volume += val
 
     def get_state(self):
-        """ Return a dictionary containing information on the audio players
-        current status.
+        """ Return a dictionary containing information on the audio player's
+        status. Values in this dict are:
+
+            * volume: float between 0 and 1
+            * status: one of 'Playing', 'Paused' or 'Stopped'.
         """
-        return {"volume": self.mp2_player.Volume}
+        return {
+            "volume": self.mp2_player.Volume,
+            "status": self.mp2_player.PlaybackStatus
+        }
 
     def previous_track(self):
         """
