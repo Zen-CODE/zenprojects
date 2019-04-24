@@ -43,8 +43,7 @@ class MPlayer(object):
             "position": pos,
             "artist": md.get("xesam:artist", [""])[0],
             "album": md.get("xesam:album", ""),
-            "track": md.get("xesam:title", "")
-        }
+            "track": md.get("xesam:title", "")}
 
     def previous_track(self):
         """
