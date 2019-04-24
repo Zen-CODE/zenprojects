@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-
 export function PlayerButton(props) {
     return (
       <button
