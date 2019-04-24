@@ -110,58 +110,66 @@ def get_cover(artist, album):
 # Library
 
 
-@app.route(ZenTunez.get_route('player/volume_up'), methods=['GET'])
-def volume_up():
-    """ Turn the volume up. """
-    MPlayer().volume_up()
-    return ZenTunez.get_response()
+class AudioPlayer:
+    """
+    This class handles the sending of commands to the currently playing
+    MPris2 audio player and the retrieving of information from it.
+    """
 
+    @staticmethod
+    @app.route(ZenTunez.get_route('player/volume_up'), methods=['GET'])
+    def volume_up():
+        """ Turn the volume up. """
+        MPlayer().volume_up()
+        return ZenTunez.get_response()
 
-@app.route(ZenTunez.get_route('player/volume_down'), methods=['GET'])
-def volume_down():
-    """ Turn the volume down. """
-    MPlayer().volume_down()
-    return ZenTunez.get_response()
+    @staticmethod
+    @app.route(ZenTunez.get_route('player/volume_down'), methods=['GET'])
+    def volume_down():
+        """ Turn the volume down. """
+        MPlayer().volume_down()
+        return ZenTunez.get_response()
 
+    @staticmethod
+    @app.route(ZenTunez.get_route('player/stop'), methods=['GET'])
+    def stop():
+        """ Stop the currently active player. """
+        MPlayer().stop()
+        return ZenTunez.get_response()
 
-@app.route(ZenTunez.get_route('player/stop'), methods=['GET'])
-def stop():
-    """ Stop the currently active player. """
-    MPlayer().stop()
-    return ZenTunez.get_response()
+    @staticmethod
+    @app.route(ZenTunez.get_route('player/play_pause'), methods=['GET'])
+    def play_pause():
+        """ Play or pause the currently active player. """
+        MPlayer().play_pause()
+        return ZenTunez.get_response()
 
+    @staticmethod
+    @app.route(ZenTunez.get_route('player/next'), methods=['GET'])
+    def next_track():
+        """ Advance the player to the next track. """
+        MPlayer().next_track()
+        return ZenTunez.get_response()
 
-@app.route(ZenTunez.get_route('player/play_pause'), methods=['GET'])
-def play_pause():
-    """ Play or pause the currently active player. """
-    MPlayer().play_pause()
-    return ZenTunez.get_response()
+    @staticmethod
+    @app.route(ZenTunez.get_route('player/previous'), methods=['GET'])
+    def previous_track():
+        """ Go back to the previous track. """
+        MPlayer().previous_track()
+        return ZenTunez.get_response()
 
-
-@app.route(ZenTunez.get_route('player/next'), methods=['GET'])
-def next_track():
-    """ Advance the player to the next track. """
-    MPlayer().next_track()
-    return ZenTunez.get_response()
-
-
-@app.route(ZenTunez.get_route('player/previous'), methods=['GET'])
-def previous_track():
-    """ Go back to the previous track. """
-    MPlayer().previous_track()
-    return ZenTunez.get_response()
-
-
-@app.route(ZenTunez.get_route('player/cover'), methods=['GET'])
-def cover():
-    """ Show the album cover. """
-    _cover = MPlayer().cover()
-    if cover:
-        with open(_cover, 'rb') as f:
-            return send_file(BytesIO(f.read()),
-                             attachment_filename=basename(_cover),
-                             mimetype='image/png')
-    return ZenTunez.get_response("Success, but no album cover for this baby...")
+    @staticmethod
+    @app.route(ZenTunez.get_route('player/cover'), methods=['GET'])
+    def cover():
+        """ Show the album cover. """
+        _cover = MPlayer().cover()
+        if _cover:
+            with open(_cover, 'rb') as f:
+                return send_file(BytesIO(f.read()),
+                                 attachment_filename=basename(_cover),
+                                 mimetype='image/png')
+        return ZenTunez.get_response(
+            "Success, but no album cover for this baby...")
 
 
 if __name__ == '__main__':
