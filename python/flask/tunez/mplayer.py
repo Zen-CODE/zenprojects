@@ -42,7 +42,7 @@ class MPlayer(object):
             else 0
         return {
             "volume": self.mp2_player.Volume,
-            "status": self.mp2_player.PlaybackStatus,
+            "state": self.mp2_player.PlaybackStatus,
             "position": pos,
             "artist": md.get("xesam:artist", [""])[0],
             "album": md.get("xesam:album", ""),

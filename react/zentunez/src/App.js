@@ -21,12 +21,9 @@ class App extends Component {
     const url = "http://127.0.0.1:5000/tunez/api/v1.0/"
 
     fetch(url + api_call)
+      .then(res => res.json())
       .then(function(response) {
-        if (response.status === 200){
-          console.log("Successful response")}
-        else {
-          console.log("Got reponse " + response.status + ", " + response.statusText)}
-      })
+          console.log("Got reponse !" + Object.keys(response))})
   }
 
   render() {
