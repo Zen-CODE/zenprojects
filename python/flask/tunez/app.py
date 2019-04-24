@@ -171,6 +171,12 @@ class AudioPlayer:
         return ZenTunez.get_response(
             "Success, but no album cover for this baby...")
 
+    @staticmethod
+    @app.route(ZenTunez.get_route('player/state'), methods=['GET'])
+    def state():
+        """ Show the album cover. """
+        return ZenTunez.get_response(MPlayer().get_state())
+
 
 if __name__ == '__main__':
     app.run(debug=True)

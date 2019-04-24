@@ -26,6 +26,12 @@ class MPlayer(object):
         """
         self.mp2_player.Volume += val
 
+    def get_state(self):
+        """ Return a dictionary containing information on the audio players
+        current status.
+        """
+        return {"volume": self.mp2_player.Volume}
+
     def previous_track(self):
         """
         Go back to the previous track.
