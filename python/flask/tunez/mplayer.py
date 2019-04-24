@@ -33,9 +33,17 @@ class MPlayer(object):
             * volume: float between 0 and 1
             * status: one of 'Playing', 'Paused' or 'Stopped'.
         """
+        md = self.mp2_player.Metadata
+        length = md.get("mpris:length", 0)
+        pos = float(self.mp2_player.Position) / float(length) if length > 0 \
+            else 0
         return {
             "volume": self.mp2_player.Volume,
-            "status": self.mp2_player.PlaybackStatus
+            "status": self.mp2_player.PlaybackStatus,
+            "position": pos,
+            "artist": md.get("xesam:artist", [""])[0],
+            "album": md.get("xesam:album", ""),
+            "track": md.get("xesam:title", "")
         }
 
     def previous_track(self):
