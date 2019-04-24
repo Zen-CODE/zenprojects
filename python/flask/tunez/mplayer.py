@@ -16,8 +16,11 @@ class MPlayer(object):
 
     def __init__(self):
         super(MPlayer, self).__init__()
-        uri = next(get_players_uri())
-        self.mp2_player = Player(dbus_interface_info={'dbus_uri': uri})
+        try:
+            uri = next(get_players_uri())
+            self.mp2_player = Player(dbus_interface_info={'dbus_uri': uri})
+        except StopIteration:
+            self.mp2_player = None
 
     def change_volume(self, val):
         """
