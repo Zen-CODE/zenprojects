@@ -115,48 +115,54 @@ class AudioPlayer:
     This class handles the sending of commands to the currently playing
     MPris2 audio player and the retrieving of information from it.
     """
+    mplayer = MPlayer()
+
+    @staticmethod
+    def _get_return():
+        """ Get the state of the audio player and return it in the response"""
+        return ZenTunez.get_response(AudioPlayer.mplayer.get_state())
 
     @staticmethod
     @app.route(ZenTunez.get_route('player/volume_up'), methods=['GET'])
     def volume_up():
         """ Turn the volume up. """
-        MPlayer().volume_up()
-        return ZenTunez.get_response()
+        AudioPlayer.mplayer.volume_up()
+        return AudioPlayer._get_return()
 
     @staticmethod
     @app.route(ZenTunez.get_route('player/volume_down'), methods=['GET'])
     def volume_down():
         """ Turn the volume down. """
         MPlayer().volume_down()
-        return ZenTunez.get_response()
+        return AudioPlayer._get_return()
 
     @staticmethod
     @app.route(ZenTunez.get_route('player/stop'), methods=['GET'])
     def stop():
         """ Stop the currently active player. """
         MPlayer().stop()
-        return ZenTunez.get_response()
+        return AudioPlayer._get_return()
 
     @staticmethod
     @app.route(ZenTunez.get_route('player/play_pause'), methods=['GET'])
     def play_pause():
         """ Play or pause the currently active player. """
         MPlayer().play_pause()
-        return ZenTunez.get_response()
+        return AudioPlayer._get_return()
 
     @staticmethod
     @app.route(ZenTunez.get_route('player/next'), methods=['GET'])
     def next_track():
         """ Advance the player to the next track. """
         MPlayer().next_track()
-        return ZenTunez.get_response()
+        return AudioPlayer._get_return()
 
     @staticmethod
     @app.route(ZenTunez.get_route('player/previous'), methods=['GET'])
     def previous_track():
         """ Go back to the previous track. """
         MPlayer().previous_track()
-        return ZenTunez.get_response()
+        return AudioPlayer._get_return()
 
     @staticmethod
     @app.route(ZenTunez.get_route('player/cover'), methods=['GET'])
@@ -175,7 +181,7 @@ class AudioPlayer:
     @app.route(ZenTunez.get_route('player/state'), methods=['GET'])
     def state():
         """ Show the album cover. """
-        return ZenTunez.get_response(MPlayer().get_state())
+        return AudioPlayer._get_return()
 
 
 if __name__ == '__main__':
