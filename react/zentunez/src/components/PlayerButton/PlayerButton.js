@@ -1,3 +1,6 @@
+import React, { Component } from 'react';
+import {Divider} from "../Divider/Divider.js"
+
 export function PlayerButton(props) {
     return (
       <button

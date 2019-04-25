@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Divider } from './components/Divider/Divider.js'
 import { PlayerImage } from "./components/PlayerImage/PlayerImage.js"
 import { PlayerButton } from "./components/PlayerButton/PlayerButton.js"
+import { PlayerState } from "./components/PlayerState/PlayerState.js"
 import './App.css';
 
 
@@ -45,6 +46,9 @@ class App extends Component {
           {this.renderButton("Volume down", "player/volume_down")}          
           <Divider />
           {this.renderButton("Volume up", "player/volume_up")}
+        </div>
+        <div className="PlayerButtons">
+          <PlayerState />
         </div>
         <div className="PlayerButtons">
           <PlayerImage />
