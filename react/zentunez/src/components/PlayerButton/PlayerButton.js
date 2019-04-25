@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import {Divider} from "../Divider/Divider.js"
+import React from 'react';
 
 export function PlayerButton(props) {
     return (
