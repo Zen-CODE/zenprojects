@@ -15,7 +15,7 @@ class App extends Component {
                   state: "-",
                   position: 0,
                   img_src: ""};
-    this.playerClick("player/state");
+    setInterval(() => this.playerClick("player/state"), 1000);
   };
 
   renderButton(caption, api_call) {
