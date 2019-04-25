@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Divider } from './components/Divider/Divider.js'
-import { PlayerImage } from "./components/PlayerImage/PlayerImage.js"
 import { PlayerButton } from "./components/PlayerButton/PlayerButton.js"
 import { PlayerState } from "./components/PlayerState/PlayerState.js"
 import './App.css';
@@ -74,9 +73,6 @@ class App extends Component {
             state={ this.state.state }
             img_src={ this.state.img_src }
             />
-        </div>
-        <div className="PlayerButtons">
-          <PlayerImage />
         </div>
       </div>
     );
