@@ -15,6 +15,7 @@ class App extends Component {
                   volume: 0,
                   state: "-",
                   position: 0 };
+    this.playerClick("player/state");
   };
 
   renderButton(caption, api_call) {
