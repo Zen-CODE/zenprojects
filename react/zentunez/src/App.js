@@ -28,12 +28,11 @@ class App extends Component {
   playerClick = (api_call) => {
     /* Handle the click on a Player media button */
     const url = "http://127.0.0.1:5000/tunez/api/v1.0/"
-    var component = this
 
     fetch(url + api_call)
       .then(res => res.json())
-      .then(function(response) {
-          component.setState({artist: response.artist,
+      .then((response) => {
+          this.setState({artist: response.artist,
                               album: response.album,
                               track: response.track,
                               volume: response.volume,
