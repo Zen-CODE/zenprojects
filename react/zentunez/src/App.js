@@ -14,7 +14,8 @@ class App extends Component {
                   track: "-",
                   volume: 0,
                   state: "-",
-                  position: 0 };
+                  position: 0,
+                  img_src: ""};
     this.playerClick("player/state");
   };
 
@@ -38,7 +39,9 @@ class App extends Component {
                          track: response.track,
                          volume: response.volume,
                          state: response.state,
-                         position: response.position})})          
+                         position: response.position,
+                         img_src : url + "player/cover?guid=" + response.artist + response.album + response.track
+                        })})          
   }
 
   render() {
@@ -69,6 +72,7 @@ class App extends Component {
             volume={ this.state.volume }
             position={ this.state.position }
             state={ this.state.state }
+            img_src={ this.state.img_src }
             />
         </div>
         <div className="PlayerButtons">

@@ -15,6 +15,7 @@ export class PlayerState extends Component {
           <p><b>State :</b> { this.props.state }</p>
           <p><b>Volume :</b> { parseInt(100 * this.props.volume) }</p>
           <p><b>Position :</b> { parseInt(100 * this.props.position) }</p>
+          <img alt="Album cover" src={ this.props.img_src }></img>
         </div>
       );
     }
