@@ -7,6 +7,15 @@ import './App.css';
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {artist: "-",
+                  album: "-",
+                  track: "-",
+                  volume: 0,
+                  state: "-",
+                  position: 0 };
+  };
 
   renderButton(caption, api_call) {
     return <PlayerButton
@@ -48,7 +57,14 @@ class App extends Component {
           {this.renderButton("Volume up", "player/volume_up")}
         </div>
         <div className="PlayerButtons">
-          <PlayerState />
+          <PlayerState 
+            artist={ this.state.artist } 
+            album={ this.state.album }
+            track={ this.state.track }
+            volume={ this.state.volume }
+            position={ this.state.position }
+            state={ this.state.state }
+            />
         </div>
         <div className="PlayerButtons">
           <PlayerImage />
