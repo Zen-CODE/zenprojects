@@ -34,11 +34,11 @@ class App extends Component {
       .then(res => res.json())
       .then((response) => {
           this.setState({artist: response.artist,
-                              album: response.album,
-                              track: response.track,
-                              volume: response.volume,
-                              state: response.state,
-                              position: response.position})})          
+                         album: response.album,
+                         track: response.track,
+                         volume: response.volume,
+                         state: response.state,
+                         position: response.position})})          
   }
 
   render() {
