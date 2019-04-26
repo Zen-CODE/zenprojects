@@ -4,3 +4,5 @@
 __pycache__
 python/django/capiccount/budget/migrations/*
 venv/
+react/zentunez/node_modules
+react/zentunez/build
