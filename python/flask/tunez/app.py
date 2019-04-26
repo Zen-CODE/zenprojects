@@ -178,6 +178,26 @@ def get_cover(artist, album):
     """
     Return the cover image file. If there is none, return the default cover
     image.
+    ---
+    parameters:
+      - name: artist
+        in: path
+        type: string
+        required: true
+        description: The name of the artist of the album
+      - name: album
+        in: path
+        type: string
+        required: true
+        description: The name of the album for which to retrieve the cover
+    responses:
+        '200':
+          description: The cover image
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
     """
     _cover = lib.get_cover(artist, album)
     file_name = _cover if _cover else "static/audio_icon.png"
