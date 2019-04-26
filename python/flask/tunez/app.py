@@ -111,6 +111,7 @@ def get_albums(artist):
         in: path
         type: string
         required: true
+        description: The name of the artist for which to retrieve albums
     definitions:
       Albums:
         type: object
@@ -137,6 +138,36 @@ def get_albums(artist):
 def get_tracks(artist, album):
     """
     Return a list of tracks in the specified album.
+    ---
+    parameters:
+      - name: artist
+        in: path
+        type: string
+        required: true
+        description: The name of the artist of the album
+      - name: album
+        in: path
+        type: string
+        required: true
+        description: The name of the album for which to retrieve tracks
+    definitions:
+      Tracks:
+        type: object
+        properties:
+          track_name:
+            type: array
+            items:
+              $ref: '#/definitions/Track'
+      Track:
+        type: string
+    responses:
+      200:
+        description: A list of all the tracks on this album.
+        schema:
+          $ref: '#/definitions/Tracks'
+        examples:
+          tracks: ['01 - Premonition.mp3', '02 - Astronomical Unit.mp3',
+                   '03 - Julia.mp3']
     """
     return jsonify({'tracks': lib.get_tracks(artist, album)})
 
