@@ -5,10 +5,17 @@ from os.path import expanduser, basename
 from flask_httpauth import HTTPBasicAuth
 from io import BytesIO
 from mplayer import MPlayer
+from flasgger import Swagger
 
 
 app = Flask(__name__)
 """ The instance of the Flask application. """
+
+swagger = Swagger(app)
+""" The Swagger UI app exposing the API documentation. Once running, go to:
+
+    http://localhost:5000/apidocs/
+ """
 
 lib = MusicLib(expanduser("~/Zen/Music/"))
 """ An instance of the MusicLib to serve our library information. """
@@ -71,6 +78,24 @@ class ZenTunez(object):
 def get_artists():
     """
     Return a list of all the artists in our music library.
+    ---
+    definitions:
+      Artists:
+        type: object
+        properties:
+          artist_name:
+            type: array
+            items:
+              $ref: '#/definitions/Artist'
+      Artist:
+        type: string
+    responses:
+      200:
+        description: A list of all the artists in our library.
+        schema:
+          $ref: '#/definitions/Artists'
+        examples:
+          artists: ['Ace of Base', 'Affiance', 'In Flames']
     """
     return jsonify({'artists': lib.get_artists()})
 
@@ -80,6 +105,29 @@ def get_artists():
 def get_albums(artist):
     """
     Return a list of albums by the specified artist.
+    ---
+    parameters:
+      - name: artist
+        in: path
+        type: string
+        required: true
+    definitions:
+      Albums:
+        type: object
+        properties:
+          album_name:
+            type: array
+            items:
+              $ref: '#/definitions/Album'
+      Album:
+        type: string
+    responses:
+      200:
+        description: A list of all the album by this artist.
+        schema:
+          $ref: '#/definitions/Albums'
+        examples:
+          albums: ['Da Capo', 'Happy Nation', 'Flowers']
     """
     return jsonify({'albums': lib.get_albums(artist)})
 
