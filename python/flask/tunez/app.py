@@ -67,7 +67,7 @@ class ZenTunez(object):
             data_dict = {"message": "Success"}
 
         resp = make_response(jsonify(data_dict), code)
-        resp.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+        resp.headers.add('Access-Control-Allow-Origin', '*')
         return resp
 
 # Library
@@ -284,4 +284,4 @@ class AudioPlayer:
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
