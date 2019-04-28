@@ -216,60 +216,60 @@ class AudioPlayer:
     This class handles the sending of commands to the currently playing
     MPris2 audio player and the retrieving of information from it.
     """
-    mplayer = MPlayer()
 
-    @staticmethod
-    def _get_return():
+    def __init__(self, app):
+        """ Initialise the class.
+
+        :param: app - the Flask application object.
+        """
+        self.mplayer = MPlayer()
+        route = ZenTunez.get_route('player/')
+        app.add_url_rule(route + 'state', "state", self.state, methods=['GET'])
+        app.add_url_rule(route + 'cover', "cover", self.cover, methods=['GET'])
+        app.add_url_rule(route + 'previous', "previous", self.previous, methods=['GET'])
+        app.add_url_rule(route + 'next', "next", self.next, methods=['GET'])
+        app.add_url_rule(route + "play_pause", "play_pause", self.play_pause, methods=['GET'])
+        app.add_url_rule(route + 'stop', "stop", self.stop, methods=['GET'])
+        app.add_url_rule(route + 'volume_down', 'volume_down', self.volume_down, methods=['GET'])
+        app.add_url_rule(route + 'volume_up', 'volume_up', self.volume_up, methods=['GET'])
+
+    def _get_return(self):
         """ Get the state of the audio player and return it in the response"""
-        return ZenTunez.get_response(AudioPlayer.mplayer.get_state())
+        return ZenTunez.get_response(self.mplayer.get_state())
 
-    @staticmethod
-    @app.route(ZenTunez.get_route('player/volume_up'), methods=['GET'])
-    def volume_up():
+    def volume_up(self):
         """ Turn the volume up. """
-        AudioPlayer.mplayer.volume_up()
-        return AudioPlayer._get_return()
+        self.mplayer.volume_up()
+        return self._get_return()
 
-    @staticmethod
-    @app.route(ZenTunez.get_route('player/volume_down'), methods=['GET'])
-    def volume_down():
+    def volume_down(self):
         """ Turn the volume down. """
-        MPlayer().volume_down()
-        return AudioPlayer._get_return()
+        self.mplayer.volume_down()
+        return self._get_return()
 
-    @staticmethod
-    @app.route(ZenTunez.get_route('player/stop'), methods=['GET'])
-    def stop():
+    def stop(self):
         """ Stop the currently active player. """
-        MPlayer().stop()
-        return AudioPlayer._get_return()
+        self.mplayer.stop()
+        return self._get_return()
 
-    @staticmethod
-    @app.route(ZenTunez.get_route('player/play_pause'), methods=['GET'])
-    def play_pause():
+    def play_pause(self):
         """ Play or pause the currently active player. """
-        MPlayer().play_pause()
-        return AudioPlayer._get_return()
+        self.mplayer.play_pause()
+        return self._get_return()
 
-    @staticmethod
-    @app.route(ZenTunez.get_route('player/next'), methods=['GET'])
-    def next_track():
+    def next(self):
         """ Advance the player to the next track. """
-        MPlayer().next_track()
-        return AudioPlayer._get_return()
+        self.mplayer.next_track()
+        return self._get_return()
 
-    @staticmethod
-    @app.route(ZenTunez.get_route('player/previous'), methods=['GET'])
-    def previous_track():
+    def previous(self):
         """ Go back to the previous track. """
-        MPlayer().previous_track()
-        return AudioPlayer._get_return()
+        self.mplayer.previous_track()
+        return self._get_return()
 
-    @staticmethod
-    @app.route(ZenTunez.get_route('player/cover'), methods=['GET'])
-    def cover():
+    def cover(self):
         """ Show the album cover. """
-        _cover = MPlayer().cover()
+        _cover = self.mplayer.cover()
         if _cover:
             with open(_cover, 'rb') as f:
                 return send_file(BytesIO(f.read()),
@@ -278,12 +278,12 @@ class AudioPlayer:
         return ZenTunez.get_response(
             "Success, but no album cover for this baby...")
 
-    @staticmethod
-    @app.route(ZenTunez.get_route('player/state'), methods=['GET'])
-    def state():
+    def state(self):
         """ Show the album cover. """
-        return AudioPlayer._get_return()
+        return self._get_return()
 
+
+AudioPlayer(app)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
