@@ -1,5 +1,5 @@
 {
-  "swagger": "2.0",
+  "swagger": "3.0",
   "info": {
     "title": "The ZenTunez API",
     "description": "This API exposes a local Music folder as a library, and controls for the running MPRIS2 Audio player",
