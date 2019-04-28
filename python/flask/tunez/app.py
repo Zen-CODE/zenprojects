@@ -218,20 +218,17 @@ class AudioPlayer:
     """
 
     def __init__(self, app):
-        """ Initialise the class.
+        """ Initialise the class and bind the used method to the corresponding
+        routes of out Flask app.
 
         :param: app - the Flask application object.
         """
         self.mplayer = MPlayer()
         route = ZenTunez.get_route('player/')
-        app.add_url_rule(route + 'state', "state", self.state, methods=['GET'])
-        app.add_url_rule(route + 'cover', "cover", self.cover, methods=['GET'])
-        app.add_url_rule(route + 'previous', "previous", self.previous, methods=['GET'])
-        app.add_url_rule(route + 'next', "next", self.next, methods=['GET'])
-        app.add_url_rule(route + "play_pause", "play_pause", self.play_pause, methods=['GET'])
-        app.add_url_rule(route + 'stop', "stop", self.stop, methods=['GET'])
-        app.add_url_rule(route + 'volume_down', 'volume_down', self.volume_down, methods=['GET'])
-        app.add_url_rule(route + 'volume_up', 'volume_up', self.volume_up, methods=['GET'])
+        for meth in ["state", "cover", "previous", "next", "play_pause", "stop",
+                     "volume_up", "volume_down"]:
+            app.add_url_rule(route + meth, meth, getattr(self, meth),
+                             methods=['GET'])
 
     def _get_return(self):
         """ Get the state of the audio player and return it in the response"""
