@@ -1,0 +1,21 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "The ZenTunez API",
+    "description": "This API exposes a local Music folder as a library, and controls for the running MPRIS2 Audio player",
+    "contact": {
+      "responsibleOrganization": "Zen-CODE",
+      "responsibleDeveloper": "Zen-CODE",
+      "email": "zenkey.zencode@gmail.com",
+      "url": "www.github.com/zen-code"
+    },
+    "termsOfService": "http://me.com/terms",
+    "version": "0.0.1"
+  },
+  "basePath": "/tunez/api/v1.0/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "operationId": "getmyData"
+}

@@ -6,12 +6,14 @@ from flask_httpauth import HTTPBasicAuth
 from io import BytesIO
 from mplayer import MPlayer
 from flasgger import Swagger
+from json import loads
 
 
 app = Flask(__name__)
 """ The instance of the Flask application. """
 
-swagger = Swagger(app)
+with open("swagger.template.json", "rb") as f:
+    swagger = Swagger(app, template=loads(f.read()))
 """ The Swagger UI app exposing the API documentation. Once running, go to:
 
     http://localhost:5000/apidocs/
