@@ -51,7 +51,7 @@ class ZenTunez(object):
 
         :param: app - the Flask application object.
         """
-        route = route + "library"
+        route = route + "library/"
         app.add_url_rule(route + 'artists', "library/artists",
                          self.artists, methods=['GET'])
         app.add_url_rule(route + 'albums/<artist>', "library/albums",
