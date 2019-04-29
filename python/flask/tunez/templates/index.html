@@ -12,14 +12,14 @@
         <h1>Welcome to ZenTunez!</h1>
         <p>Hmmm. What would you like to do?</p>
         <h2>Player</h2>
-        <a href="{{ url_for('previous_track') }}">Previous</a> -
-        <a href="{{ url_for('stop') }}">Stop</a> -
-        <a href="{{ url_for('play_pause') }}">Play / Pause</a> -
-        <a href="{{ url_for('next_track') }}">Next</a>
+        <a href="{{ url_for('player/previous') }}">Previous</a> -
+        <a href="{{ url_for('player/stop') }}">Stop</a> -
+        <a href="{{ url_for('player/play_pause') }}">Play / Pause</a> -
+        <a href="{{ url_for('player/next') }}">Next</a>
         <p />
-        <a href="{{ url_for('volume_up') }}">Volume_up</a> -
-        <a href="{{ url_for('volume_down') }}">Volume_down</a>
+        <a href="{{ url_for('player/volume_up') }}">Volume_up</a> -
+        <a href="{{ url_for('player/volume_down') }}">Volume_down</a>
         <p />
-        <a href="{{ url_for('cover') }}">Album cover</a>
+        <a href="{{ url_for('player/cover') }}">Album cover</a>
     </body>
 </html>

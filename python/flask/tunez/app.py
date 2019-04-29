@@ -38,11 +38,6 @@ def unauthorized():
     return make_response(jsonify({'error': 'Unauthorized access'}), 401)
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
 # ==============================================================================
 # API
 # ==============================================================================
@@ -50,14 +45,21 @@ class ZenTunez(object):
     """
     The main application class
     """
-    api_url = "/tunez/api/v1.0/"
+    def __init__(self, app, route):
+        """ Initialise the class and bind the used method to the corresponding
+        routes of out Flask app.
 
-    @staticmethod
-    def get_route(path):
+        :param: app - the Flask application object.
         """
-        Return the fully qualified path to the API,
-        """
-        return ZenTunez.api_url + path
+        route = route + "library"
+        app.add_url_rule(route + 'artists', "library/artists",
+                         self.artists, methods=['GET'])
+        app.add_url_rule(route + 'albums/<artist>', "library/albums",
+                         self.albums, methods=['GET'])
+        app.add_url_rule(route + 'tracks/<artist>/<album>', "library/tracks",
+                         self.tracks, methods=['GET'])
+        app.add_url_rule(route + 'cover/<artist>/<album>', "library/cover",
+                         self.cover, methods=['GET'])
 
     @staticmethod
     def get_response(data_dict=None, code=200):
@@ -72,143 +74,135 @@ class ZenTunez(object):
         resp.headers.add('Access-Control-Allow-Origin', '*')
         return resp
 
-# Library
+    @staticmethod
+    @auth.login_required
+    def artists():
+        """
+        Return a list of all the artists in our music library.
+        ---
+        definitions:
+          Artists:
+            type: object
+            properties:
+              artist_name:
+                type: array
+                items:
+                  $ref: '#/definitions/Artist'
+          Artist:
+            type: string
+        responses:
+          200:
+            description: A list of all the artists in our library.
+            schema:
+              $ref: '#/definitions/Artists'
+            examples:
+              artists: ['Ace of Base', 'Affiance', 'In Flames']
+        """
+        return jsonify({'artists': lib.get_artists()})
 
+    @staticmethod
+    @auth.login_required
+    def albums(artist):
+        """
+        Return a list of albums by the specified artist.
+        ---
+        parameters:
+          - name: artist
+            in: path
+            type: string
+            required: true
+            description: The name of the artist for which to retrieve albums
+        definitions:
+          Albums:
+            type: object
+            properties:
+              album_name:
+                type: array
+                items:
+                  $ref: '#/definitions/Album'
+          Album:
+            type: string
+        responses:
+          200:
+            description: A list of all the album by this artist.
+            schema:
+              $ref: '#/definitions/Albums'
+            examples:
+              albums: ['Da Capo', 'Happy Nation', 'Flowers']
+        """
+        return jsonify({'albums': lib.get_albums(artist)})
 
-@app.route(ZenTunez.get_route('artists'), methods=['GET'])
-@auth.login_required
-def get_artists():
-    """
-    Return a list of all the artists in our music library.
-    ---
-    definitions:
-      Artists:
-        type: object
-        properties:
-          artist_name:
-            type: array
-            items:
-              $ref: '#/definitions/Artist'
-      Artist:
-        type: string
-    responses:
-      200:
-        description: A list of all the artists in our library.
-        schema:
-          $ref: '#/definitions/Artists'
-        examples:
-          artists: ['Ace of Base', 'Affiance', 'In Flames']
-    """
-    return jsonify({'artists': lib.get_artists()})
+    @staticmethod
+    @auth.login_required
+    def tracks(artist, album):
+        """
+        Return a list of tracks in the specified album.
+        ---
+        parameters:
+          - name: artist
+            in: path
+            type: string
+            required: true
+            description: The name of the artist of the album
+          - name: album
+            in: path
+            type: string
+            required: true
+            description: The name of the album for which to retrieve tracks
+        definitions:
+          Tracks:
+            type: object
+            properties:
+              track_name:
+                type: array
+                items:
+                  $ref: '#/definitions/Track'
+          Track:
+            type: string
+        responses:
+          200:
+            description: A list of all the tracks on this album.
+            schema:
+              $ref: '#/definitions/Tracks'
+            examples:
+              tracks: ['01 - Premonition.mp3', '02 - Astronomical Unit.mp3',
+                       '03 - Julia.mp3']
+        """
+        return jsonify({'tracks': lib.get_tracks(artist, album)})
 
-
-@app.route(ZenTunez.get_route('albums/<artist>'), methods=['GET'])
-@auth.login_required
-def get_albums(artist):
-    """
-    Return a list of albums by the specified artist.
-    ---
-    parameters:
-      - name: artist
-        in: path
-        type: string
-        required: true
-        description: The name of the artist for which to retrieve albums
-    definitions:
-      Albums:
-        type: object
-        properties:
-          album_name:
-            type: array
-            items:
-              $ref: '#/definitions/Album'
-      Album:
-        type: string
-    responses:
-      200:
-        description: A list of all the album by this artist.
-        schema:
-          $ref: '#/definitions/Albums'
-        examples:
-          albums: ['Da Capo', 'Happy Nation', 'Flowers']
-    """
-    return jsonify({'albums': lib.get_albums(artist)})
-
-
-@app.route(ZenTunez.get_route('tracks/<artist>/<album>'), methods=['GET'])
-@auth.login_required
-def get_tracks(artist, album):
-    """
-    Return a list of tracks in the specified album.
-    ---
-    parameters:
-      - name: artist
-        in: path
-        type: string
-        required: true
-        description: The name of the artist of the album
-      - name: album
-        in: path
-        type: string
-        required: true
-        description: The name of the album for which to retrieve tracks
-    definitions:
-      Tracks:
-        type: object
-        properties:
-          track_name:
-            type: array
-            items:
-              $ref: '#/definitions/Track'
-      Track:
-        type: string
-    responses:
-      200:
-        description: A list of all the tracks on this album.
-        schema:
-          $ref: '#/definitions/Tracks'
-        examples:
-          tracks: ['01 - Premonition.mp3', '02 - Astronomical Unit.mp3',
-                   '03 - Julia.mp3']
-    """
-    return jsonify({'tracks': lib.get_tracks(artist, album)})
-
-
-@app.route(ZenTunez.get_route('cover/<artist>/<album>'), methods=['GET'])
-@auth.login_required
-def get_cover(artist, album):
-    """
-    Return the cover image file. If there is none, return the default cover
-    image.
-    ---
-    parameters:
-      - name: artist
-        in: path
-        type: string
-        required: true
-        description: The name of the artist of the album
-      - name: album
-        in: path
-        type: string
-        required: true
-        description: The name of the album for which to retrieve the cover
-    responses:
-        '200':
-          description: The cover image
-          content:
-            image/png:
-              schema:
-                type: string
-                format: binary
-    """
-    _cover = lib.get_cover(artist, album)
-    file_name = _cover if _cover else "static/audio_icon.png"
-    with open(file_name, 'rb') as f:
-        return send_file(BytesIO(f.read()),
-                         attachment_filename=file_name,
-                         mimetype='image/png')
-
-# Library
+    @staticmethod
+    @auth.login_required
+    def cover(artist, album):
+        """
+        Return the cover image file. If there is none, return the default cover
+        image.
+        ---
+        parameters:
+          - name: artist
+            in: path
+            type: string
+            required: true
+            description: The name of the artist of the album
+          - name: album
+            in: path
+            type: string
+            required: true
+            description: The name of the album for which to retrieve the cover
+        responses:
+            '200':
+              description: The cover image
+              content:
+                image/png:
+                  schema:
+                    type: string
+                    format: binary
+        """
+        _cover = lib.get_cover(artist, album)
+        file_name = _cover if _cover else "static/audio_icon.png"
+        with open(file_name, 'rb') as f:
+            return send_file(BytesIO(f.read()),
+                             attachment_filename=file_name,
+                             mimetype='image/png')
 
 
 class AudioPlayer:
@@ -217,18 +211,20 @@ class AudioPlayer:
     MPris2 audio player and the retrieving of information from it.
     """
 
-    def __init__(self, app):
+    def __init__(self, app, route):
         """ Initialise the class and bind the used method to the corresponding
         routes of out Flask app.
 
         :param: app - the Flask application object.
         """
         self.mplayer = MPlayer()
-        route = ZenTunez.get_route('player/')
+        app.add_url_rule(route + "player/", "player/",
+                         lambda: render_template('index.html'), methods=['GET'])
         for meth in ["state", "cover", "previous", "next", "play_pause", "stop",
                      "volume_up", "volume_down"]:
-            app.add_url_rule(route + meth, meth, getattr(self, meth),
-                             methods=['GET'])
+            app.add_url_rule(
+                route + "player/" + meth, "player/" + meth, getattr(self, meth),
+                methods=['GET'])
 
     def _get_return(self):
         """ Get the state of the audio player and return it in the response"""
@@ -280,7 +276,8 @@ class AudioPlayer:
         return self._get_return()
 
 
-AudioPlayer(app)
+AudioPlayer(app, "/tunez/api/v1.0/")
+ZenTunez(app, "/tunez/api/v1.0/")
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
