@@ -45,14 +45,20 @@ class ZenTunez(object):
 
         AudioPlayer(app, self.base_url)
         LibraryServer(app, self.base_url)
+        self.init_swagger(app)
+        self.app = app
 
+    @staticmethod
+    def init_swagger(app):
+        """
+        Initialize the Swagger UI application and configuration
+        """
         with open("swagger.template.json", "rb") as f:
             swagger = Swagger(app, template=loads(f.read()))
         """ The Swagger UI app exposing the API documentation. Once running, go to:
-    
+
             http://localhost:5000/apidocs/
          """
-        self.app = app
 
     @staticmethod
     def get_response(data_dict=None, code=200):
@@ -174,6 +180,8 @@ class LibraryServer(object):
         """
         Return a list of all the artists in our music library.
         ---
+        tags:
+            - Library
         definitions:
           Artists:
             type: object
@@ -199,6 +207,8 @@ class LibraryServer(object):
         """
         Return a list of albums by the specified artist.
         ---
+        tags:
+            - Library
         parameters:
           - name: artist
             in: path
@@ -230,6 +240,8 @@ class LibraryServer(object):
         """
         Return a list of tracks in the specified album.
         ---
+        tags:
+            - Library
         parameters:
           - name: artist
             in: path
@@ -269,6 +281,8 @@ class LibraryServer(object):
         Return the cover image file. If there is none, return the default cover
         image.
         ---
+        tags:
+            - Library
         parameters:
           - name: artist
             in: path
