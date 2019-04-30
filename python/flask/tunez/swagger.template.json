@@ -12,6 +12,14 @@
     "termsOfService": "https://github.com/Zen-CODE/zenprojects/blob/master/LICENSE",
     "version": "0.0.1"
   },
+  "tags": [{
+    "name": "Music Library",
+    "description": "Our Music Library server, which serves music metadata based on the file structure and the MP3 tags."
+    }, {
+    "name": "MPris2 Audio player",
+    "description": "Provides control and metadata functions around the currently playing MPris2 audio player."
+    }
+  ],
   "basePath": "/",
   "schemes": [
     "http",
