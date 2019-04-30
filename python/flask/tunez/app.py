@@ -9,16 +9,6 @@ from flasgger import Swagger
 from json import loads
 
 
-app = Flask(__name__)
-""" The instance of the Flask application. """
-
-with open("swagger.template.json", "rb") as f:
-    swagger = Swagger(app, template=loads(f.read()))
-""" The Swagger UI app exposing the API documentation. Once running, go to:
-
-    http://localhost:5000/apidocs/
- """
-
 lib = MusicLib(expanduser("~/Zen/Music/"))
 """ An instance of the MusicLib to serve our library information. """
 
@@ -45,13 +35,18 @@ class ZenTunez(object):
     """
     The main application class
     """
-    def __init__(self, app, route):
+    base_url = "/tunez/api/v1.0/"
+
+    def __init__(self):
         """ Initialise the class and bind the used method to the corresponding
         routes of out Flask app.
 
         :param: app - the Flask application object.
         """
-        route = route + "library/"
+        app = Flask(__name__)
+        """ The instance of the Flask application. """
+
+        route = ZenTunez.base_url + "library/"
         app.add_url_rule(route + 'artists', "library/artists",
                          self.artists, methods=['GET'])
         app.add_url_rule(route + 'albums/<artist>', "library/albums",
@@ -60,6 +55,16 @@ class ZenTunez(object):
                          self.tracks, methods=['GET'])
         app.add_url_rule(route + 'cover/<artist>/<album>', "library/cover",
                          self.cover, methods=['GET'])
+
+        AudioPlayer(app, self.base_url)
+
+        with open("swagger.template.json", "rb") as f:
+            swagger = Swagger(app, template=loads(f.read()))
+        """ The Swagger UI app exposing the API documentation. Once running, go to:
+    
+            http://localhost:5000/apidocs/
+         """
+        self.app = app
 
     @staticmethod
     def get_response(data_dict=None, code=200):
@@ -204,6 +209,10 @@ class ZenTunez(object):
                              attachment_filename=file_name,
                              mimetype='image/png')
 
+    def run(self):
+        """ Run the application as a Falsk server. """
+        self.app.run(debug=True, host="0.0.0.0")
+
 
 class AudioPlayer:
     """
@@ -276,8 +285,6 @@ class AudioPlayer:
         return self._get_return()
 
 
-AudioPlayer(app, "/tunez/api/v1.0/")
-ZenTunez(app, "/tunez/api/v1.0/")
-
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0")
+
+    ZenTunez().run()
