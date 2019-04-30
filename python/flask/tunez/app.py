@@ -113,6 +113,8 @@ class AudioPlayer:
         responses:
           200:
             description: Success if we have turned up the volume.
+            schema:
+              $ref: '#/definitions/PlayerMetadata'
         """
         self.mplayer.volume_up()
         return self._get_return()
@@ -126,6 +128,8 @@ class AudioPlayer:
         responses:
           200:
             description: Success if we have turned down the volume.
+            schema:
+              $ref: '#/definitions/PlayerMetadata'
         """
         self.mplayer.volume_down()
         return self._get_return()
@@ -139,7 +143,8 @@ class AudioPlayer:
         responses:
           200:
             description: Success if we have stopped the player.
-
+            schema:
+              $ref: '#/definitions/PlayerMetadata'
         """
         self.mplayer.stop()
         return self._get_return()
@@ -153,6 +158,8 @@ class AudioPlayer:
         responses:
           200:
             description: Success if we have played or paused the current player.
+            schema:
+              $ref: '#/definitions/PlayerMetadata'
         """
         self.mplayer.play_pause()
         return self._get_return()
@@ -166,6 +173,8 @@ class AudioPlayer:
         responses:
           200:
             description: Success if we have moved to the next track.
+            schema:
+              $ref: '#/definitions/PlayerMetadata'
         """
         self.mplayer.next_track()
         return self._get_return()
@@ -179,6 +188,8 @@ class AudioPlayer:
         responses:
           200:
             description: Success if we have moved to the previous track.
+            schema:
+              $ref: '#/definitions/PlayerMetadata'
         """
         self.mplayer.previous_track()
         return self._get_return()
