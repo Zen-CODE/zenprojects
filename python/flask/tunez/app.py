@@ -221,17 +221,24 @@ class AudioPlayer:
             properties:
               track:
                 type: string
+                description: The name of the currently playing track
               artist:
                 type: string
+                description: The artist of the currently playing track
               album:
                 type: string
+                description: The album of the currently playing track
               state:
                 type: string
+                description: The state of the player. One on 'Playing',
+                             'Stopped' or 'Paused'
               volume:
                 type: number
+                description: The volume as a percentage
               position:
                 type: number
-
+                description: The position in the currently playing track as a
+                             percentage
         responses:
           200:
             description: Success if we have moved to the previous track.
