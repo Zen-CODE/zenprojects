@@ -17,10 +17,12 @@ class Player(object):
     @staticmethod
     def call(name):
         """
-        Call the MPlayer function with the given name and return the response
+        Call the MPlayer function with the given name and return the response.
         """
         getattr(Player.mplayer, name)()
-        return Response(Player.mplayer.get_state())
+        response = Response(Player.mplayer.get_state())
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
 
     @staticmethod
     @api_view()
@@ -82,6 +84,8 @@ class Player(object):
     @api_view()
     def cover(_request):
         """
-        Return the cover of the currently player album
+        Return the cover of the currently player album.
         """
-        return HttpResponse(Player.mplayer.cover(), content_type="image/png")
+        _cover = Player.mplayer.cover()
+        with open(_cover, "rb") as f:
+            return HttpResponse(f.read(), content_type="image/" + _cover[-3:])
