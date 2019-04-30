@@ -215,10 +215,28 @@ class AudioPlayer:
         ---
         tags:
             - MPris2 Audio player
+        definitions:
+          PlayerMetadata:
+            type: object
+            properties:
+              track:
+                type: string
+              artist:
+                type: string
+              album:
+                type: string
+              state:
+                type: string
+              volume:
+                type: number
+              position:
+                type: number
+
         responses:
           200:
             description: Success if we have moved to the previous track.
-
+            schema:
+              $ref: '#/definitions/PlayerMetadata'
         """
         return self._get_return()
 
@@ -367,6 +385,7 @@ class LibraryServer(object):
             type: string
             required: true
             description: The name of the album for which to retrieve the cover
+
         responses:
             '200':
               description: The cover image
