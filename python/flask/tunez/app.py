@@ -32,7 +32,7 @@ class ZenTunez(object):
     """
     The main application class
     """
-    base_url = "/tunez/api/v1.0/"
+    base_url = "/tunez/"
 
     def __init__(self):
         """ Initialise the class and bind the used method to the corresponding

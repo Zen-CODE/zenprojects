@@ -28,7 +28,7 @@ class App extends Component {
 
   playerClick = (api_call) => {
     /* Handle the click on a Player media button */
-    const url = "http://10.0.0.3:5000/tunez/api/v1.0/"
+    const url = "http://10.0.0.3:5000/tunez/"
 
     fetch(url + api_call)
       .then(res => res.json())
