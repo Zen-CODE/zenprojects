@@ -13,10 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from .api import Player
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('player/', include("tunez.player.urls")),
+    path('previous', Player.previous),
+    path('stop', Player.stop),
+    path('play_pause', Player.play_pause),
+    path('next', Player.next),
+    path('volume_up', Player.volume_up),
+    path('volume_down', Player.volume_down),
+    path('state', Player.state),
 ]
