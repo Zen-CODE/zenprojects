@@ -19,5 +19,11 @@ from tunez.player.api import Player
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('player/artists', Player.artists)
+    path('player/previous', Player.previous),
+    path('player/stop', Player.stop),
+    path('player/play_pause', Player.play_pause),
+    path('player/next', Player.next),
+    path('player/volume_up', Player.volume_up),
+    path('player/volume_down', Player.volume_down),
+    path('player/state', Player.state),
 ]
