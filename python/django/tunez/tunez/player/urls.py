@@ -24,4 +24,5 @@ urlpatterns = [
     path('volume_up', Player.volume_up),
     path('volume_down', Player.volume_down),
     path('state', Player.state),
+    path('cover', Player.cover),
 ]

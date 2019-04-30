@@ -3,6 +3,7 @@ This module houses the main view functions for the media player controller
 """
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import HttpResponse
 from .mplayer import MPlayer
 
 
@@ -76,3 +77,11 @@ class Player(object):
         Return the player state.
         """
         return Player.call("get_state")
+
+    @staticmethod
+    @api_view()
+    def cover(_request):
+        """
+        Return the cover of the currently player album
+        """
+        return HttpResponse(Player.mplayer.cover(), content_type="image/png")
