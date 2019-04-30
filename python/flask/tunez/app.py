@@ -105,37 +105,100 @@ class AudioPlayer:
         return ZenTunez.get_response(self.mplayer.get_state())
 
     def volume_up(self):
-        """ Turn the volume up. """
+        """
+        Turn the volume up.
+        ---
+        tags:
+            - MPris2 Audio player
+        responses:
+          200:
+            description: Success if we have turned up the volume.
+        """
         self.mplayer.volume_up()
         return self._get_return()
 
     def volume_down(self):
-        """ Turn the volume down. """
+        """
+        Turn the volume down.
+        ---
+        tags:
+            - MPris2 Audio player
+        responses:
+          200:
+            description: Success if we have turned down the volume.
+        """
         self.mplayer.volume_down()
         return self._get_return()
 
     def stop(self):
-        """ Stop the currently active player. """
+        """
+        Stop the currently active player.
+        ---
+        tags:
+            - MPris2 Audio player
+        responses:
+          200:
+            description: Success if we have stopped the player.
+
+        """
         self.mplayer.stop()
         return self._get_return()
 
     def play_pause(self):
-        """ Play or pause the currently active player. """
+        """
+        Play or pause the currently active player.
+        ---
+        tags:
+            - MPris2 Audio player
+        responses:
+          200:
+            description: Success if we have played or pause the current player.
+        """
         self.mplayer.play_pause()
         return self._get_return()
 
     def next(self):
-        """ Advance the player to the next track. """
+        """
+        Advance the player to the next track.
+        ---
+        tags:
+            - MPris2 Audio player
+        responses:
+          200:
+            description: Success if we have moved to the next track.
+        """
         self.mplayer.next_track()
         return self._get_return()
 
     def previous(self):
-        """ Go back to the previous track. """
+        """
+        Go back to the previous track.
+        ---
+        tags:
+            - MPris2 Audio player
+        responses:
+          200:
+            description: Success if we have moved to the previous track.
+        """
         self.mplayer.previous_track()
         return self._get_return()
 
     def cover(self):
-        """ Show the album cover. """
+        """
+        Return the album cover.
+        ---
+        tags:
+            - MPris2 Audio player
+        responses:
+            '200':
+              description: The cover image
+              content:
+                image/png:
+                  schema:
+                    type: string
+                    format: binary
+
+        """
         _cover = self.mplayer.cover()
         if _cover:
             with open(_cover, 'rb') as f:
@@ -146,7 +209,17 @@ class AudioPlayer:
             "Success, but no album cover for this baby...")
 
     def state(self):
-        """ Show the album cover. """
+        """
+        Return a json dictionary with information on the state of the current
+        plater
+        ---
+        tags:
+            - MPris2 Audio player
+        responses:
+          200:
+            description: Success if we have moved to the previous track.
+
+        """
         return self._get_return()
 
 
@@ -181,7 +254,7 @@ class LibraryServer(object):
         Return a list of all the artists in our music library.
         ---
         tags:
-            - Library
+            - Music Library
         definitions:
           Artists:
             type: object
@@ -208,7 +281,7 @@ class LibraryServer(object):
         Return a list of albums by the specified artist.
         ---
         tags:
-            - Library
+            - Music Library
         parameters:
           - name: artist
             in: path
@@ -241,7 +314,7 @@ class LibraryServer(object):
         Return a list of tracks in the specified album.
         ---
         tags:
-            - Library
+            - Music Library
         parameters:
           - name: artist
             in: path
@@ -282,7 +355,7 @@ class LibraryServer(object):
         image.
         ---
         tags:
-            - Library
+            - Music Library
         parameters:
           - name: artist
             in: path
