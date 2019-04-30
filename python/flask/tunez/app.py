@@ -152,7 +152,7 @@ class AudioPlayer:
             - MPris2 Audio player
         responses:
           200:
-            description: Success if we have played or pause the current player.
+            description: Success if we have played or paused the current player.
         """
         self.mplayer.play_pause()
         return self._get_return()
