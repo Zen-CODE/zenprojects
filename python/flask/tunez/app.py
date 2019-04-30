@@ -9,9 +9,6 @@ from flasgger import Swagger
 from json import loads
 
 
-lib = MusicLib(expanduser("~/Zen/Music/"))
-""" An instance of the MusicLib to serve our library information. """
-
 auth = HTTPBasicAuth()
 """ Object handling out authentication """
 
@@ -46,17 +43,8 @@ class ZenTunez(object):
         app = Flask(__name__)
         """ The instance of the Flask application. """
 
-        route = ZenTunez.base_url + "library/"
-        app.add_url_rule(route + 'artists', "library/artists",
-                         self.artists, methods=['GET'])
-        app.add_url_rule(route + 'albums/<artist>', "library/albums",
-                         self.albums, methods=['GET'])
-        app.add_url_rule(route + 'tracks/<artist>/<album>', "library/tracks",
-                         self.tracks, methods=['GET'])
-        app.add_url_rule(route + 'cover/<artist>/<album>', "library/cover",
-                         self.cover, methods=['GET'])
-
         AudioPlayer(app, self.base_url)
+        LibraryServer(app, self.base_url)
 
         with open("swagger.template.json", "rb") as f:
             swagger = Swagger(app, template=loads(f.read()))
@@ -79,136 +67,6 @@ class ZenTunez(object):
         resp.headers.add('Access-Control-Allow-Origin', '*')
         return resp
 
-    @staticmethod
-    @auth.login_required
-    def artists():
-        """
-        Return a list of all the artists in our music library.
-        ---
-        definitions:
-          Artists:
-            type: object
-            properties:
-              artist_name:
-                type: array
-                items:
-                  $ref: '#/definitions/Artist'
-          Artist:
-            type: string
-        responses:
-          200:
-            description: A list of all the artists in our library.
-            schema:
-              $ref: '#/definitions/Artists'
-            examples:
-              artists: ['Ace of Base', 'Affiance', 'In Flames']
-        """
-        return jsonify({'artists': lib.get_artists()})
-
-    @staticmethod
-    @auth.login_required
-    def albums(artist):
-        """
-        Return a list of albums by the specified artist.
-        ---
-        parameters:
-          - name: artist
-            in: path
-            type: string
-            required: true
-            description: The name of the artist for which to retrieve albums
-        definitions:
-          Albums:
-            type: object
-            properties:
-              album_name:
-                type: array
-                items:
-                  $ref: '#/definitions/Album'
-          Album:
-            type: string
-        responses:
-          200:
-            description: A list of all the album by this artist.
-            schema:
-              $ref: '#/definitions/Albums'
-            examples:
-              albums: ['Da Capo', 'Happy Nation', 'Flowers']
-        """
-        return jsonify({'albums': lib.get_albums(artist)})
-
-    @staticmethod
-    @auth.login_required
-    def tracks(artist, album):
-        """
-        Return a list of tracks in the specified album.
-        ---
-        parameters:
-          - name: artist
-            in: path
-            type: string
-            required: true
-            description: The name of the artist of the album
-          - name: album
-            in: path
-            type: string
-            required: true
-            description: The name of the album for which to retrieve tracks
-        definitions:
-          Tracks:
-            type: object
-            properties:
-              track_name:
-                type: array
-                items:
-                  $ref: '#/definitions/Track'
-          Track:
-            type: string
-        responses:
-          200:
-            description: A list of all the tracks on this album.
-            schema:
-              $ref: '#/definitions/Tracks'
-            examples:
-              tracks: ['01 - Premonition.mp3', '02 - Astronomical Unit.mp3',
-                       '03 - Julia.mp3']
-        """
-        return jsonify({'tracks': lib.get_tracks(artist, album)})
-
-    @staticmethod
-    @auth.login_required
-    def cover(artist, album):
-        """
-        Return the cover image file. If there is none, return the default cover
-        image.
-        ---
-        parameters:
-          - name: artist
-            in: path
-            type: string
-            required: true
-            description: The name of the artist of the album
-          - name: album
-            in: path
-            type: string
-            required: true
-            description: The name of the album for which to retrieve the cover
-        responses:
-            '200':
-              description: The cover image
-              content:
-                image/png:
-                  schema:
-                    type: string
-                    format: binary
-        """
-        _cover = lib.get_cover(artist, album)
-        file_name = _cover if _cover else "static/audio_icon.png"
-        with open(file_name, 'rb') as f:
-            return send_file(BytesIO(f.read()),
-                             attachment_filename=file_name,
-                             mimetype='image/png')
-
     def run(self):
         """ Run the application as a Falsk server. """
         self.app.run(debug=True, host="0.0.0.0")
@@ -220,20 +78,21 @@ class AudioPlayer:
     MPris2 audio player and the retrieving of information from it.
     """
 
-    def __init__(self, app, route):
+    def __init__(self, app, base_url):
         """ Initialise the class and bind the used method to the corresponding
         routes of out Flask app.
 
         :param: app - the Flask application object.
+        :route: string - The base_url user to serve the web application
         """
         self.mplayer = MPlayer()
-        app.add_url_rule(route + "player/", "player/",
+        route = base_url + "player/"
+        app.add_url_rule(route , "player/",
                          lambda: render_template('index.html'), methods=['GET'])
         for meth in ["state", "cover", "previous", "next", "play_pause", "stop",
                      "volume_up", "volume_down"]:
-            app.add_url_rule(
-                route + "player/" + meth, "player/" + meth, getattr(self, meth),
-                methods=['GET'])
+            app.add_url_rule(route + meth, "player/" + meth,
+                             getattr(self, meth), methods=['GET'])
 
     def _get_return(self):
         """ Get the state of the audio player and return it in the response"""
@@ -285,6 +144,158 @@ class AudioPlayer:
         return self._get_return()
 
 
-if __name__ == '__main__':
+class LibraryServer(object):
+    """
+    This class manages the interaction around the MusicLibrary object. This
+    includes the retrieving of data and the serving of the Swagger UI
+    documentation.
+    """
+    def __init__(self, app, base_url):
+        """ Initialise the class and bind the used method to the corresponding
+        routes of out Flask app.
 
+        :param: app - the Flask application object.
+        :base_url: string - The base_url user to serve the web application
+        """
+        route = base_url + "library/"
+        app.add_url_rule(route + 'artists', "library/artists",
+                         self.artists, methods=['GET'])
+        app.add_url_rule(route + 'albums/<artist>', "library/albums",
+                         self.albums, methods=['GET'])
+        app.add_url_rule(route + 'tracks/<artist>/<album>', "library/tracks",
+                         self.tracks, methods=['GET'])
+        app.add_url_rule(route + 'cover/<artist>/<album>', "library/cover",
+                         self.cover, methods=['GET'])
+        self.lib = MusicLib(expanduser("~/Zen/Music/"))
+        """ An instance of the MusicLib to serve our library information. """
+
+    @auth.login_required
+    def artists(self):
+        """
+        Return a list of all the artists in our music library.
+        ---
+        definitions:
+          Artists:
+            type: object
+            properties:
+              artist_name:
+                type: array
+                items:
+                  $ref: '#/definitions/Artist'
+          Artist:
+            type: string
+        responses:
+          200:
+            description: A list of all the artists in our library.
+            schema:
+              $ref: '#/definitions/Artists'
+            examples:
+              artists: ['Ace of Base', 'Affiance', 'In Flames']
+        """
+        return jsonify({'artists': self.lib.get_artists()})
+
+    @auth.login_required
+    def albums(self, artist):
+        """
+        Return a list of albums by the specified artist.
+        ---
+        parameters:
+          - name: artist
+            in: path
+            type: string
+            required: true
+            description: The name of the artist for which to retrieve albums
+        definitions:
+          Albums:
+            type: object
+            properties:
+              album_name:
+                type: array
+                items:
+                  $ref: '#/definitions/Album'
+          Album:
+            type: string
+        responses:
+          200:
+            description: A list of all the album by this artist.
+            schema:
+              $ref: '#/definitions/Albums'
+            examples:
+              albums: ['Da Capo', 'Happy Nation', 'Flowers']
+        """
+        return jsonify({'albums': self.lib.get_albums(artist)})
+
+    @auth.login_required
+    def tracks(self, artist, album):
+        """
+        Return a list of tracks in the specified album.
+        ---
+        parameters:
+          - name: artist
+            in: path
+            type: string
+            required: true
+            description: The name of the artist of the album
+          - name: album
+            in: path
+            type: string
+            required: true
+            description: The name of the album for which to retrieve tracks
+        definitions:
+          Tracks:
+            type: object
+            properties:
+              track_name:
+                type: array
+                items:
+                  $ref: '#/definitions/Track'
+          Track:
+            type: string
+        responses:
+          200:
+            description: A list of all the tracks on this album.
+            schema:
+              $ref: '#/definitions/Tracks'
+            examples:
+              tracks: ['01 - Premonition.mp3', '02 - Astronomical Unit.mp3',
+                       '03 - Julia.mp3']
+        """
+        return jsonify({'tracks': self.lib.get_tracks(artist, album)})
+
+    @staticmethod
+    @auth.login_required
+    def cover(self, artist, album):
+        """
+        Return the cover image file. If there is none, return the default cover
+        image.
+        ---
+        parameters:
+          - name: artist
+            in: path
+            type: string
+            required: true
+            description: The name of the artist of the album
+          - name: album
+            in: path
+            type: string
+            required: true
+            description: The name of the album for which to retrieve the cover
+        responses:
+            '200':
+              description: The cover image
+              content:
+                image/png:
+                  schema:
+                    type: string
+                    format: binary
+        """
+        _cover = self.lib.get_cover(artist, album)
+        file_name = _cover if _cover else "static/audio_icon.png"
+        with open(file_name, 'rb') as f:
+            return send_file(BytesIO(f.read()),
+                             attachment_filename=file_name,
+                             mimetype='image/png')
+
+
+if __name__ == '__main__':
     ZenTunez().run()
