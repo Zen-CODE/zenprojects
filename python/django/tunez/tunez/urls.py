@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .api import artists
+from tunez.player.api import Player
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('player/artists', artists)
+    path('player/artists', Player.artists)
 ]
