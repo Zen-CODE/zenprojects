@@ -76,12 +76,14 @@ class App extends Component {
           <Column>
             {this.renderButton("<<", "player/volume_down")}          
           </Column>
+          <Divider />
           <Column>            
             <VolumeSlider 
               volume={ this.state.volume }
               onChange={ this.setVolumne }
             />
           </Column>
+          <Divider />
           <Column>
             {this.renderButton(">>", "player/volume_up")}
           </Column>
