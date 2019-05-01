@@ -2,9 +2,9 @@
 This module houses the main view functions for the media player controller
 """
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from django.http import HttpResponse
 from .mplayer import MPlayer
+from tunez.helpers import get_response
 
 
 class Player(object):
@@ -20,9 +20,7 @@ class Player(object):
         Call the MPlayer function with the given name and return the response.
         """
         getattr(Player.mplayer, name)()
-        response = Response(Player.mplayer.get_state())
-        response["Access-Control-Allow-Origin"] = "*"
-        return response
+        return get_response(Player.mplayer.get_state())
 
     @staticmethod
     @api_view()

@@ -2,8 +2,7 @@
 This module houses the main view functions for the library explorer
 """
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.http import HttpResponse
+from tunez.helpers import get_response
 from .library import MusicLib
 
 
@@ -20,9 +19,7 @@ class Library(object):
         """
         Return a list of all the artists in our music collection.
         """
-        response = Response(Library.lib.get_artists())
-        response["Access-Control-Allow-Origin"] = "*"
-        return response
+        return get_response(Library.lib.get_artists())
 
     @staticmethod
     @api_view()
@@ -30,6 +27,4 @@ class Library(object):
         """
         Return a list of all the albums by this artist.
         """
-        response = Response(Library.lib.get_albums(artist))
-        response["Access-Control-Allow-Origin"] = "*"
-        return response
+        return get_response(Library.lib.get_albums(artist))
