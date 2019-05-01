@@ -84,6 +84,12 @@ class MPlayer(object):
         """
         self.change_volume(-0.05)
 
+    def volume_set(self, value):
+        """
+        Set the volume of the player where value is a percentage from 0 to 100.
+        """
+        self.mp2_player.Volume = float(value) / 100.0
+
     def cover(self):
         """
         Return the album cover art if available, otherwise return False.

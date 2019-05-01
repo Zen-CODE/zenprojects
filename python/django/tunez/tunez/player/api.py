@@ -72,6 +72,15 @@ class Player(object):
 
     @staticmethod
     @api_view()
+    def volume_set(_request, volume):
+        """
+        Set the volume to a specified percentage.
+        """
+        Player.mplayer.volume_set(volume)
+        return get_response(Player.mplayer.get_state())
+
+    @staticmethod
+    @api_view()
     def state(_request):
         """
         Return the player state.
