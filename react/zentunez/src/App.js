@@ -46,10 +46,10 @@ class App extends Component {
   }
 
   setVolumne = (vol) => {
-    // const url = "http://127.0.0.1:8000/"
-    // fetch(url + "player/volume_set/" + (this.value / 100.0))
-    // this.playerClick("player/state")
-    console.log("setVolume fired. vol = " + vol)
+    console.log("setVolume fired. vol = " + vol.target.valueAsNumber)
+    const url = "http://127.0.0.1:8000/"
+    fetch(url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
+    this.playerClick("player/state")
   }
 
   render() {
