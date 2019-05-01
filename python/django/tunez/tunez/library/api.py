@@ -20,7 +20,7 @@ class Library(object):
         """
         Return a list of all the artists in our music collection.
         """
-        return get_response(Library.lib.get_artists())
+        return get_response(sorted(Library.lib.get_artists()))
 
     @staticmethod
     @api_view()
@@ -28,7 +28,7 @@ class Library(object):
         """
         Return a list of all the albums by this artist.
         """
-        return get_response(Library.lib.get_albums(artist))
+        return get_response(sorted(Library.lib.get_albums(artist)))
 
     @staticmethod
     @api_view()
@@ -36,7 +36,7 @@ class Library(object):
         """
         Return a list of all the tracks in this album.
         """
-        return get_response(Library.lib.get_tracks(artist, album))
+        return get_response(sorted(Library.lib.get_tracks(artist, album)))
 
     @staticmethod
     @api_view()
