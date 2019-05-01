@@ -3,12 +3,14 @@ import { Divider } from './components/Divider/Divider.js'
 import { PlayerButton } from "./components/PlayerButton/PlayerButton.js"
 import { PlayerState } from "./components/PlayerState/PlayerState.js"
 import { VolumeSlider } from "./components/VolumeSlider/VolumeSlider.js"
+import { Column, Row } from 'simple-flexbox';
 import './App.css';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.api_url = "http://127.0.0.1:8000/";
     this.state = {artist: "-",
                   album: "-",
                   track: "-",
@@ -16,6 +18,7 @@ class App extends Component {
                   state: "-",
                   position: 0,
                   img_src: ""};
+    
     setInterval(() => this.playerClick("player/state"), 1000);
   };
 
@@ -29,9 +32,8 @@ class App extends Component {
 
   playerClick = (api_call) => {
     /* Handle the click on a Player media button */
-    const url = "http://127.0.0.1:8000/"
 
-    fetch(url + api_call)
+    fetch(this.api_url + api_call)
       .then(res => res.json())
       .then((response) => {
           console.log("Volume is " + response.volume);
@@ -41,14 +43,12 @@ class App extends Component {
                          volume: response.volume,
                          state: response.state,
                          position: response.position,
-                         img_src : url + "player/cover?guid=" + response.artist + response.album + response.track
+                         img_src : this.api_url + "player/cover?guid=" + response.artist + response.album + response.track
                         })})          
   }
 
   setVolumne = (vol) => {
-    console.log("setVolume fired. vol = " + vol.target.valueAsNumber)
-    const url = "http://127.0.0.1:8000/"
-    fetch(url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
+    fetch(this.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
     this.playerClick("player/state")
   }
 
@@ -67,14 +67,20 @@ class App extends Component {
           <Divider />
           {this.renderButton("Next", "player/next")}
         </div>
-        <div className="PlayerButtons">
-          {this.renderButton("Volume down", "player/volume_down")}          
-          <VolumeSlider 
-            volume={ this.state.volume }
-            onChange={this.setVolumne}
-          />
-          {this.renderButton("Volume up", "player/volume_up")}
-        </div>
+        <Row horizontal='center' style={{padding: '10px'}}>
+          <Column>
+            {this.renderButton("<<", "player/volume_down")}          
+          </Column>
+          <Column>            
+            <VolumeSlider 
+              volume={ this.state.volume }
+              onChange={ this.setVolumne }
+            />
+          </Column>
+          <Column>
+            {this.renderButton(">>", "player/volume_up")}
+          </Column>
+        </Row>
         <div className="PlayerButtons">
           <PlayerState 
             artist={ this.state.artist } 
