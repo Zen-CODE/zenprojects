@@ -28,3 +28,12 @@ class Library(object):
         Return a list of all the albums by this artist.
         """
         return get_response(Library.lib.get_albums(artist))
+
+    @staticmethod
+    @api_view()
+    def tracks(_request, artist, album):
+        """
+        Return a list of all the tracks in this album.
+        """
+        print(f"artist: {artist}, album: {album}")
+        return get_response(Library.lib.get_tracks(artist, album))
