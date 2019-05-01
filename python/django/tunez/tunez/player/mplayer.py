@@ -86,9 +86,9 @@ class MPlayer(object):
 
     def volume_set(self, value):
         """
-        Set the volume of the player where value is a percentage from 0 to 100.
+        Set the volume of the player where value from  0 to 1.
         """
-        self.mp2_player.Volume = float(value) / 100.0
+        self.mp2_player.Volume = float(value)
 
     def cover(self):
         """

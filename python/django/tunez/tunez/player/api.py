@@ -74,7 +74,7 @@ class Player(object):
     @api_view()
     def volume_set(_request, volume):
         """
-        Set the volume to a specified percentage.
+        Set the volume to a value between 0 and 1.
         """
         Player.mplayer.volume_set(volume)
         return get_response(Player.mplayer.get_state())
