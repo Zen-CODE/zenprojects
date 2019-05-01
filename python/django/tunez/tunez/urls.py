@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('player/', include("tunez.player.urls")),
+    path('library/', include("tunez.library.urls")),
 ]
