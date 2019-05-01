@@ -8,9 +8,14 @@ import './App.css';
 
 
 class App extends Component {
+  /*
+    The main application class for the ZenTunez React Interface
+  */
   constructor(props) {
     super(props);
     this.api_url = "http://127.0.0.1:8000/";
+    /* The API that supplies the Media player functions */
+
     this.state = {artist: "-",
                   album: "-",
                   track: "-",
@@ -66,8 +71,8 @@ class App extends Component {
           {this.renderButton("Play / Pause", "player/play_pause")}
           <Divider />
           {this.renderButton("Next", "player/next")}
-        </div>
-        <Row horizontal='center' style={{padding: '10px'}}>
+        </div >
+        <Row className="VolumeButtons" horizontal='center' >
           <Column>
             {this.renderButton("<<", "player/volume_down")}          
           </Column>
