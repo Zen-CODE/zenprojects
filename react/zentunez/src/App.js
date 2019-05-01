@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Divider } from './components/Divider/Divider.js'
 import { PlayerButton } from "./components/PlayerButton/PlayerButton.js"
 import { PlayerState } from "./components/PlayerState/PlayerState.js"
+import { VolumeSlider } from "./components/VolumeSlider/VolumeSlider.js"
 import './App.css';
 
 
@@ -33,6 +34,7 @@ class App extends Component {
     fetch(url + api_call)
       .then(res => res.json())
       .then((response) => {
+          console.log("Volume is " + response.volume);
           this.setState({artist: response.artist,
                          album: response.album,
                          track: response.track,
@@ -60,7 +62,9 @@ class App extends Component {
         </div>
         <div className="PlayerButtons">
           {this.renderButton("Volume down", "player/volume_down")}          
-          <Divider />
+          <VolumeSlider 
+            volume={ this.state.volume }
+          />
           {this.renderButton("Volume up", "player/volume_up")}
         </div>
         <div className="PlayerButtons">
