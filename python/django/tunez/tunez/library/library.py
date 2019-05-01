@@ -88,7 +88,7 @@ class MusicLib(object):
             return html.format(**{'base64': str(b64, 'ascii')})
             # return html.format(**{'base64': str(b64).encode('ascii')})
 
-    def get_cover(self, artist, album, size=300):
+    def get_cover(self, artist, album):
         """
         Return the album cover for the specified album or null string
         if it does not exist.

@@ -4,6 +4,7 @@ This module houses the main view functions for the library explorer
 from rest_framework.decorators import api_view
 from tunez.helpers import get_response
 from .library import MusicLib
+from django.http import HttpResponse
 
 
 class Library(object):
@@ -35,5 +36,17 @@ class Library(object):
         """
         Return a list of all the tracks in this album.
         """
-        print(f"artist: {artist}, album: {album}")
         return get_response(Library.lib.get_tracks(artist, album))
+
+    @staticmethod
+    @api_view()
+    def cover(_request, artist, album):
+        """
+        Return a list of all the tracks in this album.
+        """
+        _cover = Library.lib.get_cover(artist, album)
+        if _cover:
+            with open(_cover, "rb") as f:
+                return HttpResponse(f.read(),
+                                    content_type="image/" + _cover[-3:])
+        return get_response({"message": "No cover found"})
