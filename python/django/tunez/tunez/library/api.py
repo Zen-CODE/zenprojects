@@ -23,3 +23,13 @@ class Library(object):
         response = Response(Library.lib.get_artists())
         response["Access-Control-Allow-Origin"] = "*"
         return response
+
+    @staticmethod
+    @api_view()
+    def albums(_request, artist):
+        """
+        Return a list of all the albums by this artist.
+        """
+        response = Response(Library.lib.get_albums(artist))
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
