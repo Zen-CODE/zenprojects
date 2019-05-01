@@ -45,6 +45,13 @@ class App extends Component {
                         })})          
   }
 
+  setVolumne = (vol) => {
+    // const url = "http://127.0.0.1:8000/"
+    // fetch(url + "player/volume_set/" + (this.value / 100.0))
+    // this.playerClick("player/state")
+    console.log("setVolume fired. vol = " + vol)
+  }
+
   render() {
     /** 
      * The main application objects are build and returned here.
@@ -64,6 +71,7 @@ class App extends Component {
           {this.renderButton("Volume down", "player/volume_down")}          
           <VolumeSlider 
             volume={ this.state.volume }
+            onChange={this.setVolumne}
           />
           {this.renderButton("Volume up", "player/volume_up")}
         </div>
