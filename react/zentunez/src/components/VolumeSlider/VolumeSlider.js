@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './VolumeSlider.css';
 
 export class VolumeSlider extends Component {
     /**
