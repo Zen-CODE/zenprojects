@@ -24,11 +24,15 @@ class Player extends Component {
                   state: "-",
                   position: 0,
                   img_src: ""};
-    //this.Click.bind(this);
+    this.intervalID = 0;
   };
 
   componentDidMount(){
-    setInterval(() => this.Click("player/state"), 1000);
+    this.intervalID = setInterval(() => this.Click("player/state"), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
   }
 
   Click = (api_call) => {
