@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Divider } from './components/Divider/Divider.js'
+import { HDivider, VDivider } from './components/Divider/Divider.js'
 import { PlayerButton } from "./components/PlayerButton/PlayerButton.js"
 import { PlayerState } from "./components/PlayerState/PlayerState.js"
 import { VolumeSlider } from "./components/VolumeSlider/VolumeSlider.js"
@@ -65,25 +65,27 @@ class App extends Component {
       <div className="App">
         <Row horizontal='center'>
           <Column>{this.renderButton("Previous", "player/previous")}</Column>
-          <Divider />
+          <HDivider />
           <Column>{this.renderButton("Stop", "player/stop")}</Column>
-          <Divider />
+          <HDivider />
           <Column>{this.renderButton("Play / Pause", "player/play_pause")}</Column>
-          <Divider />
+          <HDivider />
           <Column>{this.renderButton("Next", "player/next")}</Column>
         </Row>
+        <VDivider />
         <Row horizontal='center' >
           <Column>{this.renderButton("<<", "player/volume_down")}</Column>
-          <Divider />
+          <HDivider />
           <Column>            
             <VolumeSlider 
               volume={ this.state.volume }
               onChange={ this.setVolumne }
             />
           </Column>
-          <Divider />
+          <HDivider />
           <Column>{this.renderButton(">>", "player/volume_up")}</Column>
         </Row>
+        <VDivider />
         <Row horizontal='center'>
           <PlayerState 
             artist={ this.state.artist } 
