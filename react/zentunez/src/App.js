@@ -63,19 +63,17 @@ class App extends Component {
     */
     return (
       <div className="App">
-        <div className="PlayerButtons">
-          {this.renderButton("Previous", "player/previous")}
+        <Row horizontal='center'>
+          <Column>{this.renderButton("Previous", "player/previous")}</Column>
           <Divider />
-          {this.renderButton("Stop", "player/stop")}          
+          <Column>{this.renderButton("Stop", "player/stop")}</Column>
           <Divider />
-          {this.renderButton("Play / Pause", "player/play_pause")}
+          <Column>{this.renderButton("Play / Pause", "player/play_pause")}</Column>
           <Divider />
-          {this.renderButton("Next", "player/next")}
-        </div >
-        <Row className="VolumeButtons" horizontal='center' >
-          <Column>
-            {this.renderButton("<<", "player/volume_down")}          
-          </Column>
+          <Column>{this.renderButton("Next", "player/next")}</Column>
+        </Row>
+        <Row horizontal='center' >
+          <Column>{this.renderButton("<<", "player/volume_down")}</Column>
           <Divider />
           <Column>            
             <VolumeSlider 
@@ -84,11 +82,9 @@ class App extends Component {
             />
           </Column>
           <Divider />
-          <Column>
-            {this.renderButton(">>", "player/volume_up")}
-          </Column>
+          <Column>{this.renderButton(">>", "player/volume_up")}</Column>
         </Row>
-        <div className="PlayerButtons">
+        <Row horizontal='center'>
           <PlayerState 
             artist={ this.state.artist } 
             album={ this.state.album }
@@ -98,7 +94,7 @@ class App extends Component {
             state={ this.state.state }
             img_src={ this.state.img_src }
             />
-        </div>
+        </Row>
       </div>
     );
   }
