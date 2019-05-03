@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { HDivider, VDivider } from './components/Divider/Divider.js'
-import { PlayerButton } from "./components/PlayerButton/PlayerButton.js"
-import { PlayerState } from "./components/PlayerState/PlayerState.js"
-import { VolumeSlider } from "./components/VolumeSlider/VolumeSlider.js"
+import { HDivider, VDivider } from '../Divider/Divider.js'
+import { PlayerButton } from "../PlayerButton/PlayerButton.js"
+import { PlayerState } from "../PlayerState/PlayerState.js"
+import { VolumeSlider } from "../VolumeSlider/VolumeSlider.js"
 import { Column, Row } from 'simple-flexbox';
 
 export class Player extends Component {

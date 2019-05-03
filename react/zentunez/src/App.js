@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Player } from "./Player.js"
+import { Player } from "./components/Player/Player.js"
 import './App.css';
 
 
