@@ -7,11 +7,12 @@ import { Column, Row } from 'simple-flexbox';
 import './App.css';
 
 
-class App extends Component {
+class Player extends Component {
   /*
-    The main application class for the ZenTunez React Interface
+  This class houses functionality to control the currently playting MPRIS2
+  audio player and retreive state information from it.
   */
-  constructor(props) {
+ constructor(props) {
     super(props);
     this.api_url = "http://127.0.0.1:8000/";
     /* The API that supplies the Media player functions */
@@ -23,38 +24,61 @@ class App extends Component {
                   state: "-",
                   position: 0,
                   img_src: ""};
-    
-    setInterval(() => this.playerClick("player/state"), 1000);
+    //this.Click.bind(this);
   };
 
-  renderButton(caption, api_call) {
-    return <PlayerButton
-              caption={caption} 
-              callback={this.playerClick}
-              api_call={api_call}
-            />;
+  componentDidMount(){
+    setInterval(() => this.Click("player/state"), 1000);
   }
 
-  playerClick = (api_call) => {
+  Click = (api_call) => {
     /* Handle the click on a Player media button */
-
     fetch(this.api_url + api_call)
       .then(res => res.json())
       .then((response) => {
-          console.log("Volume is " + response.volume);
+          console.log("Volume is " + response.volume + ". PLaying " + response.track);
           this.setState({artist: response.artist,
-                         album: response.album,
-                         track: response.track,
-                         volume: response.volume,
-                         state: response.state,
-                         position: response.position,
-                         img_src : this.api_url + "player/cover?guid=" + response.artist + response.album + response.track
-                        })})          
+                        album: response.album,
+                        track: response.track,
+                        volume: response.volume,
+                        state: response.state,
+                        position: response.position,
+                        img_src : this.api_url + "player/cover?guid=" + response.artist + response.album + response.track
+                        })
+      }
+    )
   }
 
   setVolumne = (vol) => {
     fetch(this.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
-    this.playerClick("player/state")
+    this.Click("player/state")
+  }
+
+  renderButton(caption, api_call) {
+    return <PlayerButton
+              caption={caption} 
+              callback={this.Click}
+              api_call={api_call}
+            />;
+  }
+
+  renderVolume() {
+    return <VolumeSlider 
+              volume={ this.state.volume }
+              onChange={ this.setVolumne }
+           />
+  }
+
+  renderState() {
+    return <PlayerState 
+      artist={ this.state.artist } 
+      track={ this.state.track }
+      album={ this.state.album }
+      volume={ this.state.volume }
+      position={ this.state.position }
+      state={ this.state.state }
+      img_src={ this.state.img_src }
+    />
   }
 
   render() {
@@ -62,7 +86,7 @@ class App extends Component {
      * The main application objects are build and returned here.
     */
     return (
-      <div className="App">
+      <div>
         <Row horizontal='center'>
           <Column>{this.renderButton("Previous", "player/previous")}</Column>
           <HDivider />
@@ -77,28 +101,30 @@ class App extends Component {
           <Column>{this.renderButton("<<", "player/volume_down")}</Column>
           <HDivider />
           <Column>            
-            <VolumeSlider 
-              volume={ this.state.volume }
-              onChange={ this.setVolumne }
-            />
+            { this.renderVolume() }
           </Column>
           <HDivider />
           <Column>{this.renderButton(">>", "player/volume_up")}</Column>
         </Row>
-        <VDivider />
         <Row horizontal='center'>
-          <PlayerState 
-            artist={ this.state.artist } 
-            album={ this.state.album }
-            track={ this.state.track }
-            volume={ this.state.volume }
-            position={ this.state.position }
-            state={ this.state.state }
-            img_src={ this.state.img_src }
-            />
+          {this.renderState()}
         </Row>
       </div>
     );
+  }
+}
+
+
+class App extends Component {
+  /*
+    The main application class for the ZenTunez React Interface
+  */
+
+  render(){
+    return <div className="App">
+      <Player />
+    </div> 
+
   }
 }
 
