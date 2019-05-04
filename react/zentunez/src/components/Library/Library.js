@@ -26,7 +26,7 @@ export class Library extends Component {
             console.log("Random album is" + response.artist + " - " + response.album);
             this.setState({artist: response.artist,
                           album: response.album,
-                          //img_src : this.api_url + "player/cover?guid=" + response.artist + response.album
+                          img_src : this.api_url + "library/cover/" + response.artist + "/" + response.album
                           })
         }
       )
@@ -38,10 +38,10 @@ export class Library extends Component {
         <div className="LibraryPanel">
           <p><b>ZenTunez Library</b></p>
           <VDivider />
-          <p><b>Artist:</b>{ this.artist } </p>
-          <p><b>Album:</b>{ this.album } </p>
+          <p><b>Artist: </b>{ this.state.artist } </p>
+          <p><b>Album: </b>{ this.state.album } </p>
           <VDivider />
-          <img className="album-cover" alt="Album cover" src={ this.props.img_src }></img>
+          <img className="album-cover" alt="Album cover" src={ this.state.img_src }></img>
           <br />
           <VDivider />
           <button onClick={() => this.getRandomAlbum()}>Random album</button>
