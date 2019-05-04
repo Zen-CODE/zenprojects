@@ -13,11 +13,27 @@ export class Library extends Component {
           album: "-",
           img_src: ""
         }
+        this.api_url = "http://127.0.0.1:8000/";
+        /* The API that supplies the Media library functions */
+          
       };  
 
     Click() {
-      console.log("I Have been clicked")
-
+      /* Handle the click to fetdch a new randwom alum */
+      // fetch(this.api_url + api_call)
+      //   .then(res => res.json())
+      //   .then((response) => {
+      //       console.log("Volume is " + response.volume + ". PLaying " + response.track);
+      //       this.setState({artist: response.artist,
+      //                     album: response.album,
+      //                     track: response.track,
+      //                     volume: response.volume,
+      //                     state: response.state,
+      //                     position: response.position,
+      //                     img_src : this.api_url + "player/cover?guid=" + response.artist + response.album + response.track
+      //                     })
+      //   }
+      // )
     }
 
 

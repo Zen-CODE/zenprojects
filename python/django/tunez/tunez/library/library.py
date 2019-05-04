@@ -51,18 +51,18 @@ class MusicLib(object):
         self.path = path
 
     def get_artists(self):
-        """ Return a list of lartists. """
+        """ Return a list of artists. """
         return [name for name in listdir(self.path) if
                 isdir(join(self.path, name))]
 
     def get_random_artists(self, number):
         """ Return a random list of *number* artists. """
-        artists = self.artists()
+        artists = self.get_artists()
         return sample(artists, number)
 
     def get_random_albums(self, artist, number):
         """ Return a random list of *number* albums by *artist*. """
-        albums = self.albums(artist)
+        albums = self.get_albums(artist)
         if albums:
             return sample(albums, number)
         else:

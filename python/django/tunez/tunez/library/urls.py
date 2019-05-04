@@ -6,4 +6,5 @@ urlpatterns = [
     path('albums/<str:artist>', Library.albums),
     path('tracks/<str:artist>/<str:album>', Library.tracks),
     path('cover/<str:artist>/<str:album>', Library.cover),
+    path('random_album', Library.random_album),
 ]

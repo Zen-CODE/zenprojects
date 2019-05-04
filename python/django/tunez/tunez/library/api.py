@@ -50,3 +50,13 @@ class Library(object):
                 return HttpResponse(f.read(),
                                     content_type="image/" + _cover[-3:])
         return get_response({"message": "No cover found"})
+
+    @staticmethod
+    @api_view()
+    def random_album(_request):
+        """
+        Select and return a random artist and album
+        """
+        artist = Library.lib.get_random_artists(1)[0]
+        album = Library.lib.get_random_albums(artist, 1)[0]
+        return get_response({"artist": artist, "album": album})
