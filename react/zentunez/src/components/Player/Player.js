@@ -38,7 +38,7 @@ export class Player extends Component {
       fetch(this.api_url + api_call)
         .then(res => res.json())
         .then((response) => {
-            console.log("Volume is " + response.volume + ". PLaying " + response.track);
+            console.log("Volume is " + response.volume + ". Playing " + response.track);
             this.setState({artist: response.artist,
                           album: response.album,
                           track: response.track,

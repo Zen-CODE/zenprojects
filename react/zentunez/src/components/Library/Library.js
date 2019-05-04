@@ -18,22 +18,18 @@ export class Library extends Component {
           
       };  
 
-    Click() {
+    getRandomAlbum() {
       /* Handle the click to fetdch a new randwom alum */
-      // fetch(this.api_url + api_call)
-      //   .then(res => res.json())
-      //   .then((response) => {
-      //       console.log("Volume is " + response.volume + ". PLaying " + response.track);
-      //       this.setState({artist: response.artist,
-      //                     album: response.album,
-      //                     track: response.track,
-      //                     volume: response.volume,
-      //                     state: response.state,
-      //                     position: response.position,
-      //                     img_src : this.api_url + "player/cover?guid=" + response.artist + response.album + response.track
-      //                     })
-      //   }
-      // )
+      fetch(this.api_url + "library/random_album")
+        .then(res => res.json())
+        .then((response) => {
+            console.log("Random album is" + response.artist + " - " + response.album);
+            this.setState({artist: response.artist,
+                          album: response.album,
+                          //img_src : this.api_url + "player/cover?guid=" + response.artist + response.album
+                          })
+        }
+      )
     }
 
 
@@ -48,7 +44,7 @@ export class Library extends Component {
           <img className="album-cover" alt="Album cover" src={ this.props.img_src }></img>
           <br />
           <VDivider />
-          <button onClick={() => this.Click()}>Random album</button>
+          <button onClick={() => this.getRandomAlbum()}>Random album</button>
         </div>
       );
     }
