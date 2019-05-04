@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Player } from "./components/Player/Player.js"
+import { Library } from "./components/Library/Library.js"
+import { Column, Row } from 'simple-flexbox';
 import './App.css';
 
 
@@ -10,7 +12,10 @@ class App extends Component {
 
   render(){
     return <div className="App">
-      <Player />
+      <Row>
+        <Column><Player /></Column>
+        <Column><Library /></Column>
+      </Row>
     </div> 
 
   }
