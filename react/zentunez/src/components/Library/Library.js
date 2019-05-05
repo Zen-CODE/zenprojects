@@ -36,9 +36,15 @@ export class Library extends Component {
     enqueueAlbum() {
       /* Add the current album to the queue in the currently playing audio player    
       */
-      console.log("About to POST data for adding to the queue");
-      postData(this.api_url + `player/folder_enqueue`, {arist: this.state.artist,
-                                                        album: this.state.album})
+      fetch(this.api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album)
+        .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
+        .catch(error => console.error(error));
+    }
+
+    playAlbum() {
+      /* Add the current album to the queue in the currently playing audio player    
+      */
+      fetch(this.api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album)
         .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
         .catch(error => console.error(error));
     }
@@ -55,7 +61,8 @@ export class Library extends Component {
           <br />
           <VDivider />
           <button onClick={() => this.getRandomAlbum()}>Random album</button>
-          <button onClick={() => this.enqueueAlbum()}>Enqueue album</button>
+          <button onClick={() => this.enqueueAlbum()}>Enqueue </button>
+          <button onClick={() => this.playAlbum()}>Play</button>
         </div>
       );
     }

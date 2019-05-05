@@ -5,6 +5,8 @@ from rest_framework.decorators import api_view
 from tunez.helpers import get_response
 from .library import MusicLib
 from django.http import HttpResponse
+from os.path import exists
+from os import system
 
 
 class Library(object):
@@ -67,7 +69,11 @@ class Library(object):
         """
         Add the specified album to the end of the playlist
         """
-        return get_response({"message": "folder_enqueue"})
+        path = Library.lib.get_album_path(artist, album)
+        if exists(path):
+            system('audacious -e "{0}"'.format(path))
+        else:
+            return get_response({"message": "No such album"})
 
     @staticmethod
     @api_view(['GET'])
@@ -75,4 +81,8 @@ class Library(object):
         """
         Open and play the specified album
         """
-        return get_response({"message": "folder_play"})
+        path = Library.lib.get_album_path(artist, album)
+        if exists(path):
+            system('audacious -E "{0}"'.format(path))
+        else:
+            return get_response({"message": "No such album"})
