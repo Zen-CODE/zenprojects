@@ -96,3 +96,19 @@ class Player(object):
         _cover = Player.mplayer.cover()
         with open(_cover, "rb") as f:
             return HttpResponse(f.read(), content_type="image/" + _cover[-3:])
+
+    @staticmethod
+    @api_view()
+    def folder_enqueue(_request):
+        """
+        Add the specified album to the end of the playlist
+        """
+        return get_response({"message": "folder_enqueue"})
+
+    @staticmethod
+    @api_view()
+    def folder_play(_request):
+        """
+        Open and play the specified album
+        """
+        return get_response({"message": "folder_play"})
