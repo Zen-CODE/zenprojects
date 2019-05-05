@@ -128,3 +128,4 @@ class MusicLib(object):
             return sorted([get_name(f) for f in matches])
         else:
             return []
+

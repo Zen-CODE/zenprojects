@@ -7,4 +7,6 @@ urlpatterns = [
     path('tracks/<str:artist>/<str:album>', Library.tracks),
     path('cover/<str:artist>/<str:album>', Library.cover),
     path('random_album', Library.random_album),
+    path('folder_play/<str:artist>/<str:album>', Library.folder_play),
+    path('folder_enqueue/<str:artist>/<str:album>', Library.folder_enqueue),
 ]

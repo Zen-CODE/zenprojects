@@ -60,3 +60,19 @@ class Library(object):
         artist = Library.lib.get_random_artists(1)[0]
         album = Library.lib.get_random_albums(artist, 1)[0]
         return get_response({"artist": artist, "album": album})
+
+    @staticmethod
+    @api_view(['GET'])
+    def folder_enqueue(_request, artist, album):
+        """
+        Add the specified album to the end of the playlist
+        """
+        return get_response({"message": "folder_enqueue"})
+
+    @staticmethod
+    @api_view(['GET'])
+    def folder_play(_request, artist, album):
+        """
+        Open and play the specified album
+        """
+        return get_response({"message": "folder_play"})

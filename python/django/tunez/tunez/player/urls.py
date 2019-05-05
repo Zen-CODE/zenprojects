@@ -25,7 +25,5 @@ urlpatterns = [
     path('volume_down', Player.volume_down),
     path('state', Player.state),
     path('cover', Player.cover),
-    path('folder_play', Player.folder_play),
-    path('folder_enqueue', Player.folder_enqueue),
     path('volume_set/<str:volume>', Player.volume_set),
 ]
