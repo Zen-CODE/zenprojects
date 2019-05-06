@@ -53,10 +53,8 @@ export class Library extends Component {
       return (
         <div className="LibraryPanel">
           <p><b>ZenTunez Library</b></p>
-          <VDivider />
           <p><b>Artist: </b>{ this.state.artist } </p>
           <p><b>Album: </b>{ this.state.album } </p>
-          <VDivider />
           <img className="album-cover" alt="Album cover" src={ this.state.img_src }></img>
           <br />
           <VDivider />
