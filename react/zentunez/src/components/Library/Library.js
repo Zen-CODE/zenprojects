@@ -51,7 +51,7 @@ export class Library extends Component {
 
     render(){
       return (
-        <div className="LibraryPanel">
+        <div className="library-panel">
           <p><b>ZenTunez Library</b></p>
           <p><b>Artist: </b>{ this.state.artist } </p>
           <p><b>Album: </b>{ this.state.album } </p>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './TrackList.css';
 
 export class TrackList extends Component {
     /**
@@ -6,12 +7,12 @@ export class TrackList extends Component {
      */
     constructor(props) {
         super(props);
-        this.state = {tracks: ["test track1", "Test track 2"]};
+        this.state = {tracks: ["Test track1", "Test track 2"]};
       };
 
     render(){
       return (
-        <div>
+        <div className="track-list" >
             { this.state.tracks.map((item, index) => (
                 <li key={index}>{item}</li>
             ))}

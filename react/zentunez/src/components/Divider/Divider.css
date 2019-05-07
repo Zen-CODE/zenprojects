@@ -1,9 +1,9 @@
-.HDivider{
+.h-divider{
     width: 10px;
     height: auto;
     display: inline-block;
 }
-.VDivider{
+.v-divider{
     width: auto;
     height: 5px;
     display: inline-block;
