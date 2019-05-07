@@ -3,6 +3,7 @@ import { HDivider, VDivider } from '../Divider/Divider.js'
 import { PlayerButton } from "../PlayerButton/PlayerButton.js"
 import { PlayerState } from "../PlayerState/PlayerState.js"
 import { VolumeSlider } from "../VolumeSlider/VolumeSlider.js"
+import { TrackList } from "../TrackList/TrackList.js"
 import { Column, Row } from 'simple-flexbox';
 
 export class Player extends Component {
@@ -109,6 +110,9 @@ export class Player extends Component {
           </Row>
           <Row horizontal='center'>
             {this.renderState()}
+          </Row>
+          <Row>
+            < TrackList />
           </Row>
         </div>
       );
