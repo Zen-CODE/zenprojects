@@ -2,7 +2,8 @@
     width: 100%;
 }
 
-.track-list ul {
+.track-list li {
     text-align: center;
+    font-size: 15px;
 }
 
