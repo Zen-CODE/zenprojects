@@ -13,7 +13,6 @@ export class PlayerState extends Component {
           <p><b>Album :</b> { this.props.album }</p>
           <p><b>Track :</b> { this.props.track }</p>
           <p><b>State :</b> { this.props.state }</p>
-          <p><b>Volume :</b> { parseInt(100 * this.props.volume) }%</p>
           <p><b>Position :</b> { parseInt(100 * this.props.position) }%</p>
           <img className="album-cover" alt="Album cover" src={ this.props.img_src }></img>
         </div>

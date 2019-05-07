@@ -76,7 +76,6 @@ export class Player extends Component {
         artist={ this.state.artist } 
         track={ this.state.track }
         album={ this.state.album }
-        volume={ this.state.volume }
         position={ this.state.position }
         state={ this.state.state }
         img_src={ this.state.img_src }
