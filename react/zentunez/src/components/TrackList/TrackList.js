@@ -23,7 +23,7 @@ export class TrackList extends Component {
           album: this.props.album,
           api_url: this.props.api_url,
         })
-        this.setTracks(prevProps.artist, prevProps.album)
+        this.setTracks(this.props.artist, this.props.album)
       }
     }
 

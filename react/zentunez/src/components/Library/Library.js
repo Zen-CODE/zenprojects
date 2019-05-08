@@ -62,9 +62,11 @@ export class Library extends Component {
             api_url={ this.api_url }
           />
           <VDivider />
-          <button onClick={() => this.getRandomAlbum()}>Random album</button>
-          <button onClick={() => this.enqueueAlbum()}>Enqueue </button>
-          <button onClick={() => this.playAlbum()}>Play</button>
+          <div>
+            <button onClick={() => this.getRandomAlbum()}>Random album</button>
+            <button onClick={() => this.enqueueAlbum()}>Enqueue </button>
+            <button onClick={() => this.playAlbum()}>Play</button>
+          </div>
         </div>
       );
     }
