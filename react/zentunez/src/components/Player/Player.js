@@ -35,11 +35,9 @@ export class Player extends Component {
   
     Click = (api_call) => {
       /* Handle the click on a Player media button */
-      console.log("api_url=" + this.state.api_url )
       fetch(this.state.api_url + api_call)
         .then(res => res.json())
         .then((response) => {
-            console.log("Volume is " + response.volume + ". Playing " + response.track);
             this.setState({artist: response.artist,
                           album: response.album,
                           track: response.track,

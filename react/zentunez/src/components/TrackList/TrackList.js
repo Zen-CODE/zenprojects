@@ -10,7 +10,7 @@ export class TrackList extends Component {
   
       this.state = {artist: "-",
                     album: "-",
-                    api_url: "",
+                    api_url: props.api_url,
                     tracks: []
         }
     };

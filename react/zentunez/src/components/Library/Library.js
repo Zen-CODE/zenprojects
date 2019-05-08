@@ -23,7 +23,6 @@ export class Library extends Component {
       fetch(this.state.api_url + "library/random_album")
         .then(res => res.json())
         .then((response) => {
-            console.log("Random album is" + response.artist + " - " + response.album);
             this.setState({artist: response.artist,
                           album: response.album,
                           img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
