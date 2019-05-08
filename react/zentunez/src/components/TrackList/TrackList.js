@@ -8,7 +8,7 @@ export class TrackList extends Component {
 
     render(){
       return (
-        <div className="track-list" >
+        <div className="track-list no-bullet" >
             { this.props.tracks.map((item, index) => (
                 <li key={index}>{item}</li>
             ))}
