@@ -57,7 +57,7 @@ export class Player extends Component {
 
     setAlbum(artist, album) {
       /* Set the Track listing to the current album */
-      if (this._prev_album != artist + album){
+      if (this._prev_album !== artist + album){
         console.log("setAlbum() called with " + artist + ": " + album)
         this._prev_album = artist + album;
         fetch(this.api_url + "library/tracks/" + artist + "/" + album)
