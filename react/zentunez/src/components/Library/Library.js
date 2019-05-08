@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Library.css';
 import { VDivider } from '../Divider/Divider.js'
-// import { postData } from '../../lib/post.js'
+import { TrackList } from "../TrackList/TrackList.js"
 
 export class Library extends Component {
     /**
@@ -53,10 +53,14 @@ export class Library extends Component {
       return (
         <div className="library-panel">
           <p><b>ZenTunez Library</b></p>
-          <p><b>Artist: </b>{ this.state.artist } </p>
-          <p><b>Album: </b>{ this.state.album } </p>
           <img className="album-cover" alt="Album cover" src={ this.state.img_src }></img>
           <br />
+          <VDivider />
+          <TrackList
+            artist={ this.state.artist }
+            album={ this.state.album } 
+            api_url={ this.api_url }
+          />
           <VDivider />
           <button onClick={() => this.getRandomAlbum()}>Random album</button>
           <button onClick={() => this.enqueueAlbum()}>Enqueue </button>

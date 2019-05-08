@@ -15,14 +15,15 @@ export class TrackList extends Component {
         }
     };
 
-    componentDidUpdate(prevProps, prevState){
-      if (this.state.artist !== prevProps.artist){
+    componentDidUpdate(prevProps){
+      // When the album changes, load the new track listing
+      if ((this.props.album !== prevProps.album) || (this.props.artist !== prevProps.artist)) {
         this.setState({
-          artist: prevProps.artist,
-          album: prevProps.album,
-          api_url: prevProps.api_url,
+          artist: this.props.artist,
+          album: this.props.album,
+          api_url: this.props.api_url,
         })
-      this.setTracks(prevProps.artist, prevProps.album)
+        this.setTracks(prevProps.artist, prevProps.album)
       }
     }
 
