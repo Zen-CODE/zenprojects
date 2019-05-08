@@ -12,20 +12,17 @@ export class Player extends Component {
     audio player and retreive state information from it.
     */
    constructor(props) {
-      super(props);
-      this.api_url = "http://127.0.0.1:8000/";
-      /* The API that supplies the Media player functions */
-  
+      super(props);  
       this.state = {artist: "-",
                     album: "-",
                     track: "-",
                     volume: 0,
                     state: "-",
                     position: 0,
-                    img_src: ""
+                    img_src: "",
+                    api_url: props.api_url
                   };
       this.intervalID = 0;
-      this._prev_album = "";
     };
   
     componentDidMount(){
@@ -38,7 +35,8 @@ export class Player extends Component {
   
     Click = (api_call) => {
       /* Handle the click on a Player media button */
-      fetch(this.api_url + api_call)
+      console.log("api_url=" + this.state.api_url )
+      fetch(this.state.api_url + api_call)
         .then(res => res.json())
         .then((response) => {
             console.log("Volume is " + response.volume + ". Playing " + response.track);
@@ -48,14 +46,14 @@ export class Player extends Component {
                           volume: response.volume,
                           state: response.state,
                           position: response.position,
-                          img_src : this.api_url + "player/cover?guid=" + response.artist + response.album + response.track
+                          img_src : this.state.api_url + "player/cover?guid=" + response.artist + response.album + response.track
                           })
         }
       )
     }
 
     setVolume = (vol) => {
-      fetch(this.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
+      fetch(this.state.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
       this.Click("player/state")
     }
   
@@ -78,7 +76,7 @@ export class Player extends Component {
       return <TrackList 
                 artist={ this.state.artist }
                 album={ this.state.album }
-                api_url={ this.api_url }
+                api_url={ this.state.api_url }
       />
     }
   
