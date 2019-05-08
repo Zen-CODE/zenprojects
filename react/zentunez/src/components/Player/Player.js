@@ -50,26 +50,10 @@ export class Player extends Component {
                           position: response.position,
                           img_src : this.api_url + "player/cover?guid=" + response.artist + response.album + response.track
                           })
-            this.setAlbum(response.artist, response.album)
         }
       )
     }
 
-    setAlbum(artist, album) {
-      /* Set the Track listing to the current album */
-      if (this._prev_album !== artist + album){
-        console.log("setAlbum() called with " + artist + ": " + album)
-        this._prev_album = artist + album;
-        fetch(this.api_url + "library/tracks/" + artist + "/" + album)
-        .then(res => res.json())
-        .then((response) => {
-            console.log("got Tracks " + response);
-            this.setState({ tracks: response })
-          }
-        )
-      }
-    }
-  
     setVolume = (vol) => {
       fetch(this.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
       this.Click("player/state")
@@ -91,7 +75,11 @@ export class Player extends Component {
     }
 
     renderTrackList(){
-      return <TrackList tracks={ this.state.tracks } />
+      return <TrackList 
+                artist={ this.state.artist }
+                album={ this.state.album }
+                api_url={ this.api_url }
+      />
     }
   
     renderState() {
