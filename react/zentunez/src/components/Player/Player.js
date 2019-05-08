@@ -24,6 +24,7 @@ export class Player extends Component {
                     position: 0,
                     img_src: ""};
       this.intervalID = 0;
+      this._prev_album = "";
     };
   
     componentDidMount(){
@@ -48,11 +49,21 @@ export class Player extends Component {
                           position: response.position,
                           img_src : this.api_url + "player/cover?guid=" + response.artist + response.album + response.track
                           })
+            this.setAlbum(response.artist, response.album)
         }
       )
     }
+
+    setAlbum(artist, album) {
+      /* Set the Track listing to the current album */
+      if (this._prev_album != artist + album){
+        console.log("setAlbum() called with " + artist + ": " + album)
+        this._prev_album = artist + album;
+      }
+    }
+
   
-    setVolumne = (vol) => {
+    setVolume = (vol) => {
       fetch(this.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
       this.Click("player/state")
     }
@@ -68,8 +79,12 @@ export class Player extends Component {
     renderVolume() {
       return <VolumeSlider 
                 volume={ this.state.volume }
-                onChange={ this.setVolumne }
+                onChange={ this.setVolume }
              />
+    }
+
+    renderTrackList(){
+      return <TrackList tracks={ ["One", "Two", "Three"] } />
     }
   
     renderState() {
@@ -109,10 +124,10 @@ export class Player extends Component {
             <Column>{this.renderButton(">>", "player/volume_up")}</Column>
           </Row>
           <Row horizontal='center'>
-            {this.renderState()}
+            { this.renderState() }
           </Row>
           <Row>
-            < TrackList />
+            { this.renderTrackList() }
           </Row>
         </div>
       );
