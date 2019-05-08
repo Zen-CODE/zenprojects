@@ -22,7 +22,8 @@ export class Player extends Component {
                     volume: 0,
                     state: "-",
                     position: 0,
-                    img_src: ""};
+                    img_src: "",
+                    tracks: []};
       this.intervalID = 0;
       this._prev_album = "";
     };
@@ -59,9 +60,15 @@ export class Player extends Component {
       if (this._prev_album != artist + album){
         console.log("setAlbum() called with " + artist + ": " + album)
         this._prev_album = artist + album;
+        fetch(this.api_url + "library/tracks/" + artist + "/" + album)
+        .then(res => res.json())
+        .then((response) => {
+            console.log("got Tracks " + response);
+            this.setState({ tracks: response })
+          }
+        )
       }
     }
-
   
     setVolume = (vol) => {
       fetch(this.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
@@ -84,7 +91,7 @@ export class Player extends Component {
     }
 
     renderTrackList(){
-      return <TrackList tracks={ ["One", "Two", "Three"] } />
+      return <TrackList tracks={ this.state.tracks } />
     }
   
     renderState() {
