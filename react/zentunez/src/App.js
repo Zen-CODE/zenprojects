@@ -15,7 +15,7 @@ class App extends Component {
     return <div className="App">
       <Row>
         <Column><Player api_url={ API_URL } /></Column>
-        <Column><Library /></Column>
+        <Column><Library api_url={ API_URL } /></Column>
       </Row>
     </div> 
 
