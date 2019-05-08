@@ -22,8 +22,8 @@ export class Player extends Component {
                     volume: 0,
                     state: "-",
                     position: 0,
-                    img_src: "",
-                    tracks: []};
+                    img_src: ""
+                  };
       this.intervalID = 0;
       this._prev_album = "";
     };
@@ -84,9 +84,7 @@ export class Player extends Component {
   
     renderState() {
       return <PlayerState 
-        artist={ this.state.artist } 
         track={ this.state.track }
-        album={ this.state.album }
         position={ this.state.position }
         state={ this.state.state }
         img_src={ this.state.img_src }
