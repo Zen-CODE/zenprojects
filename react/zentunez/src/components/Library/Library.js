@@ -14,7 +14,8 @@ export class Library extends Component {
           album: "-",
           img_src: "",
           api_url: props.api_url
-        }       
+        }
+        this.getRandomAlbum();
       };  
 
     getRandomAlbum() {
