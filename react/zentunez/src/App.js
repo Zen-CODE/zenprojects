@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Player } from "./components/Player/Player.js"
 import { Library } from "./components/Library/Library.js"
-import { Column, Row } from 'simple-flexbox';
 import './App.css';
 
 const API_URL = "http://127.0.0.1:8000/";
@@ -13,10 +12,8 @@ class App extends Component {
 
   render(){
     return <div className="App">
-      <Row>
-        <Column><Player api_url={ API_URL } /></Column>
-        <Column><Library api_url={ API_URL } /></Column>
-      </Row>
+      <div className="player-col"><Player api_url={ API_URL } /></div>
+      <div className="library-col"><Library api_url={ API_URL } /></div>
     </div> 
 
   }
