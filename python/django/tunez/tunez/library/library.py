@@ -2,43 +2,6 @@ from os import listdir
 from os.path import join, isdir, basename, exists
 from random import sample
 from glob import glob
-from textwrap import dedent
-import codecs
-
-
-class Templates(object):
-    """
-    This class defines varios HTML templates as constants from output in
-    the MusicLib class.
-    """
-
-    @staticmethod
-    def get_album():
-        """
-        Return the HTML for an album template. The template has placeholders
-        for 'artist', 'album' and 'tracks'.
-        """
-        return dedent('''
-            <table>
-                <tr>
-                  <th><b>{artist}</b></th>
-                  <th><b>{album}</b></th>
-                </tr>
-                <tr>
-                  <td>{cover}</td>
-                  <td>{tracks}</td>
-                </tr>            
-            </table>
-        ''')
-
-    @staticmethod
-    def get_image():
-        """
-        Return the HTML for the album cover with a placeholder for
-        'base64'
-        """
-        return '<img alt="Image" src="data:image/png;base64,{base64}"' \
-               ' width="300px" height="300px" />'
 
 
 class MusicLib(object):
@@ -75,18 +38,6 @@ class MusicLib(object):
             return [name for name in listdir(path) if isdir(join(path, name))]
         else:
             return []
-
-    @staticmethod
-    def get_inline_image(file_name):
-        """ Return an HTML formatted inline image """
-        if file_name == "":
-            file_name = "Music/audio_icon.png"
-
-        with open(file_name, "rb") as f:
-            b64 = codecs.encode(f.read(), 'base64')
-            html = Templates.get_image()
-            return html.format(**{'base64': str(b64, 'ascii')})
-            # return html.format(**{'base64': str(b64).encode('ascii')})
 
     def get_cover(self, artist, album):
         """
