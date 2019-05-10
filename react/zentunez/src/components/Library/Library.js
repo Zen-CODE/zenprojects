@@ -52,9 +52,8 @@ export class Library extends Component {
         <div className="library-panel">
           <p><b>ZenTunez Library</b></p>
           <div>
-            <button onClick={() => this.getRandomAlbum()}>Random album</button>
-            <button onClick={() => this.enqueueAlbum()}>Enqueue </button>
-            <button onClick={() => this.playAlbum()}>Play</button>
+            <button onClick={() => this.getRandomAlbum()}>Get album </button>
+            <input ></input>
           </div>
           <VDivider />
           <div>
@@ -67,6 +66,10 @@ export class Library extends Component {
             api_url={ this.state.api_url }
           />
           <VDivider />
+          <div>
+            <button onClick={() => this.enqueueAlbum()}>Enqueue </button>
+            <button onClick={() => this.playAlbum()}>Play</button>
+          </div>
         </div>
       );
     }
