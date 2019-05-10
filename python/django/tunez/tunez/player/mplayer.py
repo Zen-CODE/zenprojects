@@ -5,7 +5,7 @@ player.
 
 from mpris2 import get_players_uri, Player
 from urllib.parse import urlparse, unquote
-from os.path import exists
+from os.path import exists, sep
 
 
 class MPlayer(object):
@@ -29,6 +29,12 @@ class MPlayer(object):
         """
         self.mp2_player.Volume += val
 
+    @staticmethod
+    def _get_from_filename(filename):
+        """ Return the artist and album based on the file name"""
+        parts = unquote(filename).split(sep)
+        return parts[-3], parts[-2], parts[-1]
+
     def get_state(self):
         """ Return a dictionary containing information on the audio player's
         status. Values in this dict are:
@@ -40,13 +46,16 @@ class MPlayer(object):
         length = md.get("mpris:length", 0)
         pos = float(self.mp2_player.Position) / float(length) if length > 0 \
             else 0
+        artist, album, track = self._get_from_filename(md["xesam:url"])
+
         return {
             "volume": self.mp2_player.Volume,
             "state": self.mp2_player.PlaybackStatus,
             "position": pos,
-            "artist": md.get("xesam:artist", [""])[0],
-            "album": md.get("xesam:album", ""),
-            "track": md.get("xesam:title", "")}
+            "artist": artist,
+            "album": album,
+            "track": track
+        }
 
     def previous_track(self):
         """
