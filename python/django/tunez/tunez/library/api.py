@@ -86,3 +86,16 @@ class Library(object):
             system('audacious -E "{0}"'.format(path))
         else:
             return get_response({"message": "No such album"})
+
+    @staticmethod
+    @api_view(['GET'])
+    def search(_request, term):
+        """
+        Search for the first album where the this terms, either in the artist
+        name of the album name.
+
+        Returns:
+             A dictionary with the artist and album as keys if found. Return an
+             empty dictionary otherwise.
+        """
+        return get_response(Library.lib.search(term))

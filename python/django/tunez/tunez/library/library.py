@@ -80,3 +80,19 @@ class MusicLib(object):
         else:
             return []
 
+    def search(self, term):
+        """
+        Search for the first album where the this terms, either in the artist
+        name of the album name.
+
+        Returns:
+             A dictionary with the artist and album as keys if found. Return an
+             empty dictionary otherwise.
+        """
+        for artist in listdir(self.path):
+            folder = join(self.path, artist)
+            if isdir(folder):
+                for album in listdir(folder):
+                    if (artist + album).lower().find(term.lower()) > -1:
+                        return {"artist": artist, "album": album}
+        return {}
