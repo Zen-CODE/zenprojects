@@ -12,8 +12,9 @@ class App extends Component {
 
   render(){
     return <div className="App">
+      <div className="player-col"><Library api_url={ API_URL } /></div>
       <div className="player-col"><Player api_url={ API_URL } /></div>
-      <div className="library-col"><Library api_url={ API_URL } /></div>
+      <div className="player-col"><Library api_url={ API_URL } /></div>
     </div> 
 
   }
