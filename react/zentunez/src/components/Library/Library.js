@@ -20,8 +20,20 @@ export class Library extends Component {
         this.getRandomAlbum();
       };  
 
+    getAlbum() {
+      /*
+      Retrieve a random albom or search for a match if a search criteria has
+      been entered.
+      */
+      if (this.state.search === ""){
+        this.getRandomAlbum()
+      } else {
+        this.getSearchAlbum(this.state.search)
+      }
+    }
+
     getRandomAlbum() {
-      /* Handle the click to fetdch a new randwom alum */
+      /* Handle the click to fetch a new random album */
       fetch(this.state.api_url + "library/random_album")
         .then(res => res.json())
         .then((response) => {
@@ -29,6 +41,23 @@ export class Library extends Component {
                           album: response.album,
                           img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
                           })
+        }
+      )
+    }
+
+    getSearchAlbum(term) {
+      /* Handle the click to search for an album */
+      fetch(this.state.api_url + "library/search/" + term)
+        .then(res => res.json())
+        .then((response) => {
+            if ("artist" in response){
+              this.setState({artist: response.artist,
+                            album: response.album,
+                            img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
+                            })}
+            else {
+              console.log("No album found")
+            }
         }
       )
     }
@@ -52,7 +81,8 @@ export class Library extends Component {
     searchChanged(event) {
       /* The search term has changed
       */
-      console.log("Search term changed = " + event.target.value)
+      // console.log("Search term changed = " + event.target.value)
+      this.setState({ 'search': event.target.value })
     }
 
     render(){
@@ -60,7 +90,7 @@ export class Library extends Component {
         <div className="library-panel">
           <p><b>ZenTunez Library</b></p>
           <div>
-            <button onClick={() => this.getRandomAlbum()}>Get album </button>
+            <button onClick={() => this.getAlbum()}>Get album </button>
             <input onChange={(event) => this.searchChanged(event) }></input>
           </div>
           <VDivider />
