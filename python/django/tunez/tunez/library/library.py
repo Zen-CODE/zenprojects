@@ -89,10 +89,12 @@ class MusicLib(object):
              A dictionary with the artist and album as keys if found. Return an
              empty dictionary otherwise.
         """
+        terms = term.lower().split(" ")
         for artist in listdir(self.path):
             folder = join(self.path, artist)
             if isdir(folder):
                 for album in listdir(folder):
-                    if (artist + album).lower().find(term.lower()) > -1:
+                    if all([(artist + album).lower().find(t) > -1
+                            for t in terms]):
                         return {"artist": artist, "album": album}
         return {}
