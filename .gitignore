@@ -6,3 +6,4 @@ python/django/capiccount/budget/migrations/*
 venv/
 react/zentunez/node_modules
 react/zentunez/build
+python/django/tunez/db.sqlite3
