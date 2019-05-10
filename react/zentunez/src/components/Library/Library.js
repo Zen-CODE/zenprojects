@@ -5,7 +5,8 @@ import { TrackList } from "../TrackList/TrackList.js"
 
 export class Library extends Component {
     /**
-     * This component displays the volume slider
+     * This component selects random albums or searches for them, then present
+     * them in the UI for either enqueueing or playing.
      */    
     constructor(props) {
         super(props);
@@ -13,7 +14,8 @@ export class Library extends Component {
           artist: "-",
           album: "-",
           img_src: "",
-          api_url: props.api_url
+          api_url: props.api_url,
+          search: ""
         }
         this.getRandomAlbum();
       };  
@@ -47,13 +49,19 @@ export class Library extends Component {
         .catch(error => console.error(error));
     }
 
+    searchChanged(event) {
+      /* The search term has changed
+      */
+      console.log("Search term changed = " + event.target.value)
+    }
+
     render(){
       return (
         <div className="library-panel">
           <p><b>ZenTunez Library</b></p>
           <div>
             <button onClick={() => this.getRandomAlbum()}>Get album </button>
-            <input ></input>
+            <input onChange={(event) => this.searchChanged(event) }></input>
           </div>
           <VDivider />
           <div>
