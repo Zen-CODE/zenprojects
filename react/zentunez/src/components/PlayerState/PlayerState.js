@@ -6,6 +6,8 @@ export class PlayerState extends Component {
      * This component handles the display of the album cover, along with a
      * button to update it
      */    
+
+
     render(){
       return (
         <div>
@@ -13,7 +15,7 @@ export class PlayerState extends Component {
           <p><b>State :</b> { this.props.state }</p>
           <input type="range" min="0" max="100" value={ this.props.position * 100 } readOnly={ true }/>
           <br />
-          <img className="album-cover" alt="Album cover" src={ this.props.img_src }></img>
+          <img className="album-cover" alt="Album cover" src={ this.props.img_src } onClick={ () => window.open(this.props.img_src) }></img>
         </div>
       );
     }

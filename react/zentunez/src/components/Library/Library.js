@@ -88,8 +88,9 @@ export class Library extends Component {
       if (e.key === 'Enter') { this.getSearchAlbum(this.state.search) }
     }
 
-    onImageClick() {
-      console.log("Image clicked!")
+    onImageClick = () => {
+      /* When the image is clicked, open the cover in a new window */
+      window.open(this.state.api_url + "library/cover/" + this.state.artist + "/" + this.state.album)
     }
 
     render(){
