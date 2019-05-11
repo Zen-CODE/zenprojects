@@ -79,10 +79,13 @@ export class Library extends Component {
     }
 
     searchChanged(event) {
-      /* The search term has changed
-      */
-      // console.log("Search term changed = " + event.target.value)
+      /* The search term has changed */
       this.setState({ 'search': event.target.value })
+    }
+
+    onKeyDown = (e) => {
+      /* Catch the Enter keypress event to fire the search. */
+      if (e.key === 'Enter') { this.searchChanged() }
     }
 
     render(){
@@ -91,7 +94,10 @@ export class Library extends Component {
           <p><b>ZenTunez Library</b></p>
           <div>
             <button onClick={() => this.getAlbum()}>Get album </button>
-            <input onChange={(event) => this.searchChanged(event) }></input>
+            <input 
+              onChange={(event) => this.searchChanged(event) }
+              onKeyDown={ this.onKeyDown }>
+            </input>
           </div>
           <VDivider />
           <div>
