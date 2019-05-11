@@ -85,7 +85,11 @@ export class Library extends Component {
 
     onKeyDown = (e) => {
       /* Catch the Enter keypress event to fire the search. */
-      if (e.key === 'Enter') { this.searchChanged() }
+      if (e.key === 'Enter') { this.getSearchAlbum(this.state.search) }
+    }
+
+    onImageClick() {
+      console.log("Image clicked!")
     }
 
     render(){
@@ -101,7 +105,7 @@ export class Library extends Component {
           </div>
           <VDivider />
           <div>
-            <img className="album-cover" alt="Album cover" src={ this.state.img_src }></img>
+            <img className="album-cover" alt="Album cover" src={ this.state.img_src } onClick={ this.onImageClick }></img>
           </div>
           <VDivider />
           <TrackList
