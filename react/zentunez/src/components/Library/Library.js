@@ -56,7 +56,7 @@ export class Library extends Component {
                             img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
                             })}
             else {
-              console.log("No album found")
+              alert("No album found matching the search term (" + term + ")")
             }
         }
       )
