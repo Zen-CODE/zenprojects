@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Library.css';
-import { VDivider } from '../Divider/Divider.js'
+import { VDivider, HDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 
 export class Library extends Component {
@@ -99,6 +99,7 @@ export class Library extends Component {
           <p><b>ZenTunez Library</b></p>
           <div>
             <button onClick={() => this.getAlbum()}>Get album </button>
+            <HDivider />
             <input 
               onChange={(event) => this.searchChanged(event) }
               onKeyDown={ this.onKeyDown }>
@@ -117,6 +118,7 @@ export class Library extends Component {
           <VDivider />
           <div>
             <button onClick={() => this.enqueueAlbum()}>Enqueue </button>
+            <HDivider />
             <button onClick={() => this.playAlbum()}>Play</button>
           </div>
         </div>
