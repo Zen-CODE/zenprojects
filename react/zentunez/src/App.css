@@ -10,3 +10,8 @@
 .container {
   max-width: none;
 }
+
+.album-cover {
+  width: 500px;
+  height: auto;
+}
