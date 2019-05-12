@@ -2,10 +2,7 @@
   text-align: center;
   padding: 5px;
 }
-.player-col {
-  display: inline-block;  
-  vertical-align: top;
-  width: 30%;
-  height: auto;
-  top: 0px;
+
+.container {
+  max-width: none;
 }
