@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './PlayerState.css';
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import { VDivider } from '../Divider/Divider.js'
 
 export class PlayerState extends Component {
     /**
@@ -10,13 +11,19 @@ export class PlayerState extends Component {
 
     render(){
       return (
-        <div>
-          <p><b>Track :</b> { this.props.track }</p>
-          <p><b>State :</b> { this.props.state }</p>
-          <input type="range" className="custom-range"  min="0" max="100" value={ this.props.position * 100 } readOnly={ true }/>
-          <br />
-          <img className="album-cover" alt="Album cover" src={ this.props.img_src } onClick={ () => window.open(this.props.img_src) }></img>
-        </div>
+        <MDBContainer>
+          <MDBRow><MDBCol><b>Track: </b> { this.props.track }</MDBCol></MDBRow>
+          <MDBRow><MDBCol><b>State :</b> { this.props.state }</MDBCol></MDBRow>
+          <MDBRow><MDBCol><VDivider /></MDBCol></MDBRow>
+          <MDBRow>
+            <MDBCol><input type="range" className="custom-range"  min="0" max="100" value={ this.props.position * 100 } readOnly={ true }/></MDBCol>
+          </MDBRow>
+          <MDBRow><MDBCol><VDivider /></MDBCol></MDBRow>
+          <MDBRow>
+            <MDBCol><img alt="Album cover" src={ this.props.img_src } onClick={ () => window.open(this.props.img_src) }></img></MDBCol>
+          </MDBRow>
+          <MDBRow><MDBCol><VDivider /></MDBCol></MDBRow>
+        </MDBContainer>
       );
     }
   }
