@@ -4,7 +4,8 @@ import { PlayerButton } from "../PlayerButton/PlayerButton.js"
 import { PlayerState } from "../PlayerState/PlayerState.js"
 import { VolumeSlider } from "../VolumeSlider/VolumeSlider.js"
 import { TrackList } from "../TrackList/TrackList.js"
-import { Column, Row } from 'simple-flexbox';
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+
 
 export class Player extends Component {
     /*
@@ -91,33 +92,26 @@ export class Player extends Component {
        * The main application objects are build and returned here.
       */
       return (
-        <div>
-          <Row horizontal='center'>
-            <Column>{this.renderButton("Previous", "player/previous")}</Column>
-            <HDivider />
-            <Column>{this.renderButton("Stop", "player/stop")}</Column>
-            <HDivider />
-            <Column>{this.renderButton("Play / Pause", "player/play_pause")}</Column>
-            <HDivider />
-            <Column>{this.renderButton("Next", "player/next")}</Column>
-          </Row>
+        <MDBContainer>
+          <MDBRow horizontal='center'>
+            <MDBCol>{this.renderButton("Previous", "player/previous")}</MDBCol>
+            <MDBCol>{this.renderButton("Stop", "player/stop")}</MDBCol>
+            <MDBCol>{this.renderButton("Play / Pause", "player/play_pause")}</MDBCol>
+            <MDBCol>{this.renderButton("Next", "player/next")}</MDBCol>
+          </MDBRow>
           <VDivider />
-          <Row horizontal='center' >
-            <Column>{this.renderButton("<<", "player/volume_down")}</Column>
-            <HDivider />
-            <Column>            
-              { this.renderVolume() }
-            </Column>
-            <HDivider />
-            <Column>{this.renderButton(">>", "player/volume_up")}</Column>
-          </Row>
-          <Row horizontal='center'>
+          <MDBRow horizontal='center' >
+            <MDBCol size="3">{this.renderButton("<<", "player/volume_down")}</MDBCol>
+            <MDBCol>{ this.renderVolume() }</MDBCol>
+            <MDBCol size="3">{this.renderButton(">>", "player/volume_up")}</MDBCol>
+          </MDBRow>
+          <MDBRow horizontal='center'>
             { this.renderState() }
-          </Row>
-          <Row>
+          </MDBRow>
+          <MDBRow>
             { this.renderTrackList() }
-          </Row>
-        </div>
+          </MDBRow>
+        </MDBContainer>
       );
     }
   }
