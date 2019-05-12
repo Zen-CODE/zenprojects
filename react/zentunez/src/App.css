@@ -15,3 +15,8 @@
   width: 500px;
   height: auto;
 }
+
+/* Font size for the icons */
+.far{
+  font-size: 40px;
+}

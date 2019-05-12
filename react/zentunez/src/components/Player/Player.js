@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { HDivider, VDivider } from '../Divider/Divider.js'
-import { PlayerButton } from "../PlayerButton/PlayerButton.js"
+import { VDivider } from '../Divider/Divider.js'
 import { PlayerState } from "../PlayerState/PlayerState.js"
 import { VolumeSlider } from "../VolumeSlider/VolumeSlider.js"
 import { TrackList } from "../TrackList/TrackList.js"
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 
 
 export class Player extends Component {
@@ -56,12 +55,14 @@ export class Player extends Component {
       this.Click("player/state")
     }
   
-    renderButton(caption, api_call) {
-      return <PlayerButton
-                caption={caption} 
+    renderIcon(icon, api_call) {
+      return <MDBIcon 
+                className="far"
+                icon={ icon }
                 onClick={ () => this.Click(api_call) }
-              />;
+              />
     }
+    
   
     renderVolume() {
       return <VolumeSlider 
@@ -94,16 +95,16 @@ export class Player extends Component {
       return (
         <MDBContainer>
           <MDBRow horizontal='center'>
-            <MDBCol>{this.renderButton("Previous", "player/previous")}</MDBCol>
-            <MDBCol>{this.renderButton("Stop", "player/stop")}</MDBCol>
-            <MDBCol>{this.renderButton("Play / Pause", "player/play_pause")}</MDBCol>
-            <MDBCol>{this.renderButton("Next", "player/next")}</MDBCol>
+            <MDBCol>{this.renderIcon("fast-backward", "player/previous")}</MDBCol>
+            <MDBCol>{this.renderIcon("stop-circle", "player/stop")}</MDBCol>
+            <MDBCol>{this.renderIcon("play-circle", "player/play_pause")}</MDBCol>
+            <MDBCol>{this.renderIcon("fast-forward", "player/next")}</MDBCol>
           </MDBRow>
           <VDivider />
           <MDBRow horizontal='center' >
-            <MDBCol size="3">{this.renderButton("<<", "player/volume_down")}</MDBCol>
+            <MDBCol size="3">{this.renderIcon("volume-down", "player/volume_down")}</MDBCol>
             <MDBCol>{ this.renderVolume() }</MDBCol>
-            <MDBCol size="3">{this.renderButton(">>", "player/volume_up")}</MDBCol>
+            <MDBCol size="3">{this.renderIcon("volume-up", "player/volume_up")}</MDBCol>
           </MDBRow>
           <MDBRow horizontal='center'>
             { this.renderState() }
