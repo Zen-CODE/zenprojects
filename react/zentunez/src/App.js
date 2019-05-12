@@ -15,10 +15,10 @@ class App extends Component {
   */
 
   render(){
-    return <MDBContainer className="App" max-width="100%">
+    return <MDBContainer className="App">
       <MDBRow>
         <MDBCol><Library api_url={ API_URL } /></MDBCol>
-        <MDBCol size="0.5" ><Player api_url={ API_URL } /></MDBCol>
+        <MDBCol><Player api_url={ API_URL } /></MDBCol>
         <MDBCol><Library api_url={ API_URL } /></MDBCol>
       </MDBRow>
     </MDBContainer> 
