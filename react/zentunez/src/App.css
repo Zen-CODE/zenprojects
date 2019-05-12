@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.col {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .container {
   max-width: none;
 }
