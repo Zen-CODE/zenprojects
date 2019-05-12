@@ -97,6 +97,7 @@ export class Player extends Component {
           <MDBRow horizontal='center'>          
             <MDBCol>{this.renderIcon("fast-backward", "player/previous")}</MDBCol>
             <MDBCol>{this.renderIcon("stop-circle", "player/stop")}</MDBCol>
+            <MDBCol>{this.renderIcon("pause-circle", "player/play_pause")}</MDBCol>
             <MDBCol>{this.renderIcon("play-circle", "player/play_pause")}</MDBCol>
             <MDBCol>{this.renderIcon("fast-forward", "player/next")}</MDBCol>
           </MDBRow>
