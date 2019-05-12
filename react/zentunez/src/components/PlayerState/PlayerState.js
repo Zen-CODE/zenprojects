@@ -18,7 +18,7 @@ export class PlayerState extends Component {
             <MDBCol><input type="range" className="custom-range"  min="0" max="100" value={ this.props.position * 100 } readOnly={ true }/></MDBCol>
           </MDBRow>
           <MDBRow>
-            <MDBCol><img alt="Album cover" src={ this.props.img_src } onClick={ () => window.open(this.props.img_src) }></img></MDBCol>
+            <MDBCol><img className="album-cover" alt="Album cover" src={ this.props.img_src } onClick={ () => window.open(this.props.img_src) }></img></MDBCol>
           </MDBRow>
         </MDBContainer>
       );
