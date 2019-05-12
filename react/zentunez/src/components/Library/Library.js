@@ -96,7 +96,7 @@ export class Library extends Component {
 
     render(){
       return (
-        <div className="library-panel">
+        <div>
           <p><b>ZenTunez Library</b></p>
           <div>
             <PlayerButton caption="Get album" onClick={ () => this.getAlbum() } />
@@ -106,17 +106,14 @@ export class Library extends Component {
               onKeyDown={ this.onKeyDown }>
             </input>
           </div>
-          <VDivider />
           <div>
             <img className="album-cover" alt="Album cover" src={ this.state.img_src } onClick={ this.onImageClick }></img>
           </div>
-          <VDivider />
           <TrackList
             artist={ this.state.artist }
             album={ this.state.album } 
             api_url={ this.state.api_url }
           />
-          <VDivider />
           <div>
             <PlayerButton caption="Enqueue" onClick={() => this.enqueueAlbum()} />
             <HDivider />
