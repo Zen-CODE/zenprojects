@@ -13,7 +13,7 @@ export class PlayerState extends Component {
         <div>
           <p><b>Track :</b> { this.props.track }</p>
           <p><b>State :</b> { this.props.state }</p>
-          <input type="range" min="0" max="100" value={ this.props.position * 100 } readOnly={ true }/>
+          <input type="range" className="custom-range"  min="0" max="100" value={ this.props.position * 100 } readOnly={ true }/>
           <br />
           <img className="album-cover" alt="Album cover" src={ this.props.img_src } onClick={ () => window.open(this.props.img_src) }></img>
         </div>

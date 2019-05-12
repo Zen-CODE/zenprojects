@@ -100,7 +100,7 @@ export class Library extends Component {
         <div className="library-panel">
           <p><b>ZenTunez Library</b></p>
           <div>
-            <PlayerButton caption="Get album" callback={() => this.getAlbum()} />
+            <PlayerButton caption="Get album" onClick={ () => this.getAlbum() } />
             <HDivider />
             <input 
               onChange={(event) => this.searchChanged(event) }
@@ -119,9 +119,9 @@ export class Library extends Component {
           />
           <VDivider />
           <div>
-            <PlayerButton caption="Enqueue" callback={() => this.enqueueAlbum()} />
+            <PlayerButton caption="Enqueue" onClick={() => this.enqueueAlbum()} />
             <HDivider />
-            <PlayerButton caption="Play" callback={() => this.playAlbum()} />
+            <PlayerButton caption="Play" onClick={() => this.playAlbum()} />
           </div>
         </div>
       );
