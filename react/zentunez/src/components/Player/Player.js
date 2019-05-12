@@ -94,6 +94,8 @@ export class Player extends Component {
       */
       return (
         <MDBContainer>
+          <MDBRow><MDBCol><b>ZenTunez Player</b></MDBCol></MDBRow>
+          <MDBRow><MDBCol><VDivider /></MDBCol></MDBRow>
           <MDBRow horizontal='center'>          
             <MDBCol>{this.renderIcon("fast-backward", "player/previous")}</MDBCol>
             <MDBCol>{this.renderIcon("stop-circle", "player/stop")}</MDBCol>
