@@ -58,8 +58,7 @@ export class Player extends Component {
     renderButton(caption, api_call) {
       return <PlayerButton
                 caption={caption} 
-                callback={this.Click}
-                api_call={api_call}
+                callback={() => this.Click(api_call) }
               />;
     }
   

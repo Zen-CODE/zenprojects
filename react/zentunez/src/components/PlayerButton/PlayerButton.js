@@ -1,13 +1,12 @@
 import React from 'react';
+import { MDBBtn } from "mdbreact";
 
 export function PlayerButton(props) {
     return (
-      <button
-        className="player-button"
-        api_call={props.api_call}
+      <MDBBtn color="elegant" size="sm"
         onClick={() => props.callback(props.api_call)}
       >
         {props.caption}
-      </button>
+      </MDBBtn>
     );
   }

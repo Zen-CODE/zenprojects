@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './Library.css';
 import { VDivider, HDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
+import { PlayerButton } from "../PlayerButton/PlayerButton.js"
+
 
 export class Library extends Component {
     /**
@@ -98,7 +100,7 @@ export class Library extends Component {
         <div className="library-panel">
           <p><b>ZenTunez Library</b></p>
           <div>
-            <button onClick={() => this.getAlbum()}>Get album </button>
+            <PlayerButton caption="Get album" callback={() => this.getAlbum()} />
             <HDivider />
             <input 
               onChange={(event) => this.searchChanged(event) }
@@ -117,9 +119,9 @@ export class Library extends Component {
           />
           <VDivider />
           <div>
-            <button onClick={() => this.enqueueAlbum()}>Enqueue </button>
+            <PlayerButton caption="Enqueue" callback={() => this.enqueueAlbum()} />
             <HDivider />
-            <button onClick={() => this.playAlbum()}>Play</button>
+            <PlayerButton caption="Play" callback={() => this.playAlbum()} />
           </div>
         </div>
       );

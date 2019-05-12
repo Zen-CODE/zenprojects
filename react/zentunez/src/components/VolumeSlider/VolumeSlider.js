@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './VolumeSlider.css';
 
 export class VolumeSlider extends Component {
     /**
@@ -12,9 +11,7 @@ export class VolumeSlider extends Component {
 
     render(){
       return (
-        <div className="volume-slider">
-          <input type="range" min="0" max="100" value={ 100 * this.props.volume } className="slider" onChange={ this.props.onChange } />
-        </div>
+          <input type="range" min="0" max="100" value={ 100 * this.props.volume } className="custom-range" onChange={ this.props.onChange } />
       );
     }
   }

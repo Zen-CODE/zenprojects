@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Player } from "./components/Player/Player.js"
 import { Library } from "./components/Library/Library.js"
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
 import './App.css';
 
 const API_URL = "http://127.0.0.1:8000/";
