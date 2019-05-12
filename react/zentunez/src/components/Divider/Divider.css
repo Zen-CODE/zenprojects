@@ -1,10 +1,10 @@
 .h-divider{
-    width: 10px;
+    width: 5px;
     height: auto;
     display: inline-block;
 }
 .v-divider{
     width: auto;
-    height: 5px;
+    height: 1px;
     display: inline-block;
 }
