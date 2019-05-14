@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Player } from "./components/Player/Player.js"
 import { Library } from "./components/Library/Library.js"
+import { SettingsIcon } from "./components/Settings/SettingsIcon.js"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
@@ -15,14 +16,16 @@ class App extends Component {
   */
 
   render(){
-    return <MDBContainer className="App">
-      <MDBRow>
-        <MDBCol><Library api_url={ API_URL } /></MDBCol>
-        <MDBCol><Player api_url={ API_URL } /></MDBCol>
-        <MDBCol><Library api_url={ API_URL } /></MDBCol>
-      </MDBRow>
-    </MDBContainer> 
-
+    return <div>
+      <SettingsIcon />
+      <MDBContainer className="App">
+        <MDBRow>
+          <MDBCol><Library api_url={ API_URL } /></MDBCol>
+          <MDBCol><Player api_url={ API_URL } /></MDBCol>
+          <MDBCol><Library api_url={ API_URL } /></MDBCol>
+        </MDBRow>
+      </MDBContainer> 
+    </div>
   }
 }
 

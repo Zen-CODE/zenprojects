@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VDivider, HDivider } from '../Divider/Divider.js'
+import { HDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { PlayerButton } from "../PlayerButton/PlayerButton.js"
 
