@@ -105,6 +105,10 @@ export class Library extends Component {
               onChange={(event) => this.searchChanged(event) }
               onKeyDown={ this.onKeyDown }>
             </input>
+            <HDivider />
+            <PlayerButton caption="Enqueue" onClick={() => this.enqueueAlbum()} />
+            <PlayerButton caption="Play" onClick={() => this.playAlbum()} />
+            <HDivider />
           </div>
           <div>
             <img className="album-cover" alt="Album cover" src={ this.state.img_src } onClick={ this.onImageClick }></img>
@@ -114,11 +118,6 @@ export class Library extends Component {
             album={ this.state.album } 
             api_url={ this.state.api_url }
           />
-          <div>
-            <PlayerButton caption="Enqueue" onClick={() => this.enqueueAlbum()} />
-            <HDivider />
-            <PlayerButton caption="Play" onClick={() => this.playAlbum()} />
-          </div>
         </div>
       );
     }
