@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { HDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { PlayerButton } from "../PlayerButton/PlayerButton.js"
-
+import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 
 export class Library extends Component {
     /**
@@ -94,12 +94,20 @@ export class Library extends Component {
       window.open(this.state.api_url + "library/cover/" + this.state.artist + "/" + this.state.album)
     }
 
+    renderIcon(icon) {
+      return <MDBIcon 
+                className="far"
+                icon={ icon }
+                onClick={ () => this.getAlbum() }
+              />
+    }
+
     render(){
       return (
         <div>
           <p><b>ZenTunez Library</b></p>
           <div>
-            <PlayerButton caption="Get album" onClick={ () => this.getAlbum() } />
+            { this.renderIcon("search")}
             <HDivider />
             <input 
               onChange={(event) => this.searchChanged(event) }
