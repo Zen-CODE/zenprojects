@@ -17,7 +17,7 @@ class App extends Component {
 
   render(){
     return <div>
-      <SettingsIcon />
+      <SettingsIcon username="Bob" />
       <MDBContainer className="App">
         <MDBRow>
           <MDBCol><Library api_url={ API_URL } /></MDBCol>

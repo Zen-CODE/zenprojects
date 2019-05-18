@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { MDBIcon } from "mdbreact";
-
+import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 
 export class SettingsIcon extends Component {
     /**
@@ -8,7 +7,8 @@ export class SettingsIcon extends Component {
      */    
     constructor(props) {
         super(props);
-        this.state = {music_folder: "~/Music"}
+        this.state = {music_folder: "~/Music",
+                      username: props.username}
       };
 
     onClick()  {
@@ -19,11 +19,20 @@ export class SettingsIcon extends Component {
 
     render(){        
       return <div className="settings-icon">
-          <MDBIcon 
-            className="far"
-            icon="cogs"
-            onClick={ () => this.onClick() }
-            />
-        </div>
+          <MDBContainer>
+            <MDBRow>
+              <MDBCol>
+                <MDBIcon 
+                  className="far"
+                  icon="cogs"
+                  onClick={ () => this.onClick() }
+                  />
+                </MDBCol>
+                <MDBCol>
+                  <p>{ this.state.username }</p>
+                </MDBCol>
+              </MDBRow>
+            </MDBContainer>
+          </div>
     }
   }
