@@ -8,7 +8,7 @@ import 'mdbreact/dist/css/mdb.css';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import './App.css';
 
-const API_URL = "http://127.0.0.1:8000/";
+const API_URL = "http://10.0.0.3:8000/";
 
 class App extends Component {
   /*
