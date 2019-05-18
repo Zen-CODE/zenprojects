@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { HDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { PlayerButton } from "../PlayerButton/PlayerButton.js"
-import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import { MDBIcon } from "mdbreact";
 import { Popup } from "../Popup/Popup.js"
 
 export class Library extends Component {
