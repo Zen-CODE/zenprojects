@@ -3,6 +3,7 @@ import { HDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { PlayerButton } from "../PlayerButton/PlayerButton.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import { Popup } from "../Popup/Popup.js"
 
 export class Library extends Component {
     /**
@@ -105,6 +106,7 @@ export class Library extends Component {
     render(){
       return (
         <div>
+          <Popup />
           <p><b>ZenTunez Library</b></p>
           <div>
             { this.renderIcon("search")}
