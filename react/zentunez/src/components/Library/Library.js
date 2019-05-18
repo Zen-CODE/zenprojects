@@ -20,6 +20,7 @@ export class Library extends Component {
           search: ""
         }
         this.getRandomAlbum();
+        this.popup = React.createRef();
       };  
 
     getAlbum() {
@@ -58,10 +59,22 @@ export class Library extends Component {
                             img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
                             })}
             else {
-              alert("No album found matching the search term (" + term + ")")
+              this.showPopup("No matches",
+              "No album found matching the search term (" + term + ")")
             }
         }
       )
+    }
+
+    showPopup(title, body){
+      /**
+       * Show a modal popup with the specified title and body.
+       */
+      const node = this.popup.current;
+      node.setState({ title: title,
+                            body: body,
+                            modal: true,
+                          })             
     }
 
     enqueueAlbum() {
@@ -106,7 +119,7 @@ export class Library extends Component {
     render(){
       return (
         <div>
-          <Popup />
+          <Popup ref={this.popup}/>
           <p><b>ZenTunez Library</b></p>
           <div>
             { this.renderIcon("search")}
