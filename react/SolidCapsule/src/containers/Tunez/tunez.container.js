@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
-// import WelcomePageContent from './welcome.component';
 import { withWebId } from '@inrupt/solid-react-components';
-import data from '@solid/query-ldflex';
+// import data from '@solid/query-ldflex';
 import { withToastManager } from 'react-toast-notifications';
 
-const defaultProfilePhoto = '/img/icon/empty-profile.svg';
-
 /**
- * Container component for the Welcome Page, containing example of how to fetch data from a POD
+ * Container component for the Tunez Page
  */
 class TunezComponent extends Component<Props> {
   constructor(props) {
     super(props);
 
-    // this.state = {
-    //   name: '',
-    //   image: defaultProfilePhoto,
-    //   isLoading: false,
-    //   hasImage: false
-    // };
+    this.state = {
+      name: ''
+    };
   }
   componentDidMount() {
     if (this.props.webId) {
@@ -28,7 +22,7 @@ class TunezComponent extends Component<Props> {
 
   render() {
     return (
-        <p>This be the Tunez Component</p>
+        <p>This be the Tunez Component for { this.state.name }! </p>
     )
   }
 }

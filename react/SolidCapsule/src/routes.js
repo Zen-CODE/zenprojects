@@ -25,7 +25,7 @@ const privateRoutes = [
   },
   {
     id: "tunez",
-    path: "/tuneZ",
+    path: "/tunez",
     component: Tunez
   }
 
