@@ -7,3 +7,6 @@ venv/
 react/zentunez/node_modules
 react/zentunez/build
 python/django/tunez/db.sqlite3
+react/SolidCapsule/node_modules
+package-lock.json
+.npmignore
