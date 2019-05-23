@@ -91,8 +91,8 @@ class Library(object):
     @api_view(['GET'])
     def search(_request, term):
         """
-        Search for the first album where the this terms, either in the artist
-        name of the album name.
+        Search for all albums which match this term, either in the artist
+        name of the album name, then return one on them randomly.
 
         Returns:
              A dictionary with the artist and album as keys if found. Return an

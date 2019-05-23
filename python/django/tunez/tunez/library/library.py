@@ -2,6 +2,7 @@ from os import listdir
 from os.path import join, isdir, basename, exists
 from random import sample
 from glob import glob
+from random import choice
 
 
 class MusicLib(object):
@@ -82,19 +83,20 @@ class MusicLib(object):
 
     def search(self, term):
         """
-        Search for the first album where the this terms, either in the artist
-        name of the album name.
+        Search for all albums which match this term, either in the artist
+        name of the album name, then return one on them randomly.
 
         Returns:
              A dictionary with the artist and album as keys if found. Return an
              empty dictionary otherwise.
         """
         terms = term.lower().split(" ")
+        matches = []
         for artist in listdir(self.path):
             folder = join(self.path, artist)
             if isdir(folder):
                 for album in listdir(folder):
                     if all([(artist + album).lower().find(t) > -1
                             for t in terms]):
-                        return {"artist": artist, "album": album}
-        return {}
+                        matches.append({"artist": artist, "album": album})
+        return choice(matches)
