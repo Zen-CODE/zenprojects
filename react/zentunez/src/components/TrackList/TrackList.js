@@ -26,6 +26,10 @@ export class TrackList extends Component {
           track: this.props.track
         })
         this.setTracks(this.props.artist, this.props.album)
+      } else if (this.props.track !== prevProps.track) {
+        // If the current track has changed, update the listing so it's highlighted
+        // this.setTracks(this.props.artist, this.props.album)
+        this.setState({ track: this.props.track});
       }
     }
 
