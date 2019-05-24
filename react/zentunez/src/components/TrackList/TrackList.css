@@ -9,4 +9,7 @@
 .no-bullet {
     list-style-type: none;
     }
-
+.active-track {
+    color: #BBBB00;
+    font-weight: bold;
+}

@@ -45,9 +45,7 @@ export class TrackList extends Component {
         <div className="track-list no-bullet" >
           <p><b>{ this.state.artist }:</b> { this.state.album }</p>
             { this.state.tracks.map((item, index) => (
-                item !== this.state.track ?
-                  <li key={index}>{item}</li>:
-                  <li key={index}><b><i>{item}</i></b></li>
+                  <li className={ item === this.state.track ? "active-track": "" } key={index} >{item}</li>
             ))}
         </div>
       );
