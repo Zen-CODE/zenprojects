@@ -11,7 +11,8 @@ export class TrackList extends Component {
       this.state = {artist: "-",
                     album: "-",
                     api_url: props.api_url,
-                    tracks: []
+                    tracks: [],
+                    track: ""
         }
     };
 
@@ -22,6 +23,7 @@ export class TrackList extends Component {
           artist: this.props.artist,
           album: this.props.album,
           api_url: this.props.api_url,
+          track: this.props.track
         })
         this.setTracks(this.props.artist, this.props.album)
       }
@@ -43,7 +45,9 @@ export class TrackList extends Component {
         <div className="track-list no-bullet" >
           <p><b>{ this.state.artist }:</b> { this.state.album }</p>
             { this.state.tracks.map((item, index) => (
-                <li key={index}>{item}</li>
+                item !== this.state.track ?
+                  <li key={index}>{item}</li>:
+                  <li key={index}><b><i>{item}</i></b></li>
             ))}
         </div>
       );

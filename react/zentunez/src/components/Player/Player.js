@@ -76,6 +76,7 @@ export class Player extends Component {
                 artist={ this.state.artist }
                 album={ this.state.album }
                 api_url={ this.state.api_url }
+                track={ this.state.track }
       />
     }
   

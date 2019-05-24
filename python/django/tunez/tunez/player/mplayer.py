@@ -33,7 +33,7 @@ class MPlayer(object):
     def _get_from_filename(filename):
         """ Return the artist and album based on the file name"""
         parts = unquote(filename).split(sep)
-        return parts[-3], parts[-2], parts[-1][:-4]
+        return parts[-3], parts[-2], parts[-1]
 
     def get_state(self):
         """ Return a dictionary containing information on the audio player's
