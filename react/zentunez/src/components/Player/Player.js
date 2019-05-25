@@ -19,7 +19,6 @@ class KeyHandler {
    * 40 - down -> volume down
    */
   constructor(player) {
-    console.log("KeyHandler constructor called with " + player);
     document.addEventListener("keydown", (e) => this.onKeyPress(e), false);
     this.keys = {
       88: () => player.Click("player/play_pause"),
@@ -32,13 +31,19 @@ class KeyHandler {
   }
 
   onKeyPress(event){
-    console.log("KeyPress got key event " + event.keyCode);
+    /* Handle the keypress event. We only fire the designated action if the item
+       with focus is not an input.
+    */
     const key = event.keyCode;
-    if (key in this.keys) { this.keys[key]() }
+    if (key in this.keys) { 
+      if (event.target.tagName != "INPUT") {
+        this.keys[key]();
+        event.preventDefault();
+      }
+    }
   }
 
   unLoad(){
-    console.log("Unload this KeyHandler");
     document.removeEventListener("keydown", this.onKeyPress, false);
   }
 }
