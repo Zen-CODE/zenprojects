@@ -6,6 +6,23 @@ import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 
 
+class KeyHandler {
+  constructor(player) {
+    console.log("KeyHandler constructor called with " + player);
+    document.addEventListener("keydown", this.onKeyPress, false);
+  }
+
+  onKeyPress(event){
+    console.log("KeyPress got key event " + event)
+  }
+
+  unLoad(){
+    console.log("Unload this KeyHandler");
+    document.removeEventListener("keydown", this.onKeyPress, false);
+  }
+}
+
+
 export class Player extends Component {
     /*
     This class houses functionality to control the currently playting MPRIS2
@@ -27,6 +44,7 @@ export class Player extends Component {
   
     componentDidMount(){
       this.intervalID = setInterval(() => this.Click("player/state"), 1000);
+      this.keyHandler = new KeyHandler(this);
     }
   
     componentWillUnmount() {
