@@ -34,9 +34,9 @@ class KeyHandler {
     /* Handle the keypress event. We only fire the designated action if the item
        with focus is not an input.
     */
-    const key = event.keyCode;
-    if (key in this.keys) { 
-      if (event.target.tagName != "INPUT") {
+   if (event.target.tagName != "INPUT") {
+      const key = event.keyCode;
+      if (key in this.keys) {       
         this.keys[key]();
         event.preventDefault();
       }
