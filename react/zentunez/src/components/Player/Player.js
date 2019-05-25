@@ -22,18 +22,18 @@ class KeyHandler {
     console.log("KeyHandler constructor called with " + player);
     document.addEventListener("keydown", (e) => this.onKeyPress(e), false);
     this.keys = {
-      "88": () => player.Click("player/play_pause"),
-      "90": () => player.Click("player/previous"),
-      "86": () => player.Click("player/stop"),
-      "66": () => player.Click("player/next"),
-      "38": () => player.Click("player/volume_up"),
-      "40": () => player.Click("player/volume_down")
+      88: () => player.Click("player/play_pause"),
+      90: () => player.Click("player/previous"),
+      86: () => player.Click("player/stop"),
+      66: () => player.Click("player/next"),
+      38: () => player.Click("player/volume_up"),
+      40: () => player.Click("player/volume_down")
        }
   }
 
   onKeyPress(event){
     console.log("KeyPress got key event " + event.keyCode);
-    const key = event.keyCode.toString();
+    const key = event.keyCode;
     if (key in this.keys) { this.keys[key]() }
   }
 
