@@ -99,4 +99,4 @@ class MusicLib(object):
                     if all([(artist + album).lower().find(t) > -1
                             for t in terms]):
                         matches.append({"artist": artist, "album": album})
-        return choice(matches)
+        return choice(matches) if matches else []
