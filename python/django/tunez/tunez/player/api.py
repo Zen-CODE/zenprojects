@@ -4,7 +4,7 @@ This module houses the main view functions for the media player controller
 from rest_framework.decorators import api_view
 from django.http import HttpResponse
 from .mplayer import MPlayer
-from tunez.helpers import get_response
+from rest_framework.response import Response
 
 
 class Player(object):
@@ -20,7 +20,7 @@ class Player(object):
         Call the MPlayer function with the given name and return the response.
         """
         getattr(Player.mplayer, name)()
-        return get_response(Player.mplayer.get_state())
+        return Response(Player.mplayer.get_state())
 
     @staticmethod
     @api_view()
@@ -77,7 +77,7 @@ class Player(object):
         Set the volume to a value between 0 and 1.
         """
         Player.mplayer.volume_set(volume)
-        return get_response(Player.mplayer.get_state())
+        return Response(Player.mplayer.get_state())
 
     @staticmethod
     @api_view()

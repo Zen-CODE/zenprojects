@@ -2,11 +2,11 @@
 This module houses the main view functions for the library explorer
 """
 from rest_framework.decorators import api_view
-from tunez.helpers import get_response
 from .library import MusicLib
 from django.http import HttpResponse
 from os.path import exists
 from os import system
+from rest_framework.response import Response
 
 
 class Library(object):
@@ -22,7 +22,7 @@ class Library(object):
         """
         Return a list of all the artists in our music collection.
         """
-        return get_response(sorted(Library.lib.get_artists()))
+        return Response(sorted(Library.lib.get_artists()))
 
     @staticmethod
     @api_view()
@@ -30,7 +30,7 @@ class Library(object):
         """
         Return a list of all the albums by this artist.
         """
-        return get_response(sorted(Library.lib.get_albums(artist)))
+        return Response(sorted(Library.lib.get_albums(artist)))
 
     @staticmethod
     @api_view()
@@ -38,7 +38,7 @@ class Library(object):
         """
         Return a list of all the tracks in this album.
         """
-        return get_response(sorted(Library.lib.get_tracks(artist, album)))
+        return Response(sorted(Library.lib.get_tracks(artist, album)))
 
     @staticmethod
     @api_view()
@@ -51,7 +51,7 @@ class Library(object):
             with open(_cover, "rb") as f:
                 return HttpResponse(f.read(),
                                     content_type="image/" + _cover[-3:])
-        return get_response({"message": "No cover found"})
+        return Response({"message": "No cover found"})
 
     @staticmethod
     @api_view()
@@ -61,7 +61,7 @@ class Library(object):
         """
         artist = Library.lib.get_random_artists(1)[0]
         album = Library.lib.get_random_albums(artist, 1)[0]
-        return get_response({"artist": artist, "album": album})
+        return Response({"artist": artist, "album": album})
 
     @staticmethod
     @api_view(['GET'])
@@ -73,7 +73,7 @@ class Library(object):
         if exists(path):
             system('audacious -e "{0}"'.format(path))
         else:
-            return get_response({"message": "No such album"})
+            return Response({"message": "No such album"})
 
     @staticmethod
     @api_view(['GET'])
@@ -85,7 +85,7 @@ class Library(object):
         if exists(path):
             system('audacious -E "{0}"'.format(path))
         else:
-            return get_response({"message": "No such album"})
+            return Response({"message": "No such album"})
 
     @staticmethod
     @api_view(['GET'])
@@ -98,4 +98,4 @@ class Library(object):
              A dictionary with the artist and album as keys if found. Return an
              empty dictionary otherwise.
         """
-        return get_response(Library.lib.search(term))
+        return Response(Library.lib.search(term))
