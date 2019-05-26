@@ -70,12 +70,14 @@ export class Player extends Component {
       this.intervalID = 0;
     };
   
-    componentDidMount(){
+    componentDidMount() {
+      // When our component loads, set the timers and start capturing keystrokes
       this.intervalID = setInterval(() => this.Click("player/state"), 1000);
       this.keyHandler = new KeyHandler(this);
     }
   
     componentWillUnmount() {
+      // When out component unloads, destory the times and remove the keyboard hoooks
       clearInterval(this.intervalID);
       this.keyHandler.unLoad()
     }
