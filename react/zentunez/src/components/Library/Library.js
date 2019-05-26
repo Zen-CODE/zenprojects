@@ -100,7 +100,14 @@ export class Library extends Component {
 
     onKeyDown = (e) => {
       /* Catch the Enter keypress event to fire the search. */
-      if (e.key === 'Enter') { this.getSearchAlbum(this.state.search) }
+      if (e.key === 'Enter') {
+        const len = this.state.search.length;
+        if (len > 0) {
+          this.getSearchAlbum(this.state.search) 
+        } else {
+          this.showPopup("Invalid Search Term", "Please enter a valid search tem.")
+        }
+      }
     }
 
     onImageClick = () => {
