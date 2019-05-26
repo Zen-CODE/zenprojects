@@ -3,7 +3,6 @@ import { HDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { PlayerButton } from "../PlayerButton/PlayerButton.js"
 import { MDBIcon } from "mdbreact";
-import { Popup } from "../Popup/Popup.js"
 
 export class Library extends Component {
     /**
@@ -17,10 +16,10 @@ export class Library extends Component {
           album: "-",
           img_src: "",
           api_url: props.api_url,
-          search: ""
+          search: "",
+          popup: props.popup
         }
         this.getRandomAlbum();
-        this.popup = React.createRef();
       };  
 
     getAlbum() {
@@ -70,7 +69,7 @@ export class Library extends Component {
       /**
        * Show a modal popup with the specified title and body.
        */
-      const node = this.popup.current;
+      const node = this.state.popup.current;
       node.setState({ title: title,
                             body: body,
                             modal: true,
@@ -126,7 +125,6 @@ export class Library extends Component {
     render(){
       return (
         <div>
-          <Popup ref={this.popup}/>
           <p><b>ZenTunez Library</b></p>
           <div>
             { this.renderIcon("search")}
