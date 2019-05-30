@@ -8,14 +8,18 @@ export class SettingsIcon extends Component {
     constructor(props) {
         super(props);
         this.state = {music_folder: "~/Music",
-                      username: props.username}
+                      username: props.username,
+                      popup: props.popup
+                     }
       };
 
     onClick()  {
         /* Respond to the clicking of the settings icon */
-        console.log("Settings click")
+        const node = this.state.popup.current;
+        node.setState({ title: "Settings",
+                        body: "Settings Body",
+                        modal: true })
     }
-
 
     render(){        
       return <div className="settings-icon">

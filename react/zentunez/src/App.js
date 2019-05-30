@@ -24,7 +24,7 @@ class App extends Component {
   render(){
     return <div>
       <Popup ref={ this.popup }/>
-      <SettingsIcon username="Bob" />
+      <SettingsIcon username="Bob" popup={ this.popup } />
       <MDBContainer className="App">
         <MDBRow>
           <MDBCol><Library api_url={ API_URL } popup={ this.popup } /></MDBCol>
