@@ -11,11 +11,21 @@ class SettingsContent extends Component {
     this.state = { api_url: props.api_url }
   }
 
+  serverIPChanged (event) {
+    console.log("Server ip = " + event.target.value );
+    this.setState({ api_url: event.target.value })
+  }
+
   render() {
     return (
       <MDBRow>
         <MDBCol>Server IP:</MDBCol>
-        <MDBCol>{  this.state.api_url }</MDBCol>
+        <MDBCol>
+          <input
+                onChange={(event) => this.serverIPChanged(event) }
+                value={ this.state.api_url }>
+          </input>
+        </MDBCol>
       </MDBRow>
     )
   }
@@ -24,7 +34,7 @@ class SettingsContent extends Component {
 export class SettingsIcon extends Component {
     /**
      * This component displays the settings icon
-     */    
+     */
     constructor(props) {
         super(props);
         this.state = {api_url: props.api_url,
@@ -41,12 +51,12 @@ export class SettingsIcon extends Component {
                         modal: true })
     }
 
-    render(){        
+    render(){
       return <div className="settings-icon">
           <MDBContainer>
             <MDBRow>
               <MDBCol>
-                <MDBIcon 
+                <MDBIcon
                   className="far"
                   icon="cogs"
                   onClick={ () => this.onClick() }
