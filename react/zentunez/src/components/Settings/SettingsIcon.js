@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import tunez_store from '../../store/TunezStore.js'
+import { createStore } from 'redux'
 
+
+const store = createStore(tunez_store)
 
 class SettingsContent extends Component {
   /* This component contains the content of the settings popul. It
@@ -12,8 +16,12 @@ class SettingsContent extends Component {
   }
 
   serverIPChanged (event) {
-    console.log("Server ip = " + event.target.value );
-    this.setState({ api_url: event.target.value })
+    const api_url = event.target.value;
+    console.log("Server ip = " + api_url );
+    this.setState({ api_url: api_url });
+    store.dispatch({
+      type: "API_URL_CHANGED",
+      api_url: api_url })
   }
 
   render() {
