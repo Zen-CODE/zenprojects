@@ -1,13 +1,33 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 
+
+class SettingsContent extends Component {
+  /* This component contains the content of the settings popul. It
+     also handles the saving on these settings
+  */
+  constructor(props){
+    super(props);
+    this.state = { api_url: props.api_url }
+  }
+
+  render() {
+    return (
+      <MDBRow>
+        <MDBCol>Server IP:</MDBCol>
+        <MDBCol>{  this.state.api_url }</MDBCol>
+      </MDBRow>
+    )
+  }
+}
+
 export class SettingsIcon extends Component {
     /**
      * This component displays the settings icon
      */    
     constructor(props) {
         super(props);
-        this.state = {music_folder: "~/Music",
+        this.state = {api_url: props.api_url,
                       username: props.username,
                       popup: props.popup
                      }
@@ -17,7 +37,7 @@ export class SettingsIcon extends Component {
         /* Respond to the clicking of the settings icon */
         const node = this.state.popup.current;
         node.setState({ title: "Settings",
-                        body: "Settings Body",
+                        body: <SettingsContent api_url={ this.state.api_url }/>,
                         modal: true })
     }
 
