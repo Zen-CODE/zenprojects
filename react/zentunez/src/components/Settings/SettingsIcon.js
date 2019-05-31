@@ -19,10 +19,9 @@ class SettingsContent extends Component {
     this.setState({ api_url: state.api_url });
   }
 
-
   serverIPChanged (event) {
+    // Dispatch the store change to the api_url
     const api_url = event.target.value;
-    console.log("Server ip = " + api_url );
     this.state.store.dispatch({
       type: "API_URL_CHANGED",
       api_url: api_url })
