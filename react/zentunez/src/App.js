@@ -22,19 +22,21 @@ class App extends Component {
     super(props);
     this.popup = React.createRef();
     this.store = createStore(tunez_store,
-      { api_url: API_URL})
+                             { api_url: API_URL,
+                               popup: this.popup
+                             })
 }
 
   render(){
     return (
     <div>
       <Popup ref={ this.popup }/>
-      <SettingsIcon username="Bob" popup={ this.popup } store={ this.store } />
+      <SettingsIcon store={ this.store } />
       <MDBContainer className="App">
         <MDBRow>
-          <MDBCol><Library api_url={ API_URL } popup={ this.popup } /></MDBCol>
+          <MDBCol><Library api_url={ API_URL } popup={ this.store.popup } /></MDBCol>
           <MDBCol><Player api_url={ API_URL } /></MDBCol>
-          <MDBCol><Library api_url={ API_URL } popup={ this.popup }  /></MDBCol>
+          <MDBCol><Library api_url={ API_URL } popup={ this.store.popup }  /></MDBCol>
         </MDBRow>
       </MDBContainer>
     </div>)

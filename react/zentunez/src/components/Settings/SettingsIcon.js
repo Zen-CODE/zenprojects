@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import { MDBRow, MDBCol, MDBIcon } from "mdbreact";
 
 
 class SettingsContent extends Component {
@@ -47,14 +47,18 @@ export class SettingsIcon extends Component {
      */
     constructor(props) {
         super(props);
-        this.state = {store: props.store,
-                      popup: props.popup
-                     }
+        this.state = { store: props.store }
+        console.log("SettingsIcon store "+ props.store);
       };
 
     onClick()  {
         /* Respond to the clicking of the settings icon */
-        const node = this.state.popup.current;
+        const state = this.state.store.getState();
+        for (var prop in state){
+          console.log(prop + "Settings click.  = " + state[prop])
+        }
+
+        const node = this.state.store.getState().popup.current;
         node.setState({ title: "Settings",
                         body: <SettingsContent store={ this.state.store }/>,
                         modal: true })
