@@ -16,10 +16,17 @@ export class Library extends Component {
           album: "-",
           img_src: "",
           search: "",
+          api_url: props.store.getState().api_url,
           store: props.store
         }
         this.getRandomAlbum();
+        this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
       };
+
+      storeChanged(store) {
+        // React to changes in the shared stated
+        this.setState({ api_url: store.getState().api_url });
+      }
 
     getAlbum() {
       /*
@@ -35,7 +42,7 @@ export class Library extends Component {
 
     getRandomAlbum() {
       /* Handle the click to fetch a new random album */
-      const api_url = this.state.store.getState().api_url;
+      const api_url = this.state.api_url;
       fetch(api_url + "library/random_album")
         .then(res => res.json())
         .then((response) => {
@@ -49,7 +56,7 @@ export class Library extends Component {
 
     getSearchAlbum(term) {
       /* Handle the click to search for an album */
-      const api_url = this.state.store.getState().api_url;
+      const api_url = this.state.api_url;
       fetch(api_url + "library/search/" + term)
         .then(res => res.json())
         .then((response) => {
@@ -80,7 +87,7 @@ export class Library extends Component {
     enqueueAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-     const api_url = this.state.store.getState().api_url;
+     const api_url = this.state.api_url;
       fetch(api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album)
         .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
         .catch(error => console.error(error));
@@ -89,7 +96,7 @@ export class Library extends Component {
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-      const api_url = this.state.store.getState().api_url;
+      const api_url = this.state.api_url;
       fetch(api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album)
         .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
         .catch(error => console.error(error));
