@@ -10,7 +10,7 @@ class KeyHandler {
   /**
    * A class for handling keystrokes and sending the instructions to the
    * active media player accordingly. The events we capture are
-   * 
+   *
    * 88 - x -> play/pause
    * 90 - z -> previous
    * 86 - v -> stop
@@ -37,7 +37,7 @@ class KeyHandler {
     */
    if (event.target.tagName !== "INPUT") {
       const key = event.keyCode;
-      if (key in this.keys) {       
+      if (key in this.keys) {
         this.keys[key]();
         event.preventDefault();
       }
@@ -57,7 +57,7 @@ export class Player extends Component {
     audio player and retreive state information from it.
     */
    constructor(props) {
-      super(props);  
+      super(props);
       this.state = {artist: "-",
                     album: "-",
                     track: "-",
@@ -65,23 +65,30 @@ export class Player extends Component {
                     state: "-",
                     position: 0,
                     img_src: "",
-                    api_url: props.api_url
+                    api_url: props.store.getState().api_url
                   };
       this.intervalID = 0;
+      this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
     };
-  
+
+
+    storeChanged(store) {
+      // React to changes in the shared stated
+      this.setState({ api_url: store.getState().api_url });
+    }
+
     componentDidMount() {
       // When our component loads, set the timers and start capturing keystrokes
       this.intervalID = setInterval(() => this.Click("player/state"), 1000);
       this.keyHandler = new KeyHandler(this);
     }
-  
+
     componentWillUnmount() {
       // When out component unloads, destory the times and remove the keyboard hoooks
       clearInterval(this.intervalID);
       this.keyHandler.unLoad()
     }
-  
+
     Click = (api_call) => {
       /* Handle the click on a Player media button */
       fetch(this.state.api_url + api_call)
@@ -103,50 +110,50 @@ export class Player extends Component {
       fetch(this.state.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
       this.Click("player/state")
     }
-  
+
     renderIcon(icon, api_call) {
-      return <MDBIcon  
+      return <MDBIcon
                 className="far"
                 icon={ icon }
                 onClick={ () => this.Click(api_call) }
               />
     }
-    
-  
+
+
     renderVolume() {
-      return <VolumeSlider 
+      return <VolumeSlider
                 volume={ this.state.volume }
                 onChange={ this.setVolume }
              />
     }
 
     renderTrackList(){
-      return <TrackList 
+      return <TrackList
                 artist={ this.state.artist }
                 album={ this.state.album }
                 api_url={ this.state.api_url }
                 track={ this.state.track }
       />
     }
-  
+
     renderState() {
-      return <PlayerState 
+      return <PlayerState
         track={ this.state.track }
         position={ this.state.position }
         state={ this.state.state }
         img_src={ this.state.img_src }
       />
     }
-  
+
     render() {
-      /** 
+      /**
        * The main application objects are build and returned here.
       */
       return (
         <MDBContainer>
           <MDBRow><MDBCol><b>ZenTunez Player</b></MDBCol></MDBRow>
           <MDBRow><MDBCol><VDivider /></MDBCol></MDBRow>
-          <MDBRow horizontal='center'>          
+          <MDBRow horizontal='center'>
             <MDBCol>{this.renderIcon("fast-backward", "player/previous")}</MDBCol>
             <MDBCol>{this.renderIcon("stop-circle", "player/stop")}</MDBCol>
             <MDBCol>{this.renderIcon("pause-circle", "player/play_pause")}</MDBCol>
@@ -169,4 +176,3 @@ export class Player extends Component {
       );
     }
   }
-  

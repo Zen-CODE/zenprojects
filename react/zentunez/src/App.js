@@ -35,7 +35,7 @@ class App extends Component {
       <MDBContainer className="App">
         <MDBRow>
           <MDBCol><Library store={ this.store } /></MDBCol>
-          <MDBCol><Player api_url={ API_URL } /></MDBCol>
+          <MDBCol><Player store={ this.store } /></MDBCol>
           <MDBCol><Library store={ this.store } /></MDBCol>
         </MDBRow>
       </MDBContainer>
