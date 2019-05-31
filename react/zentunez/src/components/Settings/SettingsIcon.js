@@ -26,6 +26,11 @@ class SettingsContent extends Component {
       api_url: api_url })
   }
 
+  componentWillUnmount() {
+    // When out component unloads, trhe binding to state changes
+    this.unsubscribe()
+  }
+
   render() {
     return (
       <MDBRow>
@@ -54,9 +59,9 @@ export class SettingsIcon extends Component {
     onClick()  {
         /* Respond to the clicking of the settings icon */
         const state = this.state.store.getState();
-        for (var prop in state){
-          console.log(prop + "Settings click.  = " + state[prop])
-        }
+        // for (var prop in state){
+        //   console.log(prop + "Settings click.  = " + state[prop])
+        // }
 
         const node = this.state.store.getState().popup.current;
         node.setState({ title: "Settings",
