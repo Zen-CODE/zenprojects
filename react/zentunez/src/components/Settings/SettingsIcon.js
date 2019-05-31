@@ -10,13 +10,12 @@ class SettingsContent extends Component {
     super(props);
     this.state = { store: props.store,
                    api_url: props.store.getState().api_url };
-    this.unsubscribe = props.store.subscribe(() => this.storeChanged());
+    this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
   }
 
-  storeChanged(){
+  storeChanged(store) {
     // React to changes in the shared stated
-    const state = this.state.store.getState();
-    this.setState({ api_url: state.api_url });
+    this.setState({ api_url: store.getState().api_url });
   }
 
   serverIPChanged (event) {
