@@ -14,12 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework_swagger.views import get_swagger_view
+from django.views.static import serve
+from .settings import BASE_DIR
+from os.path import join
 
 schema_view = get_swagger_view(title='ZenTunez Player API')
 
 urlpatterns = [
+    re_path(r'^react/(?P<path>.*)$', serve, {
+        'document_root': join(BASE_DIR, "react"),
+    }),
     path('admin/', admin.site.urls),
     path('player/', include("tunez.player.urls")),
     path('library/', include("tunez.library.urls")),
