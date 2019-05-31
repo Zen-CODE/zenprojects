@@ -4,6 +4,10 @@ function tunez_store(state = [], action){
   This class acts as a Redux store for the ZenTunez application settings
   */
   console.log("tunez_store: action = " + action.type);
+  for (var prop in state){
+    console.log(prop + " = " + state[prop])
+  }
+
   switch (action.type) {
       case 'ADD_TODO':
         return [

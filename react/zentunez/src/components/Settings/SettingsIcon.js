@@ -12,8 +12,15 @@ class SettingsContent extends Component {
   */
   constructor(props){
     super(props);
-    this.state = { api_url: props.api_url }
+    this.state = { api_url: props.api_url };
+    this.unsubscribe = store.subscribe(this.storeChanged)
   }
+
+  storeChanged(){
+    // React to changes in the shared stated
+    console.log("store changed: " + store.getState())
+  }
+
 
   serverIPChanged (event) {
     const api_url = event.target.value;
