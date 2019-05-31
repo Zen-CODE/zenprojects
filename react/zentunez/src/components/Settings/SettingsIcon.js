@@ -48,7 +48,6 @@ export class SettingsIcon extends Component {
     constructor(props) {
         super(props);
         this.state = {store: props.store,
-                      username: props.username,
                       popup: props.popup
                      }
       };
@@ -63,20 +62,11 @@ export class SettingsIcon extends Component {
 
     render(){
       return <div className="settings-icon">
-          <MDBContainer>
-            <MDBRow>
-              <MDBCol>
                 <MDBIcon
                   className="far"
                   icon="cogs"
                   onClick={ () => this.onClick() }
                   />
-                </MDBCol>
-                <MDBCol>
-                  <p>{ this.state.username }</p>
-                </MDBCol>
-              </MDBRow>
-            </MDBContainer>
           </div>
     }
   }
