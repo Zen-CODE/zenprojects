@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
-import tunez_store from '../../store/TunezStore.js'
-import { createStore } from 'redux'
 
-
-const store = createStore(tunez_store)
 
 class SettingsContent extends Component {
   /* This component contains the content of the settings popul. It
@@ -12,21 +8,22 @@ class SettingsContent extends Component {
   */
   constructor(props){
     super(props);
-    this.state = { api_url: props.api_url };
-    this.unsubscribe = store.subscribe(this.storeChanged)
+    this.state = { store: props.store,
+                   api_url: props.store.getState().api_url };
+    this.unsubscribe = props.store.subscribe(() => this.storeChanged());
   }
 
   storeChanged(){
     // React to changes in the shared stated
-    console.log("store changed: " + store.getState())
+    const state = this.state.store.getState();
+    this.setState({ api_url: state.api_url });
   }
 
 
   serverIPChanged (event) {
     const api_url = event.target.value;
     console.log("Server ip = " + api_url );
-    this.setState({ api_url: api_url });
-    store.dispatch({
+    this.state.store.dispatch({
       type: "API_URL_CHANGED",
       api_url: api_url })
   }
@@ -52,7 +49,7 @@ export class SettingsIcon extends Component {
      */
     constructor(props) {
         super(props);
-        this.state = {api_url: props.api_url,
+        this.state = {store: props.store,
                       username: props.username,
                       popup: props.popup
                      }
@@ -62,7 +59,7 @@ export class SettingsIcon extends Component {
         /* Respond to the clicking of the settings icon */
         const node = this.state.popup.current;
         node.setState({ title: "Settings",
-                        body: <SettingsContent api_url={ this.state.api_url }/>,
+                        body: <SettingsContent store={ this.state.store }/>,
                         modal: true })
     }
 
