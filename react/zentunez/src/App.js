@@ -34,9 +34,9 @@ class App extends Component {
       <SettingsIcon store={ this.store } />
       <MDBContainer className="App">
         <MDBRow>
-          <MDBCol><Library api_url={ API_URL } popup={ this.store.popup } /></MDBCol>
+          <MDBCol><Library store={ this.store } /></MDBCol>
           <MDBCol><Player api_url={ API_URL } /></MDBCol>
-          <MDBCol><Library api_url={ API_URL } popup={ this.store.popup }  /></MDBCol>
+          <MDBCol><Library store={ this.store } /></MDBCol>
         </MDBRow>
       </MDBContainer>
     </div>)

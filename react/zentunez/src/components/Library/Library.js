@@ -8,19 +8,18 @@ export class Library extends Component {
     /**
      * This component selects random albums or searches for them, then present
      * them in the UI for either enqueueing or playing.
-     */    
+     */
     constructor(props) {
         super(props);
         this.state = {
           artist: "-",
           album: "-",
           img_src: "",
-          api_url: props.api_url,
           search: "",
-          popup: props.popup
+          store: props.store
         }
         this.getRandomAlbum();
-      };  
+      };
 
     getAlbum() {
       /*
@@ -36,12 +35,13 @@ export class Library extends Component {
 
     getRandomAlbum() {
       /* Handle the click to fetch a new random album */
-      fetch(this.state.api_url + "library/random_album")
+      const api_url = this.state.store.getState().api_url;
+      fetch(api_url + "library/random_album")
         .then(res => res.json())
         .then((response) => {
             this.setState({artist: response.artist,
                           album: response.album,
-                          img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
+                          img_src : api_url + "library/cover/" + response.artist + "/" + response.album
                           })
         }
       )
@@ -49,13 +49,14 @@ export class Library extends Component {
 
     getSearchAlbum(term) {
       /* Handle the click to search for an album */
-      fetch(this.state.api_url + "library/search/" + term)
+      const api_url = this.state.store.getState().api_url;
+      fetch(api_url + "library/search/" + term)
         .then(res => res.json())
         .then((response) => {
             if ("artist" in response){
               this.setState({artist: response.artist,
                             album: response.album,
-                            img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
+                            img_src : api_url + "library/cover/" + response.artist + "/" + response.album
                             })}
             else {
               this.showPopup("No matches",
@@ -69,25 +70,27 @@ export class Library extends Component {
       /**
        * Show a modal popup with the specified title and body.
        */
-      const node = this.state.popup.current;
+      const node = this.state.store.getState().popup.current;
       node.setState({ title: title,
                             body: body,
                             modal: true,
-                          })             
+                          })
     }
 
     enqueueAlbum() {
-      /* Add the current album to the queue in the currently playing audio player    
+      /* Add the current album to the queue in the currently playing audio player
       */
-      fetch(this.state.api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album)
+     const api_url = this.state.store.getState().api_url;
+      fetch(api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album)
         .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
         .catch(error => console.error(error));
     }
 
     playAlbum() {
-      /* Add the current album to the queue in the currently playing audio player    
+      /* Add the current album to the queue in the currently playing audio player
       */
-      fetch(this.state.api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album)
+      const api_url = this.state.store.getState().api_url;
+      fetch(api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album)
         .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
         .catch(error => console.error(error));
     }
@@ -102,7 +105,7 @@ export class Library extends Component {
       if (e.key === 'Enter') {
         const len = this.state.search.length;
         if (len > 0) {
-          this.getSearchAlbum(this.state.search) 
+          this.getSearchAlbum(this.state.search)
         } else {
           this.showPopup("Invalid Search Term", "Please enter a valid search tem.")
         }
@@ -115,7 +118,7 @@ export class Library extends Component {
     }
 
     renderIcon(icon) {
-      return <MDBIcon 
+      return <MDBIcon
                 className="far"
                 icon={ icon }
                 onClick={ () => this.getAlbum() }
@@ -129,7 +132,7 @@ export class Library extends Component {
           <div>
             { this.renderIcon("search")}
             <HDivider />
-            <input 
+            <input
               onChange={(event) => this.searchChanged(event) }
               onKeyDown={ this.onKeyDown }>
             </input>
@@ -143,7 +146,7 @@ export class Library extends Component {
           </div>
           <TrackList
             artist={ this.state.artist }
-            album={ this.state.album } 
+            album={ this.state.album }
             api_url={ this.state.api_url }
           />
         </div>
