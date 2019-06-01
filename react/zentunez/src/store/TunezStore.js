@@ -2,11 +2,13 @@
 function tunez_store(state = [], action){
   /*
   This class acts as a Redux store for the ZenTunez application settings
+
+  In order to log state:
+
+    for (var prop in state){
+      console.log(prop + " = " + state[prop])
+    }
   */
-  console.log("tunez_store: action = " + action.type);
-  for (var prop in state){
-    console.log(prop + " = " + state[prop])
-  }
 
   switch (action.type) {
       case "API_URL_CHANGED":

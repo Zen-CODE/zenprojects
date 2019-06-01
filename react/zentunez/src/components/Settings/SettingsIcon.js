@@ -53,16 +53,10 @@ export class SettingsIcon extends Component {
     constructor(props) {
         super(props);
         this.state = { store: props.store }
-        console.log("SettingsIcon store "+ props.store);
       };
 
     onClick()  {
         /* Respond to the clicking of the settings icon */
-        const state = this.state.store.getState();
-        // for (var prop in state){
-        //   console.log(prop + "Settings click.  = " + state[prop])
-        // }
-
         const node = this.state.store.getState().popup.current;
         node.setState({ title: "Settings",
                         body: <SettingsContent store={ this.state.store }/>,

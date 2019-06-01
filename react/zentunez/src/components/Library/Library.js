@@ -89,7 +89,6 @@ export class Library extends Component {
       */
      const api_url = this.state.api_url;
       fetch(api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album)
-        .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
         .catch(error => console.error(error));
     }
 
@@ -98,7 +97,6 @@ export class Library extends Component {
       */
       const api_url = this.state.api_url;
       fetch(api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album)
-        .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
         .catch(error => console.error(error));
     }
 
