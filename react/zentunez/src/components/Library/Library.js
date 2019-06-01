@@ -33,10 +33,9 @@ export class Library extends Component {
       been entered.
       */
       if (this.state.search === ""){
-        this.getRandomAlbum()
-      } else {
-        this.getSearchAlbum(this.state.search)
-      }
+        this.getRandomAlbum() }
+      else {
+        this.getSearchAlbum(this.state.search)}
     }
 
     getRandomAlbum() {
@@ -109,10 +108,9 @@ export class Library extends Component {
       if (e.key === 'Enter') {
         const len = this.state.search.length;
         if (len > 0) {
-          this.getSearchAlbum(this.state.search)
-        } else {
-          this.showPopup("Invalid Search Term", "Please enter a valid search tem.")
-        }
+          this.getSearchAlbum(this.state.search) }
+        else {
+          this.showPopup("Invalid Search Term", "Please enter a valid search tem.")}
       }
     }
 
@@ -126,8 +124,7 @@ export class Library extends Component {
       return <MDBIcon
                 className="far"
                 icon={ icon }
-                onClick={ () => callback() }
-              />
+                onClick={ () => callback() }/>
     }
 
     render(){
