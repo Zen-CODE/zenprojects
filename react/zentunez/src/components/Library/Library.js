@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { HDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
-import { PlayerButton } from "../PlayerButton/PlayerButton.js"
-import { MDBIcon } from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 
 export class Library extends Component {
     /**
@@ -143,8 +142,9 @@ export class Library extends Component {
               onKeyDown={ this.onKeyDown }>
             </input>
             <HDivider />
-            <PlayerButton caption="Enqueue" onClick={() => this.enqueueAlbum()} />
-            <PlayerButton caption="Play" onClick={() => this.playAlbum()} />
+            { this.renderIcon("sign-in-alt", this.enqueueAlbum.bind(this)) }
+            <HDivider />
+            { this.renderIcon("play", this.playAlbum.bind(this)) }
             <HDivider />
           </div>
           <div>
