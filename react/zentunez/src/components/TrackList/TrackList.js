@@ -7,7 +7,7 @@ export class TrackList extends Component {
      */
     constructor(props) {
       super(props);
-  
+
       this.state = {artist: "-",
                     album: "-",
                     api_url: props.api_url,
@@ -42,12 +42,17 @@ export class TrackList extends Component {
         }
       )
     }
-  
+
 
     render(){
+      const divStyle = { "line-height": 0.75 };
+      const len = (this.state.artist + this.state.album).length;
+
       return (
         <div className="track-list no-bullet" >
-          <p><b>{ this.state.artist }:</b> { this.state.album }</p>
+          <li style={ divStyle }>{ "- ".repeat(len * 0.9) }</li>
+          <b>{ this.state.artist }:</b> { this.state.album }
+          <li style={ divStyle }>{ "- ".repeat(len * 0.9) }</li>
             { this.state.tracks.map((item, index) => (
                   <li className={ item === this.state.track ? "active-track": "" } key={index} >{item}</li>
             ))}
