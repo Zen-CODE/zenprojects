@@ -10,3 +10,5 @@ python/django/tunez/db.sqlite3
 react/SolidCapsule/node_modules
 package-lock.json
 .npmignore
+python/django/tunez/react/
+python/django/tunez/static/
