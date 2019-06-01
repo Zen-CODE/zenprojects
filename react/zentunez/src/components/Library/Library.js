@@ -122,7 +122,7 @@ export class Library extends Component {
     }
 
     renderIcon(icon, callback) {
-      // Render the specified MDBNIcon and call the *callback* when clicked
+      // Render the specified MDBIcon and call the *callback* when clicked
       return <MDBIcon
                 className="far"
                 icon={ icon }
