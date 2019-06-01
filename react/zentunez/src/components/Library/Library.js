@@ -122,11 +122,12 @@ export class Library extends Component {
       window.open(this.state.api_url + "library/cover/" + this.state.artist + "/" + this.state.album)
     }
 
-    renderIcon(icon) {
+    renderIcon(icon, callback) {
+      // Render the specified MDBNIcon and call the *callback* when clicked
       return <MDBIcon
                 className="far"
                 icon={ icon }
-                onClick={ () => this.getAlbum() }
+                onClick={ () => callback() }
               />
     }
 
@@ -135,7 +136,7 @@ export class Library extends Component {
         <div>
           <p><b>ZenTunez Library</b></p>
           <div>
-            { this.renderIcon("search")}
+            { this.renderIcon("search", this.getAlbum.bind(this))}
             <HDivider />
             <input
               onChange={(event) => this.searchChanged(event) }
