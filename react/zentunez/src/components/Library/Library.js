@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HDivider } from '../Divider/Divider.js'
+import { VDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 
@@ -134,19 +134,20 @@ export class Library extends Component {
       return (
         <div>
           <p><b>ZenTunez Library</b></p>
-          <div>
-            { this.renderIcon("search", this.getAlbum.bind(this))}
-            <HDivider />
-            <input
-              onChange={(event) => this.searchChanged(event) }
-              onKeyDown={ this.onKeyDown }>
-            </input>
-            <HDivider />
-            { this.renderIcon("sign-in-alt", this.enqueueAlbum.bind(this)) }
-            <HDivider />
-            { this.renderIcon("play", this.playAlbum.bind(this)) }
-            <HDivider />
-          </div>
+          <MDBContainer>
+            <MDBRow>
+              <MDBCol>{ this.renderIcon("search", this.getAlbum.bind(this))}</MDBCol>
+              <MDBCol>
+              <input
+                onChange={(event) => this.searchChanged(event) }
+                onKeyDown={ this.onKeyDown }>
+              </input>
+              </MDBCol>
+              <MDBCol>{ this.renderIcon("sign-in-alt", this.enqueueAlbum.bind(this)) }</MDBCol>
+              <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
+            </MDBRow>
+          </MDBContainer>
+          <VDivider />
           <div>
             <img className="album-cover" alt="Album cover" src={ this.state.img_src } onClick={ this.onImageClick }></img>
           </div>
