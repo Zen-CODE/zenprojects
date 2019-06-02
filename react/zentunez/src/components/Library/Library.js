@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { VDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import ReactTooltip from 'react-tooltip'
 
 export class Library extends Component {
     /**
@@ -119,29 +120,32 @@ export class Library extends Component {
       window.open(this.state.api_url + "library/cover/" + this.state.artist + "/" + this.state.album)
     }
 
-    renderIcon(icon, callback) {
+    renderIcon(icon, tooltip, callback) {
       // Render the specified MDBIcon and call the *callback* when clicked
       return <MDBIcon
                 className="far"
                 icon={ icon }
-                onClick={ () => callback() }/>
+                data-tip={ tooltip }
+                onClick={ () => callback() }>
+                </MDBIcon>
     }
 
     render(){
       return (
         <div>
+          <ReactTooltip />
           <p><b>ZenTunez Library</b></p>
           <MDBContainer>
             <MDBRow>
-              <MDBCol>{ this.renderIcon("search", this.getAlbum.bind(this))}</MDBCol>
+              <MDBCol>{ this.renderIcon("search", "Choose a random album", this.getAlbum.bind(this))}</MDBCol>
               <MDBCol>
               <input
                 onChange={(event) => this.searchChanged(event) }
                 onKeyDown={ this.onKeyDown }>
               </input>
               </MDBCol>
-              <MDBCol>{ this.renderIcon("sign-in-alt", this.enqueueAlbum.bind(this)) }</MDBCol>
-              <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
+              <MDBCol>{ this.renderIcon("sign-in-alt", "Enqueue this album", this.enqueueAlbum.bind(this)) }</MDBCol>
+              <MDBCol>{ this.renderIcon("play", "Play this album", this.playAlbum.bind(this)) }</MDBCol>
             </MDBRow>
           </MDBContainer>
           <VDivider />
