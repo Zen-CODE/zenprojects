@@ -140,6 +140,7 @@ export class Library extends Component {
               <MDBCol>{ this.renderIcon("search", "Choose a random album", this.getAlbum.bind(this))}</MDBCol>
               <MDBCol>
               <input
+                data-tip="Enter a search term"
                 onChange={(event) => this.searchChanged(event) }
                 onKeyDown={ this.onKeyDown }>
               </input>

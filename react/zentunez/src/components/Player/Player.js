@@ -4,6 +4,7 @@ import { PlayerState } from "../PlayerState/PlayerState.js"
 import { VolumeSlider } from "../VolumeSlider/VolumeSlider.js"
 import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
+import ReactTooltip from 'react-tooltip'
 
 
 class KeyHandler {
@@ -111,10 +112,11 @@ export class Player extends Component {
       this.Click("player/state")
     }
 
-    renderIcon(icon, api_call) {
+    renderIcon(icon, tooltip, api_call) {
       return <MDBIcon
                 className="far"
                 icon={ icon }
+                data-tip={ tooltip }
                 onClick={ () => this.Click(api_call) }
               />
     }
@@ -151,25 +153,26 @@ export class Player extends Component {
       */
       return (
         <MDBContainer>
+          <ReactTooltip />
           <MDBRow><MDBCol><b>ZenTunez Player</b></MDBCol></MDBRow>
           <MDBRow><MDBCol><VDivider /></MDBCol></MDBRow>
           <MDBRow horizontal='center'>
-            <MDBCol>{this.renderIcon("fast-backward", "player/previous")}</MDBCol>
-            <MDBCol>{this.renderIcon("stop-circle", "player/stop")}</MDBCol>
-            <MDBCol>{this.renderIcon("pause-circle", "player/play_pause")}</MDBCol>
-            <MDBCol>{this.renderIcon("play-circle", "player/play_pause")}</MDBCol>
-            <MDBCol>{this.renderIcon("fast-forward", "player/next")}</MDBCol>
+            <MDBCol>{this.renderIcon("fast-backward", "Previous track", "player/previous")}</MDBCol>
+            <MDBCol>{this.renderIcon("stop-circle", "Stop", "player/stop")}</MDBCol>
+            <MDBCol>{this.renderIcon("pause-circle", "Play / Pause", "player/play_pause")}</MDBCol>
+            <MDBCol>{this.renderIcon("play-circle", "Play / Pause", "player/play_pause")}</MDBCol>
+            <MDBCol>{this.renderIcon("fast-forward", "Next track", "player/next")}</MDBCol>
           </MDBRow>
           <VDivider />
           <MDBRow horizontal='center' >
-            <MDBCol size="3">{this.renderIcon("volume-down", "player/volume_down")}</MDBCol>
+            <MDBCol size="3">{this.renderIcon("volume-down", "Volume down", "player/volume_down")}</MDBCol>
             <MDBCol>{ this.renderVolume() }</MDBCol>
-            <MDBCol size="3">{this.renderIcon("volume-up", "player/volume_up")}</MDBCol>
+            <MDBCol size="3">{this.renderIcon("volume-up", "Volume up", "player/volume_up")}</MDBCol>
           </MDBRow>
-          <MDBRow horizontal='center'>
+          <MDBRow horizontal='center' data-tip="The currently playing track">
             { this.renderState() }
           </MDBRow>
-          <MDBRow>
+          <MDBRow data-tip="Track listing of the current album">
             { this.renderTrackList() }
           </MDBRow>
         </MDBContainer>
