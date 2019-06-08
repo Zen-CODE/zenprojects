@@ -73,7 +73,6 @@ class MusicLib(object):
             """"Return the nice, cleaned name of the track"""
             return basename(fname)  # [:-4]
 
-        print("GetTracks for {0}".format(artist))
         path = join(self.path, artist, album)
         matches = self._get_any_matches(
             path, "*.mp3", "*.ogg", "*.m4a", "*.wma")
