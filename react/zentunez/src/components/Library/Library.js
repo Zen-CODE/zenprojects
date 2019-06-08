@@ -111,7 +111,8 @@ export class Library extends Component {
         if (len > 0) {
           this.getSearchAlbum(this.state.search) }
         else {
-          this.showPopup("Invalid Search Term", "Please enter a valid search tem.")}
+          // this.showPopup("Invalid Search Term", "Please enter a valid search tem.")}
+          this.getRandomAlbum()}
       }
     }
 
