@@ -35,3 +35,28 @@ class TestLibrary(TestCase):
         tracks = response.json()
         assert "04 - The Truth.mp3" in tracks
         print("Library - Albums test passed...")
+
+    def test_cover(self):
+        """ Test that the library returns a cover for a specified album
+        """
+        response = self.client.get("/library/cover/In Flames/Battles")
+        assert response.status_code == 200
+        print("Library - Cover test passed...")
+
+    def test_random_album(self):
+        """ Test that the library returns a random album
+        """
+        response = self.client.get("/library/random_album")
+        album = response.json()
+        assert "artist" in album
+        assert "album" in album
+        print("Library - Random album test passed...")
+
+    def test_search(self):
+        """ Test that the library returns a random album
+        """
+        response = self.client.get("/library/search/In Flames")
+        album = response.json()
+        assert "artist" in album
+        assert "album" in album
+        print("Library - Search album test passed...")
