@@ -3,10 +3,12 @@
 }
 
 .track-separator {
-    height: 5px;
+    height: 2px;
     background-color: #555555;
     margin-top: 3px;
-    margin-bottom: 3px
+    margin-bottom: 3px;
+    margin-right: 5%;
+    margin-left: 5%;
 }
 
 .track-list li {
