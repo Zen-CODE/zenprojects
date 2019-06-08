@@ -45,17 +45,21 @@ export class TrackList extends Component {
 
 
     render(){
-      const divStyle = { "line-height": 0.75 };
+      const divStyle = {"height": "5px", "background-color": "#555555", "margin-top": "3px", "margin-bottom": "3px" };
       const len = (this.state.artist + this.state.album).length;
 
       return (
         <div className="track-list no-bullet" >
-          <li style={ divStyle }>{ "- ".repeat(len * 0.9) }</li>
+          {/* Header info */}
+          { /*<li style={ divStyle }>&nbsp;</li> */}
+          <div style={ divStyle } />
           <b>{ this.state.artist }:</b> { this.state.album }
-          <li style={ divStyle }>{ "- ".repeat(len * 0.9) }</li>
-            { this.state.tracks.map((item, index) => (
-                  <li className={ item === this.state.track ? "active-track": "" } key={index} >{item}</li>
-            ))}
+          <div style={ divStyle } />
+
+          {/* Track listing */}
+          { this.state.tracks.map((item, index) => (
+                <li className={ item === this.state.track ? "active-track": "" } key={index} >{item}</li>
+          ))}
         </div>
       );
     }
