@@ -12,7 +12,8 @@ import tunez_store from './store/TunezStore.js'
 import { createStore } from 'redux'
 
 
-const API_URL = "http://10.0.0.3:8000/";
+var api_url = localStorage.getItem("api_url");
+if (!api_url) { api_url = "http://127.0.0.1:8000/"};
 
 class App extends Component {
   /*
@@ -22,7 +23,7 @@ class App extends Component {
     super(props);
     this.popup = React.createRef();
     this.store = createStore(tunez_store,
-                             { api_url: API_URL,
+                             { api_url: api_url,
                                popup: this.popup
                              })
 }

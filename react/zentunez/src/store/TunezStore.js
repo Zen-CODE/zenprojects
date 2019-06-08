@@ -13,6 +13,7 @@ function tunez_store(state = [], action){
   switch (action.type) {
       case "API_URL_CHANGED":
         state["api_url"] = action.api_url;
+        localStorage.setItem("api_url", action.api_url);
         return state
       default:
         return state
