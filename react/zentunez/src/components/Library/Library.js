@@ -22,6 +22,7 @@ export class Library extends Component {
         }
         this.getRandomAlbum();
         this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
+        this.timer = false;
       };
 
       storeChanged(store) {
@@ -132,10 +133,24 @@ export class Library extends Component {
                 </MDBIcon>
     }
 
+    timerEvent() {
+      /// Fire the timer event
+      this.getAlbum();
+    }
+
     toggleTimer(){
       // Switch the timer for selecting random albums on and off
       console.log("Toggle timer");
-      this.setState({ timer: !this.state.timer })
+      this.setState({ timer: !this.state.timer });
+      if (!this.state.timer) {
+        console.log("Adding timer")
+        this.timer = setInterval(() => this.timerEvent(), 10000);
+      } else {
+        if (this.timer != null){
+          console.log("Removing timer")
+          clearInterval(this.timer);
+         }
+      }
     }
 
     render(){
