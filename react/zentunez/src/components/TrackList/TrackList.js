@@ -45,8 +45,6 @@ export class TrackList extends Component {
 
 
     render(){
-      const len = (this.state.artist + this.state.album).length;
-
       return (
         <div className="track-list no-bullet" >
           {/* Header info */}

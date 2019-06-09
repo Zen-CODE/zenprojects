@@ -17,7 +17,8 @@ export class Library extends Component {
           img_src: "",
           search: "",
           api_url: props.store.getState().api_url,
-          store: props.store
+          store: props.store,
+          timer: false
         }
         this.getRandomAlbum();
         this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
@@ -131,6 +132,12 @@ export class Library extends Component {
                 </MDBIcon>
     }
 
+    toggleTimer(){
+      // Switch the timer for selecting random albums on and off
+      console.log("Toggle timer");
+      this.setState({ timer: !this.state.timer })
+    }
+
     render(){
       return (
         <div>
@@ -148,6 +155,7 @@ export class Library extends Component {
               </MDBCol>
               <MDBCol>{ this.renderIcon("sign-in-alt", "Enqueue this album", this.enqueueAlbum.bind(this)) }</MDBCol>
               <MDBCol>{ this.renderIcon("play", "Play this album", this.playAlbum.bind(this)) }</MDBCol>
+              <MDBCol>{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , "Toggle to timer on and off", this.toggleTimer.bind(this)) }</MDBCol>
             </MDBRow>
           </MDBContainer>
           <VDivider />
