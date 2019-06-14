@@ -6,30 +6,55 @@ import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import ReactTooltip from 'react-tooltip'
 
+/**
+ * Defines the mapping of Key values to functions
+ */
+class KeyMap {
+  constructor() {
+    this.key_map = {
+      88: {"key": "x", "command": "player/play_pause"},
+      90: {"key": "z", "command": "player/previous"},
+      86: {"key": "v", "command": "player/stop"},
+      66: {"key": "b", "command": "player/next"},
+      38: {"key": "up", "command": "player/volume_up"},
+      40: {"key": "down", "command": "player/volume_down"}
+    }
+  }
+
+  getCommand(key_val) {
+    /* Return the command given a specified key value, or *null* if
+       no mapping exists.
+    */
+    if (key_val in this.key_map) {
+      return this.key_map[key_val]["command"]
+    } else {
+      return null
+    }
+  }
+
+  getKey(command) {
+    /* Return the key to press to activate the given command. If none
+       are, then return *null*.
+    */
+    for (var prop in this.key_map){
+      if (this.key_map[prop]["command"] === command){
+        return this.key_map[prop]["key"]
+      }
+    }
+    return null
+  }
+}
+
 
 class KeyHandler {
   /**
    * A class for handling keystrokes and sending the instructions to the
-   * active media player accordingly. The events we capture are
-   *
-   * 88 - x -> play/pause
-   * 90 - z -> previous
-   * 86 - v -> stop
-   * 66 - b -> next
-   * 38 - up -> volume up
-   * 40 - down -> volume down
+   * active media player accordingly.
    */
   constructor(player) {
     // Bind to the key event and create a list of keys to handle
     document.addEventListener("keydown", (e) => this.onKeyPress(e), false);
-    this.keys = {
-      88: () => player.Click("player/play_pause"),
-      90: () => player.Click("player/previous"),
-      86: () => player.Click("player/stop"),
-      66: () => player.Click("player/next"),
-      38: () => player.Click("player/volume_up"),
-      40: () => player.Click("player/volume_down")
-       }
+    this.player = player;
   }
 
   onKeyPress(event){
@@ -38,9 +63,11 @@ class KeyHandler {
     */
    if (event.target.tagName !== "INPUT") {
       const key = event.keyCode;
-      if (key in this.keys) {
-        this.keys[key]();
-        event.preventDefault();
+      const km = new KeyMap()
+      var command = km.getCommand(key);
+
+      if (command != null) {
+        this.player.Click(command)
       }
     }
   }
@@ -113,10 +140,11 @@ export class Player extends Component {
     }
 
     renderIcon(icon, tooltip, api_call) {
+      const km = new KeyMap();
       return <MDBIcon
                 className="far"
                 icon={ icon }
-                data-tip={ tooltip }
+                data-tip={ tooltip + " (" + km.getKey(api_call) + ")"}
                 onClick={ () => this.Click(api_call) }
               />
     }
