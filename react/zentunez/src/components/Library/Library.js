@@ -140,14 +140,12 @@ export class Library extends Component {
 
     toggleTimer(){
       // Switch the timer for selecting random albums on and off
-      console.log("Toggle timer");
       this.setState({ timer: !this.state.timer });
       if (!this.state.timer) {
-        console.log("Adding timer")
+        this.timerEvent();
         this.timer = setInterval(() => this.timerEvent(), 10000);
       } else {
         if (this.timer != null){
-          console.log("Removing timer")
           clearInterval(this.timer);
          }
       }
