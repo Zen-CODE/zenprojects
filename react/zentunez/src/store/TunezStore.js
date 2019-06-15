@@ -16,7 +16,6 @@ function tunez_store(state = [], action){
         localStorage.setItem("api_url", action.api_url);
         return state
       case "SHOW_SYS_INFO_CHANGED":
-        console.log("Store: Changing show_sys_info to " + action.show_sys_info);
         state["show_sys_info"] = action.show_sys_info;
         localStorage.setItem("show_sys_info", action.show_sys_info);
         return state
