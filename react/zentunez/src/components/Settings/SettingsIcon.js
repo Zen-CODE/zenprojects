@@ -9,13 +9,19 @@ class SettingsContent extends Component {
   constructor(props){
     super(props);
     this.state = { store: props.store,
-                   api_url: props.store.getState().api_url };
+                   api_url: props.store.getState().api_url,
+                   system_info: 'false' };
     this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
   }
 
   storeChanged(store) {
     // React to changes in the shared stated
     this.setState({ api_url: store.getState().api_url });
+  }
+
+  showSysyemInfoChanged (event) {
+    // Toggle the state of the "Show System Information" setting
+    this.setState({ system_info: this.state.system_info === 'false'? 'true': 'false' })
   }
 
   serverIPChanged (event) {
@@ -33,15 +39,25 @@ class SettingsContent extends Component {
 
   render() {
     return (
-      <MDBRow>
-        <MDBCol>Server IP:</MDBCol>
-        <MDBCol>
-          <input
-                onChange={(event) => this.serverIPChanged(event) }
-                value={ this.state.api_url }>
-          </input>
-        </MDBCol>
-      </MDBRow>
+      <MDBCol>
+        <MDBRow>
+          <MDBCol>Server IP:</MDBCol>
+          <MDBCol>
+            <input
+                  onChange={ (event) => this.serverIPChanged(event) }
+                  value={ this.state.api_url }>
+            </input>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol>Show System Info</MDBCol>
+          <MDBCol>
+            <input type="checkbox" checked={ this.state.system_info }
+                onChange={ (event) => this.showSysyemInfoChanged(event) }
+            />
+          </MDBCol>
+        </MDBRow>
+      </MDBCol>
     )
   }
 }
