@@ -10,7 +10,7 @@ class SettingsContent extends Component {
     super(props);
     this.state = { store: props.store,
                    api_url: props.store.getState().api_url,
-                   system_info: 'false' };
+                   show_sys_info: false };
     this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
   }
 
@@ -21,7 +21,12 @@ class SettingsContent extends Component {
 
   showSysyemInfoChanged (event) {
     // Toggle the state of the "Show System Information" setting
-    this.setState({ system_info: this.state.system_info === 'false'? 'true': 'false' })
+    const new_val = !this.state.show_sys_info;
+    this.setState({ show_sys_info: new_val })
+    this.state.store.dispatch({
+      type: "SHOW_SYS_INFO_CHANGED",
+      show_sys_info: new_val })
+
   }
 
   serverIPChanged (event) {
@@ -52,7 +57,7 @@ class SettingsContent extends Component {
         <MDBRow>
           <MDBCol>Show System Info</MDBCol>
           <MDBCol>
-            <input type="checkbox" checked={ this.state.system_info }
+            <input type="checkbox" checked={ this.state.show_sys_info }
                 onChange={ (event) => this.showSysyemInfoChanged(event) }
             />
           </MDBCol>
