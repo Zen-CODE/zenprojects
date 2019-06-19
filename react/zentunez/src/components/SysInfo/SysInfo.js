@@ -17,7 +17,6 @@ export class SysInfo extends Component {
   storeChanged(store) {
     // React to changes in the shared stated
     const si = store.getState().show_sys_info;
-    console.log("SysInfo. setting changed to " + si)
     this.setState({ show_sys_info: si });
     this.setTimer(si);
   }
@@ -29,11 +28,9 @@ export class SysInfo extends Component {
 
   setTimer(on) {
       // Switch the Timer on and off
-      if (on && (this.intervalID === null)){
-        console.log("Starting timer");
+      if (on && (this.intervalID === null)) {
         this.intervalID = setInterval(this.timerEvent);
-      } else if (!on && (this.intervalID != null)){
-        console.log("Killing timer");
+      } else if (!on && (this.intervalID != null)) {
         clearInterval(this.intervalID);
         this.intervalID = null
       }
