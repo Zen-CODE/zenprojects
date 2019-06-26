@@ -18,6 +18,7 @@ export class Library extends Component {
           search: "",
           api_url: props.store.getState().api_url,
           store: props.store,
+          auto_add: props.auto_add,
           timer: false
         }
         this.getRandomAlbum();
@@ -27,7 +28,11 @@ export class Library extends Component {
 
       storeChanged(store) {
         // React to changes in the shared stated
-        this.setState({ api_url: store.getState().api_url });
+        var state = store.getState();
+        this.setState({ api_url: state.api_url,
+                        auto_add: state.auto_add
+         });
+         console.log("Auto_add = " + this.state.auto_add.toString())
       }
 
     getAlbum() {

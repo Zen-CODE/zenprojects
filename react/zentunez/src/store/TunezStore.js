@@ -19,7 +19,11 @@ function tunez_store(state = [], action){
         state["show_sys_info"] = action.show_sys_info;
         localStorage.setItem("show_sys_info", action.show_sys_info);
         return state
-      default:
+      case "AUTO_ADD_CHANGED":
+          state["auto_add"] = action.auto_add;
+          localStorage.setItem("auto_add", action.show_sys_info);
+          return state
+        default:
         return state
     }
   }

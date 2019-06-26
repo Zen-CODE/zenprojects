@@ -17,6 +17,8 @@ var api_url = localStorage.getItem("api_url");
 if (!api_url) { api_url = "http://127.0.0.1:8000/"};
 var show_sys_info = localStorage.getItem("show_sys_info");
 if (show_sys_info === null) { show_sys_info = false};
+var auto_add = localStorage.getItem("auto_add");
+if (auto_add === null) { auto_add = false};
 
 class App extends Component {
   /*
@@ -28,6 +30,7 @@ class App extends Component {
     this.store = createStore(tunez_store,
                              { api_url: api_url,
                                show_sys_info: show_sys_info,
+                               auto_add: auto_add,
                                popup: this.popup
                              })
 }
