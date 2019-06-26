@@ -35,6 +35,11 @@ export class Library extends Component {
          console.log("Auto_add = " + state.auto_add.toString())
       }
 
+    lastTrack() {
+      // The last track has been plated. Automatically add if appropriate
+      console.log("The lastg track is playing...");
+    }
+
     getAlbum() {
       /*
       Retrieve a random albom or search for a match if a search criteria has
@@ -184,6 +189,7 @@ export class Library extends Component {
             artist={ this.state.artist }
             album={ this.state.album }
             api_url={ this.state.api_url }
+            last_track_cb={this.lastTrack }
           />
         </div>
       );

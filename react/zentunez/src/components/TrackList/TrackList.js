@@ -13,7 +13,10 @@ export class TrackList extends Component {
                     api_url: props.api_url,
                     tracks: [],
                     track: ""
-        }
+      }
+
+      this.last_track_cb = ('last_track_cb' in props) ? props['last_track_cb']: null;
+      console.log("last_track_cb = " + this.last_track_cb)
     };
 
     componentDidUpdate(prevProps){
@@ -30,6 +33,7 @@ export class TrackList extends Component {
         // If the current track has changed, update the listing so it's highlighted
         // this.setTracks(this.props.artist, this.props.album)
         this.setState({ track: this.props.track});
+        if (this.last_track_cb != null) { this.last_track_cb() }  // TODO: Implement
       }
     }
 
