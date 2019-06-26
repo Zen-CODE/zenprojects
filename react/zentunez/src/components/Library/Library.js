@@ -32,7 +32,7 @@ export class Library extends Component {
         this.setState({ api_url: state.api_url,
                         auto_add: state.auto_add
          });
-         console.log("Auto_add = " + this.state.auto_add.toString())
+         console.log("Auto_add = " + state.auto_add.toString())
       }
 
     getAlbum() {
