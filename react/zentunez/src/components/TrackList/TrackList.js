@@ -33,10 +33,9 @@ export class TrackList extends Component {
         this.setTracks(this.props.artist, this.props.album)
       } else if (this.props.track !== prevProps.track) {
         // If the current track has changed, update the listing so it's highlighted
-        // this.setTracks(this.props.artist, this.props.album)
         this.setState({ track: this.props.track});
-        console.log("Checking last_track_cb = " + TrackList.last_track_cb)
-        if (TrackList.last_track_cb !== null) { TrackList.last_track_cb() }  // TODO: Implement
+        var track_index = this.state.tracks.indexOf(this.props.track);
+        if (track_index === this.state.tracks.length - 1) { TrackList.last_track_cb() }
       }
     }
 
