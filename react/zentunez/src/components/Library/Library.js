@@ -37,7 +37,7 @@ export class Library extends Component {
 
     lastTrack() {
       // The last track has been plated. Automatically add if appropriate
-      console.log("The lastg track is playing...");
+      console.log("The last track is playing...");
     }
 
     getAlbum() {
@@ -189,7 +189,7 @@ export class Library extends Component {
             artist={ this.state.artist }
             album={ this.state.album }
             api_url={ this.state.api_url }
-            last_track_cb={this.lastTrack }
+            last_track_cb={ this.lastTrack }
           />
         </div>
       );
