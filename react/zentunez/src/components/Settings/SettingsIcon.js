@@ -75,7 +75,7 @@ class SettingsContent extends Component {
           </MDBCol>
         </MDBRow>
         <MDBRow>
-          <MDBCol>Automatically add on last track</MDBCol>
+          <MDBCol>Automatically play when stopped</MDBCol>
           <MDBCol>
             <input type="checkbox" checked={ this.state.auto_add }
                 onChange={ (event) => this.autoAddChanged(event) }

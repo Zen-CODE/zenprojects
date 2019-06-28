@@ -18,7 +18,6 @@ export class Library extends Component {
           search: "",
           api_url: props.store.getState().api_url,
           store: props.store,
-          auto_add: props.auto_add,
           timer: false
         }
         this.getRandomAlbum();
@@ -29,17 +28,8 @@ export class Library extends Component {
       storeChanged(store) {
         // React to changes in the shared stated
         var state = store.getState();
-        this.setState({ api_url: state.api_url,
-                        auto_add: state.auto_add
-         });
-         console.log("Auto_add = " + state.auto_add.toString())
+        this.setState({ api_url: state.api_url });
       }
-
-    lastTrack() {
-      // The last track has been plated. Automatically add if appropriate
-      console.log("lastTrack callback. auto_add = " + this.state.auto_add.toString() )
-      if (this.state.auto_add) { this.enqueueAlbum() }
-    }
 
     getAlbum() {
       /*
@@ -190,7 +180,6 @@ export class Library extends Component {
             artist={ this.state.artist }
             album={ this.state.album }
             api_url={ this.state.api_url }
-            last_track_cb={ this.lastTrack.bind(this) }
           />
         </div>
       );
