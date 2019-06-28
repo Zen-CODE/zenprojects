@@ -86,6 +86,7 @@ export class Player extends Component {
     */
    constructor(props) {
       super(props);
+      var state = props.store.getState();
       this.state = {artist: "-",
                     album: "-",
                     track: "-",
@@ -93,16 +94,18 @@ export class Player extends Component {
                     state: "-",
                     position: 0,
                     img_src: "",
-                    api_url: props.store.getState().api_url
+                    api_url: state.api_url,
+                    auto_add: state.auto_add
                   };
       this.intervalID = 0;
       this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
     };
 
-
     storeChanged(store) {
       // React to changes in the shared stated
-      this.setState({ api_url: store.getState().api_url });
+      var state = store.getState()
+      this.setState({ api_url: state.api_url,
+                      auto_add: state.auto_add });
     }
 
     componentDidMount() {
