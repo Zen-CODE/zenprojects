@@ -47,7 +47,7 @@ class MPlayer(object):
             if metadata:
                 return self.mp2_player.Metadata[key]
             else:
-                getattr(self.mp2_player, key)
+                return getattr(self.mp2_player, key)
         except (KeyError, AttributeError):
             return default
 
