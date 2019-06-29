@@ -99,6 +99,7 @@ export class Player extends Component {
                   };
       this.intervalID = 0;
       this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
+      this.stopped = false;  // Monitor for how long the player hass been stopped
     };
 
     storeChanged(store) {
@@ -120,11 +121,27 @@ export class Player extends Component {
       this.keyHandler.unLoad()
     }
 
+    checkState(state) {
+      // Monitor the status of the player and if stopped consecutively and
+      // 'auto_add' is enabled, play a random album
+      if ( state === "Stopped" ) {
+        if ( this.stopped ) {
+          console.log("Play an alkbum dammit!")
+
+        } else {
+          this.stopped = true;
+        }
+      } else {
+        this.stopped = false;
+      }
+    }
+
     Click = (api_call) => {
       /* Handle the click on a Player media button */
       fetch(this.state.api_url + api_call)
         .then(res => res.json())
         .then((response) => {
+            this.checkState(response.state);
             this.setState({artist: response.artist,
                           album: response.album,
                           track: response.track,
