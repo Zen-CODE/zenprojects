@@ -86,6 +86,7 @@ export class Player extends Component {
     */
    constructor(props) {
       super(props);
+      var state = props.store.getState();
       this.state = {artist: "-",
                     album: "-",
                     track: "-",
@@ -93,16 +94,19 @@ export class Player extends Component {
                     state: "-",
                     position: 0,
                     img_src: "",
-                    api_url: props.store.getState().api_url
+                    api_url: state.api_url,
+                    auto_add: state.auto_add
                   };
       this.intervalID = 0;
       this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
+      this.stopped = false;  // Monitor for how long the player hass been stopped
     };
-
 
     storeChanged(store) {
       // React to changes in the shared stated
-      this.setState({ api_url: store.getState().api_url });
+      var state = store.getState()
+      this.setState({ api_url: state.api_url,
+                      auto_add: state.auto_add });
     }
 
     componentDidMount() {
@@ -117,11 +121,40 @@ export class Player extends Component {
       this.keyHandler.unLoad()
     }
 
+    playAlbum(artist, album) {
+      // Return the reponse of a URL as a json object
+      fetch(this.state.api_url + "library/folder_play/" + artist + "/" + album)
+    }
+
+    playRandomAlum() {
+      /// Get and play a random album
+      var url = this.state.api_url + "library/random_album";
+      fetch(url)
+        .then(res => res.json())
+        .then((response) => { this.playAlbum(response.artist, response.album) }
+      )
+    }
+
+    checkState(state) {
+      // Monitor the status of the player and if stopped consecutively and
+      // 'auto_add' is enabled, play a random album
+      if ( state === "Stopped" ) {
+        if ( this.stopped ) {
+          this.playRandomAlum()
+        } else {
+          this.stopped = true;
+        }
+      } else {
+        this.stopped = false;
+      }
+    }
+
     Click = (api_call) => {
       /* Handle the click on a Player media button */
       fetch(this.state.api_url + api_call)
         .then(res => res.json())
         .then((response) => {
+            this.checkState(response.state);
             this.setState({artist: response.artist,
                           album: response.album,
                           track: response.track,

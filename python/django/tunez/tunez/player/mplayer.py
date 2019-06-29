@@ -32,8 +32,24 @@ class MPlayer(object):
     @staticmethod
     def _get_from_filename(filename):
         """ Return the artist and album based on the file name"""
-        parts = unquote(filename).split(sep)
-        return parts[-3], parts[-2], parts[-1]
+        if filename:
+            parts = unquote(filename).split(sep)
+            return parts[-3], parts[-2], parts[-1]
+        else:
+            return "", "", ""
+
+    def get_player_value(self, key, default, metadata=False):
+        """
+        Retrieve the specified value from the player. If it fails, return the
+        default value
+        """
+        try:
+            if metadata:
+                return self.mp2_player.Metadata[key]
+            else:
+                return getattr(self.mp2_player, key)
+        except (KeyError, AttributeError):
+            return default
 
     def get_state(self):
         """ Return a dictionary containing information on the audio player's
@@ -42,15 +58,16 @@ class MPlayer(object):
             * volume: float between 0 and 1
             * status: one of 'Playing', 'Paused' or 'Stopped'.
         """
-        md = self.mp2_player.Metadata
-        length = md.get("mpris:length", 0)
+        gpv = self.get_player_value
+        length = gpv("mpris:length", 0, True)
         pos = float(self.mp2_player.Position) / float(length) if length > 0 \
             else 0
-        artist, album, track = self._get_from_filename(md["xesam:url"])
+        artist, album, track = self._get_from_filename(
+            gpv("xesam:url", "", True))
 
         return {
-            "volume": self.mp2_player.Volume,
-            "state": self.mp2_player.PlaybackStatus,
+            "volume": gpv("Volume", 0),
+            "state": gpv("PlaybackStatus", "stopped"),
             "position": pos,
             "artist": artist,
             "album": album,

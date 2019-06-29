@@ -8,14 +8,37 @@ class SettingsContent extends Component {
   */
   constructor(props){
     super(props);
+    var state = props.store.getState();
     this.state = { store: props.store,
-                   api_url: props.store.getState().api_url };
+                   api_url: state.api_url,
+                   auto_add: state.auto_add,
+                   show_sys_info: false };
     this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
   }
 
   storeChanged(store) {
     // React to changes in the shared stated
-    this.setState({ api_url: store.getState().api_url });
+    var state = store.getState();
+    this.setState({ api_url: state.api_url,
+                    auto_add: state.auto_add});
+    }
+
+  showSysyemInfoChanged (event) {
+    // Toggle the state of the "Show System Information" setting
+    const new_val = !this.state.show_sys_info;
+    this.setState({ show_sys_info: new_val })
+    this.state.store.dispatch({
+      type: "SHOW_SYS_INFO_CHANGED",
+      show_sys_info: new_val })
+  }
+
+  autoAddChanged (event) {
+    // Toggle the state of the "Automatically add on last track"
+    const new_val = !this.state.auto_add;
+    this.setState({ auto_add: new_val })
+    this.state.store.dispatch({
+      type: "AUTO_ADD_CHANGED",
+      auto_add: new_val })
   }
 
   serverIPChanged (event) {
@@ -33,15 +56,33 @@ class SettingsContent extends Component {
 
   render() {
     return (
-      <MDBRow>
-        <MDBCol>Server IP:</MDBCol>
-        <MDBCol>
-          <input
-                onChange={(event) => this.serverIPChanged(event) }
-                value={ this.state.api_url }>
-          </input>
-        </MDBCol>
-      </MDBRow>
+      <MDBCol>
+        <MDBRow>
+          <MDBCol>Server IP:</MDBCol>
+          <MDBCol>
+            <input
+                  onChange={ (event) => this.serverIPChanged(event) }
+                  value={ this.state.api_url }>
+            </input>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol>Show System Info</MDBCol>
+          <MDBCol>
+            <input type="checkbox" checked={ this.state.show_sys_info }
+                onChange={ (event) => this.showSysyemInfoChanged(event) }
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol>Automatically play when stopped</MDBCol>
+          <MDBCol>
+            <input type="checkbox" checked={ this.state.auto_add }
+                onChange={ (event) => this.autoAddChanged(event) }
+            />
+          </MDBCol>
+        </MDBRow>
+      </MDBCol>
     )
   }
 }

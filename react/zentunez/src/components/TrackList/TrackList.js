@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './TrackList.css';
 
+
+
+
 export class TrackList extends Component {
     /**
      * This component handles the display of the track list for an album
@@ -12,8 +15,7 @@ export class TrackList extends Component {
                     album: "-",
                     api_url: props.api_url,
                     tracks: [],
-                    track: ""
-        }
+                    track: ""}
     };
 
     componentDidUpdate(prevProps){
@@ -28,7 +30,6 @@ export class TrackList extends Component {
         this.setTracks(this.props.artist, this.props.album)
       } else if (this.props.track !== prevProps.track) {
         // If the current track has changed, update the listing so it's highlighted
-        // this.setTracks(this.props.artist, this.props.album)
         this.setState({ track: this.props.track});
       }
     }
