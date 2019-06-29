@@ -121,13 +121,26 @@ export class Player extends Component {
       this.keyHandler.unLoad()
     }
 
+    playAlbum(artist, album) {
+      // Return the reponse of a URL as a json object
+      fetch(this.state.api_url + "library/folder_play/" + artist + "/" + album)
+    }
+
+    playRandomAlum() {
+      /// Get and play a random album
+      var url = this.state.api_url + "library/random_album";
+      fetch(url)
+        .then(res => res.json())
+        .then((response) => { this.playAlbum(response.artist, response.album) }
+      )
+    }
+
     checkState(state) {
       // Monitor the status of the player and if stopped consecutively and
       // 'auto_add' is enabled, play a random album
       if ( state === "Stopped" ) {
         if ( this.stopped ) {
-          console.log("Play an alkbum dammit!")
-
+          this.playRandomAlum()
         } else {
           this.stopped = true;
         }
