@@ -15,10 +15,7 @@ export class TrackList extends Component {
                     album: "-",
                     api_url: props.api_url,
                     tracks: [],
-                    track: ""
-      }
-      TrackList.last_track_cb = ('last_track_cb' in props) ? props['last_track_cb']: null
-      console.log("last_track_cb = " + TrackList.last_track_cb )
+                    track: ""}
     };
 
     componentDidUpdate(prevProps){
@@ -34,8 +31,6 @@ export class TrackList extends Component {
       } else if (this.props.track !== prevProps.track) {
         // If the current track has changed, update the listing so it's highlighted
         this.setState({ track: this.props.track});
-        var track_index = this.state.tracks.indexOf(this.props.track);
-        if (track_index === this.state.tracks.length - 1) { TrackList.last_track_cb() }
       }
     }
 
@@ -67,5 +62,3 @@ export class TrackList extends Component {
       );
     }
   }
-
-  TrackList.prototype.last_track_cb = null;
