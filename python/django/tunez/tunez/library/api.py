@@ -4,7 +4,7 @@ This module houses the main view functions for the library explorer
 from rest_framework.decorators import api_view
 from .library import MusicLib
 from django.http import HttpResponse
-from os.path import exists
+from os.path import exists, expanduser
 from os import system
 from rest_framework.response import Response
 
@@ -14,7 +14,7 @@ class Library(object):
     This class handles the sending of command and the retrieving of state from
     the currently running MPris2 Media player.
     """
-    lib = MusicLib("/home/fruitbat/Music/")
+    lib = MusicLib(expanduser("~/Music/"))
 
     @staticmethod
     @api_view()
