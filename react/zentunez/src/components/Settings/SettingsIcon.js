@@ -25,11 +25,13 @@ class SettingsContent extends Component {
 
   showSysyemInfoChanged (event) {
     // Toggle the state of the "Show System Information" setting
-    const new_val = !this.state.show_sys_info;
+    var now = Date.now();
+    var new_val = "New message " + now.toString();
+    console.log("Sending message: " + new_val)
     this.setState({ show_sys_info: new_val })
     this.state.store.dispatch({
-      type: "SHOW_SYS_INFO_CHANGED",
-      show_sys_info: new_val })
+      type: "SHOW_SYS_MSG",
+      show_sys_msg: new_val })
   }
 
   autoAddChanged (event) {
@@ -67,9 +69,9 @@ class SettingsContent extends Component {
           </MDBCol>
         </MDBRow>
         <MDBRow>
-          <MDBCol>Show System Info</MDBCol>
+          <MDBCol>Show System Msg</MDBCol>
           <MDBCol>
-            <input type="checkbox" checked={ this.state.show_sys_info }
+            <input type="checkbox"
                 onChange={ (event) => this.showSysyemInfoChanged(event) }
             />
           </MDBCol>

@@ -10,13 +10,11 @@ import './App.css';
 import { Popup } from "./components/Popup/Popup.js"
 import tunez_store from './store/TunezStore.js'
 import { createStore } from 'redux'
-import { SysInfo } from "./components/SysInfo/SysInfo.js"
+import { SysMsg } from "./components/SysMsg/SysMsg.js"
 
 
 var api_url = localStorage.getItem("api_url");
 if (!api_url) { api_url = "http://127.0.0.1:8000/"};
-var show_sys_info = localStorage.getItem("show_sys_info");
-if (show_sys_info === null) { show_sys_info = false};
 var auto_add = localStorage.getItem("auto_add");
 if (auto_add === null) { auto_add = false};
 
@@ -29,7 +27,6 @@ class App extends Component {
     this.popup = React.createRef();
     this.store = createStore(tunez_store,
                              { api_url: api_url,
-                               show_sys_info: show_sys_info,
                                auto_add: auto_add,
                                popup: this.popup
                              })
@@ -47,7 +44,7 @@ class App extends Component {
           <MDBCol><Library store={ this.store } /></MDBCol>
         </MDBRow>
       </MDBContainer>
-      <SysInfo store={ this.store }/>
+      <SysMsg store={ this.store }/>
     </div>)
   }
 }

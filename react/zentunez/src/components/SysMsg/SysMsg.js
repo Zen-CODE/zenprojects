@@ -1,7 +1,8 @@
+
 import React, { Component } from 'react';
 
 
-export class SysInfo extends Component {
+export class SysMsg extends Component {
   /* This component contains the content of the settings popul. It
      also handles the saving on these settings
   */
@@ -16,7 +17,8 @@ export class SysInfo extends Component {
 
   storeChanged(store) {
     // React to changes in the shared stated
-    const si = store.getState().show_sys_info;
+    const si = store.getState().show_sys_msg;
+    console.log("Got change message - " + si);
     this.setState({ show_sys_info: si });
     this.setTimer(si);
   }

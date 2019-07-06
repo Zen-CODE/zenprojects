@@ -15,9 +15,8 @@ function tunez_store(state = [], action){
         state["api_url"] = action.api_url;
         localStorage.setItem("api_url", action.api_url);
         return state
-      case "SHOW_SYS_INFO_CHANGED":
-        state["show_sys_info"] = action.show_sys_info;
-        localStorage.setItem("show_sys_info", action.show_sys_info);
+      case "SHOW_SYS_MSG":
+        state["show_sys_msg"] = action.show_sys_msg;
         return state
       case "AUTO_ADD_CHANGED":
           state["auto_add"] = action.auto_add;
