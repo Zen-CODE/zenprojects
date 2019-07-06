@@ -43,7 +43,7 @@ export class SysMsg extends Component {
       // Switch the Timer on to start showing the message
       if (on && (this.intervalID === null)) {
         this.setState({ msg: this.messages.pop()});
-        this.intervalID = setInterval(this.timerEvent.bind(this), 2000);
+        this.intervalID = setInterval(this.timerEvent.bind(this), 5000);
       } else if (!on && (this.intervalID != null)) {
         clearInterval(this.intervalID);
         this.intervalID = null
