@@ -68,7 +68,7 @@ export class SysMsg extends Component {
     // We only return the component if enabled
     if ( this.state.msg != "" ) {
         return (
-            <div>{ this.state.msg }</div>)
+            <div className="message-area" >{ this.state.msg }</div>)
     } else {
         return null
     };

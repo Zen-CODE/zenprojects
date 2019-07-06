@@ -34,3 +34,12 @@ body {
   width: 100px;
   height: auto;
 }
+
+.message-area {
+  padding-left: 10px;
+  height: auto;
+  width: auto;
+  border-color: #229922 !important;
+  border-width: 2px !important;
+  border-style: solid;
+}
