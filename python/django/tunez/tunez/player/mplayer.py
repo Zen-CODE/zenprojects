@@ -2,7 +2,6 @@
 This module provides functions for controlling the currently active MPRIS2
 player.
 """
-
 from mpris2 import get_players_uri, Player
 from urllib.parse import urlparse, unquote
 from os.path import exists, sep
@@ -13,6 +12,11 @@ class MPlayer(object):
     This object sends command to the active MPRIS2 player, and retrieves
     information from it.
     """
+    state = ""
+    """ Tracks the state of the current player """
+
+    track_url = ""
+    """ Track the the currently playing song"""
 
     def __init__(self):
         super(MPlayer, self).__init__()
@@ -51,6 +55,22 @@ class MPlayer(object):
         except (KeyError, AttributeError):
             return default
 
+    @staticmethod
+    def _add_message(track_url, state):
+        """ Add a message to the *payload* dictionary if appropriate and write
+        events to BigQuery if required.
+
+        Note: We use the full track url i.s.o. the 'track' property to avoid
+              the rare case that two different tracks have the same file name.
+        """
+        if track_url != MPlayer.track_url or state["state"] != MPlayer.state:
+            MPlayer.track_url = track_url
+            MPlayer.state = state['state']
+            state["message"] = {"type": "track changed",
+                                "text": "Now playing - {0} ({1})".format(
+                                    state['track'], state['state'])}
+        return state
+
     def get_state(self):
         """ Return a dictionary containing information on the audio player's
         status. Values in this dict are:
@@ -62,17 +82,17 @@ class MPlayer(object):
         length = gpv("mpris:length", 0, True)
         pos = float(self.mp2_player.Position) / float(length) if length > 0 \
             else 0
-        artist, album, track = self._get_from_filename(
-            gpv("xesam:url", "", True))
+        track_url = gpv("xesam:url", "", True)
+        artist, album, track = self._get_from_filename(track_url)
 
-        return {
+        return self._add_message(track_url, {
             "volume": gpv("Volume", 0),
             "state": gpv("PlaybackStatus", "stopped"),
             "position": pos,
             "artist": artist,
             "album": album,
             "track": track
-        }
+        })
 
     def previous_track(self):
         """
