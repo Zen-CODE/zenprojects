@@ -47,5 +47,6 @@ body {
   background-color: #115511;
   border-style: solid;
   position: fixed;
-  bottom:0%;
+  bottom:1%;
+  left:1%;
 }
