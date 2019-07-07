@@ -154,8 +154,8 @@ class MPlayer(object):
             else:
                 return "Music/audio_icon.png"
 
-        data = self.mp2_player.Metadata
-        fname = get_cover(str(data['mpris:artUrl']))
+        fname = get_cover(self.get_player_value('mpris:artUrl',
+                                                "Music/audio_icon.png", True))
         if exists(fname):
             return fname
         else:
