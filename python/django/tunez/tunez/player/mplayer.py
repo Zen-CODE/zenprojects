@@ -5,6 +5,10 @@ player.
 from mpris2 import get_players_uri, Player
 from urllib.parse import urlparse, unquote
 from os.path import exists, sep
+from logging import getLogger
+
+
+logger = getLogger(__name__)
 
 
 class MPlayer(object):
@@ -69,6 +73,7 @@ class MPlayer(object):
             state["message"] = {"type": "track changed",
                                 "text": "Now playing - {0} ({1})".format(
                                     state['track'], state['state'])}
+            logger.info("Message: {0}".format(state['message']))
         return state
 
     def get_state(self):
