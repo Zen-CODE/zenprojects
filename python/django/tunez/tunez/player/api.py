@@ -19,8 +19,7 @@ class Player(object):
         """
         Call the MPlayer function with the given name and return the response.
         """
-        getattr(Player.mplayer, name)()
-        return Response(Player.mplayer.get_state())
+        return Response(getattr(Player.mplayer, name)())
 
     @staticmethod
     @api_view()

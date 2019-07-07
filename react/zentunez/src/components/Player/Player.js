@@ -95,7 +95,9 @@ export class Player extends Component {
                     position: 0,
                     img_src: "",
                     api_url: state.api_url,
-                    auto_add: state.auto_add
+                    auto_add: state.auto_add,
+                    store: props.store
+
                   };
       this.intervalID = 0;
       this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
@@ -163,6 +165,12 @@ export class Player extends Component {
                           position: response.position,
                           img_src : this.state.api_url + "player/cover?guid=" + response.artist + response.album + response.track
                           })
+            if ("message" in response) {
+              this.state.store.dispatch({
+                type: "SHOW_SYS_MSG",
+                show_sys_msg: response.message.text })
+             };
+
         }
       )
     }
