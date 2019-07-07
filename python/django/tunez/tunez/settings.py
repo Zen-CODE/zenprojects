@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from environs import Env
 import logging.config as log_config
+from json import load
 
 env = Env()
 env.read_env()
@@ -34,28 +35,8 @@ ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = True
 
 LOGGING_CONFIG = None
-log_config.dictConfig({
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'console': {
-            # exact format is not important, this is the minimum information
-            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'console',
-        },
-    },
-    'loggers': {
-        '': {
-            'level': 'INFO',
-            'handlers': ['console'],
-        },
-    },
-})
+with open("logging.json") as f:
+    log_config.dictConfig(load(f))
 
 # Application definition
 
