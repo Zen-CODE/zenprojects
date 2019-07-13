@@ -7,6 +7,8 @@ from urllib.parse import urlparse, unquote
 from os.path import exists, sep
 from logging import getLogger
 from .cloud_sql import NowPlaying
+from threading import Thread
+from datetime import datetime
 
 logger = getLogger(__name__)
 
@@ -74,16 +76,16 @@ class MPlayer(object):
                                 "text": "Now playing - {0} ({1})".format(
                                     state['track'], state['state'])}
             logger.info("Message: {0}".format(state['message']))
-            MPlayer._write_to_db(state)
+            Thread(target=lambda: MPlayer._write_to_db(state)).start()
             logger.info("State written to DB")
         return state
 
     @staticmethod
     def _write_to_db(state):
         """ Write the current "Now Playing" status to our cloud DB """
-        from datetime import datetime
         NowPlaying(artist=state["artist"], album=state["album"],
-                   state=state['state'], date=datetime.now()).save()
+                   track=state["track"], state=state['state'],
+                   datetime=datetime.now()).save()
 
     def get_state(self):
         """ Return a dictionary containing information on the audio player's

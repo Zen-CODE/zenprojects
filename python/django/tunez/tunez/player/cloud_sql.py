@@ -2,13 +2,11 @@
 This module houses code that interacts with the CloudSQL Postgress instance
 """
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Date, create_engine
+from sqlalchemy import Column, Integer, String, DateTime, create_engine
 from sqlalchemy.orm import sessionmaker
-from logging import getLogger
 from os import environ
 
 Base = declarative_base()
-logger = getLogger(__name__)
 
 
 class NowPlaying(Base):
@@ -28,8 +26,9 @@ class NowPlaying(Base):
     id = Column(Integer, primary_key=True)
     artist = Column(String)
     album = Column(String)
+    track = Column(String)
     state = Column(String)
-    date = Column(Date)
+    datetime = Column(DateTime)
 
     # Our properties
     Session = None
@@ -42,28 +41,28 @@ class NowPlaying(Base):
                 environ['SQLALCHEMY_DATABASE_URI'],
                 connect_args={'sslmode': 'prefer'})
             NowPlaying.Session = sessionmaker(bind=engine)
+            # Base.metadata.create_all(engine)
         return NowPlaying.Session()
 
     def __repr__(self):
-        return "<NowPlaying(artist='{0}', album='{1}', state='{2}'".format(
-            self.artist, self.album, self.state)
+        return "<NowPlaying(artist={0}, album={1}, track={2}, state={3}, " \
+               "time={4}".format(self.artist, self.album, self.track,
+                                 self.state, self.datetime)
 
     def save(self):
         """ Store the item in the database """
-        logger.info("Storing 'Now Playing' entry...")
         session = self.getSession()
         session.add(self)
         session.commit()
-        logger.info("Storing 'Now Playing' entry stored.")
 
 
 if __name__ == "__main__":
-    from datetime import datetime
     from environs import Env
     env = Env()
     env.read_env()
 
     # Save
+    # from datetime import datetime
     # obj = NowPlaying(artist="Us3", album="Cantaloop 2004", state="playing",
     #                  date=datetime.now())
     # obj.save()
@@ -77,6 +76,7 @@ if __name__ == "__main__":
 
     # List all
     session = NowPlaying.getSession()
-    for instance in session.query(NowPlaying).order_by(NowPlaying.date)[:10]:
+    for instance in session.query(
+            NowPlaying).order_by(NowPlaying.datetime.desc())[:10]:
         print("Now playing: {0}".format(instance))
     print("Done")
