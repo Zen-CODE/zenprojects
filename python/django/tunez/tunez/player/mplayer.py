@@ -106,12 +106,20 @@ class MPlayer(object):
                    track=state["track"], state=state['state'],
                    datetime=datetime.now()).save()
 
-    def get_state(self):
+    def get_state(self, ip):
         """ Return a dictionary containing information on the audio player's
-        status. Values in this dict are:
+        status.
+
+
+        :param ip: The IP address of the client
+        :return: A dict containing the following values:
 
             * volume: float between 0 and 1
             * status: one of 'Playing', 'Paused' or 'Stopped'.
+            * position: a float between 0 and 1
+            * artist
+            * album
+            * track
         """
         gpv = self.get_player_value
         length = gpv("mpris:length", 0, True)
