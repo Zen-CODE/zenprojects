@@ -45,9 +45,8 @@ class NowPlaying(Base):
         return NowPlaying.Session()
 
     def __repr__(self):
-        return "<NowPlaying(artist={0}, album={1}, track={2}, state={3}, " \
-               "time={4}".format(self.artist, self.album, self.track,
-                                 self.state, self.datetime)
+        return "<NowPlaying {0},  {1}: {2}, state={3} @{4}".format(
+            self.artist, self.album, self.track, self.state, self.datetime)
 
     def save(self):
         """ Store the item in the database """
