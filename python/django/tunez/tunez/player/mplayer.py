@@ -24,6 +24,9 @@ class MPlayer(object):
     track_url = ""
     """ Track the the currently playing song"""
 
+    messages = []
+    """ A list of messages waiting to be send to the clients. """
+
     def __init__(self):
         super(MPlayer, self).__init__()
         try:
@@ -72,12 +75,15 @@ class MPlayer(object):
         if track_url != MPlayer.track_url or state["state"] != MPlayer.state:
             MPlayer.track_url = track_url
             MPlayer.state = state['state']
-            state["message"] = {"type": "track changed",
-                                "text": "Now playing - {0} ({1})".format(
-                                    state['track'], state['state'])}
-            logger.info("Message: {0}".format(state['message']))
+            MPlayer.messages.append({"type": "track changed",
+                                    "text": "Now playing - {0} ({1})".format(
+                                        state['track'], state['state'])})
             Thread(target=lambda: MPlayer._write_to_db(state)).start()
             logger.info("State written to DB")
+
+        if len(MPlayer.messages) > 0:
+            state["message"] = MPlayer.messages.pop()
+            logger.info("Message: {0}".format(state['message']))
         return state
 
     @staticmethod
