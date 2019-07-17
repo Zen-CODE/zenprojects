@@ -51,9 +51,9 @@ class NowPlaying(Base):
 
     def save(self):
         """ Store the item in the database """
-        session = self.getSession()
-        session.add(self)
-        session.commit()
+        _session = self.getSession()
+        _session.add(self)
+        _session.commit()
 
 
 if __name__ == "__main__":
