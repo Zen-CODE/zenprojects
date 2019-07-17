@@ -80,6 +80,15 @@ class Player(object):
 
     @staticmethod
     @api_view()
+    def message_add(_request, msg_type, msg):
+        """
+        Add a message to the message queue
+        """
+        Player.mplayer.add_message(msg_type, msg)
+        return Response({})
+
+    @staticmethod
+    @api_view()
     def state(_request):
         """
         Return the player state.

@@ -26,4 +26,5 @@ urlpatterns = [
     path('state', Player.state),
     path('cover', Player.cover),
     path('volume_set/<str:volume>', Player.volume_set),
+    path('message_add/<str:msg_type>/<str:msg>', Player.message_add),
 ]

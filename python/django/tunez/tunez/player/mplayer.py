@@ -24,7 +24,7 @@ class MPlayer(object):
     track_url = ""
     """ Track the the currently playing song"""
 
-    messages = []
+    _messages = []
     """ A list of messages waiting to be send to the clients. """
 
     def __init__(self):
@@ -65,6 +65,19 @@ class MPlayer(object):
             return default
 
     @staticmethod
+    def add_message(msg_type, msg):
+        """
+        Add a message to the message queue
+
+        :param msg_type: The type of message. One of 'track changed' or
+                        'album queued'
+        :param msg: The message to display in the React front-end
+        :return: None
+        """
+        MPlayer._messages.append({"type": msg_type,
+                                 "text": msg})
+
+    @staticmethod
     def _add_message(track_url, state):
         """ Add a message to the *payload* dictionary if appropriate and write
         events to BigQuery if required.
@@ -75,14 +88,14 @@ class MPlayer(object):
         if track_url != MPlayer.track_url or state["state"] != MPlayer.state:
             MPlayer.track_url = track_url
             MPlayer.state = state['state']
-            MPlayer.messages.append({"type": "track changed",
-                                    "text": "Now playing - {0} ({1})".format(
-                                        state['track'], state['state'])})
+            MPlayer.add_message("track changed",
+                                "Now playing - {0} ({1})".format(
+                                        state['track'], state['state']))
             Thread(target=lambda: MPlayer._write_to_db(state)).start()
             logger.info("State written to DB")
 
-        if len(MPlayer.messages) > 0:
-            state["message"] = MPlayer.messages.pop()
+        if len(MPlayer._messages) > 0:
+            state["message"] = MPlayer._messages.pop()
             logger.info("Message: {0}".format(state['message']))
         return state
 
