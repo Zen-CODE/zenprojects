@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from os.path import exists, expanduser
 from os import system
 from rest_framework.response import Response
+from tunez.player.mplayer import Messages
 
 
 class Library(object):
@@ -70,6 +71,8 @@ class Library(object):
         Add the specified album to the end of the playlist
         """
         path = Library.lib.get_album_path(artist, album)
+        Messages.add_message("album queued", "Album queued: {0} - {1}".format(
+            artist, album))
         if exists(path):
             system('audacious -e "{0}"'.format(path))
             return Response({"message": "Enqueue instruction sent to audacious"})
