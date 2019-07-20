@@ -3,7 +3,7 @@ This module houses the main view functions for the media player controller
 """
 from rest_framework.decorators import api_view
 from django.http import HttpResponse
-from .mplayer import MPlayer
+from .mplayer import MPlayer, Messages
 from rest_framework.response import Response
 
 
@@ -79,12 +79,22 @@ class Player(object):
         return Response(Player.mplayer.get_state())
 
     @staticmethod
+    def _get_ip(request):
+        """ Retrieve the IP added of the client for the specified request. """
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            return x_forwarded_for.split(',')[0]
+        else:
+            return request.META.get('REMOTE_ADDR')
+
+    @staticmethod
     @api_view()
-    def message_add(_request, msg_type, msg):
+    def message_add(request, msg_type, msg):
         """
         Add a message to the message queue
         """
-        Player.mplayer.add_message(msg_type, msg)
+        Messages.ensure_client(Player._get_ip(request))
+        Messages.add_message(msg_type, msg)
         return Response({})
 
     @staticmethod
@@ -93,11 +103,7 @@ class Player(object):
         """
         Return the player state.
         """
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
+        ip = Player._get_ip(request)
         return Response(Player.mplayer.get_state(ip))
 
     @staticmethod
