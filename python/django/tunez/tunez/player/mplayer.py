@@ -13,6 +13,53 @@ from datetime import datetime
 logger = getLogger(__name__)
 
 
+class Messages:
+    """
+    This class manages the message queue around delivering messages to separate
+    clients, ensuring that each client gets all messages once and exactly once.
+    """
+    _clients = {}
+    """ A dictionary used to store and lookup the message queues for each client
+    """
+
+    @staticmethod
+    def add_message(msg_type, text):
+        """
+        Add the specified message to the queue for each client.
+
+        :param msg_type: The type of message. One of 'track changed' or
+                        'album queued'
+        :param text: The message to display in the React front-end
+        :return: None
+        """
+        [queue.append({'msg_type': msg_type, 'text': text})
+         for queue in Messages._clients.values()]
+
+    @staticmethod
+    def ensure_client(ip):
+        """
+        Ensure this client exists and is registered for receiving messages.
+
+        :param ip: The identifier used lookup and store messages in the queue
+        :return: None
+        """
+        if ip not in Messages._clients.keys():
+            Messages._clients[ip] = []
+
+    @staticmethod
+    def get_message(ip, state):
+        """
+        Add any outstanding messages for the specified IP to the payload.
+
+        :param ip: The ip address of the client
+        :param state: The state to add the message to (if required)
+        :return: None
+        """
+        messages = Messages._clients[ip]
+        if len(messages) > 0:
+            state["message"] = messages.pop()
+
+
 class MPlayer(object):
     """
     This object sends command to the active MPRIS2 player, and retrieves
@@ -23,9 +70,6 @@ class MPlayer(object):
 
     track_url = ""
     """ Track the the currently playing song"""
-
-    _messages = []
-    """ A list of messages waiting to be send to the clients. """
 
     def __init__(self):
         super(MPlayer, self).__init__()
@@ -65,38 +109,24 @@ class MPlayer(object):
             return default
 
     @staticmethod
-    def add_message(msg_type, msg):
-        """
-        Add a message to the message queue
-
-        :param msg_type: The type of message. One of 'track changed' or
-                        'album queued'
-        :param msg: The message to display in the React front-end
-        :return: None
-        """
-        MPlayer._messages.append({"type": msg_type,
-                                 "text": msg})
-
-    @staticmethod
-    def _add_message(track_url, state):
+    def _add_message(ip, track_url, state):
         """ Add a message to the *payload* dictionary if appropriate and write
         events to BigQuery if required.
 
         Note: We use the full track url i.s.o. the 'track' property to avoid
               the rare case that two different tracks have the same file name.
         """
+        Messages.ensure_client(ip)
         if track_url != MPlayer.track_url or state["state"] != MPlayer.state:
             MPlayer.track_url = track_url
             MPlayer.state = state['state']
-            MPlayer.add_message("track changed",
-                                "Now playing - {0} ({1})".format(
+            Messages.add_message("track changed",
+                                 "Now playing - {0} ({1})".format(
                                         state['track'], state['state']))
             Thread(target=lambda: MPlayer._write_to_db(state)).start()
             logger.info("State written to DB")
 
-        if len(MPlayer._messages) > 0:
-            state["message"] = MPlayer._messages.pop()
-            logger.info("Message: {0}".format(state['message']))
+        Messages.get_message(ip, state)
         return state
 
     @staticmethod
@@ -128,7 +158,7 @@ class MPlayer(object):
         track_url = gpv("xesam:url", "", True)
         artist, album, track = self._get_from_filename(track_url)
 
-        return self._add_message(track_url, {
+        return self._add_message(ip, track_url, {
             "volume": gpv("Volume", 0),
             "state": gpv("PlaybackStatus", "stopped"),
             "position": pos,
