@@ -14,7 +14,7 @@
     },
     "loggers": {
         "": {
-            "level": "INFO",
+            "level": "WARNING",
             "handlers": ["console"]
         }
     }
