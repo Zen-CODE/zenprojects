@@ -9,6 +9,7 @@ from logging import getLogger
 from .cloud_sql import NowPlaying
 from threading import Thread
 from datetime import datetime
+from socket import gethostname
 
 logger = getLogger(__name__)
 
@@ -71,6 +72,9 @@ class MPlayer(object):
     track_url = ""
     """ Track the the currently playing song"""
 
+    machine = gethostname()
+    """ Get the machine name of the current audio host """
+
     def __init__(self):
         super(MPlayer, self).__init__()
         try:
@@ -123,17 +127,18 @@ class MPlayer(object):
             Messages.add_message("track changed",
                                  "Now playing - {0} ({1})".format(
                                         state['track'], state['state']))
-            Thread(target=lambda: MPlayer._write_to_db(state, ip)).start()
+            Thread(target=lambda: MPlayer._write_to_db(state)).start()
             logger.info("State written to DB")
 
         Messages.get_message(ip, state)
         return state
 
     @staticmethod
-    def _write_to_db(state, ip):
+    def _write_to_db(state):
         """ Write the current "Now Playing" status to our cloud DB """
         NowPlaying(artist=state["artist"], album=state["album"],
-                   track=state["track"], state=state['state'], ip=ip,
+                   track=state["track"], state=state['state'],
+                   machine=MPlayer.machine,
                    datetime=datetime.now()).save()
 
     def get_state(self, ip):

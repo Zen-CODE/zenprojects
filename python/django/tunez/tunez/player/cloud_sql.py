@@ -29,7 +29,7 @@ class NowPlaying(Base):
     album = Column(String)
     track = Column(String)
     state = Column(String)
-    ip = Column(String)
+    machine = Column(String)
     datetime = Column(DateTime)
 
     # Our properties
@@ -47,9 +47,9 @@ class NowPlaying(Base):
         return NowPlaying.Session()
 
     def __repr__(self):
-        return "<NowPlaying at {5}: {0},  {1}: {2}, state={3} @{4}".format(
+        return "<NowPlaying on {5}: {0},  {1}: {2}, state={3} @{4}".format(
             self.artist, self.album, self.track, self.state, self.datetime,
-            self.ip)
+            self.machine)
 
     def save(self):
         """ Store the item in the database """
