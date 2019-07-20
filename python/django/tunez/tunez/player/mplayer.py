@@ -123,17 +123,17 @@ class MPlayer(object):
             Messages.add_message("track changed",
                                  "Now playing - {0} ({1})".format(
                                         state['track'], state['state']))
-            Thread(target=lambda: MPlayer._write_to_db(state)).start()
+            Thread(target=lambda: MPlayer._write_to_db(state, ip)).start()
             logger.info("State written to DB")
 
         Messages.get_message(ip, state)
         return state
 
     @staticmethod
-    def _write_to_db(state):
+    def _write_to_db(state, ip):
         """ Write the current "Now Playing" status to our cloud DB """
         NowPlaying(artist=state["artist"], album=state["album"],
-                   track=state["track"], state=state['state'],
+                   track=state["track"], state=state['state'], ip=ip,
                    datetime=datetime.now()).save()
 
     def get_state(self, ip):

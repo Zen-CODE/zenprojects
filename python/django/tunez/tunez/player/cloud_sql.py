@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, DateTime, create_engine
 from sqlalchemy.orm import sessionmaker
 from os import environ
 
+
 Base = declarative_base()
 
 
@@ -28,6 +29,7 @@ class NowPlaying(Base):
     album = Column(String)
     track = Column(String)
     state = Column(String)
+    ip = Column(String)
     datetime = Column(DateTime)
 
     # Our properties
@@ -45,8 +47,9 @@ class NowPlaying(Base):
         return NowPlaying.Session()
 
     def __repr__(self):
-        return "<NowPlaying {0},  {1}: {2}, state={3} @{4}".format(
-            self.artist, self.album, self.track, self.state, self.datetime)
+        return "<NowPlaying at {5}: {0},  {1}: {2}, state={3} @{4}".format(
+            self.artist, self.album, self.track, self.state, self.datetime,
+            self.ip)
 
     def save(self):
         """ Store the item in the database """
