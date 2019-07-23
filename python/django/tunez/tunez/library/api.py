@@ -75,7 +75,8 @@ class Library(object):
             artist, album))
         if exists(path):
             system('audacious -e "{0}"'.format(path))
-            return Response({"message": "Enqueue instruction sent to audacious"})
+            return Response({"message": "Enqueue instruction sent"}
+                            )
         else:
             return Response({"message": "No such album"})
 
@@ -88,6 +89,7 @@ class Library(object):
         path = Library.lib.get_album_path(artist, album)
         if exists(path):
             system('audacious -E "{0}"'.format(path))
+            return Response({"message": "Play folder instruction sent"})
         else:
             return Response({"message": "No such album"})
 
