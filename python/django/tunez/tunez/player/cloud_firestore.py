@@ -45,15 +45,29 @@ class NowPlaying:
         doc_ref = self._client.collection('tunez').document('now_playing')
         doc_ref.set(self.props)
 
+    @staticmethod
+    def get_last():
+        """
+        Retrieve the last entry from FireStore
+        """
+        if NowPlaying._client is None:
+            NowPlaying._client = NowPlaying._get_client()
+        users_ref = NowPlaying._client.collection('tunez')
+        docs = [doc for doc in users_ref.stream()]
+        for doc in docs:
+            print(u'{} => {}'.format(doc.id, doc.to_dict()))
+        return docs
 
 if __name__ == "__main__":
-    from datetime import datetime, timedelta
-    obj = NowPlaying(
-        artist="Us3",
-        album="Cantaloop 2004",
-        track="01 - Cantaloop 2004 Soul.mp3",
-        state="playing",
-        machine="zenbox",
-        date=datetime.now() - timedelta(hours=2))  # Adjust for time zone
-    obj.save()
+    # ## Write date
+    # from datetime import datetime, timedelta
+    # obj = NowPlaying(
+    #     artist="Us3",
+    #     album="Cantaloop 2004",
+    #     track="01 - Cantaloop 2004 Soul.mp3",
+    #     state="playing",
+    #     machine="zenbox",
+    #     date=datetime.now() - timedelta(hours=2))  # Adjust for time zone
+    # obj.save()
 
+    NowPlaying.get_last()
