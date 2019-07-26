@@ -47,13 +47,13 @@ class NowPlaying:
 
 
 if __name__ == "__main__":
-    from datetime import datetime
+    from datetime import datetime, timedelta
     obj = NowPlaying(
         artist="Us3",
         album="Cantaloop 2004",
         track="01 - Cantaloop 2004 Soul.mp3",
         state="playing",
         machine="zenbox",
-        date=datetime.now())
+        date=datetime.now() - timedelta(hours=2))  # Adjust for time zone
     obj.save()
 

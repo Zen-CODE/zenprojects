@@ -6,9 +6,9 @@ from mpris2 import get_players_uri, Player
 from urllib.parse import urlparse, unquote
 from os.path import exists, sep
 from logging import getLogger
-from .cloud_sql import NowPlaying
+from .cloud_firestore import NowPlaying
 from threading import Thread
-from datetime import datetime
+from datetime import datetime, timedelta
 from socket import gethostname
 
 logger = getLogger(__name__)
@@ -139,7 +139,7 @@ class MPlayer(object):
         NowPlaying(artist=state["artist"], album=state["album"],
                    track=state["track"], state=state['state'],
                    machine=MPlayer.machine,
-                   datetime=datetime.now()).save()
+                   datetime=datetime.now() - timedelta(hours=2)).save()
 
     def get_state(self, ip):
         """ Return a dictionary containing information on the audio player's
