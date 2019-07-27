@@ -87,6 +87,8 @@ class Library(object):
         Open and play the specified album
         """
         path = Library.lib.get_album_path(artist, album)
+        Messages.add_message("album play", "Playing album: {0} - {1}".format(
+            artist, album))
         if exists(path):
             system('audacious -E "{0}"'.format(path))
             return Response({"message": "Play folder instruction sent"})
