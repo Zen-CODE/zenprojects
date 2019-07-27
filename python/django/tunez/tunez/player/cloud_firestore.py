@@ -42,13 +42,15 @@ class NowPlaying:
 
     def save(self):
         """ Store the item to Firestore """
+        batch = self._client.batch()
         doc_ref = self._client.collection('tunez').document('now_playing')
-        doc_ref.set(self.props)
+        batch.set(doc_ref, self.props)
 
         # Now add to history
         hist_ref = doc_ref.collection(
             'history').document(self.props['datetime'].isoformat())
-        hist_ref.set(self.props)
+        batch.set(hist_ref, self.props)
+        batch.commit()
 
     @staticmethod
     def get_last():
