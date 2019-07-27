@@ -45,6 +45,11 @@ class NowPlaying:
         doc_ref = self._client.collection('tunez').document('now_playing')
         doc_ref.set(self.props)
 
+        # Now add to history
+        hist_ref = doc_ref.collection(
+            'history').document(self.props['datetime'].isoformat())
+        hist_ref.set(self.props)
+
     @staticmethod
     def get_last():
         """
