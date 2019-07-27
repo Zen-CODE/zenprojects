@@ -19,6 +19,7 @@ from rest_framework_swagger.views import get_swagger_view
 from django.views.static import serve
 from .settings import BASE_DIR
 from os.path import join
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 schema_view = get_swagger_view(title='ZenTunez Player API')
 
@@ -31,3 +32,7 @@ urlpatterns = [
     path('library/', include("tunez.library.urls")),
     path('swagger', schema_view)
 ]
+
+# Note: Serving static files this way is not recommended for production as it
+#       is not efficient.
+urlpatterns += staticfiles_urlpatterns()
