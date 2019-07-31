@@ -15,59 +15,67 @@ class Player(object):
     mplayer = MPlayer()
 
     @staticmethod
-    def call(name):
+    def call(name, request):
         """
-        Call the MPlayer function with the given name and return the response.
+        Call the MPlayer function with the given name and return the state.
+
+        Args:
+            name: a string giving the name of the function to call
+        Returns:
+            A Response object containing player state
         """
-        return Response(getattr(Player.mplayer, name)())
+        getattr(Player.mplayer, name)()
+        ip = Player._get_ip(request)
+        return Response(Player.mplayer.get_state(ip))
+
 
     @staticmethod
     @api_view()
-    def previous(_request):
+    def previous(request):
         """
         Go to the previous track in the playlist and return the player state.
         """
-        return Player.call("previous_track")
+        return Player.call("previous_track", request)
 
     @staticmethod
     @api_view()
-    def play_pause(_request):
+    def play_pause(request):
         """
         Play or pause the current audio player and return the player state.
         """
-        return Player.call("play_pause")
+        return Player.call("play_pause", request)
 
     @staticmethod
     @api_view()
-    def next(_request):
+    def next(request):
         """
         Advance to the next track in the playlist and return the player state.
         """
-        return Player.call("next_track")
+        return Player.call("next_track", request)
 
     @staticmethod
     @api_view()
-    def stop(_request):
+    def stop(request):
         """
         Stop the player and return the player state.
         """
-        return Player.call("stop")
+        return Player.call("stop", request)
 
     @staticmethod
     @api_view()
-    def volume_up(_request):
+    def volume_up(request):
         """
         Turn the volume of the player up and return the player state.
         """
-        return Player.call("volume_up")
+        return Player.call("volume_up", request)
 
     @staticmethod
     @api_view()
-    def volume_down(_request):
+    def volume_down(request):
         """
         Turn the volume of the player up and return the player state.
         """
-        return Player.call("volume_down")
+        return Player.call("volume_down", request)
 
     @staticmethod
     @api_view()
@@ -116,4 +124,3 @@ class Player(object):
         _cover = Player.mplayer.cover()
         with open(_cover, "rb") as f:
             return HttpResponse(f.read(), content_type="image/" + _cover[-3:])
-

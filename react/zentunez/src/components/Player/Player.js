@@ -104,6 +104,15 @@ export class Player extends Component {
       this.stopped = false;  // Monitor for how long the player hass been stopped
     };
 
+    show_sys_action(msg) {
+      // Display an action message in a popup
+      console.log("Firing system action: " + msg);
+      this.state.store.dispatch({
+        type: "SHOW_SYS_ACTION",
+        show_sys_action: msg })
+    };
+
+
     storeChanged(store) {
       // React to changes in the shared stated
       var state = store.getState()
@@ -175,7 +184,8 @@ export class Player extends Component {
     }
 
     setVolume = (vol) => {
-      fetch(this.state.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0))
+      fetch(this.state.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0));
+      //this.show_sys_action("Changing volume...");
       this.Click("player/state")
     }
 

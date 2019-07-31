@@ -18,7 +18,10 @@ function tunez_store(state = [], action){
       case "SHOW_SYS_MSG":
         state["show_sys_msg"] = action.show_sys_msg;
         return state
-      case "AUTO_ADD_CHANGED":
+        case "SHOW_SYS_ACTION":
+          state["show_sys_action"] = action.show_sys_action;
+          return state
+        case "AUTO_ADD_CHANGED":
           state["auto_add"] = action.auto_add;
           localStorage.setItem("auto_add", action.show_sys_info);
           return state
