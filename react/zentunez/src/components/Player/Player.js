@@ -169,8 +169,7 @@ export class Player extends Component {
               this.state.store.dispatch({
                 type: "SHOW_SYS_MSG",
                 show_sys_msg: response.message.text })
-             };
-
+            };
         }
       )
     }

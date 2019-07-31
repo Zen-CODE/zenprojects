@@ -71,12 +71,13 @@ class Player(object):
 
     @staticmethod
     @api_view()
-    def volume_set(_request, volume):
+    def volume_set(request, volume):
         """
         Set the volume to a value between 0 and 1.
         """
         Player.mplayer.volume_set(volume)
-        return Response(Player.mplayer.get_state())
+        ip = Player._get_ip(request)
+        return Response(Player.mplayer.get_state(ip))
 
     @staticmethod
     def _get_ip(request):
