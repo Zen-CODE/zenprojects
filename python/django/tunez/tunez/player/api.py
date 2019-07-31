@@ -21,6 +21,8 @@ class Player(object):
 
         Args:
             name: a string giving the name of the function to call
+            request: The Django request object. This is used to customize the
+                     response for each source IP
         Returns:
             A Response object containing player state
         """

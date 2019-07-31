@@ -67,7 +67,7 @@ class KeyHandler {
       var command = km.getCommand(key);
 
       if (command != null) {
-        this.player.Click(command)
+        this.player.send_system_command(command, key);
       }
     }
   }
@@ -112,6 +112,11 @@ export class Player extends Component {
         show_sys_action: msg })
     };
 
+    send_system_command(command, msg) {
+        // Send the *command* message to the plater and then display the *msg*
+        this.Click(command);
+        this.show_sys_action(msg);
+    }
 
     storeChanged(store) {
       // React to changes in the shared stated
@@ -185,8 +190,7 @@ export class Player extends Component {
 
     setVolume = (vol) => {
       fetch(this.state.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0));
-      //this.show_sys_action("Changing volume...");
-      this.Click("player/state")
+      this.send_system_command("player/state", "Changing volume...");
     }
 
     renderIcon(icon, tooltip, api_call) {
@@ -195,7 +199,7 @@ export class Player extends Component {
                 className="far"
                 icon={ icon }
                 data-tip={ tooltip + " (" + km.getKey(api_call) + ")"}
-                onClick={ () => this.Click(api_call) }
+                onClick={ () => this.send_system_command(api_call, tooltip) }
               />
     }
 
