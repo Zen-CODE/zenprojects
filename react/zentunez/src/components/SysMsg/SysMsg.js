@@ -23,9 +23,13 @@ export class SysMsg extends Component {
   storeChanged(store) {
     // React to the sending of messages. Place them in the queue and activate the
     // timer.
-    const msg = store.getState().show_sys_msg;
+    const state = store.getState();
+    const msg = state.show_sys_msg;
     this.messages.unshift(msg);
     this.setTimer(true);
+
+    const action = state.show_sys_action;
+    console.log("System action: " + action);
   }
 
   timerEvent(event) {

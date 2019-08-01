@@ -106,7 +106,6 @@ export class Player extends Component {
 
     show_sys_action(msg) {
       // Display an action message in a popup
-      console.log("Firing system action: " + msg);
       this.state.store.dispatch({
         type: "SHOW_SYS_ACTION",
         show_sys_action: msg })
