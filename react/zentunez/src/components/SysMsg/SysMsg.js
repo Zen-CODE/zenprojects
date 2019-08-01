@@ -18,25 +18,31 @@ export class SysMsg extends Component {
     this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
     this.intervalID = null;
     this.messages = [];
+    this.action = ''; // TODO: This implementation is a hack
   }
 
   storeChanged(store) {
     // React to the sending of messages. Place them in the queue and activate the
     // timer.
     const state = store.getState();
-    const msg = state.show_sys_msg;
-    this.messages.unshift(msg);
-    this.setTimer(true);
 
     const action = state.show_sys_action;
-    console.log("System action: " + action);
+    if (action && action !== this.action ) {
+      this.messages.unshift("Sending command: " + action);
+      this.action = action;
+    };
+
+    const msg = state.show_sys_msg;
+    if (msg) { this.messages.unshift(msg) };
+    this.setTimer(true);
   }
 
   timerEvent(event) {
     // The timer event has been fired. If there are messages to display. show
     // them, otherwise remove the notification display
     if (this.messages.length > 0) {
-      this.setState({ msg: this.messages.pop() })
+      this.setState({ msg: this.messages.pop() });
+      this.action = '';
     } else {
       this.setState({ msg: "" })
       this.setTimer(false)
@@ -47,7 +53,7 @@ export class SysMsg extends Component {
       // Switch the Timer on to start showing the message
       if (on && (this.intervalID === null)) {
         this.setState({ msg: this.messages.pop()});
-        this.intervalID = setInterval(this.timerEvent.bind(this), 5000);
+        this.intervalID = setInterval(this.timerEvent.bind(this), 3000);
       } else if (!on && (this.intervalID != null)) {
         clearInterval(this.intervalID);
         this.intervalID = null
