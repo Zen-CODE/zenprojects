@@ -44,6 +44,7 @@ export class Library extends Component {
 
     getRandomAlbum() {
       /* Handle the click to fetch a new random album */
+      this.show_sys_action("Getting random album...");
       const api_url = this.state.api_url;
       fetch(api_url + "library/random_album")
         .then(res => res.json())
@@ -58,6 +59,7 @@ export class Library extends Component {
 
     getSearchAlbum(term) {
       /* Handle the click to search for an album */
+      this.show_sys_action("Searching for album...");
       const api_url = this.state.api_url;
       fetch(api_url + "library/search/" + term)
         .then(res => res.json())
@@ -86,9 +88,18 @@ export class Library extends Component {
                           })
     }
 
+
+    show_sys_action(msg) {
+      // Display an action message in a popup
+      this.state.store.dispatch({
+        type: "SHOW_SYS_ACTION",
+        show_sys_action: msg })
+    };
+
     enqueueAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
+     this.show_sys_action("Queueing album...");
      const api_url = this.state.api_url;
       fetch(api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album)
         .catch(error => console.error(error));
@@ -97,6 +108,7 @@ export class Library extends Component {
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
+     this.show_sys_action("Playing album...");
       const api_url = this.state.api_url;
       fetch(api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album)
         .catch(error => console.error(error));
@@ -114,7 +126,6 @@ export class Library extends Component {
         if (len > 0) {
           this.getSearchAlbum(this.state.search) }
         else {
-          // this.showPopup("Invalid Search Term", "Please enter a valid search tem.")}
           this.getRandomAlbum()}
       }
     }
