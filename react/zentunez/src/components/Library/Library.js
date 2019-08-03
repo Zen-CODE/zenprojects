@@ -60,7 +60,7 @@ export class Library extends Component {
 
     getSearchAlbum(term) {
       /* Handle the click to search for an album */
-      send_message(this.store, "Searching for album...", "command");
+      send_message(this.state.store, "Searching for album...", "command");
       const api_url = this.state.api_url;
       fetch(api_url + "library/search/" + term)
         .then(res => res.json())

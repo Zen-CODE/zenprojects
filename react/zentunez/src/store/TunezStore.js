@@ -23,7 +23,7 @@ function tunez_store(state = [], action){
         return state
       case "AUTO_ADD_CHANGED":
         state["auto_add"] = action.auto_add;
-        localStorage.setItem("auto_add", action.show_sys_info);
+        localStorage.setItem("auto_add", action.auto_add);
         return state
       default:
       return state
