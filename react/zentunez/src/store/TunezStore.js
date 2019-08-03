@@ -16,17 +16,17 @@ function tunez_store(state = [], action){
         localStorage.setItem("api_url", action.api_url);
         return state
       case "SHOW_SYS_MSG":
-        state["show_sys_msg"] = action.show_sys_msg;
+        var date = new Date();
+        state["msg"] = action.msg;
+        state["msg_type"] = action.msg_type;
+        state['timestamp'] = date.toISOString();
         return state
-        case "SHOW_SYS_ACTION":
-          state["show_sys_action"] = action.show_sys_action;
-          return state
-        case "AUTO_ADD_CHANGED":
-          state["auto_add"] = action.auto_add;
-          localStorage.setItem("auto_add", action.show_sys_info);
-          return state
-        default:
+      case "AUTO_ADD_CHANGED":
+        state["auto_add"] = action.auto_add;
+        localStorage.setItem("auto_add", action.show_sys_info);
         return state
+      default:
+      return state
     }
   }
 

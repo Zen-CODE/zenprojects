@@ -5,6 +5,7 @@ import { VolumeSlider } from "../VolumeSlider/VolumeSlider.js"
 import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import ReactTooltip from 'react-tooltip'
+import { send_message } from "../SysMsg/SysMsg.js"
 
 /**
  * Defines the mapping of Key values to functions
@@ -104,17 +105,10 @@ export class Player extends Component {
       this.stopped = false;  // Monitor for how long the player hass been stopped
     };
 
-    show_sys_action(msg) {
-      // Display an action message in a popup
-      this.state.store.dispatch({
-        type: "SHOW_SYS_ACTION",
-        show_sys_action: msg })
-    };
-
     send_system_command(command, msg) {
         // Send the *command* message to the plater and then display the *msg*
         this.Click(command);
-        this.show_sys_action(msg);
+        send_message(this.state.store, msg, "command")
     }
 
     storeChanged(store) {
@@ -179,9 +173,7 @@ export class Player extends Component {
                           img_src : this.state.api_url + "player/cover?guid=" + response.artist + response.album + response.track
                           })
             if ("message" in response) {
-              this.state.store.dispatch({
-                type: "SHOW_SYS_MSG",
-                show_sys_msg: response.message.text })
+              send_message(this.state.store, response.message.text, "event");
             };
         }
       )

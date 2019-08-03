@@ -3,6 +3,7 @@ import { VDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import ReactTooltip from 'react-tooltip'
+import { send_message } from "../SysMsg/SysMsg.js"
 
 export class Library extends Component {
     /**
@@ -44,7 +45,7 @@ export class Library extends Component {
 
     getRandomAlbum() {
       /* Handle the click to fetch a new random album */
-      this.show_sys_action("Getting random album...");
+      send_message(this.state.store, "Getting random album...", "action");
       const api_url = this.state.api_url;
       fetch(api_url + "library/random_album")
         .then(res => res.json())
@@ -89,17 +90,10 @@ export class Library extends Component {
     }
 
 
-    show_sys_action(msg) {
-      // Display an action message in a popup
-      this.state.store.dispatch({
-        type: "SHOW_SYS_ACTION",
-        show_sys_action: msg })
-    };
-
     enqueueAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-     this.show_sys_action("Queueing album...");
+     send_message(this.state.store, "Queueing album...", "action");
      const api_url = this.state.api_url;
       fetch(api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album)
         .catch(error => console.error(error));
@@ -108,7 +102,7 @@ export class Library extends Component {
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-     this.show_sys_action("Playing album...");
+      send_message(this.state.store, "Playing album...", "action");
       const api_url = this.state.api_url;
       fetch(api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album)
         .catch(error => console.error(error));
