@@ -23,17 +23,6 @@ class SettingsContent extends Component {
                     auto_add: state.auto_add});
     }
 
-  showSysyemInfoChanged (event) {
-    // Toggle the state of the "Show System Information" setting
-    var now = Date.now();
-    var new_val = "New message " + now.toString();
-    console.log("Sending message: " + new_val)
-    this.setState({ show_sys_info: new_val })
-    this.state.store.dispatch({
-      type: "SHOW_SYS_MSG",
-      show_sys_msg: new_val })
-  }
-
   autoAddChanged (event) {
     // Toggle the state of the "Automatically add on last track"
     const new_val = !this.state.auto_add;
@@ -66,14 +55,6 @@ class SettingsContent extends Component {
                   onChange={ (event) => this.serverIPChanged(event) }
                   value={ this.state.api_url }>
             </input>
-          </MDBCol>
-        </MDBRow>
-        <MDBRow>
-          <MDBCol>Show System Msg</MDBCol>
-          <MDBCol>
-            <input type="checkbox"
-                onChange={ (event) => this.showSysyemInfoChanged(event) }
-            />
           </MDBCol>
         </MDBRow>
         <MDBRow>

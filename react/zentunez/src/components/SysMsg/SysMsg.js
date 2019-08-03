@@ -43,7 +43,6 @@ export class SysMsg extends Component {
     else if (msg_type === "command") { this.commands.unshift(msg) }
     else { console.log("Unrecognized msg_type: " + msg_type )}
 
-    console.log("Store change. msg: " + msg + ", msg_type: " + msg_type);
     if (this.intervalID === null) { this.setTimer(true) };
   }
 
