@@ -45,7 +45,7 @@ export class Library extends Component {
 
     getRandomAlbum() {
       /* Handle the click to fetch a new random album */
-      send_message(this.state.store, "Getting random album...", "action");
+      send_message(this.state.store, "Getting random album...", "command");
       const api_url = this.state.api_url;
       fetch(api_url + "library/random_album")
         .then(res => res.json())
@@ -60,7 +60,7 @@ export class Library extends Component {
 
     getSearchAlbum(term) {
       /* Handle the click to search for an album */
-      this.show_sys_action("Searching for album...");
+      send_message(this.store, "Searching for album...", "command");
       const api_url = this.state.api_url;
       fetch(api_url + "library/search/" + term)
         .then(res => res.json())
@@ -93,7 +93,7 @@ export class Library extends Component {
     enqueueAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-     send_message(this.state.store, "Queueing album...", "action");
+     send_message(this.state.store, "Queueing album...", "command");
      const api_url = this.state.api_url;
       fetch(api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album)
         .catch(error => console.error(error));
@@ -102,7 +102,7 @@ export class Library extends Component {
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-      send_message(this.state.store, "Playing album...", "action");
+      send_message(this.state.store, "Playing album...", "command");
       const api_url = this.state.api_url;
       fetch(api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album)
         .catch(error => console.error(error));
