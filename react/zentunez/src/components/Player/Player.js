@@ -116,6 +116,7 @@ export class Player extends Component {
       var state = store.getState()
       this.setState({ api_url: state.api_url,
                       auto_add: state.auto_add });
+      console.log("player. audo_add=" + state.auto_add);
     }
 
     componentDidMount() {
@@ -135,7 +136,7 @@ export class Player extends Component {
       fetch(this.state.api_url + "library/folder_play/" + artist + "/" + album)
     }
 
-    playRandomAlum() {
+    playRandomAlbum() {
       /// Get and play a random album
       var url = this.state.api_url + "library/random_album";
       fetch(url)
@@ -148,8 +149,8 @@ export class Player extends Component {
       // Monitor the status of the player and if stopped consecutively and
       // 'auto_add' is enabled, play a random album
       if ( state === "Stopped" ) {
-        if ( this.stopped ) {
-          this.playRandomAlum()
+        if ( this.stopped && this.state.auto_add ) {
+          this.playRandomAlbum()
         } else {
           this.stopped = true;
         }

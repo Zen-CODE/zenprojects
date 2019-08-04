@@ -36,12 +36,14 @@ export class TrackList extends Component {
 
     setTracks(artist, album) {
       /* Set the Track listing to the current album */
-      fetch(this.state.api_url + "library/tracks/" + artist + "/" + album)
-      .then(res => res.json())
-      .then((response) => {
-          this.setState({tracks: response})
-        }
-      )
+      if (artist !== "" && album !== "") {
+        fetch(this.state.api_url + "library/tracks/" + artist + "/" + album)
+        .then(res => res.json())
+        .then((response) => {
+            this.setState({tracks: response})
+          }
+        )
+      }
     }
 
 
