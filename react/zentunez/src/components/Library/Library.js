@@ -3,6 +3,7 @@ import { VDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import ReactTooltip from 'react-tooltip'
+import { queued_fetch } from "../../functions/network.js"
 import { send_message } from "../SysMsg/SysMsg.js"
 
 export class Library extends Component {
@@ -46,36 +47,33 @@ export class Library extends Component {
     getRandomAlbum() {
       /* Handle the click to fetch a new random album */
       send_message(this.state.store, "Getting random album...", "command");
-      const api_url = this.state.api_url;
-      fetch(api_url + "library/random_album")
-        .then(res => res.json())
-        .then((response) => {
-            this.setState({artist: response.artist,
-                          album: response.album,
-                          img_src : api_url + "library/cover/" + response.artist + "/" + response.album
-                          })
-        }
-      )
+      const set_state = (response) => {
+        this.setState({artist: response.artist,
+          album: response.album,
+          img_src : api_url + "library/cover/" + response.artist + "/" + response.album
+          })
+
+      };
+
+      queued_fetch(this.state.api_url + "library/random_album", set_state)
     }
 
     getSearchAlbum(term) {
       /* Handle the click to search for an album */
       send_message(this.state.store, "Searching for album...", "command");
-      const api_url = this.state.api_url;
-      fetch(api_url + "library/search/" + term)
-        .then(res => res.json())
-        .then((response) => {
-            if ("artist" in response){
-              this.setState({artist: response.artist,
-                            album: response.album,
-                            img_src : api_url + "library/cover/" + response.artist + "/" + response.album
-                            })}
-            else {
-              this.showPopup("No matches",
-              "No album found matching the search term (" + term + ")")
-            }
+      const set_state = (response) => {
+        if ("artist" in response){
+          this.setState({artist: response.artist,
+                        album: response.album,
+                        img_src : api_url + "library/cover/" + response.artist + "/" + response.album
+                        })}
+        else {
+          this.showPopup("No matches",
+          "No album found matching the search term (" + term + ")")
         }
-      )
+      };
+
+      queued_fetch(this.state.api_url + "library/search/" + term, set_state);
     }
 
     showPopup(title, body){
@@ -94,18 +92,16 @@ export class Library extends Component {
       /* Add the current album to the queue in the currently playing audio player
       */
      send_message(this.state.store, "Queueing album...", "command");
-     const api_url = this.state.api_url;
-      fetch(api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album)
-        .catch(error => console.error(error));
+     queued_fetch(this.state.api_url + api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album,
+                  (r) => {});
     }
 
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
       send_message(this.state.store, "Playing album...", "command");
-      const api_url = this.state.api_url;
-      fetch(api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album)
-        .catch(error => console.error(error));
+      queued_fetch(this.state.api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album,
+                   (r) => {});
     }
 
     searchChanged(event) {

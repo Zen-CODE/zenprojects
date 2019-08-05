@@ -12,8 +12,12 @@ var queue_ready = true;
   * @param {Function} callback - the function to call when the fetch is complete.
   *                              This function should accept a single parameter: the
   *                              JSON-ized response
+  * @param {Boolean} force - If true, the queue will be reset and the message forced through.
+  *                          This is intended to be used with manual interactions, to reset
+  *                          the quueue when it blocks
   */
-export function queued_fetch(url, callback ){
+export function queued_fetch(url, callback, force=false ){
+    if (force) { queue_ready = true};
     if (queue_ready) {
         console.log("Queue ready. Making request...");
         queue_ready = false;

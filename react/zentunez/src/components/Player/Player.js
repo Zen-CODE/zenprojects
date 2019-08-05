@@ -108,7 +108,7 @@ export class Player extends Component {
 
     send_system_command(command, msg) {
         // Send the *command* message to the plater and then display the *msg*
-        this.Click(command);
+        this.Click(command, true);
         send_message(this.state.store, msg, "command")
     }
 
@@ -117,7 +117,6 @@ export class Player extends Component {
       var state = store.getState()
       this.setState({ api_url: state.api_url,
                       auto_add: state.auto_add });
-      console.log("player. audo_add=" + state.auto_add);
     }
 
     componentDidMount() {
@@ -134,16 +133,13 @@ export class Player extends Component {
 
     playAlbum(artist, album) {
       // Return the reponse of a URL as a json object
-      fetch(this.state.api_url + "library/folder_play/" + artist + "/" + album)
+      queued_fetch(this.state.api_url + "library/folder_play/" + artist + "/" + album);
     }
 
     playRandomAlbum() {
       /// Get and play a random album
-      var url = this.state.api_url + "library/random_album";
-      fetch(url)
-        .then(res => res.json())
-        .then((response) => { this.playAlbum(response.artist, response.album) }
-      )
+      const play_album = (response) => { this.playAlbum(response.artist, response.album) }
+      queued_fetch(this.state.api_url + "library/random_album", play_album)
     }
 
     checkState(state) {
@@ -160,7 +156,7 @@ export class Player extends Component {
       }
     }
 
-    Click = (api_call) => {
+    Click = (api_call, force=false) => {
       /* Handle the click on a Player media button */
       // First we define a callback function to acceptg the JSON response
       const update_state = (response) => {
@@ -179,11 +175,13 @@ export class Player extends Component {
       }
 
       // Then we queue the request and supply the callback
-      queued_fetch(this.state.api_url + api_call, update_state);
+      queued_fetch(this.state.api_url + api_call, update_state, force);
     }
 
     setVolume = (vol) => {
-      fetch(this.state.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0));
+      queued_fetch(this.state.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0),
+                  (r) => {},
+                  true);
       this.send_system_command("player/state", "Changing volume...");
     }
 

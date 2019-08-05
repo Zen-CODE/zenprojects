@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './TrackList.css';
-
+import { queued_fetch } from "../../functions/network.js"
 
 
 
@@ -37,12 +37,9 @@ export class TrackList extends Component {
     setTracks(artist, album) {
       /* Set the Track listing to the current album */
       if (artist !== "" && album !== "") {
-        fetch(this.state.api_url + "library/tracks/" + artist + "/" + album)
-        .then(res => res.json())
-        .then((response) => {
-            this.setState({tracks: response})
-          }
-        )
+        const set_state = (response) => { this.setState({tracks: response}) };
+        queued_fetch(this.state.api_url + "library/tracks/" + artist + "/" + album,
+                     set_state)
       }
     }
 
