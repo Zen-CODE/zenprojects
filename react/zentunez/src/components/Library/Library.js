@@ -50,7 +50,7 @@ export class Library extends Component {
       const set_state = (response) => {
         this.setState({artist: response.artist,
           album: response.album,
-          img_src : api_url + "library/cover/" + response.artist + "/" + response.album
+          img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
           })
 
       };
@@ -65,7 +65,7 @@ export class Library extends Component {
         if ("artist" in response){
           this.setState({artist: response.artist,
                         album: response.album,
-                        img_src : api_url + "library/cover/" + response.artist + "/" + response.album
+                        img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
                         })}
         else {
           this.showPopup("No matches",
@@ -92,7 +92,7 @@ export class Library extends Component {
       /* Add the current album to the queue in the currently playing audio player
       */
      send_message(this.state.store, "Queueing album...", "command");
-     queued_fetch(this.state.api_url + api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album,
+     queued_fetch(this.state.api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album,
                   (r) => {});
     }
 

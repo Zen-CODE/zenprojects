@@ -2,7 +2,8 @@
  * This module houses various functions for providing specific functionality.
  */
 
-var queue_ready = true;
+const MAX_QUEUE_LENGTH = 5;
+var queue_length = 0;
 
  /**
   * Perform a fetch on the specified URL. If the last call has not returned, ignore the
@@ -17,15 +18,15 @@ var queue_ready = true;
   *                          the quueue when it blocks
   */
 export function queued_fetch(url, callback, force=false ){
-    if (force) { queue_ready = true};
-    if (queue_ready) {
+    if (force) { queue_length = 0};
+    if (queue_length < MAX_QUEUE_LENGTH) {
         console.log("Queue ready. Making request...");
-        queue_ready = false;
+        queue_length += 1;
         fetch(url)
             .then(res => res.json())
             .then((response) => {
                 callback(response);
-                queue_ready = true;
+                queue_length -= 1;
             }
         )
     } else {
