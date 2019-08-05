@@ -1,7 +1,16 @@
 
 import React, { Component } from 'react';
 
-// TODO: Add docs if this actually works
+/**
+ * The `send_message` function is a convenience function for sending messages for
+ * the React frontend to display in the appriate place and at the appropriate
+ * time.
+ *
+ * @param {Object} store - reference to the Redux store instance
+ * @param {*} msg - the message to send
+ * @param {*} msg_type - the type if message to send. Currently supported types
+ *                       are "event" and "command"
+ */
 export function send_message(store, msg, msg_type ){
   console.log("SysMsg. Dispatching...")
   store.dispatch({

@@ -6,6 +6,7 @@ import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import ReactTooltip from 'react-tooltip'
 import { send_message } from "../SysMsg/SysMsg.js"
+import { queued_fetch } from "../../functions/network.js"
 
 /**
  * Defines the mapping of Key values to functions
@@ -161,23 +162,24 @@ export class Player extends Component {
 
     Click = (api_call) => {
       /* Handle the click on a Player media button */
-      fetch(this.state.api_url + api_call)
-        .then(res => res.json())
-        .then((response) => {
-            this.checkState(response.state);
-            this.setState({artist: response.artist,
-                          album: response.album,
-                          track: response.track,
-                          volume: response.volume,
-                          state: response.state,
-                          position: response.position,
-                          img_src : this.state.api_url + "player/cover?guid=" + response.artist + response.album + response.track
-                          })
-            if ("message" in response) {
-              send_message(this.state.store, response.message.text, "event");
-            };
-        }
-      )
+      // First we define a callback function to acceptg the JSON response
+      const update_state = (response) => {
+        this.checkState(response.state);
+        this.setState({artist: response.artist,
+                      album: response.album,
+                      track: response.track,
+                      volume: response.volume,
+                      state: response.state,
+                      position: response.position,
+                      img_src : this.state.api_url + "player/cover?guid=" + response.artist + response.album + response.track
+                      })
+        if ("message" in response) {
+          send_message(this.state.store, response.message.text, "event");
+        };
+      }
+
+      // Then we queue the request and supply the callback
+      queued_fetch(this.state.api_url + api_call, update_state);
     }
 
     setVolume = (vol) => {
