@@ -64,13 +64,15 @@ class KeyHandler {
        with focus is not an input.
     */
    if (event.target.tagName !== "INPUT") {
-      const key = event.keyCode;
-      const km = new KeyMap()
-      var command = km.getCommand(key);
+     if (!(event.shiftKey || event.ctrlKey || event.altKey)) {
+        const key = event.keyCode;
+        const km = new KeyMap()
+        var command = km.getCommand(key);
 
-      if (command != null) {
-        this.player.send_system_command(command, key);
-      }
+        if (command != null) {
+          this.player.send_system_command(command, key);
+        }
+     }
     }
   }
 
