@@ -14,7 +14,7 @@ import { SysMsg } from "./components/SysMsg/SysMsg.js"
 
 
 var api_url = localStorage.getItem("api_url");
-if (!api_url) { api_url = "http://127.0.0.1:8000/"};
+if (!api_url) { api_url = "http://" + window.location.hostname  + ":8000/"};
 var auto_add = localStorage.getItem("auto_add");
 if (auto_add === null) { auto_add = false} else { auto_add = (auto_add !== "false") };
 
@@ -39,8 +39,8 @@ class App extends Component {
       <SettingsIcon store={ this.store } />
       <MDBContainer className="App">
         <MDBRow>
-          <MDBCol><Library store={ this.store } /></MDBCol>
           <MDBCol><Player store={ this.store } /></MDBCol>
+          <MDBCol><Library store={ this.store } /></MDBCol>
           <MDBCol><Library store={ this.store } /></MDBCol>
         </MDBRow>
       </MDBContainer>

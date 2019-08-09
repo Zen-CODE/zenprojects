@@ -40,6 +40,8 @@ export class Player extends Component {
         // Send the *command* message to the plater and then display the *msg*
         this.Click(command, true);
         send_message(this.state.store, msg, "command")
+        var host = window.location.hostname;
+        console.log("Hostname: " + host)
     }
 
     storeChanged(store) {
