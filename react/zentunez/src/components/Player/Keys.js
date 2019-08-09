@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 /**
  * Defines the mapping of Key values to functions
  */

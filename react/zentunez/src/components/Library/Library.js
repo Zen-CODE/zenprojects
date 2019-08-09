@@ -55,7 +55,7 @@ export class Library extends Component {
 
       };
 
-      queued_fetch(this.state.api_url + "library/random_album", set_state)
+      queued_fetch(this.state.api_url + "library/random_album", set_state, true)
     }
 
     getSearchAlbum(term) {
@@ -73,7 +73,7 @@ export class Library extends Component {
         }
       };
 
-      queued_fetch(this.state.api_url + "library/search/" + term, set_state);
+      queued_fetch(this.state.api_url + "library/search/" + term, set_state, true);
     }
 
     showPopup(title, body){
@@ -92,16 +92,14 @@ export class Library extends Component {
       /* Add the current album to the queue in the currently playing audio player
       */
      send_message(this.state.store, "Queueing album...", "command");
-     queued_fetch(this.state.api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album,
-                  (r) => {});
+     queued_fetch(this.state.api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album, true);
     }
 
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
       send_message(this.state.store, "Playing album...", "command");
-      queued_fetch(this.state.api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album,
-                   (r) => {});
+      queued_fetch(this.state.api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album, true);
     }
 
     searchChanged(event) {
