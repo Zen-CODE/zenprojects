@@ -40,8 +40,6 @@ export class Player extends Component {
         // Send the *command* message to the plater and then display the *msg*
         this.Click(command, true);
         send_message(this.state.store, msg, "command")
-        var host = window.location.hostname;
-        console.log("Hostname: " + host)
     }
 
     storeChanged(store) {
@@ -112,7 +110,7 @@ export class Player extends Component {
 
     setVolume = (vol) => {
       queued_fetch(this.state.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0),
-                  (r) => {},
+                  null,
                   true);
       this.send_system_command("player/state", "Changing volume...");
     }

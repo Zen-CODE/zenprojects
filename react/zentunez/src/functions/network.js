@@ -12,7 +12,8 @@ var queue_length = 0;
   * @param {String} url - the URL to fetch
   * @param {Function} callback - the function to call when the fetch is complete (if specified)
   *                              This function should accept a single parameter: the
-  *                              JSON-ized response.,
+  *                              JSON-ized response. Set this to null if you do not want the
+  *                              callback
   * @param {Boolean} force - If true, the queue will be reset and the message forced through.
   *                          This is intended to be used with manual interactions, to reset
   *                          the quueue when it blocks
