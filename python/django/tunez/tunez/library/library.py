@@ -7,17 +7,30 @@ from random import choice
 
 class MusicLib(object):
     """
-    Class for fetching information about our music library, as an experiment
-    in jupyter
+    Class for fetching information about our music library. This information
+    is contained entirely in the folder names and structures.
     """
 
     def __init__(self, path):
         self.path = path
+        artists =  [name for name in listdir(self.path) if
+                    isdir(join(self.path, name))]
+        lib = {}
+        for artist in artists:
+            path = join(self.path, artist)
+            lib[artist] = [name for name in listdir(path) if
+                      isdir(join(path, name))]
+        self.lib = lib
+        """ A dictionary of lists, where the key is the artist and the value
+        the albums.
+        """
 
     def get_artists(self):
         """ Return a list of artists. """
-        return [name for name in listdir(self.path) if
-                isdir(join(self.path, name))]
+        return list(self.lib.keys())
+        # ============ Pure file implementation
+        # return [name for name in listdir(self.path) if
+        #         isdir(join(self.path, name))]
 
     def get_random_artists(self, number):
         """ Return a random list of *number* artists. """
@@ -34,11 +47,13 @@ class MusicLib(object):
 
     def get_albums(self, artist):
         """ Return a list of albums for the *artist*. """
-        path = join(self.path, artist)
-        if exists(path):
-            return [name for name in listdir(path) if isdir(join(path, name))]
-        else:
-            return []
+        return self.lib.get(artist, [])
+        # ============ Pure file implementation
+        # path = join(self.path, artist)
+        # if exists(path):
+        #     return [name for name in listdir(path) if isdir(join(path, name))]
+        # else:
+        #     return []
 
     def get_cover(self, artist, album):
         """
@@ -56,7 +71,7 @@ class MusicLib(object):
 
     @staticmethod
     def _get_any_matches(path, *exts):
-        """ Return the first valid files matching the extentions
+        """ Return the first valid files matching the extensions
         in the path specified."""
         for ext in exts:
             matches = glob(join(path, ext))
@@ -92,11 +107,17 @@ class MusicLib(object):
         """
         terms = term.lower().split(" ")
         matches = []
-        for artist in listdir(self.path):
-            folder = join(self.path, artist)
-            if isdir(folder):
-                for album in listdir(folder):
-                    if all([(artist + album).lower().find(t) > -1
-                            for t in terms]):
-                        matches.append({"artist": artist, "album": album})
+        # ============ Pure file implementation
+        # for artist in listdir(self.path):
+        #     folder = join(self.path, artist)
+        #     if isdir(folder):
+        #         for album in listdir(folder):
+        #             if all([(artist + album).lower().find(t) > -1
+        #                     for t in terms]):
+        #                 matches.append({"artist": artist, "album": album})
+        for artist in self.lib.keys():
+            for album in artist[artist]:
+                if all([(artist + album).lower().find(t) > -1
+                        for t in terms]):
+                    matches.append({"artist": artist, "album": album})
         return choice(matches) if matches else []
