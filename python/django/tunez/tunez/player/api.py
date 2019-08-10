@@ -5,7 +5,17 @@ from rest_framework.decorators import api_view
 from django.http import HttpResponse
 from .mplayer import MPlayer, Messages
 from rest_framework.response import Response
+from django.shortcuts import redirect
 
+
+def redirect_view(request):
+    """
+    Redirect the request for the root URL to the react index.html
+
+    :param request: The Django request object
+    :return: The re-direct respo
+    """
+    return redirect('/react/index.html')
 
 class Player(object):
     """

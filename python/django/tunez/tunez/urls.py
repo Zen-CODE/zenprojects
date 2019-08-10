@@ -20,10 +20,12 @@ from django.views.static import serve
 from .settings import BASE_DIR
 from os.path import join
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from .player.api import redirect_view
 
 schema_view = get_swagger_view(title='ZenTunez Player API')
 
 urlpatterns = [
+    path('', redirect_view),
     re_path(r'^react/(?P<path>.*)$', serve, {
         'document_root': join(BASE_DIR, "react"),
     }),
