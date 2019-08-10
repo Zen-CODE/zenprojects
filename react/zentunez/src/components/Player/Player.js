@@ -10,7 +10,6 @@ import { queued_fetch } from "../../functions/network.js"
 import { KeyMap,  KeyHandler } from "./Keys.js"
 
 
-
 export class Player extends Component {
     /*
     This class houses functionality to control the currently playting MPRIS2
@@ -33,7 +32,7 @@ export class Player extends Component {
                   };
       this.intervalID = 0;
       this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
-      this.stopped = false;  // Monitor for how long the player hass been stopped
+      this.stop_count = 0;  // Monitor for how long the player hass been stopped
     };
 
     send_system_command(command, msg) {
@@ -76,13 +75,12 @@ export class Player extends Component {
       // Monitor the status of the player and if stopped consecutively and
       // 'auto_add' is enabled, play a random album
       if ( state === "Stopped" ) {
-        if ( this.stopped && this.state.auto_add ) {
+        this.stop_count += 1;
+        if ( this.stop_count === 2 && this.state.auto_add ) {
           this.playRandomAlbum()
-        } else {
-          this.stopped = true;
         }
       } else {
-        this.stopped = false;
+        this.stop_count = 0;
       }
     }
 
