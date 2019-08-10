@@ -116,7 +116,7 @@ class MusicLib(object):
         #                     for t in terms]):
         #                 matches.append({"artist": artist, "album": album})
         for artist in self.lib.keys():
-            for album in artist[artist]:
+            for album in  self.lib[artist]:
                 if all([(artist + album).lower().find(t) > -1
                         for t in terms]):
                     matches.append({"artist": artist, "album": album})
