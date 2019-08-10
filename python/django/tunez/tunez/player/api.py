@@ -13,7 +13,7 @@ def redirect_view(request):
     Redirect the request for the root URL to the react index.html
 
     :param request: The Django request object
-    :return: The re-direct respo
+    :return: The re-direct response
     """
     return redirect('/react/index.html')
 
