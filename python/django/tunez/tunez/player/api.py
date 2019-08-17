@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from .mplayer import MPlayer, Messages
 from rest_framework.response import Response
 from django.shortcuts import redirect
+from os.path import exists
 
 
 def redirect_view(request):
@@ -134,5 +135,9 @@ class Player(object):
         Return the cover of the currently player album.
         """
         _cover = Player.mplayer.cover()
-        with open(_cover, "rb") as f:
-            return HttpResponse(f.read(), content_type="image/" + _cover[-3:])
+        if exists(_cover):
+            with open(_cover, "rb") as f:
+                return HttpResponse(f.read(),
+                                    content_type="image/" + _cover[-3:])
+        else:
+            return Response("Cover not found.", 400)
