@@ -135,11 +135,19 @@ class MPlayer(object):
 
     @staticmethod
     def _write_to_db(state):
-        """ Write the current "Now Playing" status to our cloud DB """
-        NowPlaying(artist=state["artist"], album=state["album"],
-                   track=state["track"], state=state['state'],
-                   machine=MPlayer.machine,
-                   datetime=datetime.now() - timedelta(hours=2)).save()
+        """
+        Write the current "Now Playing" status to our cloud FireStore. We do so
+        in a background thread to try and avoid locking when we get stale
+        transport errors.
+        """
+        def save_to_fs():
+            """ Save to firestore """
+            NowPlaying(artist=state["artist"], album=state["album"],
+                       track=state["track"], state=state['state'],
+                       machine=MPlayer.machine,
+                       datetime=datetime.now() - timedelta(hours=2)).save()
+
+        Thread(target=save_to_fs).start()
 
     def get_state(self, ip):
         """ Return a dictionary containing information on the audio player's
