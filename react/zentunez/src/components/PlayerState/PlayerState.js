@@ -10,15 +10,9 @@ export class PlayerState extends Component {
 
 
     render(){
-      //var img = ""; // "http://127.0.0.1:8000/library/cover/Professor%20Trance%20And%20The%20Energisers/Shaman'S%20Breath";
-      // var img = "http://127.0.0.1:8000/library/cover/Affiance/Blackout";
       var img = encodeURI(this.props.img_src);
-      console.log("Player State: image=" + this.props.img_src);
-
       var back_style = {
-        // backgroundImage: "url(http://127.0.0.1:8000/library/cover/Professor%20Trance%20And%20The%20Energisers/Shaman'S%20Breath)"
-        // backgroundImage: "url(" + this.props.img_src + ")"
-        backgroundImage: "url(" + img + ")",
+        backgroundImage: "url(" + `${img}` + ")",
         height: '400px',
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
@@ -34,7 +28,7 @@ export class PlayerState extends Component {
             <MDBCol><input type="range" className="custom-range"  min="0" max="100" value={ this.props.position * 100 } readOnly={ true }/></MDBCol>
           </MDBRow>
           <MDBRow>
-            <MDBCol><div alt="Album cover" style={{ backgroundImage: "url(" + `${img}` + ")", height: "400px" }} onClick={ () => window.open(this.props.img_src) }></div></MDBCol>
+            <MDBCol><div alt="Album cover" style={ back_style } onClick={ () => window.open(this.props.img_src) }></div></MDBCol>
           </MDBRow>
         </MDBContainer>
       );
