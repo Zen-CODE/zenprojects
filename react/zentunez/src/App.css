@@ -12,8 +12,10 @@
 }
 
 .album-cover {
-  width: 400px;
-  height: auto;
+  height: 400px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 /* Font size for the icons */

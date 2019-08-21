@@ -10,16 +10,10 @@ export class PlayerState extends Component {
 
 
     render(){
-      var img = encodeURI(this.props.img_src);
       var back_style = {
-        backgroundImage: "url(" + `${img}` + ")",
-        height: '400px',
-        backgroundSize: 'contain',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center'
+        backgroundImage: "url(" + `${encodeURI(this.props.img_src)}` + ")",
       };
 
-      // <MDBCol><div alt="Album cover" style={ back_style } onClick={ () => window.open(this.props.img_src) }></div></MDBCol>
       return (
         <MDBContainer>
           <MDBRow><MDBCol><b>Track: </b> { this.props.track }</MDBCol></MDBRow>
@@ -28,7 +22,7 @@ export class PlayerState extends Component {
             <MDBCol><input type="range" className="custom-range"  min="0" max="100" value={ this.props.position * 100 } readOnly={ true }/></MDBCol>
           </MDBRow>
           <MDBRow>
-            <MDBCol><div alt="Album cover" style={ back_style } onClick={ () => window.open(this.props.img_src) }></div></MDBCol>
+            <MDBCol><div className="album-cover" alt="Album cover" style={ back_style } onClick={ () => window.open(this.props.img_src) }></div></MDBCol>
           </MDBRow>
         </MDBContainer>
       );
