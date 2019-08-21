@@ -152,6 +152,11 @@ export class Library extends Component {
     }
 
     render(){
+
+        var back_style = {
+          backgroundImage: "url(" + `${encodeURI(this.state.img_src)}` + ")",
+        };
+
       return (
         <div>
           <ReactTooltip />
@@ -173,7 +178,7 @@ export class Library extends Component {
           </MDBContainer>
           <VDivider />
           <div>
-            <img className="album-cover" alt="Album cover" src={ this.state.img_src } onClick={ this.onImageClick }></img>
+            <div className="album-cover" alt="Album cover" style={ back_style } onClick={ this.onImageClick }></div>
           </div>
           <TrackList
             artist={ this.state.artist }
