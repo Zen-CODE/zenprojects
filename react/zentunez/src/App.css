@@ -16,6 +16,7 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  min-width: 200px;
 }
 
 /* Font size for the icons */
