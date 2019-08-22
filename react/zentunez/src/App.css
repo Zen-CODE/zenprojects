@@ -7,10 +7,6 @@
   padding-right: 0px;
 }
 
-.container {
-  max-width: none;
-}
-
 .album-cover {
   height: 400px;
   background-size: contain;
