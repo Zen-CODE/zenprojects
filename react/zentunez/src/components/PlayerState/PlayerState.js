@@ -11,7 +11,7 @@ export class PlayerState extends Component {
 
     render(){
       var back_style = {
-        backgroundImage: "url(" + `${encodeURI(this.props.img_src)}` + ")",
+        backgroundImage: 'url("' + encodeURI(this.props.img_src) + '")',
       };
 
       return (

@@ -154,7 +154,7 @@ export class Library extends Component {
     render(){
 
         var back_style = {
-          backgroundImage: "url(" + `${encodeURI(this.state.img_src)}` + ")",
+          backgroundImage: 'url("' + encodeURI(this.state.img_src) + '")',
         };
 
       return (
