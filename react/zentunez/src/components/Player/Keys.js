@@ -61,6 +61,7 @@ export class KeyMap {
 
           if (command != null) {
             this.player.send_system_command(command, key);
+            event.preventDefault();
           }
        }
       }
