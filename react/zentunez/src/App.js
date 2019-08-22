@@ -11,6 +11,7 @@ import { Popup } from "./components/Popup/Popup.js"
 import tunez_store from './store/TunezStore.js'
 import { createStore } from 'redux'
 import { SysMsg } from "./components/SysMsg/SysMsg.js"
+import { HDivider } from "./components/Divider/Divider.js"
 
 
 var api_url = localStorage.getItem("api_url");
@@ -40,7 +41,9 @@ class App extends Component {
       <MDBContainer className="App">
         <MDBRow>
           <MDBCol><Player store={ this.store } /></MDBCol>
+          <HDivider />
           <MDBCol><Library store={ this.store } /></MDBCol>
+          <HDivider />
           <MDBCol><Library store={ this.store } /></MDBCol>
         </MDBRow>
       </MDBContainer>
