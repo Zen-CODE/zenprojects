@@ -95,7 +95,7 @@ export class Player extends Component {
                       volume: response.volume,
                       state: response.state,
                       position: response.position,
-                      img_src : this.state.api_url + "player/cover?guid=" + response.artist + response.album + response.track
+                      img_src : this.state.api_url + "player/cover?guid=" + response.artist + response.album
                       })
         if ("message" in response) {
           send_message(this.state.store, response.message.text, "event");
