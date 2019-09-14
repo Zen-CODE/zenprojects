@@ -7,9 +7,14 @@ To set the password::
 
     sudo smbpasswd -a <username>
 
-To set the linux uset password ::
+To set the linux user password ::
 
     sudo passwd <username>
+
+To add and remove linux uisers (on ubuntu):
+
+    sudo adduser <user>
+    sudo userdel -r <user>
 
 Don't forget to give the user the appropriate file permissions. For reading:
 
