@@ -62,3 +62,8 @@ Retrieving information on the range() function
 To include images in latex output, try:
 
     ![Caption](image.png)
+
+To serve a presentation from a notebook on a different port:
+
+    jupyter nbconvert DotModus\ Kivy\ Talk.ipynb --to slides --post serve --ServePostProcessor.port=9191
+
