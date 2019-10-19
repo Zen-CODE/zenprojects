@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { VDivider } from '../Divider/Divider.js'
 import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
-import ReactTooltip from 'react-tooltip'
 import { queued_fetch } from "../../functions/network.js"
 import { send_message } from "../SysMsg/SysMsg.js"
 
@@ -123,12 +122,11 @@ export class Library extends Component {
       window.open(this.state.api_url + "library/cover/" + this.state.artist + "/" + this.state.album)
     }
 
-    renderIcon(icon, tooltip, callback) {
+    renderIcon(icon, callback) {
       // Render the specified MDBIcon and call the *callback* when clicked
       return <MDBIcon
                 className="far"
                 icon={ icon }
-                data-tip={ tooltip }
                 onClick={ () => callback() }>
                 </MDBIcon>
     }
@@ -159,11 +157,10 @@ export class Library extends Component {
 
       return (
         <div>
-          <ReactTooltip />
           <p><b>ZenTunez Library</b></p>
           <MDBContainer>
             <MDBRow>
-              <MDBCol>{ this.renderIcon("search", "Choose a random album", this.getAlbum.bind(this))}</MDBCol>
+              <MDBCol>{ this.renderIcon("search", this.getAlbum.bind(this))}</MDBCol>
               <MDBCol>
               <input
                 data-tip="Enter a search term"
@@ -171,9 +168,9 @@ export class Library extends Component {
                 onKeyDown={ this.onKeyDown }>
               </input>
               </MDBCol>
-              <MDBCol>{ this.renderIcon("sign-in-alt", "Enqueue this album", this.enqueueAlbum.bind(this)) }</MDBCol>
-              <MDBCol>{ this.renderIcon("play", "Play this album", this.playAlbum.bind(this)) }</MDBCol>
-              <MDBCol>{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , "Toggle to timer on and off", this.toggleTimer.bind(this)) }</MDBCol>
+              <MDBCol>{ this.renderIcon("sign-in-alt", this.enqueueAlbum.bind(this)) }</MDBCol>
+              <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
+              <MDBCol>{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , this.toggleTimer.bind(this)) }</MDBCol>
             </MDBRow>
           </MDBContainer>
           <VDivider />

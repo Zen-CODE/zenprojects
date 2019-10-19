@@ -4,7 +4,6 @@ import { PlayerState } from "../PlayerState/PlayerState.js"
 import { VolumeSlider } from "../VolumeSlider/VolumeSlider.js"
 import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
-import ReactTooltip from 'react-tooltip'
 import { send_message } from "../SysMsg/SysMsg.js"
 import { queued_fetch } from "../../functions/network.js"
 import { KeyMap,  KeyHandler } from "./Keys.js"
@@ -155,7 +154,6 @@ export class Player extends Component {
       */
       return (
         <MDBContainer>
-          <ReactTooltip />
           <MDBRow><MDBCol><b>ZenTunez Player</b></MDBCol></MDBRow>
           <MDBRow><MDBCol><VDivider /></MDBCol></MDBRow>
           <MDBRow horizontal='center'>
