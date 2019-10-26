@@ -18,6 +18,7 @@ def redirect_view(request):
     """
     return redirect('/react/index.html')
 
+
 class Player(object):
     """
     This class handles the sending of command and the retrieving of state from

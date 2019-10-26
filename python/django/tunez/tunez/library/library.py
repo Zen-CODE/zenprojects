@@ -13,21 +13,32 @@ class MusicLib(object):
 
     def __init__(self, path):
         self.path = path
-        artists =  [name for name in listdir(self.path) if
-                    isdir(join(self.path, name))]
-        lib = {}
-        for artist in artists:
-            path = join(self.path, artist)
-            lib[artist] = [name for name in listdir(path) if
-                      isdir(join(path, name))]
-        self.lib = lib
+        dirs = [name for name in listdir(self.path) if
+                isdir(join(self.path, name))]
+        artists = {}
+        albums = []
+        for artist in dirs:
+            artists[artist] = []
+            artist_path = join(self.path, artist)
+            for album in listdir(artist_path):
+                if isdir(join(artist_path, album)):
+                    artists[artist].append(album)
+                    albums.append((artist, album))
+
+        self._artists = artists
         """ A dictionary of lists, where the key is the artist and the value
         the albums.
+        """
+        self._albums = albums
+        """ A list of (artist, album) tuples. We store this only so we can find
+        random albums all with an equal chance. The previous algorithm found a
+        random artist, then a random album, favouring albums by artists with
+        fewer albums.
         """
 
     def get_artists(self):
         """ Return a list of artists. """
-        return list(self.lib.keys())
+        return list(self._artists.keys())
         # ============ Pure file implementation
         # return [name for name in listdir(self.path) if
         #         isdir(join(self.path, name))]
@@ -47,7 +58,7 @@ class MusicLib(object):
 
     def get_albums(self, artist):
         """ Return a list of albums for the *artist*. """
-        return self.lib.get(artist, [])
+        return self._artists.get(artist, [])
         # ============ Pure file implementation
         # path = join(self.path, artist)
         # if exists(path):
@@ -68,6 +79,10 @@ class MusicLib(object):
     def get_album_path(self, artist, album):
         """ Return the full path to the specified album. """
         return join(self.path, artist, album)
+
+    def get_random_album(self):
+        """ Return the artist and album of a random album """
+        return choice(self._albums)
 
     @staticmethod
     def _get_any_matches(path, *exts):
@@ -115,8 +130,8 @@ class MusicLib(object):
         #             if all([(artist + album).lower().find(t) > -1
         #                     for t in terms]):
         #                 matches.append({"artist": artist, "album": album})
-        for artist in self.lib.keys():
-            for album in  self.lib[artist]:
+        for artist in self._artists.keys():
+            for album in self._artists[artist]:
                 if all([(artist + album).lower().find(t) > -1
                         for t in terms]):
                     matches.append({"artist": artist, "album": album})

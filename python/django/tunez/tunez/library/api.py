@@ -60,8 +60,7 @@ class Library(object):
         """
         Select and return a random artist and album
         """
-        artist = Library.lib.get_random_artists(1)[0]
-        album = Library.lib.get_random_albums(artist, 1)[0]
+        artist, album = Library.lib.get_random_album()
         return Response({"artist": artist, "album": album})
 
     @staticmethod
