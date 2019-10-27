@@ -15,7 +15,7 @@ import { HDivider } from "./components/Divider/Divider.js"
 
 
 var api_url = localStorage.getItem("api_url");
-if (!api_url) { api_url = "http://" + window.location.hostname  + ":8000/"};
+if (!api_url) { api_url = "http://" + window.location.hostname  + ":" + window.location.port + "/"};
 var auto_add = localStorage.getItem("auto_add");
 if (auto_add === null) { auto_add = false} else { auto_add = (auto_add !== "false") };
 
