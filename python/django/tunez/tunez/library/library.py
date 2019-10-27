@@ -68,13 +68,13 @@ class MusicLib(object):
 
     def get_cover(self, artist, album):
         """
-        Return the album cover for the specified album or null string
-        if it does not exist.
+        Return the album cover for the specified album or the default library
+        image one does not exist.
         """
         path = join(self.path, artist, album)
         pattern = "cover.*"
         matches = glob(join(path, pattern))
-        return matches[0] if matches else ""
+        return matches[0] if matches else join(self.path, "default.png")
 
     def get_album_path(self, artist, album):
         """ Return the full path to the specified album. """
