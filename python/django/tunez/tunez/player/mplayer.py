@@ -10,6 +10,7 @@ from .cloud_firestore import NowPlaying
 from threading import Thread
 from datetime import datetime, timedelta
 from socket import gethostname
+from dbus.exceptions import DBusException
 
 logger = getLogger(__name__)
 
@@ -77,11 +78,16 @@ class MPlayer(object):
 
     def __init__(self):
         super(MPlayer, self).__init__()
+        self.mp2_player = self._get_player()
+
+    @staticmethod
+    def _get_player():
+        """ Return a Player instance of the currently active MPRIS 2 player. """
         try:
             uri = next(get_players_uri())
-            self.mp2_player = Player(dbus_interface_info={'dbus_uri': uri})
+            return Player(dbus_interface_info={'dbus_uri': uri})
         except StopIteration:
-            self.mp2_player = None
+            return None
 
     def change_volume(self, val):
         """
@@ -110,6 +116,9 @@ class MPlayer(object):
             else:
                 return getattr(self.mp2_player, key)
         except (KeyError, AttributeError):
+            return default
+        except DBusException as e:
+            self.mp2_player = self._get_player()
             return default
 
     @staticmethod
