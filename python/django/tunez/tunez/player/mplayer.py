@@ -191,7 +191,8 @@ class MPlayer(object):
         if length is None:
             pos, track_url, artist, album, track = 0, "", "", "", ""
         else:
-            pos = float(gpv("Position", 0)) / float(length) if length > 0 else 0
+            pos = float(gpv("Position", 0)) / float(length) \
+                if length > 0 else 0
             track_url = gpv("xesam:url", "", True)
             artist, album, track = self._get_from_filename(track_url)
 
