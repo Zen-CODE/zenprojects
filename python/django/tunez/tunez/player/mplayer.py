@@ -78,7 +78,7 @@ class MPlayer(object):
 
     @staticmethod
     def _get_player():
-        """ Return a Player instance of the currently active MPRIS 2 player. """
+        """ Return a Player instance of the currently active MPRIS2 player. """
         try:
             uri = next(get_players_uri())
             return Player(dbus_interface_info={'dbus_uri': uri})
