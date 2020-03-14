@@ -82,7 +82,7 @@ class MPlayer(object):
         try:
             uri = next(get_players_uri())
             return Player(dbus_interface_info={'dbus_uri': uri})
-        except StopIteration:
+        except (StopIteration, DBusException):
             return None
 
     def change_volume(self, val):
@@ -122,17 +122,17 @@ class MPlayer(object):
         Retrieve the specified value from the player. If it fails, return the
         default value
         """
-
-        try:
-            player = self._get_player()
-            if metadata:
-                return player.Metadata[key]
-            else:
-                return getattr(player, key)
-        except (KeyError, AttributeError):
-            return default
-        except DBusException as e:
-            return default
+        player = self._get_player()
+        if player is None:
+            print("Unable to accesss media player")
+        else:
+            try:
+                if metadata:
+                    return player.Metadata[key]
+                else:
+                    return getattr(player, key)
+            except (KeyError, AttributeError):
+                return default
 
     @staticmethod
     def _add_message(ip, track_url, state):
@@ -188,9 +188,12 @@ class MPlayer(object):
         """
         gpv = self.get_player_value
         length = gpv("mpris:length", 0, True)
-        pos = float(gpv("Position", 0)) / float(length) if length > 0 else 0
-        track_url = gpv("xesam:url", "", True)
-        artist, album, track = self._get_from_filename(track_url)
+        if length is None:
+            pos, track_url, artist, album, track = 0, "", "", "", ""
+        else:
+            pos = float(gpv("Position", 0)) / float(length) if length > 0 else 0
+            track_url = gpv("xesam:url", "", True)
+            artist, album, track = self._get_from_filename(track_url)
 
         return self._add_message(ip, track_url, {
             "volume": gpv("Volume", 0),
