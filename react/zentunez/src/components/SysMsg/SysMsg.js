@@ -25,7 +25,8 @@ export function send_message(store, msg, msg_type ){
 * @property {Object} state - The object state as required by react
 * @property {number} unsubscribe - The identifier of the subscription to store event
 * @property {number} intervalID - The identifier of the timer interval event
-* @property {Array} events - A list of event messages in the notification queue
+* @property {string} msg - A strings containing the message currently displayed
+* @property {boolean} reset - A strings containing the message currently displayed
 * @property {Array} commands - A list of command messages in the notification queue
 */
 export class SysMsg extends Component {
@@ -37,9 +38,10 @@ export class SysMsg extends Component {
     this.state = { store: props.store, msg: '' };
     this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
     this.intervalID = null;
-    this.events = [];  // Log system events
-    this.commands = [];  // Log system commands
+    this.msg = "";
+    this.reset = false;
   }
+
 
    storeChanged(store) {
     // React to the sending of messages. Place them in the queue and activate the
@@ -48,25 +50,20 @@ export class SysMsg extends Component {
     const msg_type = state.msg_type;
     const msg = state.msg;
 
-    if (msg_type === "event") { this.events.unshift(msg) }
-    else if (msg_type === "command") { this.commands.unshift(msg) }
-    else { console.log("Unrecognized msg_type: " + msg_type )}
-
+    if ((msg_type === "event") || (msg_type === "command")) {
+      this.msg = msg;
+      this.setState({ msg: msg });
+      this.reset = true;}
+    else {
+      console.log("Unrecognized msg_type: " + msg_type )}
     if (this.intervalID === null) { this.setTimer(true) };
-  }
-
-  extractMessages() {
-    // Extract the messages from the queue and generate the final message
-    var msg = this.events.length > 0 ? this.events.pop(): "";
-    msg = msg + (this.commands.length > 0 ? " > " + this.commands.pop(): "");
-    this.setState({ msg: msg });
   }
 
   timerEvent(event) {
     // The timer event has been fired. If there are messages to display. show
     // them, otherwise remove the notification display
-    if (this.events.length + this.commands.length > 0) {
-      this.extractMessages();
+    if (this.reset) {
+        this.reset = false
     } else {
       this.setState({ msg: "" });
       this.setTimer(false);
@@ -77,7 +74,6 @@ export class SysMsg extends Component {
       // Switch the Timer on to start showing the message
       if (on && (this.intervalID === null)) {
         this.intervalID = setInterval(this.timerEvent.bind(this), 3000);
-        this.extractMessages();
       } else if (!on && (this.intervalID != null)) {
         clearInterval(this.intervalID);
         this.intervalID = null;
