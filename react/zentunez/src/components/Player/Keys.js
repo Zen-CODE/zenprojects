@@ -8,8 +8,8 @@ export class KeyMap {
         90: {"key": "z", "command": "player/previous"},
         86: {"key": "v", "command": "player/stop"},
         66: {"key": "b", "command": "player/next"},
-        38: {"key": "up", "command": "player/volume_up"},
-        40: {"key": "down", "command": "player/volume_down"}
+        87: {"key": "w", "command": "player/volume_up"},
+        83: {"key": "s", "command": "player/volume_down"}
       }
     }
 
