@@ -42,7 +42,6 @@ class Player(object):
         ip = Player._get_ip(request)
         return Response(Player.mplayer.get_state(ip))
 
-
     @staticmethod
     @api_view()
     def previous(request):
