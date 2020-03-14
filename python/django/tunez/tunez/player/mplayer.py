@@ -76,10 +76,6 @@ class MPlayer(object):
     machine = gethostname()
     """ Get the machine name of the current audio host """
 
-    def __init__(self):
-        super(MPlayer, self).__init__()
-        self.mp2_player = self._get_player()
-
     @staticmethod
     def _get_player():
         """ Return a Player instance of the currently active MPRIS 2 player. """
@@ -94,7 +90,9 @@ class MPlayer(object):
         Change the volume by the specified increment. This should be a number
         between 0 and 1 and is added to the current volume.
         """
-        self.mp2_player.Volume += val
+        vol = self.get_player_value("Volume", None)
+        if vol is not None:
+            self.set_player_value("Volume", vol + val)
 
     @staticmethod
     def _get_from_filename(filename):
@@ -105,20 +103,35 @@ class MPlayer(object):
         else:
             return "", "", ""
 
+    def set_player_value(self, property, value=None):
+        """
+         Set the value of the specified property to the given value. If no
+        value is specified, the prop is assumed to be a function called
+        directly.
+        """
+        player = self._get_player()
+        if player is None:
+            print("No player found...")
+        elif value is None:
+            getattr(player, property)()
+        else:
+            setattr(player, property, value)
+
     def get_player_value(self, key, default, metadata=False):
         """
         Retrieve the specified value from the player. If it fails, return the
         default value
         """
+
         try:
+            player = self._get_player()
             if metadata:
-                return self.mp2_player.Metadata[key]
+                return player.Metadata[key]
             else:
-                return getattr(self.mp2_player, key)
+                return getattr(player, key)
         except (KeyError, AttributeError):
             return default
         except DBusException as e:
-            self.mp2_player = self._get_player()
             return default
 
     @staticmethod
@@ -192,25 +205,25 @@ class MPlayer(object):
         """
         Go back to the previous track.
         """
-        self.mp2_player.Previous()
+        self.set_player_value("Previous")
 
     def play_pause(self):
         """
         Play the track if the player is currently paused, otherwise pause it.
         """
-        self.mp2_player.PlayPause()
+        self.set_player_value("PlayPause")
 
     def stop(self):
         """
         Stop the track.
         """
-        self.mp2_player.Stop()
+        self.set_player_value("Stop")
 
     def next_track(self):
         """
         Advance to the next track
         """
-        self.mp2_player.Next()
+        self.set_player_value("Next")
 
     def volume_up(self):
         """
@@ -228,7 +241,7 @@ class MPlayer(object):
         """
         Set the volume of the player where value from  0 to 1.
         """
-        self.mp2_player.Volume = float(value)
+        self.set_player_value("Volume", float(value))
 
     def cover(self):
         """
