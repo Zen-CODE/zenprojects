@@ -3,7 +3,7 @@ Terminal Settings
 
 To set the font in the terminal:
 ```
-terminal.term.setOption('fontFamily', 'Fira Code');
+terminal.term.setOption('fontFamily', 'Andale Mono');
 terminal.term.setOption('theme', {
 foreground:    '#9999ff',
 background:    '#2d2d2d',
