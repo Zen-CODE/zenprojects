@@ -4,23 +4,12 @@
 export class KeyMap {
     constructor() {
       this.key_map = {
-        88: {"key": "x", "command": "player/play_pause"},
-        90: {"key": "z", "command": "player/previous"},
-        86: {"key": "v", "command": "player/stop"},
-        66: {"key": "b", "command": "player/next"},
-        38: {"key": "up", "command": "player/volume_up"},
-        40: {"key": "down", "command": "player/volume_down"}
-      }
-    }
-
-    getCommand(key_val) {
-      /* Return the command given a specified key value, or *null* if
-         no mapping exists.
-      */
-      if (key_val in this.key_map) {
-        return this.key_map[key_val]["command"]
-      } else {
-        return null
+        88: {"caption": "Play/Pause", "command": "player/play_pause"},
+        90: {"caption": "Previous track", "command": "player/previous"},
+        86: {"caption": "Stop", "command": "player/stop"},
+        66: {"caption": "Next track", "command": "player/next"},
+        87: {"caption": "Volume up", "command": "player/volume_up"},
+        83: {"caption": "Volume down", "command": "player/volume_down"}
       }
     }
 
@@ -34,6 +23,28 @@ export class KeyMap {
         }
       }
       return null
+    }
+
+    getCommand(key_val) {
+      /* Return the command given a specified key value, or *null* if
+         no mapping exists.
+      */
+      if (key_val in this.key_map) {
+        return this.key_map[key_val]["command"]
+      } else {
+        return null
+      }
+    }
+
+    getCaption(key_val) {
+      /* Return the command given a specified key value, or *null* if
+         no mapping exists.
+      */
+      if (key_val in this.key_map) {
+        return this.key_map[key_val]["caption"]
+      } else {
+        return null
+      }
     }
   }
 
@@ -58,9 +69,10 @@ export class KeyMap {
           const key = event.keyCode;
           const km = new KeyMap()
           var command = km.getCommand(key);
+          var caption = km.getCaption(key);
 
           if (command != null) {
-            this.player.send_system_command(command, key);
+            this.player.send_system_command(command, caption);
             event.preventDefault();
           }
        }
