@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from os.path import exists, expanduser
 from os import system
 from rest_framework.response import Response
-from tunez.player.mplayer import Messages
+from tunez.player.messages import Messages
 
 
 class Library(object):
