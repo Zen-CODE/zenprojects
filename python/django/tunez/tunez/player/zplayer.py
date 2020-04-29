@@ -14,13 +14,6 @@ class ZPlayer:
         self.address = environ["ZP_URL"]
         """ The URL of the ZenPlayer endpoint """
 
-    def change_volume(self, val):
-        """
-        Change the volume by the specified increment. This should be a number
-        between 0 and 1 and is added to the current volume.
-        """
-        # TODO
-
     def get_state(self, ip):
         """ Return a dictionary containing information on the audio player's
         status.
