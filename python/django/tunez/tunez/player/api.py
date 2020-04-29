@@ -7,6 +7,7 @@ from .mplayer import MPlayer, Messages
 from rest_framework.response import Response
 from django.shortcuts import redirect
 from os.path import exists
+from .zplayer import ZPlayer
 
 
 def redirect_view(request):
@@ -24,7 +25,8 @@ class Player(object):
     This class handles the sending of command and the retrieving of state from
     the currently running MPris2 Media player.
     """
-    mplayer = MPlayer()
+    # mplayer = MPlayer()
+    mplayer = ZPlayer()
 
     @staticmethod
     def call(name, request):
