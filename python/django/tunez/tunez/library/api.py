@@ -8,6 +8,7 @@ from os.path import exists, expanduser
 from os import system
 from rest_framework.response import Response
 from tunez.player.messages import Messages
+from .zplaylist import ZPlaylist
 
 
 class Library(object):
@@ -73,7 +74,8 @@ class Library(object):
         Messages.add_message("album queued", "Album queued: {0} - {1}".format(
             artist, album))
         if exists(path):
-            system('audacious -e "{0}"'.format(path))
+            # system('audacious -e "{0}"'.format(path))
+            ZPlaylist().folder_add(folder=path)
             return Response({"message": "Enqueue instruction sent"}
                             )
         else:
@@ -89,7 +91,8 @@ class Library(object):
         Messages.add_message("album play", "Playing album: {0} - {1}".format(
             artist, album))
         if exists(path):
-            system('audacious -E "{0}"'.format(path))
+            ZPlaylist().folder_add(folder=path)
+            # system('audacious -E "{0}"'.format(path))
             return Response({"message": "Play folder instruction sent"})
         else:
             return Response({"message": "No such album"})
