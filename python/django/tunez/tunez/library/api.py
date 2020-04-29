@@ -9,6 +9,7 @@ from os import system
 from rest_framework.response import Response
 from tunez.player.messages import Messages
 from .zplaylist import ZPlaylist
+from tunez.player.zplayer import ZPlayer
 
 
 class Library(object):
@@ -91,7 +92,8 @@ class Library(object):
         Messages.add_message("album play", "Playing album: {0} - {1}".format(
             artist, album))
         if exists(path):
-            ZPlaylist().folder_add(folder=path)
+            ZPlaylist().folder_add(folder=path, mode="replace")
+            ZPlayer().previous_track()  # TODO: Implement properly
             # system('audacious -E "{0}"'.format(path))
             return Response({"message": "Play folder instruction sent"})
         else:
