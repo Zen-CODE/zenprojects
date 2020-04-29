@@ -79,7 +79,7 @@ class ZPlayer:
         """
         Set the volume of the player where value from  0 to 1.
         """
-        # TODO
+        get(self.address + "/zenplayer/volume_set", params={"volume": value})
 
     def cover(self):
         """
