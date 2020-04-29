@@ -26,4 +26,16 @@ brightWhite:   '#d4d4d4',
 });
 ```
 
+Launching a Slide Show
+=======================
+
+To launch a notebook as a slide show:
+
+    jupyter nbconvert Command\ Line\ Computing.ipynb --to slides --post serve --port=1234
+
+To define the slide:
+
+    View -> Cell Toolbar -> Slideshow
+
+
 
