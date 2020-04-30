@@ -65,7 +65,7 @@ export class Player extends Component {
         this.setState({artist: response.artist,
                       album: response.album,
                       track: response.track,
-                      volume: response.volume * 100,
+                      volume: response.volume,
                       state: response.state,
                       position: response.position,
                       img_src : this.state.api_url + `zenplayer/get_track_cover?cover=${encodeURIComponent(response.cover)}`
@@ -76,7 +76,8 @@ export class Player extends Component {
       }
 
       // Then we queue the request and supply the callback
-      queued_fetch(this.state.api_url + api_call, update_state, force);
+      queued_fetch(this.state.api_url + api_call);
+      queued_fetch(this.state.api_url + "zenplayer/get_state", update_state, force);
     }
 
     setVolume = (vol) => {
