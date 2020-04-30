@@ -38,7 +38,7 @@ export class TrackList extends Component {
       /* Set the Track listing to the current album */
       if (artist !== "" && album !== "") {
         const set_state = (response) => { this.setState({tracks: response}) };
-        queued_fetch(this.state.api_url + "library/tracks/" + artist + "/" + album,
+        queued_fetch(this.state.api_url + `zenlibrary/get_tracks?artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}`,
                      set_state)
       }
     }

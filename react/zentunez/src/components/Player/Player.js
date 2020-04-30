@@ -31,7 +31,6 @@ export class Player extends Component {
                   };
       this.intervalID = 0;
       this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
-      this.stop_count = 0;  // Monitor for how long the player hass been stopped
     };
 
     send_system_command(command, msg) {
@@ -49,7 +48,7 @@ export class Player extends Component {
 
     componentDidMount() {
       // When our component loads, set the timers and start capturing keystrokes
-      this.intervalID = setInterval(() => this.Click("player/state"), 1000);
+      this.intervalID = setInterval(() => this.Click("zenplayer/get_state"), 1000);
       this.keyHandler = new KeyHandler(this);
     }
 
@@ -59,42 +58,17 @@ export class Player extends Component {
       this.keyHandler.unLoad()
     }
 
-    playAlbum(artist, album) {
-      // Return the reponse of a URL as a json object
-      queued_fetch(this.state.api_url + "library/folder_play/" + artist + "/" + album);
-    }
-
-    playRandomAlbum() {
-      /// Get and play a random album
-      const play_album = (response) => { this.playAlbum(response.artist, response.album) }
-      queued_fetch(this.state.api_url + "library/random_album", play_album)
-    }
-
-    checkState(state) {
-      // Monitor the status of the player and if stopped consecutively and
-      // 'auto_add' is enabled, play a random album
-      if ( state === "Stopped" ) {
-        this.stop_count += 1;
-        if ( this.stop_count === 2 && this.state.auto_add ) {
-          this.playRandomAlbum()
-        }
-      } else {
-        this.stop_count = 0;
-      }
-    }
-
     Click = (api_call, force=false) => {
       /* Handle the click on a Player media button */
       // First we define a callback function to acceptg the JSON response
       const update_state = (response) => {
-        this.checkState(response.state);
         this.setState({artist: response.artist,
                       album: response.album,
                       track: response.track,
-                      volume: response.volume,
+                      volume: response.volume * 100,
                       state: response.state,
                       position: response.position,
-                      img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
+                      img_src : this.state.api_url + `zenplayer/get_track_cover?cover=${encodeURIComponent(response.cover)}`
                       })
         if ("message" in response) {
           send_message(this.state.store, response.message.text, "event");
@@ -106,7 +80,7 @@ export class Player extends Component {
     }
 
     setVolume = (vol) => {
-      queued_fetch(this.state.api_url + "player/volume_set/" + (vol.target.valueAsNumber / 100.0),
+      queued_fetch(this.state.api_url + "zenplayer/volume_set?volume=" + (vol.target.valueAsNumber / 100.0),
                   null,
                   true);
       this.send_system_command("player/state", "Changing volume...");
@@ -157,18 +131,18 @@ export class Player extends Component {
           <MDBRow><MDBCol><b>ZenTunez Player</b></MDBCol></MDBRow>
           <MDBRow><MDBCol><VDivider /></MDBCol></MDBRow>
           <MDBRow horizontal='center'>
-            <MDBCol>{this.renderIcon("fast-backward", "Previous track", "player/previous")}</MDBCol>
-            <MDBCol>{this.renderIcon("stop-circle", "Stop", "player/stop")}</MDBCol>
+            <MDBCol>{this.renderIcon("fast-backward", "Previous track", "zenplayer/play_previous")}</MDBCol>
+            <MDBCol>{this.renderIcon("stop-circle", "Stop", "zenplayer/stop")}</MDBCol>
             <MDBCol>{this.renderIcon(this.state.state === "Playing"? "pause-circle": "play-circle",
                                      "Play / Pause",
-                                     "player/play_pause")}</MDBCol>
-            <MDBCol>{this.renderIcon("fast-forward", "Next track", "player/next")}</MDBCol>
+                                     "zenplayer/play_pause")}</MDBCol>
+            <MDBCol>{this.renderIcon("fast-forward", "Next track", "zenplayer/play_next")}</MDBCol>
           </MDBRow>
           <VDivider />
           <MDBRow horizontal='center' >
-            <MDBCol size="3">{this.renderIcon("volume-down", "Volume down", "player/volume_down")}</MDBCol>
+            <MDBCol size="3">{this.renderIcon("volume-down", "Volume down", "zenplayer/volume_down")}</MDBCol>
             <MDBCol>{ this.renderVolume() }</MDBCol>
-            <MDBCol size="3">{this.renderIcon("volume-up", "Volume up", "player/volume_up")}</MDBCol>
+            <MDBCol size="3">{this.renderIcon("volume-up", "Volume up", "zenplayer/volume_up")}</MDBCol>
           </MDBRow>
           <MDBRow horizontal='center' data-tip="The currently playing track">
             { this.renderState() }

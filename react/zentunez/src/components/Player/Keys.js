@@ -4,12 +4,12 @@
 export class KeyMap {
     constructor() {
       this.key_map = {
-        88: {"caption": "Play/Pause", "command": "player/play_pause"},
-        90: {"caption": "Previous track", "command": "player/previous"},
-        86: {"caption": "Stop", "command": "player/stop"},
-        66: {"caption": "Next track", "command": "player/next"},
-        87: {"caption": "Volume up", "command": "player/volume_up"},
-        83: {"caption": "Volume down", "command": "player/volume_down"}
+        88: {"caption": "Play/Pause", "command": "zenplayer/play_pause"},
+        90: {"caption": "Previous track", "command": "zenplayer/play_previous"},
+        86: {"caption": "Stop", "command": "zenplayer/stop"},
+        66: {"caption": "Next track", "command": "zenplayer/play_next"},
+        87: {"caption": "Volume up", "command": "zenplayer/volume_up"},
+        83: {"caption": "Volume down", "command": "zenplayer/volume_down"}
       }
     }
 

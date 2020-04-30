@@ -15,6 +15,7 @@ export class Library extends Component {
         this.state = {
           artist: "-",
           album: "-",
+          path: "-",
           img_src: "",
           search: "",
           api_url: props.store.getState().api_url,
@@ -47,14 +48,16 @@ export class Library extends Component {
       /* Handle the click to fetch a new random album */
       send_message(this.state.store, "Getting random album...", "command");
       const set_state = (response) => {
-        this.setState({artist: response.artist,
+        this.setState({
+          artist: response.artist,
           album: response.album,
-          img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
+          path: response.path,
+          img_src : this.state.api_url + `zenlibrary/get_album_cover?artist=${encodeURIComponent(response.artist)}&album=${encodeURIComponent(response.album)}`
           })
 
       };
 
-      queued_fetch(this.state.api_url + "library/random_album", set_state, true)
+      queued_fetch(this.state.api_url + "zenlibrary/get_random_album", set_state, true)
     }
 
     getSearchAlbum(term) {
@@ -64,7 +67,8 @@ export class Library extends Component {
         if ("artist" in response){
           this.setState({artist: response.artist,
                         album: response.album,
-                        img_src : this.state.api_url + "library/cover/" + response.artist + "/" + response.album
+                        path: response.path,
+                        img_src : this.state.api_url + `zenlibrary/get_album_cover?artist=${encodeURIComponent(response.artist)}&album=${encodeURIComponent(response.album)}`
                         })}
         else {
           this.showPopup("No matches",
@@ -72,7 +76,7 @@ export class Library extends Component {
         }
       };
 
-      queued_fetch(this.state.api_url + "library/search/" + term, set_state, true);
+      queued_fetch(this.state.api_url + `zenlibrary/search?query=${encodeURIComponent(term)}`, set_state, true);
     }
 
     showPopup(title, body){
@@ -91,14 +95,14 @@ export class Library extends Component {
       /* Add the current album to the queue in the currently playing audio player
       */
      send_message(this.state.store, "Queueing album...", "command");
-     queued_fetch(this.state.api_url + `library/folder_enqueue/` + this.state.artist + "/" + this.state.album, null, true);
+     queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}`, null, true);
     }
 
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
       send_message(this.state.store, "Playing album...", "command");
-      queued_fetch(this.state.api_url + `library/folder_play/` + this.state.artist + "/" + this.state.album, null, true);
+      queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}?mode=insert`, null, true);
     }
 
     searchChanged(event) {
@@ -119,7 +123,7 @@ export class Library extends Component {
 
     onImageClick = () => {
       /* When the image is clicked, open the cover in a new window */
-      window.open(this.state.api_url + "library/cover/" + this.state.artist + "/" + this.state.album)
+      window.open(this.state.api_url + `zenlibrary/get_album_cover?artist=${encodeURIComponent(this.state.artist)}&album=${encodeURIComponent(this.state.album)}`)
     }
 
     renderIcon(icon, callback) {
