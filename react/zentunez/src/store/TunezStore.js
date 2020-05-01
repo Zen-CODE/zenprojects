@@ -21,12 +21,8 @@ function tunez_store(state = [], action){
         state["msg_type"] = action.msg_type;
         state['timestamp'] = date.toISOString();
         return state
-      case "AUTO_ADD_CHANGED":
-        state["auto_add"] = action.auto_add;
-        localStorage.setItem("auto_add", action.auto_add);
-        return state
       default:
-      return state
+        return state
     }
   }
 

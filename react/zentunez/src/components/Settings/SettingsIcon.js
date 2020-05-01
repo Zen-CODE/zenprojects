@@ -23,15 +23,6 @@ class SettingsContent extends Component {
                     auto_add: state.auto_add});
     }
 
-  autoAddChanged (event) {
-    // Toggle the state of the "Automatically add on last track"
-    const new_val = !this.state.auto_add;
-    this.setState({ auto_add: new_val })
-    this.state.store.dispatch({
-      type: "AUTO_ADD_CHANGED",
-      auto_add: new_val })
-  }
-
   serverIPChanged (event) {
     // Dispatch the store change to the api_url
     const api_url = event.target.value;
@@ -55,14 +46,6 @@ class SettingsContent extends Component {
                   onChange={ (event) => this.serverIPChanged(event) }
                   value={ this.state.api_url }>
             </input>
-          </MDBCol>
-        </MDBRow>
-        <MDBRow>
-          <MDBCol>Automatically play when stopped</MDBCol>
-          <MDBCol>
-            <input type="checkbox" checked={ this.state.auto_add }
-                onChange={ (event) => this.autoAddChanged(event) }
-            />
           </MDBCol>
         </MDBRow>
       </MDBCol>
