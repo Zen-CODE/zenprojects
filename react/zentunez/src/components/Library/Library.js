@@ -102,7 +102,7 @@ export class Library extends Component {
       /* Add the current album to the queue in the currently playing audio player
       */
       send_message(this.state.store, "Playing album...", "command");
-      queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}?mode=insert`, null, true);
+      queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=replace`, null, true);
     }
 
     searchChanged(event) {
