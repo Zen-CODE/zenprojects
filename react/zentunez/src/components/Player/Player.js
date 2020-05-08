@@ -116,6 +116,8 @@ export class Player extends Component {
 
     renderState() {
       return <PlayerState
+        artist={ this.state.artist }
+        album={ this.state.album }
         track={ this.state.track }
         position={ this.state.position }
         state={ this.state.state }
