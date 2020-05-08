@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { VDivider } from '../Divider/Divider.js'
 import { PlayerState } from "../PlayerState/PlayerState.js"
 import { VolumeSlider } from "../VolumeSlider/VolumeSlider.js"
-import { TrackList } from "../TrackList/TrackList.js"
+import { TrackMeta } from "../TrackMeta/TrackMeta.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import { send_message } from "../SysMsg/SysMsg.js"
 import { queued_fetch } from "../../functions/network.js"
@@ -105,8 +105,8 @@ export class Player extends Component {
              />
     }
 
-    renderTrackList(){
-      return <TrackList
+    renderTrackMeta(){
+      return <TrackMeta
                 artist={ this.state.artist }
                 album={ this.state.album }
                 api_url={ this.state.api_url }
@@ -151,7 +151,7 @@ export class Player extends Component {
             { this.renderState() }
           </MDBRow>
           <MDBRow data-tip="Track listing of the current album">
-            { this.renderTrackList() }
+            { this.renderTrackMeta() }
           </MDBRow>
         </MDBContainer>
       );

@@ -21,38 +21,34 @@ export class TrackMeta extends Component {
 
     componentDidUpdate(prevProps){
       // When the album changes, load the new track listing
-    //   if ((this.props.album !== prevProps.album) || (this.props.artist !== prevProps.artist)) {
-    //     this.setState({
-    //       artist: this.props.artist,
-    //       album: this.props.album,
-    //       api_url: this.props.api_url,
-    //       track: this.props.track
-    //     })
-    //     this.setTracks(this.props.artist, this.props.album)
-    //   } else if (this.props.track !== prevProps.track) {
-    //     // If the current track has changed, update the listing so it's highlighted
-    //     this.setState({ track: this.props.track});
-    //   }
+      if ((this.props.track !== prevProps.track)) {
+        console.log("Update metadata...");
+        this.setMeta();
+      }
+
     }
 
-    // setTracks(artist, album) {
-    //   /* Set the Track listing to the current album */
-    //   if (artist !== "" && album !== "") {
-    //     const set_state = (response) => { this.setState({tracks: response}) };
-    //     queued_fetch(this.state.api_url + `zenlibrary/get_tracks?artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}`,
-    //                  set_state)
-    //   }
-    // }
-
+    setMeta() {
+      /* Set the Track listing to the current album */
+        const set_state = (response) => { this.setState({
+            bitrate: response.bitrate,
+            bitrate_mode: response.bitrate_mode,
+            channels: response.channels,
+            sample_rate: response.sample_rate
+        })};
+        queued_fetch(this.state.api_url + `zenplayer/get_track_meta`, set_state)
+    }
 
     render(){
       return (
         <MDBContainer>
-          <MDBRow><MDBCol><b>Bitrate: { this.state.bitrate }</b></MDBCol></MDBRow>
+          <div className="track-separator" />
+          <MDBRow><MDBCol><b>Bitrate: { this.state.bitrate } kbps</b></MDBCol></MDBRow>
           <MDBRow><MDBCol><b>Mode: { this.state.bitrate_mode }</b></MDBCol></MDBRow>
           <MDBRow><MDBCol><b>Channels: { this.state.channels }</b></MDBCol></MDBRow>
-          <MDBRow><MDBCol><b>Sample Rate: { this.state.sample_rate }</b></MDBCol></MDBRow>
+          <MDBRow><MDBCol><b>Sample Rate: { this.state.sample_rate } hz</b></MDBCol></MDBRow>
         </MDBContainer>
       );
     }
   }
+
