@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Player } from "./components/Player/Player.js"
+import { Playlist } from "./components/Playlist/Playlist.js"
 import { Library } from "./components/Library/Library.js"
 import { SettingsIcon } from "./components/Settings/SettingsIcon.js"
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -42,7 +43,7 @@ class App extends Component {
         <MDBRow>
           <MDBCol><Player store={ this.store } /></MDBCol>
           <HDivider />
-          <MDBCol><Library store={ this.store } /></MDBCol>
+          <MDBCol><Playlist api_url={ api_url } /></MDBCol>
           <HDivider />
           <MDBCol><Library store={ this.store } /></MDBCol>
         </MDBRow>
