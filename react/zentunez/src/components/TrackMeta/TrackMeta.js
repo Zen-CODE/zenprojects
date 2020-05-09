@@ -9,9 +9,7 @@ export class TrackMeta extends Component {
     constructor(props) {
       super(props);
 
-      this.state = {artist: "-",
-                    album: "-",
-                    api_url: props.api_url,
+      this.state = {api_url: props.api_url,
                     track: "",
                     bitrate: "",
                     bitrate_mode: "",
@@ -22,10 +20,8 @@ export class TrackMeta extends Component {
     componentDidUpdate(prevProps){
       // When the album changes, load the new track listing
       if ((this.props.track !== prevProps.track)) {
-        console.log("Update metadata...");
         this.setMeta();
       }
-
     }
 
     setMeta() {
