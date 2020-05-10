@@ -13,6 +13,7 @@
 
 .track-list li {
     text-align: center;
+    min-width: 200px;
     font-size: 15px;
 }
 .no-bullet {
