@@ -14,23 +14,22 @@ export class Playlist extends Component {
                     api_url: props.api_url,
                     tracks: [],
                     track: ""};
+        this.setCurrent();
         this.setPlaylist();
     };
 
-
-    componentDidUpdate(prevProps){
-      // When the tracks changes, load the new playlist
-      console.log("PLaylist: componentDidUpdate.");
-      if (this.props.track !== prevProps.track) {
-        this.setPlaylist()
-      }
+    setCurrent() {
+      /* Load and set the currently activate track  */
+        const set_current = (response) => {
+            this.setState({track: response.track})
+        };
+        queued_fetch(this.state.api_url + "zenplaylist/get_current_info",
+                     set_current)
     }
 
     setPlaylist() {
       /* Load and set the current playlist  */
-        console.log("Playlist: Fetching tracks");
         const set_state = (response) => {
-            console.log("Got playlist. track = " + this.state.track);
             this.setState({tracks: response})
         };
         queued_fetch(this.state.api_url + "zenplaylist/get_playlist", set_state)
@@ -45,7 +44,7 @@ export class Playlist extends Component {
           <div className="track-separator" />
           {/* Track listing */}
           { this.state.tracks.map((item, index) => (
-                <li className={ !item.text.includes(this.state.track) ? "active-track": "" } key={index} >{item.text}</li>
+                <li className={ item.text.includes(this.state.track) ? "active-track": "" } key={index} >{item.text}</li>
           ))}
         </div>
       );
