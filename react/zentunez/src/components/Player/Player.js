@@ -25,7 +25,6 @@ export class Player extends Component {
                     position: 0,
                     img_src: "",
                     api_url: state.api_url,
-                    auto_add: state.auto_add,
                     store: props.store
 
                   };
@@ -42,8 +41,7 @@ export class Player extends Component {
     storeChanged(store) {
       // React to changes in the shared stated
       var state = store.getState()
-      this.setState({ api_url: state.api_url,
-                      auto_add: state.auto_add });
+      this.setState({ api_url: state.api_url });
     }
 
     componentDidMount() {

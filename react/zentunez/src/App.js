@@ -17,8 +17,6 @@ import { HDivider } from "./components/Divider/Divider.js"
 
 var api_url = localStorage.getItem("api_url");
 if (!api_url) { api_url = "http://" + window.location.hostname  + ":" + window.location.port + "/"};
-var auto_add = localStorage.getItem("auto_add");
-if (auto_add === null) { auto_add = false} else { auto_add = (auto_add !== "false") };
 
 class App extends Component {
   /*
@@ -29,7 +27,6 @@ class App extends Component {
     this.popup = React.createRef();
     this.store = createStore(tunez_store,
                              { api_url: api_url,
-                               auto_add: auto_add,
                                popup: this.popup
                              })
 }
