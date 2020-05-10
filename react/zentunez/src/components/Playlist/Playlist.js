@@ -32,7 +32,7 @@ export class Playlist extends Component {
     setCurrent() {
       /* Load and set the currently activate track  */
         const set_current = (response) => {
-          if (this.state.track != response.track) {
+          if (this.state.track !== response.track) {
             this.setState({track: response.track});
             this.setPlaylist()
           }
