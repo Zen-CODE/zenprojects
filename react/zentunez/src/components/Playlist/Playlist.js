@@ -14,14 +14,28 @@ export class Playlist extends Component {
                     api_url: props.api_url,
                     tracks: [],
                     track: ""};
-        this.setCurrent();
-        this.setPlaylist();
+        this.timer = null;
+
     };
+
+    componentDidMount() {
+      this.timer = setInterval(() => this.setCurrent(), 1000);
+     }
+
+    componentWillUnmount() {
+      if (this.timer != null){
+        clearInterval(this.timer);
+       }
+     }
+
 
     setCurrent() {
       /* Load and set the currently activate track  */
         const set_current = (response) => {
-            this.setState({track: response.track})
+          if (this.state.track != response.track) {
+            this.setState({track: response.track});
+            this.setPlaylist()
+          }
         };
         queued_fetch(this.state.api_url + "zenplaylist/get_current_info",
                      set_current)
