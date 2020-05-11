@@ -29,21 +29,16 @@ export class Playlist extends Component {
        this.unsubscribe();
     }
 
-
     setCurrent() {
       /* Load and set the currently activate track  */
-      const set_current = (response) => {
-          this.setPlaylist()
-      };
+      const set_current = (response) => { this.setPlaylist() };
       queued_fetch(this.state.api_url + "zenplaylist/get_current_info",
                     set_current)
     }
 
     setPlaylist() {
       /* Load and set the current playlist  */
-        const set_state = (response) => {
-            this.setState({tracks: response})
-        };
+        const set_state = (response) => { this.setState({tracks: response}) };
         queued_fetch(this.state.api_url + "zenplaylist/get_playlist", set_state)
     }
 
