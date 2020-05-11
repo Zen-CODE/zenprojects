@@ -9,36 +9,43 @@ export class Playlist extends Component {
      */
     constructor(props) {
         super(props);
-
+        var state = props.store.getState();
         this.state = {
-                    api_url: props.api_url,
+                    api_url: state.api_url,
                     tracks: [],
                     track: ""};
         this.timer = null;
-
+        this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
     };
+
+    storeChanged(store) {
+      // React to changes in the shared stated
+      var state = store.getState();
+      this.setState({ api_url: state.api_url });
+    }
 
     componentDidMount() {
       this.timer = setInterval(() => this.setCurrent(), 1000);
      }
 
     componentWillUnmount() {
-      if (this.timer != null){
+      if (this.timer != null) {
         clearInterval(this.timer);
        }
-     }
+       this.unsubscribe();
+    }
 
 
     setCurrent() {
       /* Load and set the currently activate track  */
-        const set_current = (response) => {
-          if (this.state.track !== response.track) {
-            this.setState({track: response.track});
-            this.setPlaylist()
-          }
-        };
-        queued_fetch(this.state.api_url + "zenplaylist/get_current_info",
-                     set_current)
+      const set_current = (response) => {
+        if (this.state.track !== response.track) {
+          this.setState({track: response.track});
+          this.setPlaylist()
+        }
+      };
+      queued_fetch(this.state.api_url + "zenplaylist/get_current_info",
+                    set_current)
     }
 
     setPlaylist() {

@@ -54,6 +54,7 @@ export class Player extends Component {
       // When out component unloads, destory the times and remove the keyboard hoooks
       clearInterval(this.intervalID);
       this.keyHandler.unLoad()
+      this.unsubscribe()
     }
 
     /**

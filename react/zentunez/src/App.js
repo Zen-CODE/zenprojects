@@ -40,7 +40,7 @@ class App extends Component {
         <MDBRow>
           <MDBCol><Player store={ this.store } /></MDBCol>
           <HDivider />
-          <MDBCol><Playlist api_url={ api_url } /></MDBCol>
+          <MDBCol><Playlist store={ this.store } /></MDBCol>
           <HDivider />
           <MDBCol><Library store={ this.store } /></MDBCol>
         </MDBRow>
