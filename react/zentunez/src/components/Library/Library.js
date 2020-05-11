@@ -94,7 +94,9 @@ export class Library extends Component {
     enqueueAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-     send_message(this.state.store, "Queueing album...", "command");
+     send_message(this.state.store,
+                  `Queueing ${this.state.artist}: ${this.state.album}...`,
+                  "command");
      queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}`, null, true);
     }
 
