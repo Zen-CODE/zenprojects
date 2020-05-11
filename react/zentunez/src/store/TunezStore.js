@@ -15,6 +15,9 @@ function tunez_store(state = [], action){
         state["api_url"] = action.api_url;
         localStorage.setItem("api_url", action.api_url);
         return state
+      case "TRACK_CHANGED":
+        state["track"] = action.track;
+        return state
       case "SHOW_SYS_MSG":
         var date = new Date();
         state["msg"] = action.msg;

@@ -66,6 +66,10 @@ export class Player extends Component {
     Click = (api_call, force=false) => {
       // First we define a callback function to acceptg the JSON response
       const update_state = (response) => {
+        if (this.state.track !== response.track){
+          this.state.store.dispatch({ type: "TRACK_CHANGED",
+                                      track: response.track })
+        };
         this.setState({artist: response.artist,
                       album: response.album,
                       track: response.track,
