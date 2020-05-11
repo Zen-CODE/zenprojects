@@ -56,8 +56,13 @@ export class Player extends Component {
       this.keyHandler.unLoad()
     }
 
+    /**
+     * Handle the click on a Player media button. This access a *api_call*
+     * papameter which defines the action to be taken.
+     *
+     * @param {string} api_call - The path of the endpoint to call with arguments
+     */
     Click = (api_call, force=false) => {
-      /* Handle the click on a Player media button */
       // First we define a callback function to acceptg the JSON response
       const update_state = (response) => {
         this.setState({artist: response.artist,
