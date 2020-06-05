@@ -21,7 +21,7 @@ export class Library extends Component {
           search: "",
           api_url: props.store.getState().api_url,
           store: props.store,
-          mode: "Add",
+          mode: "add",
           timer: false
         }
         this.getRandomAlbum();
@@ -93,20 +93,11 @@ export class Library extends Component {
     }
 
 
-    enqueueAlbum() {
-      /* Add the current album to the queue in the currently playing audio player
-      */
-     send_message(this.state.store,
-                  `Queueing ${this.state.artist}: ${this.state.album}...`,
-                  "command");
-     queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}`, null, true);
-    }
-
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
       send_message(this.state.store, "Playing album...", "command");
-      queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=insert`, null, true);
+      queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=${this.state.mode}`, null, true);
     }
 
     searchChanged(event) {
@@ -162,7 +153,7 @@ export class Library extends Component {
         <select className="browser-default custom-select"
           onChange={(event) => this.setMode(event) }
         >
-          <option value="add">{ this.state.mode }</option>
+          <option value="add">Add</option>
           <option value="next">Next</option>
           <option value="insert">Insert</option>
           <option value="replace">Replace</option>
@@ -171,12 +162,8 @@ export class Library extends Component {
     };
 
     setMode(event) {
-      console.log("setMode changed to " + event.target.value)
-      //this.setState({ 'search': event.target.value })
+      this.setState({ 'mode': event.target.value })
     }
-
-    // <MDBCol>{ this.renderIcon("sign-in-alt", this.enqueueAlbum.bind(this)) }</MDBCol>
-    // <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
 
     render(){
 
