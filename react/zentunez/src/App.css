@@ -54,3 +54,8 @@ body {
   bottom:1%;
   left:1%;
 }
+
+.custom-select {
+  background-color: #111111;
+  color: #EEEEEE;
+}
