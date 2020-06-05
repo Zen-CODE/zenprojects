@@ -4,6 +4,7 @@ import { TrackList } from "../TrackList/TrackList.js"
 import { MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
 import { queued_fetch } from "../../functions/network.js"
 import { send_message } from "../SysMsg/SysMsg.js"
+// import { MDBSelect, MDBSelectInput, MDBSelectOptions, MDBSelectOption } from "mdbreact";
 
 export class Library extends Component {
     /**
@@ -20,6 +21,7 @@ export class Library extends Component {
           search: "",
           api_url: props.store.getState().api_url,
           store: props.store,
+          mode: "Add",
           timer: false
         }
         this.getRandomAlbum();
@@ -155,6 +157,20 @@ export class Library extends Component {
       }
     }
 
+    renderModeDropdown() {
+      return (<div>
+        <select className="browser-default custom-select">
+          <option>{ this.state.mode }</option>
+          <option value="next">Next</option>
+          <option value="insert">Insert</option>
+          <option value="replace">Replace</option>
+        </select>
+        </div>)
+    };
+
+    // <MDBCol>{ this.renderIcon("sign-in-alt", this.enqueueAlbum.bind(this)) }</MDBCol>
+    // <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
+
     render(){
 
         var back_style = {
@@ -174,8 +190,7 @@ export class Library extends Component {
                 onKeyDown={ this.onKeyDown }>
               </input>
               </MDBCol>
-              <MDBCol>{ this.renderIcon("sign-in-alt", this.enqueueAlbum.bind(this)) }</MDBCol>
-              <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
+              <MDBCol>{ this.renderModeDropdown() } </MDBCol>
               <MDBCol>{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , this.toggleTimer.bind(this)) }</MDBCol>
             </MDBRow>
           </MDBContainer>
