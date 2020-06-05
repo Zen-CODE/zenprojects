@@ -159,14 +159,21 @@ export class Library extends Component {
 
     renderModeDropdown() {
       return (<div>
-        <select className="browser-default custom-select">
-          <option>{ this.state.mode }</option>
+        <select className="browser-default custom-select"
+          onChange={(event) => this.setMode(event) }
+        >
+          <option value="add">{ this.state.mode }</option>
           <option value="next">Next</option>
           <option value="insert">Insert</option>
           <option value="replace">Replace</option>
         </select>
         </div>)
     };
+
+    setMode(event) {
+      console.log("setMode changed to " + event.target.value)
+      //this.setState({ 'search': event.target.value })
+    }
 
     // <MDBCol>{ this.renderIcon("sign-in-alt", this.enqueueAlbum.bind(this)) }</MDBCol>
     // <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
@@ -191,6 +198,7 @@ export class Library extends Component {
               </input>
               </MDBCol>
               <MDBCol>{ this.renderModeDropdown() } </MDBCol>
+              <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
               <MDBCol>{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , this.toggleTimer.bind(this)) }</MDBCol>
             </MDBRow>
           </MDBContainer>
