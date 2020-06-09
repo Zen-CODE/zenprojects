@@ -99,6 +99,7 @@ export class Player extends Component {
       const km = new KeyMap();
       return <MDBIcon
                 className="far"
+                size="0.1"
                 icon={ icon }
                 data-tip={ tooltip + " (" + km.getKey(api_call) + ")"}
                 onClick={ () => this.send_system_command(api_call, tooltip) }
