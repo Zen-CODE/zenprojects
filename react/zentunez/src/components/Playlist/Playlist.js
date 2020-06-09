@@ -15,6 +15,8 @@ export class Playlist extends Component {
                     tracks: [],
                     track: ""};
         this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
+        this.artist = "";
+        this.album = "";
     };
 
     storeChanged(store) {
@@ -39,8 +41,19 @@ export class Playlist extends Component {
     setPlaylist() {
       /* Load and set the current playlist  */
         const set_state = (response) => { this.setState({tracks: response}) };
-        queued_fetch(this.state.api_url + "zenplaylist/get_playlist", set_state)
+        queued_fetch(this.state.api_url + "zenplaylist/get_playlist_meta", set_state)
     }
+
+    getPlaylistItem(item, index) {
+      console.log("getPlaylistItem");
+      var text = item.track_number + " - " + item.track_name;
+      if (this.artist !== item.artist && this.album !== item.album){
+        this.artist = item.artist;
+        this.album = item.album;
+        return <li className={ item.active ? "active-track": "" } key={index} >{item.artist}: {item.album}<br />{text} </li>
+      } else
+      return <li className={ item.active ? "active-track": "" } key={index} >{text}</li>
+      }
 
 
     render(){
@@ -51,7 +64,7 @@ export class Playlist extends Component {
           <div className="track-separator" />
           {/* Track listing */}
           { this.state.tracks.map((item, index) => (
-                <li className={ item.text.includes(this.state.track) ? "active-track": "" } key={index} >{item.text}</li>
+                this.getPlaylistItem(item, index)
           ))}
         </div>
       );
