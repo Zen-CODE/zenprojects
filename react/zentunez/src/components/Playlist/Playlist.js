@@ -45,9 +45,8 @@ export class Playlist extends Component {
     }
 
     getPlaylistItem(item, index) {
-      console.log("getPlaylistItem");
       var text = item.track_number + " - " + item.track_name;
-      if (this.artist !== item.artist && this.album !== item.album){
+      if (index == 0 || this.artist !== item.artist && this.album !== item.album){
         this.artist = item.artist;
         this.album = item.album;
         return <li className={ item.active ? "active-track": "" } key={index} >{item.artist}: {item.album}<br />{text} </li>
