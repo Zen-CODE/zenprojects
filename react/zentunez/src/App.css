@@ -16,7 +16,7 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  min-width: 200px;
+  min-width: 250px;
 }
 
 /* Font size for the icons */
@@ -58,4 +58,8 @@ body {
 .custom-select {
   background-color: #111111;
   color: #EEEEEE;
+}
+
+.track-list {
+  min-width: 250px;
 }
