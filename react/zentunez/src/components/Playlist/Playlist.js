@@ -41,18 +41,22 @@ export class Playlist extends Component {
     setPlaylist() {
       /* Load and set the current playlist  */
         const set_state = (response) => { this.setState({tracks: response}) };
-        queued_fetch(this.state.api_url + "zenplaylist/get_playlist_meta", set_state)
+        queued_fetch(this.state.api_url + "zenplaylist/get_playlist_meta",
+                     set_state)
     }
 
     getPlaylistItem(item, index) {
       var text = item.track_number + " - " + item.track_name;
-      if (index == 0 || this.artist !== item.artist && this.album !== item.album){
+      var new_artist = (this.artist !== item.artist &&
+                        this.album !== item.album);
+
+      if (index === 0 || new_artist){
         this.artist = item.artist;
         this.album = item.album;
         return <li className={ item.active ? "active-track": "" } key={index} > == {item.artist}: {item.album} ==<br />{text}</li>
-      } else
+      };
       return <li className={ item.active ? "active-track": "" } key={index} >{text}</li>
-      }
+
 
 
     render(){
