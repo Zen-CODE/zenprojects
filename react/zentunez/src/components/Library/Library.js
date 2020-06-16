@@ -92,11 +92,19 @@ export class Library extends Component {
                           })
     }
 
+    /**
+    * Return a nicely worded description of the action taken
+    */
+    getDescription(action){
+      var dict = {"add": "Adding", "next": "Adding as next ",
+                  "insert": "Inserting", "replace": "Replacing"};
+      return dict[action]
+    }
 
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-     var action = this.state.mode.charAt(0).toUpperCase() + this.state.mode.slice(1);
+     var action = this.getDescription(state.mode);
       send_message(this.state.store, `${action}ing ${this.state.album}...`, "command");
       queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=${this.state.mode}`, null, true);
     }
