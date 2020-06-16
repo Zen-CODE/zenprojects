@@ -96,7 +96,8 @@ export class Library extends Component {
     playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-      send_message(this.state.store, "Playing album...", "command");
+     var action = this.state.mode.charAt(0).toUpperCase() + this.state.mode.slice(1);
+      send_message(this.state.store, `${action}ing ${this.state.album}...`, "command");
       queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=${this.state.mode}`, null, true);
     }
 
