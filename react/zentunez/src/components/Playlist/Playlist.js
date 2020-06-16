@@ -56,10 +56,11 @@ export class Playlist extends Component {
         return <li className={ item.active ? "active-track": "" } key={index} > == {item.artist}: {item.album} ==<br />{text}</li>
       };
       return <li className={ item.active ? "active-track": "" } key={index} >{text}</li>
+    };
 
 
 
-    render(){
+    render() {
       return (
         <div className="track-list no-bullet" >
           <div className="track-separator" />
