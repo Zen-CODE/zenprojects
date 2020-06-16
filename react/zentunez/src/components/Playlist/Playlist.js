@@ -59,7 +59,6 @@ export class Playlist extends Component {
     };
 
 
-
     render() {
       return (
         <div className="track-list no-bullet" >
