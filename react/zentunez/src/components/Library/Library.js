@@ -164,6 +164,7 @@ export class Library extends Component {
         >
           <option value="add">Add</option>
           <option value="next">Next</option>
+          <option value="next_album">Next album,</option>
           <option value="insert">Insert</option>
           <option value="replace">Replace</option>
         </select>
@@ -186,13 +187,13 @@ export class Library extends Component {
           <MDBContainer>
             <MDBRow>
               <MDBCol>{ this.renderIcon("search", this.getAlbum.bind(this))}</MDBCol>
-              <MDBCol size="4">
-              <input size="10"
+              <MDBCol md="4">
+              <input size="16"
                 onChange={(event) => this.searchChanged(event) }
                 onKeyDown={ this.onKeyDown }>
               </input>
               </MDBCol>
-              <MDBCol size="3">{ this.renderModeDropdown() } </MDBCol>
+              <MDBCol md="4">{ this.renderModeDropdown() } </MDBCol>
               <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
               <MDBCol>{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , this.toggleTimer.bind(this)) }</MDBCol>
             </MDBRow>
