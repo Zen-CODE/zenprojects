@@ -60,8 +60,8 @@ export class SysMsg extends Component {
   }
 
   timerEvent(event) {
-    // The timer event has been fired. If there are messages to display. show
-    // them, otherwise remove the notification display
+    // The timer event has been fired. If there are messages to display, show
+    // them, otherwise remove the notification display.
     if (this.reset) {
         this.reset = false
     } else {
@@ -83,7 +83,7 @@ export class SysMsg extends Component {
 
   componentDidMount() {
     // When our component loads, switch the timer on if the setting demands it
-    if (( this.intervalID === null) && (this.state.show_sys_info)) {
+    if ( this.intervalID === null) {
         this.setTimer(true);
     }
   }

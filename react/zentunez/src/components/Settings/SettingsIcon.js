@@ -10,8 +10,7 @@ class SettingsContent extends Component {
     super(props);
     var state = props.store.getState();
     this.state = { store: props.store,
-                   api_url: state.api_url,
-                   show_sys_info: false };
+                   api_url: state.api_url};
     this.unsubscribe = props.store.subscribe(() => this.storeChanged(props.store));
   }
 
