@@ -164,7 +164,7 @@ export class Library extends Component {
         >
           <option value="add">Add</option>
           <option value="next">Next</option>
-          <option value="next_album">Next album,</option>
+          <option value="next_album">Next album</option>
           <option value="insert">Insert</option>
           <option value="replace">Replace</option>
         </select>
