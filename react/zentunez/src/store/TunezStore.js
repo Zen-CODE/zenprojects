@@ -22,7 +22,7 @@ function tunez_store(state = [], action){
       case "TRACK_CHANGED":
         state["track"] = action.track;
         break;
-      default:  // case "SHOW_SYS_MSG":
+      default:
   }
   return state;
 }

@@ -48,7 +48,7 @@ export class Library extends Component {
 
     getRandomAlbum() {
       /* Handle the click to fetch a new random album */
-      send_message(this.state.store, "Getting random album...", "command");
+      send_message(this.state.store, "Getting random album...");
       const set_state = (response) => {
         this.setState({
           artist: response.artist,
@@ -64,7 +64,7 @@ export class Library extends Component {
 
     getSearchAlbum(term) {
       /* Handle the click to search for an album */
-      send_message(this.state.store, "Searching for album...", "command");
+      send_message(this.state.store, "Searching for album...");
       const set_state = (response) => {
         if ("artist" in response){
           this.setState({artist: response.artist,
@@ -105,7 +105,7 @@ export class Library extends Component {
       /* Add the current album to the queue in the currently playing audio player
       */
      var action = this.getDescription(this.state.mode);
-      send_message(this.state.store, `${action} ${this.state.album}...`, "command");
+      send_message(this.state.store, `${action} ${this.state.album}...`);
       queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=${this.state.mode}`, null, true);
     }
 

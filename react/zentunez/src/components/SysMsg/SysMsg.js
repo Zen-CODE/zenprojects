@@ -11,12 +11,11 @@ import React, { Component } from 'react';
  * @param {*} msg_type - the type if message to send. Currently supported types
  *                       are "event" and "command"
  */
-export function send_message(store, msg, msg_type ){
+export function send_message(store, msg){
   console.log("SysMsg. Dispatching...")
   store.dispatch({
     type: "SHOW_SYS_MSG",
     msg: msg,
-    msg_type: msg_type
   })
 }
 
@@ -47,11 +46,9 @@ export class SysMsg extends Component {
     // React to the sending of messages. Place them in the queue and activate the
     // timer.
     const state = store.getState();
-    const msg_type = state.msg_type;
     const msg = state.msg;
 
-    console.log("SysMsg.js: Got message " + msg + ", " + msg_type )
-    if ((msg_type === "event") || (msg_type === "command")) {
+    if (msg) {
       this.msg = msg;
       this.setState({ msg: msg });
       this.reset = true}

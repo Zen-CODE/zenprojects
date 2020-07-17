@@ -35,7 +35,7 @@ export class Player extends Component {
     send_system_command(command, msg) {
         // Send the *command* message to the plater and then display the *msg*
         this.Click(command, true);
-        send_message(this.state.store, msg, "command")
+        send_message(this.state.store, msg)
     }
 
     storeChanged(store) {
@@ -68,6 +68,7 @@ export class Player extends Component {
       const update_state = (response) => {
         if (this.state.track !== response.track){
           this.state.store.dispatch({ type: "TRACK_CHANGED",
+                                      msg: "Playing " + response.track,
                                       track: response.track })
         };
         this.setState({artist: response.artist,
