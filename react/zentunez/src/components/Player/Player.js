@@ -78,9 +78,6 @@ export class Player extends Component {
                       position: response.position,
                       img_src : this.state.api_url + `zenplayer/get_track_cover?cover=${encodeURIComponent(response.cover)}`
                       })
-        if ("message" in response) {
-          send_message(this.state.store, response.message.text, "event");
-        };
       }
 
       // Then we queue the request and supply the callback

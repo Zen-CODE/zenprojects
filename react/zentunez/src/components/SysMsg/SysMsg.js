@@ -50,12 +50,11 @@ export class SysMsg extends Component {
     const msg_type = state.msg_type;
     const msg = state.msg;
 
+    console.log("SysMsg.js: Got message " + msg + ", " + msg_type )
     if ((msg_type === "event") || (msg_type === "command")) {
       this.msg = msg;
       this.setState({ msg: msg });
-      this.reset = true;}
-    else {
-      console.log("Unrecognized msg_type: " + msg_type )}
+      this.reset = true}
     if (this.intervalID === null) { this.setTimer(true) };
   }
 
