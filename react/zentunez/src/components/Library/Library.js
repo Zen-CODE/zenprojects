@@ -187,13 +187,13 @@ export class Library extends Component {
           <MDBContainer>
             <MDBRow>
               <MDBCol md="icon">{ this.renderIcon("search", this.getAlbum.bind(this))}</MDBCol>
-              <MDBCol md="4">
+              <MDBCol >
               <input
                 onChange={(event) => this.searchChanged(event) }
                 onKeyDown={ this.onKeyDown }>
               </input>
               </MDBCol>
-              <MDBCol md="4">{ this.renderModeDropdown() } </MDBCol>
+              <MDBCol >{ this.renderModeDropdown() } </MDBCol>
               <MDBCol md="icon">{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
               <MDBCol md="icon">{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , this.toggleTimer.bind(this)) }</MDBCol>
             </MDBRow>
