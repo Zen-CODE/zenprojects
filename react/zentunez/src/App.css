@@ -64,7 +64,12 @@ body {
   min-width: 250px;
 }
 
-/* .col-md-4 {
-  padding-left: 4px;
-  padding-right: 4px;
-} */
+
+.col-md-icon {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+input {
+  width: 100%;
+}

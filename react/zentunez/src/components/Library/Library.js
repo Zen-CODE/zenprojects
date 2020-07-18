@@ -186,16 +186,16 @@ export class Library extends Component {
           <p><b>ZenTunez Library</b></p>
           <MDBContainer>
             <MDBRow>
-              <MDBCol>{ this.renderIcon("search", this.getAlbum.bind(this))}</MDBCol>
+              <MDBCol md="icon">{ this.renderIcon("search", this.getAlbum.bind(this))}</MDBCol>
               <MDBCol md="4">
-              <input size="16"
+              <input
                 onChange={(event) => this.searchChanged(event) }
                 onKeyDown={ this.onKeyDown }>
               </input>
               </MDBCol>
               <MDBCol md="4">{ this.renderModeDropdown() } </MDBCol>
-              <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
-              <MDBCol>{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , this.toggleTimer.bind(this)) }</MDBCol>
+              <MDBCol md="icon">{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
+              <MDBCol md="icon">{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , this.toggleTimer.bind(this)) }</MDBCol>
             </MDBRow>
           </MDBContainer>
           <VDivider />
