@@ -12,6 +12,8 @@ app = FastAPI(
     title="ZenCODE Media Server",
     description="An experimental FastAPI Mediaplayer API for ZenPlayer",
     openapi_tags=get_tags_metadata(),
+    docs_url="/swagger",
+    redoc_url=None,
     version="0.0.1")
 
 
