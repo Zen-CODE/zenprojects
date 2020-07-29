@@ -3,8 +3,6 @@ from routers import library
 
 
 app = FastAPI()
-
-
 app.include_router(library.router)
 
 
