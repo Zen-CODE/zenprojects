@@ -1,0 +1,10 @@
+[
+    {
+        "name": "Library",
+        "description": "Provides access to the Zen Music library based on the file structure.",
+        "externalDocs": {
+            "description": "Docs",
+            "url": "https://github.com/zen-code/zenplayer"
+        }
+    }
+]
