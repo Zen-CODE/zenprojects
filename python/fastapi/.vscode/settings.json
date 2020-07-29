@@ -5,7 +5,7 @@
     "editor.rulers": [80],
     "files.trimTrailingWhitespace": true,
     "python.linting.enabled": true,
-    "terminal.integrated.cwd": "${workspaceFolder}/src",
+    "terminal.integrated.cwd": "${workspaceFolder}/app",
     "workbench.editor.enablePreview": false,
     "files.watcherExclude": {
         "**/venv": true

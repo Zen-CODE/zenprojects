@@ -8,10 +8,9 @@
             "name": "Python: Run uvicorn",
             "type": "python",
             "request": "launch",
-            //"program": "${workspaceFolder}/local/app/main.py",
             "program": "${workspaceFolder}/venv/bin/uvicorn",
             "args": ["main:app", "--reload"],
-            "cwd": "${workspaceFolder}/src",
+            "cwd": "${workspaceFolder}/app",
             "console": "integratedTerminal"
         }
     ]
