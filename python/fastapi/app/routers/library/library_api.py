@@ -1,17 +1,8 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-from typing import List
+from routers.library.library_responses import ArtisListModel
 
 
 router = APIRouter()
-
-
-class ArtisListModel(BaseModel):
-    """
-    The return value listing for `get_artists`.
-    """
-    artists: List[str] = []
-
 
 @router.get("/library/get_artists",
             tags=["library"],
