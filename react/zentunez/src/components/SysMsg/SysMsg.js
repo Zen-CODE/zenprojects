@@ -11,12 +11,11 @@ import React, { Component } from 'react';
  * @param {*} msg_type - the type if message to send. Currently supported types
  *                       are "event" and "command"
  */
-export function send_message(store, msg, msg_type ){
+export function send_message(store, msg){
   console.log("SysMsg. Dispatching...")
   store.dispatch({
     type: "SHOW_SYS_MSG",
     msg: msg,
-    msg_type: msg_type
   })
 }
 
@@ -47,21 +46,18 @@ export class SysMsg extends Component {
     // React to the sending of messages. Place them in the queue and activate the
     // timer.
     const state = store.getState();
-    const msg_type = state.msg_type;
     const msg = state.msg;
 
-    if ((msg_type === "event") || (msg_type === "command")) {
+    if (msg) {
       this.msg = msg;
       this.setState({ msg: msg });
-      this.reset = true;}
-    else {
-      console.log("Unrecognized msg_type: " + msg_type )}
+      this.reset = true}
     if (this.intervalID === null) { this.setTimer(true) };
   }
 
   timerEvent(event) {
-    // The timer event has been fired. If there are messages to display. show
-    // them, otherwise remove the notification display
+    // The timer event has been fired. If there are messages to display, show
+    // them, otherwise remove the notification display.
     if (this.reset) {
         this.reset = false
     } else {
@@ -83,7 +79,7 @@ export class SysMsg extends Component {
 
   componentDidMount() {
     // When our component loads, switch the timer on if the setting demands it
-    if (( this.intervalID === null) && (this.state.show_sys_info)) {
+    if ( this.intervalID === null) {
         this.setTimer(true);
     }
   }

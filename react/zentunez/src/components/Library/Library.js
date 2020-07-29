@@ -48,7 +48,7 @@ export class Library extends Component {
 
     getRandomAlbum() {
       /* Handle the click to fetch a new random album */
-      send_message(this.state.store, "Getting random album...", "command");
+      send_message(this.state.store, "Getting random album...");
       const set_state = (response) => {
         this.setState({
           artist: response.artist,
@@ -64,7 +64,7 @@ export class Library extends Component {
 
     getSearchAlbum(term) {
       /* Handle the click to search for an album */
-      send_message(this.state.store, "Searching for album...", "command");
+      send_message(this.state.store, "Searching for album...");
       const set_state = (response) => {
         if ("artist" in response){
           this.setState({artist: response.artist,
@@ -105,7 +105,7 @@ export class Library extends Component {
       /* Add the current album to the queue in the currently playing audio player
       */
      var action = this.getDescription(this.state.mode);
-      send_message(this.state.store, `${action} ${this.state.album}...`, "command");
+      send_message(this.state.store, `${action} ${this.state.album}...`);
       queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=${this.state.mode}`, null, true);
     }
 
@@ -164,6 +164,7 @@ export class Library extends Component {
         >
           <option value="add">Add</option>
           <option value="next">Next</option>
+          <option value="next_album">Next album</option>
           <option value="insert">Insert</option>
           <option value="replace">Replace</option>
         </select>
@@ -185,16 +186,16 @@ export class Library extends Component {
           <p><b>ZenTunez Library</b></p>
           <MDBContainer>
             <MDBRow>
-              <MDBCol>{ this.renderIcon("search", this.getAlbum.bind(this))}</MDBCol>
-              <MDBCol size="4">
-              <input size="10"
+              <MDBCol md="icon">{ this.renderIcon("search", this.getAlbum.bind(this))}</MDBCol>
+              <MDBCol >
+              <input
                 onChange={(event) => this.searchChanged(event) }
                 onKeyDown={ this.onKeyDown }>
               </input>
               </MDBCol>
-              <MDBCol size="3">{ this.renderModeDropdown() } </MDBCol>
-              <MDBCol>{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
-              <MDBCol>{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , this.toggleTimer.bind(this)) }</MDBCol>
+              <MDBCol >{ this.renderModeDropdown() } </MDBCol>
+              <MDBCol md="icon">{ this.renderIcon("play", this.playAlbum.bind(this)) }</MDBCol>
+              <MDBCol md="icon">{ this.renderIcon( this.state.timer ? "calendar-times": "clock"  , this.toggleTimer.bind(this)) }</MDBCol>
             </MDBRow>
           </MDBContainer>
           <VDivider />

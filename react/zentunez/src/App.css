@@ -63,3 +63,13 @@ body {
 .track-list {
   min-width: 250px;
 }
+
+
+.col-md-icon {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+input {
+  width: 100px;
+}

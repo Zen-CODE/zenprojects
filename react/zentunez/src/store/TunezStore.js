@@ -9,24 +9,22 @@ function tunez_store(state = [], action){
       console.log(prop + " = " + state[prop])
     }
   */
+  var date = new Date();
+  state["msg"] = action.msg;
+  state["msg_type"] = action.msg_type;
+  state['timestamp'] = date.toISOString();
 
   switch (action.type) {
       case "API_URL_CHANGED":
         state["api_url"] = action.api_url;
         localStorage.setItem("api_url", action.api_url);
-        return state
+        break;
       case "TRACK_CHANGED":
         state["track"] = action.track;
-        return state
-      case "SHOW_SYS_MSG":
-        var date = new Date();
-        state["msg"] = action.msg;
-        state["msg_type"] = action.msg_type;
-        state['timestamp'] = date.toISOString();
-        return state
+        break;
       default:
-        return state
-    }
   }
+  return state;
+}
 
-  export default tunez_store
+export default tunez_store
