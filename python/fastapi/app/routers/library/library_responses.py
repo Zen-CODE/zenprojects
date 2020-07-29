@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import List
 
 
-class ArtisListModel(BaseModel):
+class ArtistListModel(BaseModel):
     """
     The return value listing for `get_artists`.
     """
