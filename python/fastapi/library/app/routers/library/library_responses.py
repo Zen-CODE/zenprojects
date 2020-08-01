@@ -11,24 +11,18 @@ class ArtistListModel(BaseModel):
 
 class AlbumListModel(BaseModel):
     """
-    The list of albums for a given artist
+    The list of albums for a given artist.
     """
     artist: str
     albums: List[str] = []
 
 
-class CoverModel(BaseModel):
+class AlbumModel(BaseModel):
     """
-    The full path to the cover art for the given artist and album.
+    The details of an album, inlcuding the full path to the cover art.
     """
     artist: str
     album: str
     cover: str
 
 
-class AlbumModel(BaseModel):
-    """
-    Return an album description.
-    """
-    artist: str
-    album: str

@@ -69,34 +69,11 @@ class Library:
         row = self.data_frame.sample()
         return row.Artist.values[0], row.Album.values[0]
 
-    # def get_random_albums(self, artist, number):
-    #     """ Return a random list of *number* albums by *artist*. """
-    #     albums = self.get_albums(artist)
-    #     if albums:
-    #         return sample(albums, number)
-    #     else:
-    #         raise (Exception("No albums found for {0}".format(artist)))
-
-
-    # def get_album_cover(self, artist, album):
-    #     """
-    #     Return the full path to the album cover for the specified album or the
-    #     default library image one does not exist.
-    #     """
-    #     path = join(self.path, artist, album)
-    #     pattern = "cover.*"
-    #     matches = glob(join(path, pattern))
-    #     return matches[0] if matches else join(self.path, "default.png")
 
     # def get_path(self, artist, album):
     #     """ Return the full path to the specified album. """
     #     return join(self.path, artist, album)
 
-    # def get_random_album(self):
-    #     """
-    #     Return the artist and album of a random album as an artist, album tuple
-    #     """
-    #     return choice(self._albums)
 
     # @staticmethod
     # def _get_any_matches(path, *exts):
