@@ -54,6 +54,17 @@ class Library:
         return list(self.data_frame[
             self.data_frame["Artist"] == artist].Album.unique())
 
+    def get_cover(self, artist, album):
+        """ Return the album cover art for the given artist and album. """
+        albums = self.data_frame[self.data_frame["Artist"] == artist]
+        listing = albums[albums["Album"] == album]
+        if len(listing.Cover.values) > 0:
+            file_name = str(listing.Cover.values[0])
+            return join(self.path, artist, album, file_name)
+        else:
+            return ""
+
+
     # def get_random_artists(self, number):
     #     """ Return a random list of *number* artists. """
     #     artists = self.get_artists()

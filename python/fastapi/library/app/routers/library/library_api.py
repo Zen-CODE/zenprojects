@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from routers.library.library_responses import ArtistListModel, AlbumListModel
+from routers.library.library_responses import (
+    ArtistListModel, AlbumListModel, CoverModel)
 from components.library import Library
 
 
@@ -36,3 +37,20 @@ async def get_albums(artist: str):
     return {
         "artist":  artist,
         "albums": albums}
+
+
+@router.get("/library/cover/{artist}/{album}",
+            tags=[tag],
+            responses={404: {"description": "Cover not found."}},
+            response_model=CoverModel)
+async def get_cover(artist: str, album: str):
+    """
+    Return a list of albums for the specified artist.
+    """
+    cover = library.get_cover(artist, album)
+    if not cover:
+        raise HTTPException(status_code=404, detail="Cover not found.")
+    return {
+        "artist":  artist,
+        "album": album,
+        "cover": cover}
