@@ -7,8 +7,6 @@ router = APIRouter()
 library = Library()
 tag = "Library"
 
-# TODO: Exceptions
-
 
 @router.get("/library/artists",
             tags=[tag],
@@ -18,9 +16,10 @@ async def get_artists():
     """
     Return a list of artists in the music library.
     """
-    if False:
+    artists = library.get_artists()
+    if not artists:
         raise HTTPException(status_code=404, detail="Library folder not found")
-    return {"artists": library.get_artists()}
+    return {"artists": artists}
 
 
 @router.get("/library/albums/{artist}",
@@ -29,10 +28,11 @@ async def get_artists():
             response_model=AlbumListModel)
 async def get_albums(artist: str):
     """
-    Return a list of albums for the specified artist..
+    Return a list of albums for the specified artist.
     """
-    if False:
-        raise HTTPException(status_code=404, detail="Library folder not found")
+    albums = library.get_albums(artist)
+    if not albums:
+        raise HTTPException(status_code=404, detail="Album folders not found.")
     return {
         "artist":  artist,
-        "albums": library.get_albums(artist)}
+        "albums": albums}
