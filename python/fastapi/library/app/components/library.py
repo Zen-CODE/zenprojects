@@ -54,7 +54,7 @@ class Library:
         return list(self.data_frame[
             self.data_frame["Artist"] == artist].Album.unique())
 
-    def get_cover(self, artist, album):
+    def get_cover_path(self, artist, album):
         """ Return the album cover art for the given artist and album. """
         albums = self.data_frame[self.data_frame["Artist"] == artist]
         listing = albums[albums["Album"] == album]
