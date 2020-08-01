@@ -48,6 +48,12 @@ class Library:
         """ Return a list of artists. """
         return list(self.data_frame.Artist.unique())
 
+    def get_albums(self, artist):
+        """ Return a list of albums for the *artist*. """
+
+        return list(self.data_frame[
+            self.data_frame["Artist"] == artist].Album.unique())
+
     # def get_random_artists(self, number):
     #     """ Return a random list of *number* artists. """
     #     artists = self.get_artists()
@@ -61,9 +67,6 @@ class Library:
     #     else:
     #         raise (Exception("No albums found for {0}".format(artist)))
 
-    # def get_albums(self, artist):
-    #     """ Return a list of albums for the *artist*. """
-    #     return sorted(self._artists.get(artist, []))
 
     # def get_album_cover(self, artist, album):
     #     """
