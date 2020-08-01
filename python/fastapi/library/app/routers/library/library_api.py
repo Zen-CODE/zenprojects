@@ -58,7 +58,8 @@ async def get_cover_path(artist: str, album: str):
 
 @router.get("/library/cover/{artist}/{album}",
             tags=[tag],
-            responses={404: {"description": "Cover not found."}})
+            responses={404: {"description": "Cover not found."},
+                       200: {"content": {"image/png": {}}}})
 async def get_cover(artist: str, album: str):
     """
     Return a list of albums for the specified artist.
