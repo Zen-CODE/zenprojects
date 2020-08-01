@@ -64,11 +64,10 @@ class Library:
         else:
             return ""
 
-
-    # def get_random_artists(self, number):
-    #     """ Return a random list of *number* artists. """
-    #     artists = self.get_artists()
-    #     return sample(artists, number)
+    def get_random_album(self):
+        """ Return a randomly selected artist and album. """
+        row = self.data_frame.sample()
+        return row.Artist.values[0], row.Album.values[0]
 
     # def get_random_albums(self, artist, number):
     #     """ Return a random list of *number* albums by *artist*. """

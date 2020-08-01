@@ -24,3 +24,11 @@ class CoverModel(BaseModel):
     artist: str
     album: str
     cover: str
+
+
+class AlbumModel(BaseModel):
+    """
+    Return an album description.
+    """
+    artist: str
+    album: str
