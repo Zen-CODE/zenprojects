@@ -31,3 +31,12 @@ class PathModel(BaseModel):
     The full file system path to the album.
     """
     path: str
+
+
+class TrackListModel(BaseModel):
+    """
+    The listing of all the tracks on the specified album.
+    """
+    artist: str
+    album: str
+    tracks: List[str] = []

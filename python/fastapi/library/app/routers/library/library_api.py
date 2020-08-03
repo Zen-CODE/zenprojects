@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from routers.library.library_responses import (
-    ArtistListModel, AlbumListModel, AlbumModel, PathModel)
+    ArtistListModel, AlbumListModel, AlbumModel, PathModel, TrackListModel)
 from components.library import Library
 from starlette.responses import FileResponse
 
@@ -40,23 +40,6 @@ async def get_albums(artist: str):
         "albums": albums}
 
 
-@router.get("/library/cover_path/{artist}/{album}",
-            tags=[tag],
-            responses={404: {"description": "Cover not found."}},
-            response_model=AlbumModel)
-async def get_cover_path(artist: str, album: str):
-    """
-    Return a list of albums for the specified artist.
-    """
-    cover = library.get_cover_path(artist, album)
-    if not cover:
-        raise HTTPException(status_code=404, detail="Cover not found.")
-    return {
-        "artist":  artist,
-        "album": album,
-        "cover": cover}
-
-
 @router.get("/library/cover/{artist}/{album}",
             tags=[tag],
             responses={404: {"description": "Cover not found."},
@@ -69,6 +52,23 @@ async def get_cover(artist: str, album: str):
     if not cover:
         raise HTTPException(status_code=404, detail="Cover not found.")
     return FileResponse(cover, media_type="image/png")
+
+
+@router.get("/library/tracks/{artist}/{album}",
+            tags=[tag],
+            responses={404: {"description": "Album not found."}},
+            response_model=TrackListModel)
+async def get_tracks(artist: str, album: str):
+    """
+    Return a list of tracks for the specified album.
+    """
+    tracks = library.get_tracks(artist, album)
+    if not tracks:
+        raise HTTPException(status_code=404, detail="Album not found.")
+    return {
+        "artist":  artist,
+        "album": album,
+        "tracks": tracks}
 
 
 @router.get("/library/random_album",
@@ -85,7 +85,8 @@ async def get_random_album():
         "album": album,
         "cover": cover}
 
-@router.get("/library/path/{artist}/{album}",
+
+@router.get("/library/path/album/{artist}/{album}",
             tags=[tag],
             responses={404: {"description": "Album not found."}},
             response_model=PathModel)
@@ -97,3 +98,20 @@ async def get_cover_path(artist: str, album: str):
     if not album_path:
         raise HTTPException(status_code=404, detail="Album not found.")
     return {"path":  album_path}
+
+
+@router.get("/library/path/cover/{artist}/{album}",
+            tags=[tag],
+            responses={404: {"description": "Cover not found."}},
+            response_model=AlbumModel)
+async def get_cover_path(artist: str, album: str):
+    """
+    Return a list of albums for the specified artist.
+    """
+    cover = library.get_cover_path(artist, album)
+    if not cover:
+        raise HTTPException(status_code=404, detail="Cover not found.")
+    return {
+        "artist":  artist,
+        "album": album,
+        "cover": cover}

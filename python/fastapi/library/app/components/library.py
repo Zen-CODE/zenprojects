@@ -71,22 +71,14 @@ class Library:
         path = join(self.path, artist, album)
         return path if exists(path) else ""
 
-    # def get_tracks(self, artist, album):
-    #     """
-    #     Return a list of the album tracks
-    #     """
+    def get_tracks(self, artist, album):
+        """
+        Return a list of the album tracks
+        """
+        albums = self.data_frame[self.data_frame["Artist"] == artist]
+        tracks = albums[albums["Album"] == album]
+        return list(tracks.Track)
 
-    #     def get_name(fname):
-    #         """"Return the nice, cleaned name of the track"""
-    #         return basename(fname)  # [:-4]
-
-    #     path = join(self.path, artist, album)
-    #     matches = self._get_any_matches(
-    #         path, "*.mp3", "*.ogg", "*.m4a", "*.wma")
-    #     if matches:
-    #         return sorted([get_name(f) for f in matches])
-    #     else:
-    #         return []
 
     # def search(self, term):
     #     """
