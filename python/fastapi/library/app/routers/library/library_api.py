@@ -90,7 +90,7 @@ async def get_random_album():
             tags=[tag],
             responses={404: {"description": "Album not found."}},
             response_model=PathModel)
-async def get_cover_path(artist: str, album: str):
+async def get_album_path(artist: str, album: str):
     """
     Return a path to the album specified.
     """
