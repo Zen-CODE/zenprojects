@@ -48,7 +48,7 @@ async def get_cover(artist: str, album: str):
     """
     Return a list of albums for the specified artist.
     """
-    cover = library.get_cover_path(artist, album)
+    cover = library.get_cover(artist, album)
     if not cover:
         raise HTTPException(status_code=404, detail="Cover not found.")
     return FileResponse(cover, media_type="image/png")
