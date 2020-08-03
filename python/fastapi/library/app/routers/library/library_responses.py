@@ -26,3 +26,8 @@ class AlbumModel(BaseModel):
     cover: str
 
 
+class PathModel(BaseModel):
+    """
+    The full file system path to the album.
+    """
+    path: str

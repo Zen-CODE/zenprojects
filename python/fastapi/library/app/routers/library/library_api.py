@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from routers.library.library_responses import (
-    ArtistListModel, AlbumListModel, AlbumModel)
+    ArtistListModel, AlbumListModel, AlbumModel, PathModel)
 from components.library import Library
 from starlette.responses import FileResponse
 
@@ -84,3 +84,16 @@ async def get_random_album():
         "artist":  artist,
         "album": album,
         "cover": cover}
+
+@router.get("/library/path/{artist}/{album}",
+            tags=[tag],
+            responses={404: {"description": "Album not found."}},
+            response_model=PathModel)
+async def get_cover_path(artist: str, album: str):
+    """
+    Return a path to the album specified.
+    """
+    album_path = library.get_path(artist, album)
+    if not album_path:
+        raise HTTPException(status_code=404, detail="Album not found.")
+    return {"path":  album_path}

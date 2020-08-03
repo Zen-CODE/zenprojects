@@ -1,10 +1,6 @@
-from os.path import join, isdir, basename, expanduser
-from random import sample
-from glob import glob
-from random import choice
-from .filesystemextractor import FileSystemExtractor as fse
+from os.path import join, expanduser, exists
+from components.filesystemextractor import FileSystemExtractor as fse
 import pandas as pd
-
 
 
 class Library:
@@ -23,7 +19,6 @@ class Library:
         self.data_frame = self._get_data_frame(path)
         """ A Pandas :class:`DataFrame` containing our library data as 'Artist',
         'Album', 'Track', and 'Cover' columns. """
-
 
     @staticmethod
     def _get_data_frame(path):
@@ -50,7 +45,6 @@ class Library:
 
     def get_albums(self, artist):
         """ Return a list of albums for the *artist*. """
-
         return list(self.data_frame[
             self.data_frame["Artist"] == artist].Album.unique())
 
@@ -69,21 +63,13 @@ class Library:
         row = self.data_frame.sample()
         return row.Artist.values[0], row.Album.values[0]
 
-
-    # def get_path(self, artist, album):
-    #     """ Return the full path to the specified album. """
-    #     return join(self.path, artist, album)
-
-
-    # @staticmethod
-    # def _get_any_matches(path, *exts):
-    #     """ Return the first valid files matching the extensions
-    #     in the path specified."""
-    #     for ext in exts:
-    #         matches = glob(join(path, ext))
-    #         if matches:
-    #             return matches
-    #     return None
+    def get_path(self, artist, album):
+        """
+        Return the full path to the specified album. If the album does not
+        exist, return an empty string.
+        """
+        path = join(self.path, artist, album)
+        return path if exists(path) else ""
 
     # def get_tracks(self, artist, album):
     #     """
