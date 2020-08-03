@@ -19,7 +19,7 @@ class AlbumListModel(BaseModel):
 
 class AlbumModel(BaseModel):
     """
-    The details of an album, inlcuding the full path to the cover art.
+    The details of an album, including the full path to the cover art.
     """
     artist: str
     album: str
@@ -40,3 +40,12 @@ class TrackListModel(BaseModel):
     artist: str
     album: str
     tracks: List[str] = []
+
+
+class SearchModel(BaseModel):
+    """
+    The results of an album search.
+    """
+    artist: str
+    album: str
+    path: str

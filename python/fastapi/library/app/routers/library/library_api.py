@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from routers.library.library_responses import (
-    ArtistListModel, AlbumListModel, AlbumModel, PathModel, TrackListModel)
+    ArtistListModel, AlbumListModel, AlbumModel, PathModel, TrackListModel,
+    SearchModel)
 from components.library import Library
 from starlette.responses import FileResponse
 
@@ -115,3 +116,18 @@ async def get_cover_path(artist: str, album: str):
         "artist":  artist,
         "album": album,
         "cover": cover}
+
+
+@router.get("/library/search/{term}",
+            tags=[tag],
+            responses={404: {"description": "Match not found."}},
+            response_model=SearchModel)
+async def search(term: str):
+    """
+    Return an album that contains the given term in the artist name or album
+    name (case insensitive).
+    """
+    match = library.search(term)
+    if not match:
+        raise HTTPException(status_code=404, detail="Match not found.")
+    return match

@@ -79,24 +79,27 @@ class Library:
         tracks = albums[albums["Album"] == album]
         return list(tracks.Track)
 
+    def search(self, term):
+        """
+        Search for all albums which match this term, either in the artist
+        name of the album name, then return one on them randomly.
 
-    # def search(self, term):
-    #     """
-    #     Search for all albums which match this term, either in the artist
-    #     name of the album name, then return one on them randomly.
+        Returns:
+             A dictionary with the keys "artist", "album" and "path" as keys
+             if found. Return an empty dictionary otherwise.
+        """
+        df = self.data_frame
+        term = term.lower()
+        results = df[[term in x.lower() for x in df['Artist']]]
+        if results.empty:
+            results = df[[term in x.lower() for x in df['Album']]]
 
-    #     Returns:
-    #          A dictionary with the keys "artist", "album" and "path" as keys
-    #          if found. Return an empty dictionary otherwise.
-    #     """
-    #     terms = term.lower().split(" ")
-    #     matches = []
-    #     for artist in self._artists.keys():
-    #         for album in self._artists[artist]:
-    #             if all([(artist + album).lower().find(t) > -1
-    #                     for t in terms]):
-    #                 matches.append(
-    #                     {"artist": artist,
-    #                      "album": album,
-    #                      "path": self.get_path(artist, album)})
-    #     return choice(matches) if matches else []
+        if results.empty:
+            return {}
+        else:
+            row = results.sample()
+            artist = row.Artist.values[0]
+            album = row.Album.values[0]
+            return {"artist": artist,
+                    "album": album,
+                    "path": self.get_path(artist, album)}
