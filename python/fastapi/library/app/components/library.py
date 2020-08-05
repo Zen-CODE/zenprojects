@@ -6,14 +6,19 @@ import pandas as pd
 class Library:
     """
     Class for fetching information about our music library. This information
-    is contained entirely in the folder names and structures.
+    is built from the folder structure and filenames and used to populate a
+    Pandas DataFrame for access and analysis.
 
     Args:
-        path (str): The path to the roo music library folder.
+        config (dict): A dictionary with config. The following keys are used:
+                       * `library_folder` - the path Music files.
+                       ( )
+                        `zenplayer.json` to store                        state between instan
     """
 
-    def __init__(self, path="~/Music"):
-        self.path = path = expanduser(path)
+    def __init__(self, config={}):
+        self.path = path = expanduser(
+            config.get("library_folder", "~/Zen/Music"))
         """ The fully expanded path to the music libary folder."""
 
         self.data_frame = self._get_data_frame(path)
@@ -90,9 +95,8 @@ class Library:
         """
         df = self.data_frame
         term = term.lower()
-        results = df[[term in x.lower() for x in df['Artist']]]
-        if results.empty:
-            results = df[[term in x.lower() for x in df['Album']]]
+        results = df[(df["Album"].str.lower().str.find(term) > -1) |
+                     (df["Artist"].str.lower().str.find(term) > -1)]
 
         if results.empty:
             return {}
