@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/venv/bin/uvicorn",
-            "args": ["main:app", "--reload"],
+            "args": ["main:app", "--reload", "--port", "8001"],
             "cwd": "${workspaceFolder}/app",
             "console": "integratedTerminal"
         }
