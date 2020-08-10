@@ -14,10 +14,14 @@ class Sound():
 
     '''
     _player = None
-    instance = None
+    _instance = None
 
-    volume = 100
+    # State variables
+    volume = 1
+    """ Volume  between 0 and 1.0 """
     length = 0
+    """ Length of the track in seconds """
+    position = 0
 
     @staticmethod
     def _track_finished(*args):
@@ -30,10 +34,10 @@ class Sound():
         Sound.unload()
 
         logger.info(f"Sound: Loading player for {filename}")
-        if Sound.instance is None:
-            Sound.instance = Instance()
+        if Sound._instance is None:
+            Sound._instance = Instance()
 
-        Sound._player = player = Sound.instance.media_player_new()
+        Sound._player = player = Sound._instance.media_player_new()
         media = player.set_mrl(filename)
         player.event_manager().event_attach(
             EventType.MediaPlayerEndReached, Sound._track_finished)
@@ -72,11 +76,19 @@ class Sound():
         if Sound._player and Sound._player.is_playing():
             Sound._player.pause()
 
-    # def seek(self, position):
-    #     """ Set the player to the given position in seconds """
-    #     if self._player:
-    #         value = position / self._length
-    #         self._player.set_position(value)
+    @staticmethod
+    def pause():
+        """ Play or pause the playing audio file """
+        if Sound._player:
+            Sound._player.pause()
+
+    @staticmethod
+    def set_position(value):
+        """ Set the player to the given position as a value between 0 and 1. """
+        if Sound._player:
+            # value = position / Sound.length
+            value = min(1.0, value) if value > 0 else 0
+            Sound._player.set_position(value)
 
     # def get_pos(self):
     #     """ Return the position in seconds the currently playing track """
@@ -84,21 +96,16 @@ class Sound():
     #         return self._player.get_position() * self._length
     #     return 0
 
-    # def on_volume(self, instance, volume):
-    #     """
-    #     Respond to the setting of the volume. This value is fraction between
-    #     0 and 1.
-    #      """
-    #     self._set_volume(volume)
-
-    # def _set_volume(self, value):
-    #     """
-    #     The volume of the currently playing sound, where the value is between
-    #     0 and 1.
-    #     """
-    #     if self._player:
-    #         vol = 100 if abs(value) >= 1.0 else 100 * abs(value)
-    #         self._player.audio_set_volume(int(vol))
+    @staticmethod
+    def set_volume(value):
+        """
+        The volume of the currently playing sound, where the value is between
+        0 and 1.
+        """
+        if Sound._player:
+            value = min(1.0, value) if value > 0 else 0
+            Sound._player.audio_set_volume(int(value * 100.0))
+            Sound.volume = value
 
     # def _get_length(self):
     #     """ Getter method to fetch the track length """
@@ -113,6 +120,9 @@ if __name__ == "__main__":
     # Use the `KIVY_AUDIO=vlcplayer` setting in environment variables to use
     # our provider
     Sound.play(file)
+    Sound.set_volume(0.5)
+    Sound.set_position(0.2)
+
     sleep(5)
     Sound.stop()
     sleep(5)
