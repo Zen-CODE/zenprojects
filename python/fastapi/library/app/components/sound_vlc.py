@@ -11,17 +11,16 @@ logger = getLogger(__name__)
 
 class Sound():
     '''
-
+    Singleton Sound instance for playing audio files via the VLC backend.
     '''
-    _player = None
-    _instance = None
-
-    # State variables
-    volume = 1
+    volume = 1.0
     """ Volume  between 0 and 1.0 """
-    length = 0
-    """ Length of the track in seconds """
-    position = 0
+
+    _player = None
+    """ Reference to the player instance. """
+
+    _instance = None
+    """ Reference to the VLC Instance. """
 
     @staticmethod
     def _track_finished(*args):
@@ -42,7 +41,7 @@ class Sound():
         player.event_manager().event_attach(
             EventType.MediaPlayerEndReached, Sound._track_finished)
         media.parse()  # Determine duration
-        Sound.length = media.get_duration() / 1000.0
+        Sound._length = media.get_duration() / 1000.0
         media.release()
 
     @staticmethod
@@ -63,18 +62,20 @@ class Sound():
         """ Play the audio file """
         if filename is None:
             if Sound._player:
-                Sound._player.pause()
+                Sound._player.play()
             else:
                 pass
         else:
             Sound._load_player(filename)
+            Sound.set_volume(Sound.volume)
             Sound._player.play()
 
     @staticmethod
     def stop(event=False):
         """ Stop any currently playing audio file """
-        if Sound._player and Sound._player.is_playing():
-            Sound._player.pause()
+        if not event:
+            if Sound._player and Sound._player.is_playing():
+                Sound._player.stop()
 
     @staticmethod
     def pause():
@@ -90,11 +91,23 @@ class Sound():
             value = min(1.0, value) if value > 0 else 0
             Sound._player.set_position(value)
 
-    # def get_pos(self):
-    #     """ Return the position in seconds the currently playing track """
-    #     if self._player is not None and self.state == "play":
-    #         return self._player.get_position() * self._length
-    #     return 0
+    @staticmethod
+    def get_state():
+        """
+        Return the state a dict with "state", "volume" and "position" keys.
+        State can be one of:
+            'NothingSpecial', 'Opening', 'Buffering', 'Playing', 'Paused',
+            'Stopped', 'Ended', 'Error'
+        """
+        if Sound._player:
+            player = Sound._player
+            state = str(Sound._player.get_state()).split(".")[1]
+            position = player.get_position()
+        else:
+            state, position = "Stopped", 0
+        return {"state": state,
+                "volume": Sound.volume,
+                "position": position}
 
     @staticmethod
     def set_volume(value):
@@ -107,22 +120,19 @@ class Sound():
             Sound._player.audio_set_volume(int(value * 100.0))
             Sound.volume = value
 
-    # def _get_length(self):
-    #     """ Getter method to fetch the track length """
-    #     return self._length
-
 
 if __name__ == "__main__":
     from time import sleep
 
-    file = "/home/fruitbat/Music/Various/Music With Attitude/04 - " \
-           "dEUS - Everybody's Weird.mp3"
-    # Use the `KIVY_AUDIO=vlcplayer` setting in environment variables to use
-    # our provider
+    file = "/home/fruitbat/Music/Avenged Sevenfold/Hail To The King/"\
+        "01 - Shepherd Of Fire.mp3"
     Sound.play(file)
-    Sound.set_volume(0.5)
+    # Sound.set_volume(0.5)
     Sound.set_position(0.2)
-
-    sleep(5)
-    Sound.stop()
-    sleep(5)
+    # for i in range(12):
+    #     print(f"State={Sound.get_state()}")
+    #     sleep(1)
+    #     if i % 3:
+    #         Sound.pause()
+    #     elif i == 9:
+    #         Sound.stop()
