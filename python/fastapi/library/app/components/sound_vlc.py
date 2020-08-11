@@ -2,7 +2,7 @@
 This module houses a VLC audio component that supports the Kivy `Sound`
 interface.
 """
-from vlc import EventType, Instance, MediaPlayer
+from vlc import EventType, Instance
 from logging import getLogger
 
 
@@ -104,7 +104,7 @@ class Sound():
             state = str(Sound._player.get_state()).split(".")[1]
             position = player.get_position()
         else:
-            state, position = "Stopped", 0
+            state, position = "Stopped", 0.0
         return {"state": state,
                 "volume": Sound.volume,
                 "position": position}
