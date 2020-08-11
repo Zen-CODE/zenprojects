@@ -1,12 +1,7 @@
 from fastapi import APIRouter, HTTPException
-# from routers.library.library_responses import (
-#     ArtistListModel, AlbumListModel, AlbumModel, PathModel, TrackListModel,
-#     SearchModel)
-# from components.library import Library
-from starlette.responses import FileResponse
 from components.sound_vlc import Sound
 from os.path import exists
-from routers.sound.sound_responses import StateModel
+from routers.sound.sound_responses import SoundStateModel
 
 
 router = APIRouter()
@@ -17,7 +12,7 @@ tag = "Sound"
 @router.post("/sound/play",
              tags=[tag],
              responses={404: {"description": "Audio file not found."}},
-             response_model=StateModel)
+             response_model=SoundStateModel)
 async def play(filename: str):
     """ Play the specified audio file. """
 
@@ -25,21 +20,21 @@ async def play(filename: str):
         raise HTTPException(status_code=404, detail="Audio not found")
 
     Sound.play(filename)
-    return Sound.get_state()
+    return {"state": Sound.get_state()}
 
 
 @router.post("/sound/stop",
              tags=[tag],
-             response_model=StateModel)
+             response_model=SoundStateModel)
 async def stop():
     """ Stop any playing audio. """
     Sound.stop()
-    return Sound.get_state()
+    return {"state": Sound.get_state()}
 
 
 @router.post("/sound/pause",
              tags=[tag],
-             response_model=StateModel)
+             response_model=SoundStateModel)
 async def pause():
     """ Stop any playing audio. """
     Sound.pause()
@@ -48,7 +43,7 @@ async def pause():
 
 @router.post("/sound/volume",
              tags=[tag],
-             response_model=StateModel)
+             response_model=SoundStateModel)
 async def set_volume(volume: float):
     """ Set the volume to between 0 (silent) and 1.0 (maximum). """
     Sound.set_volume(volume)
@@ -57,7 +52,7 @@ async def set_volume(volume: float):
 
 @router.post("/sound/position",
              tags=[tag],
-             response_model=StateModel)
+             response_model=SoundStateModel)
 async def set_position(position: float):
     """ Set the positon to between 0 (start) and 1.0 (end). """
     Sound.set_position(position)
@@ -66,7 +61,7 @@ async def set_position(position: float):
 
 @router.get("/sound/state",
             tags=[tag],
-            response_model=StateModel)
+            response_model=SoundStateModel)
 async def get_state():
     """ Get the player state. """
     return Sound.get_state()

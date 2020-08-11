@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class StateModel(BaseModel):
+class SoundStateModel(BaseModel):
     """
     Represents the state of the currently playing audio track.
     """
