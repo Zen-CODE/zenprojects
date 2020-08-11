@@ -40,3 +40,19 @@ async def pause():
     """ Stop any playing audio. """
     Sound.pause()
     return {"message": "success"}
+
+
+@router.get("/sound/volume",
+            tags=[tag])
+async def set_volume(volume: float):
+    """ Set the volume to between 0 (silent) and 1.0 (maximum). """
+    Sound.set_volume(volume)
+    return {"message": "success"}
+
+
+@router.get("/sound/position",
+            tags=[tag])
+async def set_position(position: float):
+    """ Set the positon to between 0 (start) and 1.0 (end). """
+    Sound.set_position(position)
+    return {"message": "success"}
