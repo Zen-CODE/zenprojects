@@ -24,3 +24,19 @@ async def play(filename: str):
 
     Sound.play(filename)
     return {"message": "success"}
+
+
+@router.get("/sound/stop",
+            tags=[tag])
+async def stop():
+    """ Stop any playing audio. """
+    Sound.stop()
+    return {"message": "success"}
+
+
+@router.get("/sound/pause",
+            tags=[tag])
+async def pause():
+    """ Stop any playing audio. """
+    Sound.pause()
+    return {"message": "success"}
