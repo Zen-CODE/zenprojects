@@ -115,10 +115,10 @@ class Sound():
         The volume of the currently playing sound, where the value is between
         0 and 1.
         """
+        value = min(1.0, value) if value > 0 else 0
+        Sound.volume = value
         if Sound._player:
-            value = min(1.0, value) if value > 0 else 0
             Sound._player.audio_set_volume(int(value * 100.0))
-            Sound.volume = value
 
 
 if __name__ == "__main__":

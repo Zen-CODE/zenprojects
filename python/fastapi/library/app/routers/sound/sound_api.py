@@ -56,3 +56,10 @@ async def set_position(position: float):
     """ Set the positon to between 0 (start) and 1.0 (end). """
     Sound.set_position(position)
     return {"message": "success"}
+
+
+@router.get("/sound/state",
+            tags=[tag])
+async def get_state():
+    """ Get the player state. """
+    return {"state": Sound.get_state()}
