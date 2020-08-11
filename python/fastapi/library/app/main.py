@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from routers.library.library_api import router as library_router
+from routers.sound.sound_api import router as sound_router
 from json import load
 
 
@@ -18,6 +19,8 @@ app = FastAPI(
 
 
 app.include_router(library_router)
+app.include_router(sound_router)
+
 
 @app.get("/")
 async def zen_fast_api():

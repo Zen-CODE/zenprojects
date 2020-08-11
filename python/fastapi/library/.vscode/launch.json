@@ -12,6 +12,15 @@
             "args": ["main:app", "--reload", "--port", "8000"],
             "cwd": "${workspaceFolder}/app",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: Play Sound",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/app/components/sound_vlc.py",
+            "cwd": "${workspaceFolder}/app",
+            "console": "integratedTerminal"
         }
+
     ]
 }

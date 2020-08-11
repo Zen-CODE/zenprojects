@@ -64,7 +64,7 @@ class Sound():
             if Sound._player:
                 Sound._player.play()
             else:
-                pass
+                return False
         else:
             Sound._load_player(filename)
             Sound.set_volume(Sound.volume)
