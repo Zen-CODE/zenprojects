@@ -13,9 +13,9 @@ sound = Sound()
 tag = "Sound"
 
 
-@router.get("/sound/play",
-            tags=[tag],
-            responses={404: {"description": "Audio file not found."}})
+@router.post("/sound/play",
+             tags=[tag],
+             responses={404: {"description": "Audio file not found."}})
 async def play(filename: str):
     """ Play the specified audio file. """
 
@@ -26,32 +26,32 @@ async def play(filename: str):
     return {"message": "success"}
 
 
-@router.get("/sound/stop",
-            tags=[tag])
+@router.post("/sound/stop",
+             tags=[tag])
 async def stop():
     """ Stop any playing audio. """
     Sound.stop()
     return {"message": "success"}
 
 
-@router.get("/sound/pause",
-            tags=[tag])
+@router.post("/sound/pause",
+             tags=[tag])
 async def pause():
     """ Stop any playing audio. """
     Sound.pause()
     return {"message": "success"}
 
 
-@router.get("/sound/volume",
-            tags=[tag])
+@router.post("/sound/volume",
+             tags=[tag])
 async def set_volume(volume: float):
     """ Set the volume to between 0 (silent) and 1.0 (maximum). """
     Sound.set_volume(volume)
     return {"message": "success"}
 
 
-@router.get("/sound/position",
-            tags=[tag])
+@router.post("/sound/position",
+             tags=[tag])
 async def set_position(position: float):
     """ Set the positon to between 0 (start) and 1.0 (end). """
     Sound.set_position(position)
