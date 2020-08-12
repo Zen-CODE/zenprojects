@@ -110,7 +110,7 @@ class Sound():
             position = player.get_position()
         else:
             state, position = "Stopped", 0.0
-        return {"state": state,
+        return {"state": state.lower(),
                 "volume": Sound.volume,
                 "position": position,
                 "filename": Sound.filename}
