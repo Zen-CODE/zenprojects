@@ -19,6 +19,15 @@ class Sound():
     filename = ""
     """ The full path to the currently playing track (if applicable). """
 
+    state = "stopped"
+    """
+    The state of the currently playing track. Is one of:
+        ["state", "volume", "position", "filename"]
+
+    Note: We track this manually rather that the sounds `get_state` value as
+         the returned value does not immediately reflect changes.
+    """
+
     _player = None
     """ Reference to the player instance. """
 
@@ -28,6 +37,7 @@ class Sound():
     @staticmethod
     def _track_finished(*args):
         """ Event fired when the track is finished. """
+        logger.info("sound_vlc.py: _track_finished called.")
         Sound.stop(event=True)
 
     @staticmethod
@@ -60,7 +70,7 @@ class Sound():
                 player.stop()
             player.release()
             Sound._player = None
-            Sound.filename = ""
+            Sound.filename, Sound.state = "", "stopped"
 
     @staticmethod
     def play(filename=None):
@@ -69,28 +79,34 @@ class Sound():
             if Sound._player:
                 Sound._player.play()
             else:
-                return False
+                return
         else:
             Sound._load_player(filename)
             Sound.set_volume(Sound.volume)
             Sound._player.play()
+        Sound.state = "playing"
 
     @staticmethod
     def stop(event=False):
         """ Stop any currently playing audio file """
-        if not event:
-            if Sound._player and Sound._player.is_playing():
-                Sound._player.stop()
+        if not event and Sound._player:
+            Sound._player.stop()
+        Sound.state = "stopped"
 
     @staticmethod
     def pause():
         """ Play or pause the playing audio file """
         if Sound._player:
-            Sound._player.pause()
+            if Sound.state == "playing":
+                Sound._player.pause()
+                Sound.state = "paused"
+            else:
+                Sound._player.play()
+                Sound.state = "playing"
 
     @staticmethod
     def set_position(value):
-        """ Set the player to the given position as a value between 0 and 1. """
+        """ Set the player to the given position between 0 and 1. """
         if Sound._player:
             # value = position / Sound.length
             value = min(1.0, value) if value > 0 else 0
@@ -99,18 +115,18 @@ class Sound():
     @staticmethod
     def get_state():
         """
-        Return the state a dict with "state", "volume" and "position" keys.
-        State can be one of:
-            'NothingSpecial', 'Opening', 'Buffering', 'Playing', 'Paused',
-            'Stopped', 'Ended', 'Error'
+        Return the state a dict with the following keys:
+        * state, volume, position, filename
         """
+        # state = Sound._player.get_state()).split(".")[1]
+        # State can be one of:
+        #     'NothingSpecial', 'Opening', 'Buffering', 'Playing', 'Paused',
+        #     'Stopped', 'Ended', 'Error'
         if Sound._player:
-            player = Sound._player
-            state = str(Sound._player.get_state()).split(".")[1]
-            position = player.get_position()
+            position = max(Sound._player.get_position(), 0)
         else:
-            state, position = "Stopped", 0.0
-        return {"state": state.lower(),
+            position = 0.0
+        return {"state": Sound.state,
                 "volume": Sound.volume,
                 "position": position,
                 "filename": Sound.filename}
