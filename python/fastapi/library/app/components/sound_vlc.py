@@ -16,6 +16,9 @@ class Sound():
     volume = 1.0
     """ Volume  between 0 and 1.0 """
 
+    filename = ""
+    """ The full path to the currently playing track (if applicable). """
+
     _player = None
     """ Reference to the player instance. """
 
@@ -43,6 +46,7 @@ class Sound():
         media.parse()  # Determine duration
         Sound._length = media.get_duration() / 1000.0
         media.release()
+        Sound.filename = filename
 
     @staticmethod
     def unload():
@@ -56,6 +60,7 @@ class Sound():
                 player.stop()
             player.release()
             Sound._player = None
+            Sound.filename = ""
 
     @staticmethod
     def play(filename=None):
@@ -107,7 +112,8 @@ class Sound():
             state, position = "Stopped", 0.0
         return {"state": state,
                 "volume": Sound.volume,
-                "position": position}
+                "position": position,
+                "filename": Sound.filename}
 
     @staticmethod
     def set_volume(value):
@@ -121,14 +127,14 @@ class Sound():
             Sound._player.audio_set_volume(int(value * 100.0))
 
 
-if __name__ == "__main__":
-    from time import sleep
+# if __name__ == "__main__":
+    # from time import sleep
 
-    file = "/home/fruitbat/Music/Avenged Sevenfold/Hail To The King/"\
-        "01 - Shepherd Of Fire.mp3"
-    Sound.play(file)
+    # file = "/home/fruitbat/Music/Avenged Sevenfold/Hail To The King/"\
+    #     "01 - Shepherd Of Fire.mp3"
+    # Sound.play(file)
     # Sound.set_volume(0.5)
-    Sound.set_position(0.2)
+    # Sound.set_position(0.2)
     # for i in range(12):
     #     print(f"State={Sound.get_state()}")
     #     sleep(1)

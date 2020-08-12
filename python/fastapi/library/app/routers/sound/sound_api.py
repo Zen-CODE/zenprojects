@@ -20,7 +20,7 @@ async def play(filename: str):
         raise HTTPException(status_code=404, detail="Audio not found")
 
     Sound.play(filename)
-    return {"state": Sound.get_state()}
+    return Sound.get_state()
 
 
 @router.post("/sound/stop",
@@ -29,7 +29,7 @@ async def play(filename: str):
 async def stop():
     """ Stop any playing audio. """
     Sound.stop()
-    return {"state": Sound.get_state()}
+    return Sound.get_state()
 
 
 @router.post("/sound/pause",
