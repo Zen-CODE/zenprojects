@@ -30,13 +30,26 @@ class LibraryTests(TestCase):
         assert response.status_code == 404
 
     def test_get_cover_with_valid_album(self):
-        """Test get_cover returns a en a invalid artist."""
+        """Test get_cover returns cover data for a valid artist."""
         response = client.get("/library/cover/BT/Escm")
         assert response.status_code == 200
         assert response.headers['content-type'] == "image/png"
         assert response.headers['content-length'] == "31610"
 
     def test_get_cover_with_invalid_album(self):
-        """Test get_cover returns a en a invalid artist."""
+        """Test get_cover returns a 404 error for an invalid artist."""
         response = client.get("/library/cover/xxx/xxx")
         assert response.status_code == 404
+
+    def test_get_tracks(self):
+        """ Test that tracks return a valid track listing."""
+        response = client.get("/library/tracks/Depeche Mode/Violator")
+        assert response.status_code == 200
+        assert "03 - Personal Jesus.mp3" in response.json()["tracks"]
+
+    def test_random_album(self):
+        """ Test that we can get a random album."""
+        response = client.get("/library/random_album")
+        assert response.status_code == 200
+        data = response.json()
+        assert all([item in data for item in ["artist", "album", "cover"]])
