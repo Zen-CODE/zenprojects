@@ -20,6 +20,15 @@
             "program": "${workspaceFolder}/app/components/sound_vlc.py",
             "cwd": "${workspaceFolder}/app",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: Run tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/venv/bin/pytest",
+            "args": ["tests"],
+            "cwd": "${workspaceFolder}/app",
+            "console": "integratedTerminal"
         }
 
     ]
