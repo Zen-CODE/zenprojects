@@ -47,7 +47,8 @@ async def get_albums(artist: str):
                        200: {"content": {"image/png": {}}}})
 async def get_cover(artist: str, album: str):
     """
-    Return a list of albums for the specified artist.
+    Returns image data given a valid artist and album, otherwise
+    returns a 404.
     """
     cover = library.get_cover_path(artist, album)
     if not cover:

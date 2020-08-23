@@ -26,7 +26,7 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/venv/bin/pytest",
-            "args": ["tests"],
+            "args": ["tests", "-v"],
             "cwd": "${workspaceFolder}/app",
             "console": "integratedTerminal"
         }
