@@ -1,5 +1,6 @@
 from os.path import join, expanduser, exists
-from components.filesystemextractor import FileSystemExtractor as fse
+from app.components.filesystemextractor import FileSystemExtractor \
+    as fse
 import pandas as pd
 
 

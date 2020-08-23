@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
-from routers.library.library_responses import (
+from app.routers.library.library_responses import (
     ArtistListModel, AlbumListModel, AlbumModel, PathModel, TrackListModel,
     SearchModel)
-from components.library import Library
+from app.components.library import Library
 from starlette.responses import FileResponse
 
 

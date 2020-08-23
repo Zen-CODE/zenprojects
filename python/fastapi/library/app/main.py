@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from routers.library.library_api import router as library_router
-from routers.sound.sound_api import router as sound_router
+from app.routers.library.library_api import router as library_router
+from app.routers.sound.sound_api import router as sound_router
 from json import load
 
 
