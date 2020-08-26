@@ -53,3 +53,10 @@ class LibraryTests(TestCase):
         assert response.status_code == 200
         data = response.json()
         assert all([item in data for item in ["artist", "album", "cover"]])
+
+    def test_get_album_pathy(self):
+        """ Test that we can retrieve the full album path."""
+        response = client.get("/library/path/album/BT/Escm")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["path"] == "/home/fruitbat/Zen/Music/BT/Escm"
