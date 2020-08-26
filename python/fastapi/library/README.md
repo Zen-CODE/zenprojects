@@ -2,6 +2,14 @@
 
 This project explores the FastAPI library.
 
+## Tests
+
+To run tests:
+
+    cd app/
+    coverage run -m pytest tests
+    coverage report -m
+
 ## Tips
 
 To open the Swagger docs: http://127.0.0.1:8000/swagger
