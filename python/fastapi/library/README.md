@@ -7,7 +7,7 @@ This project explores the FastAPI library.
 To run tests:
 
     cd app/
-    coverage run -m pytest tests
+    coverage run --source=. -m pytest tests
     coverage report -m
 
 ## Tips
