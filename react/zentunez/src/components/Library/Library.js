@@ -86,10 +86,7 @@ export class Library extends Component {
        * Show a modal popup with the specified title and body.
        */
       const node = this.state.store.getState().popup.current;
-      node.setState({ title: title,
-                            body: body,
-                            modal: true,
-                          })
+      node.setState({ title: title, body: body, modal: true })
     }
 
     /**
@@ -101,12 +98,22 @@ export class Library extends Component {
       return dict[action]
     }
 
-    playAlbum() {
       /* Add the current album to the queue in the currently playing audio player
       */
-     var action = this.getDescription(this.state.mode);
-      send_message(this.state.store, `${action} ${this.state.album}...`);
-      queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=${this.state.mode}`, null, true);
+      playAlbum() {
+        /* Define a function to tell the playlist to update. */
+        const update_state = (response) => {
+          console.log("library.js: Playlist added to. Trigger playlist udpate.")
+          this.state.store.dispatch({ type: "TRACK_CHANGED",
+                                      msg: "Playing " + response.track,
+                                      track: response.track })
+        };
+
+        var action = this.getDescription(this.state.mode);
+        send_message(this.state.store, `${action} ${this.state.album}...`);
+        queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=${this.state.mode}`,
+                    update_state, true);
+
     }
 
     searchChanged(event) {
