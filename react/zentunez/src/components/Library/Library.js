@@ -98,22 +98,30 @@ export class Library extends Component {
       return dict[action]
     }
 
-      /* Add the current album to the queue in the currently playing audio player
-      */
-      playAlbum() {
-        /* Define a function to tell the playlist to update. */
-        const update_state = (response) => {
-          console.log("library.js: Playlist added to. Trigger playlist udpate.")
-          this.state.store.dispatch({ type: "TRACK_CHANGED",
-                                      msg: "Playing " + response.track,
-                                      track: response.track })
-        };
+    /* Update the shared state to trigger the playlist to indicate the latest
+       additions.
+    */
+    update_state = (response) => {
+      // Callback function to receive the `get_current_info`..
+      const send_new_state = (response) => {
+        console.log("library.js: Sending playlist update.")
+        this.state.store.dispatch({ type: "TRACK_CHANGED",
+                                    msg: "Playing " + response.track,
+                                    track: response.track })
+      };
+      // Delay the callback to allow all the added tracks to show
+      setTimeout(() => {
+        queued_fetch(this.state.api_url + "zenplaylist/get_current_info",
+                     send_new_state);},
+        200);
+    };
 
-        var action = this.getDescription(this.state.mode);
-        send_message(this.state.store, `${action} ${this.state.album}...`);
-        queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=${this.state.mode}`,
-                    update_state, true);
-
+    /* Add the current album to the queue in the currently playing audio player
+    */
+    playAlbum() {
+      /* Define a function to tell the playlist to update. */
+      queued_fetch(this.state.api_url + `zenplaylist/add_files?folder=${encodeURIComponent(this.state.path)}&mode=${this.state.mode}`,
+                   this.update_state, true);
     }
 
     searchChanged(event) {
