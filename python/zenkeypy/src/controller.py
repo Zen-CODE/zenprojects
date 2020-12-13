@@ -5,9 +5,9 @@ from requests import get
 class Controller:
     """This class serves as the main delegator for Hotkey actions."""
 
-    def __init__(self: 'Controller') -> None:
+    def __init__(self: 'Controller', zenplayer_url: str) -> None:
         """Contruct the Controller object."""
-        self.zen_player_url = "http://9.0.0.1:9001"
+        self.zen_player_url = zenplayer_url
 
     def zenplayer(self: 'Controller', func: str) -> None:
         """Call the specified ZenPlayer function."""
