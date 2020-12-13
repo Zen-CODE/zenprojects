@@ -1,6 +1,6 @@
 """This module adds global hotkey support from ZenPlayer."""
-from typing import Dict
 from functools import partial
+from typing import Dict
 
 from controller import Controller
 
@@ -16,8 +16,7 @@ class HotKeyHandler:
 
     @staticmethod
     def create_bindings(mapping: Dict, ctrl: Controller) -> GlobalHotKeys:
-        """
-        Create hotkey bindings from the mapping to the controller actions.
+        """Create hotkey bindings from the mapping to the controller actions.
 
         Args:
             mapping a dictionary with the key as the hotkey combination and the
