@@ -1,9 +1,9 @@
 """This module adds global hotkey support from ZenPlayer."""
-from json import load
 from typing import Dict
 from functools import partial
 
 from controller import Controller
+from config import Config
 
 from pynput.keyboard import GlobalHotKeys
 
@@ -17,15 +17,8 @@ class HotKeyHandler:
     @staticmethod
     def add_bindings(ctrl: Controller) -> None:
         """Add the specified keybinding to action on the given controller."""
-        mapping = HotKeyHandler._load_hotkeymap()
+        mapping = Config.get_config()["hotkeymap"]
         return HotKeyHandler._create_bindings(mapping, ctrl)
-
-    @staticmethod
-    def _load_hotkeymap() -> Dict:
-        """Return the specified hotkey mappingsloaded from the json file."""
-        with open("src/hotkeys.json") as f:
-            mappings = load(f)
-        return mappings["hotkeymap"]
 
     @staticmethod
     def _create_bindings(mapping: Dict, ctrl: Controller) -> GlobalHotKeys:
