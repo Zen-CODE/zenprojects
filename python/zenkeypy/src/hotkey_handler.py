@@ -22,8 +22,10 @@ class HotKeyHandler:
             mapping a dictionary with the key as the hotkey combination and the
             value as the controller action.
         """
-        mapdict = {
-            k: partial(ctrl.zenplayer, v) for k, v in mapping.items()}
+        mapdict = {}
+        for k, v in mapping.items():
+            func, param = v.split("(")
+            mapdict[k] = partial(getattr(ctrl, func), param[:-1])
         ghk = GlobalHotKeys(mapdict)
         ghk.start()
         return ghk

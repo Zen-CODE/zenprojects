@@ -12,4 +12,5 @@ if __name__ == "__main__":
     ctrl = Controller(config["zenplayer_url"])
     listener = HotKeyHandler.create_bindings(
         config["hotkeymap"], ctrl)
+    ctrl.listener = listener
     listener.join()
