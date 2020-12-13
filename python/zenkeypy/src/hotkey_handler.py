@@ -2,7 +2,7 @@
 from json import load
 from typing import Dict
 
-from main import Controller
+from controller import Controller
 
 from pynput.keyboard import GlobalHotKeys
 

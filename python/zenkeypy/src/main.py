@@ -1,13 +1,7 @@
 """This module houses the entrypoint for ZenKeyPy."""
+from controller import Controller
+
 from hotkey_handler import HotKeyHandler
-
-
-class Controller:
-    """This class serves as the main delegator for Hotkey actions."""
-
-    def play_pause(self: 'Controller') -> None:
-        """Play or pause the current media."""
-        print("play plause fired")  # noqa T001
 
 
 if __name__ == "__main__":
