@@ -3,7 +3,7 @@ from typing import Dict
 from functools import partial
 
 from controller import Controller
-from config import Config
+
 
 from pynput.keyboard import GlobalHotKeys
 
@@ -15,13 +15,7 @@ class HotKeyHandler:
     """
 
     @staticmethod
-    def add_bindings(ctrl: Controller) -> None:
-        """Add the specified keybinding to action on the given controller."""
-        mapping = Config.get_config()["hotkeymap"]
-        return HotKeyHandler._create_bindings(mapping, ctrl)
-
-    @staticmethod
-    def _create_bindings(mapping: Dict, ctrl: Controller) -> GlobalHotKeys:
+    def create_bindings(mapping: Dict, ctrl: Controller) -> GlobalHotKeys:
         """
         Create hotkey bindings from the mapping to the controller actions.
 
