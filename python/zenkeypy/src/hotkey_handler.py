@@ -1,6 +1,7 @@
 """This module adds global hotkey support from ZenPlayer."""
 from json import load
 from typing import Dict
+from functools import partial
 
 from controller import Controller
 
@@ -36,7 +37,7 @@ class HotKeyHandler:
             value as the controller action.
         """
         mapdict = {
-            k: getattr(ctrl, v) for k, v in mapping.items()}
+            k: partial(ctrl.zenplayer, v) for k, v in mapping.items()}
         ghk = GlobalHotKeys(mapdict)
         ghk.start()
         return ghk

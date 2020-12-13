@@ -9,7 +9,7 @@ class Controller:
         """Contruct the Controller object."""
         self.zen_player_url = "http://0.0.0.0:9001"
 
-    def play_pause(self: 'Controller') -> None:
-        """Play or pause the current media."""
-        get("/".join([self.zen_player_url, "zenplayer", "play_pause"]))
-        print("play plause fired")  # noqa T001
+    def zenplayer(self: 'Controller', func: str) -> None:
+        """Call the specified ZenPlayer function."""
+        resp = get("/".join([self.zen_player_url, "zenplayer", func]))
+        print(f"ZenPlayer called: {func}, response {resp.status_code}")  # noqa T001

@@ -1,4 +1,10 @@
 {
     "hotkeymap": {
-        "<cmd>+5": "play_pause"}
+        "<cmd>+1": "play_previous",
+        "<cmd>+2": "play_pause",
+        "<cmd>+3": "stop",
+        "<cmd>+4": "play_next",
+        "<cmd>+9": "volume_down",
+        "<cmd>+0": "volume_up"
+    }
 }
