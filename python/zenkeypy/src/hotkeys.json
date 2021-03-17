@@ -1,5 +1,5 @@
 {
-    "zenplayer_url": "http://9.0.0.1:9001",
+    "zenplayer_url": "http://9.0.0.2:9001",
     "hotkeymap": {
         "<cmd>+1": "zenplayer(play_previous)",
         "<cmd>+2": "zenplayer(play_pause)",

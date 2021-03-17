@@ -9,3 +9,7 @@ To force a re-sync between you branch and origin:
 Undo last commit:
 
     git reset --soft HEAD~1
+
+To pip install from a branch
+
+    pip install git+ssh://git@github.com/<username>/<repo>.git@<branch_name>
