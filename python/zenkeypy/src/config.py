@@ -13,6 +13,6 @@ class Config:
     def get_config() -> Dict:
         """Return the ZenKeyPy configuration dictionary."""
         if Config._config is None:
-            with open("src/hotkeys.json") as f:
+            with open("hotkeys.json") as f:
                 Config._config = load(f)
         return Config._config

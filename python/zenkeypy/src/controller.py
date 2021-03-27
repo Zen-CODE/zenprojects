@@ -10,7 +10,7 @@ class Controller:
     listener: Listener = None
 
     def __init__(self: 'Controller', zenplayer_url: str) -> None:
-        """Contruct the Controller object."""
+        """Construct the Controller object."""
         self.zen_player_url = zenplayer_url
 
     def zenplayer(self: 'Controller', func: str) -> None:
