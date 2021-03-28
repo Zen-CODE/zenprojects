@@ -10,15 +10,15 @@ class Controller:
     listener: Listener = None
 
     def __init__(self: 'Controller', zenplayer_url: str) -> None:
-        """Contruct the Controller object."""
+        """Construct the Controller object."""
         self.zen_player_url = zenplayer_url
 
-    def zenplayer(self: 'Controller', func: str) -> None:
+    def zenplayer(self: 'Controller', action: str) -> None:
         """Call the specified ZenPlayer function."""
-        resp = get("/".join([self.zen_player_url, "zenplayer", func]))
-        print(f"ZenPlayer called: {func}, response {resp.status_code}")  # noqa T001
+        resp = get("/".join([self.zen_player_url, "zenplayer", action]))
+        print(f"ZenPlayer called: {action}, response {resp.status_code}")  # noqa T001
 
-    def controller(self: 'Controller', func: str) -> None:
+    def controller(self: 'Controller', action: str) -> None:
         """Call the specified Controller function."""
         # Signal a quit on any call to the controller
         print(f"Signal to quit")  # noqa T001
