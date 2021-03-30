@@ -14,20 +14,20 @@ app = FastAPI()
 class ZenKeyApp():
     """This class houses the ZenKeyPy API interface."""
 
+    _ctrl: Controller = None
+
     @staticmethod
-    def get_controller(wait: bool = False) -> Controller:
-        """Build and return a properly configured ZenKeyApp instance."""
+    def start() -> None:
+        """Create and bind a properly configured ZenKeyApp instance."""
         config = Config.get_config()
-        ctrl = Controller(config["zenplayer_url"])
+        ZenKeyApp._ctrl = ctrl = Controller(config["zenplayer_url"])
         listener = HotKeyHandler.create_bindings(
             config["hotkeymap"], ctrl)
         ctrl.listener = listener
-        if wait:
-            print("ZenKeyApp - joining threads")
+        '''
+        If we want to wait and block for messages:
             listener.join()
-
-        print("ZenKeyApp - returning controller.")
-        return ctrl
+        '''
 
     @staticmethod
     @app.get("/")
@@ -36,10 +36,10 @@ class ZenKeyApp():
         return {"Hello": "zen"}
 
     @staticmethod
-    @app.get("history/")
+    @app.get("/history/")
     def history() -> Dict:
         """Return the list of actions in our history."""
-        return {"items": []}
+        return {"items": ZenKeyApp._ctrl.messages}
 
 
-ctrl = ZenKeyApp.get_controller()
+ZenKeyApp.start()
