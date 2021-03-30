@@ -1,6 +1,7 @@
 """This module handle the ZenKeyPy Controller."""
 from typing import List
 from pynput.keyboard import Listener
+from datetime import datetime
 
 from requests import get
 
@@ -17,16 +18,21 @@ class Controller:
         """Construct the Controller object."""
         self.zen_player_url = zenplayer_url
 
+    @staticmethod
+    def _add_message(msg: str) -> None:
+        """Add the specified message to the messages list."""
+        Controller.messages.append(f'{datetime.now().isoformat()}: {msg}')
+
     def zenplayer(self: 'Controller', action: str) -> None:
         """Call the specified ZenPlayer function."""
         resp = get("/".join([self.zen_player_url, "zenplayer", action]))
-        Controller.messages.append(
+        self._add_message(
             f"ZenPlayer called: {action}, response {resp.status_code}")
 
     def controller(self: 'Controller', action: str) -> None:
         """Call the specified Controller function."""
         if self.listener is None:
-            Controller.messages.append("Signal to quit but no listener set.")
+            self._add_message("Signal to quit but no listener set.")
         else:
-            Controller.messages.append("Signal to quit")
+            self._add_message("Signal to quit")
             self.listener.stop()
