@@ -25,6 +25,10 @@
             "function": "zenplayer",
             "params": ["volume_up"]
         },
+        "<alt>+i": {
+            "function": "zenplayer",
+            "params": ["get_state"]
+        },
         "<alt>+q": {
             "function": "controller",
             "params": ["quit"]

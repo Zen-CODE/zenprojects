@@ -27,7 +27,7 @@ class Controller:
         """Call the specified ZenPlayer function."""
         resp = get("/".join([self.zen_player_url, "zenplayer", action]))
         self._add_message(
-            f"ZenPlayer called: {action}, response {resp.status_code}")
+            f"ZenPlayer called: {action} = {resp.status_code}. {resp.content}")
 
     def controller(self: 'Controller', action: str) -> None:
         """Call the specified Controller function."""
