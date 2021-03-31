@@ -1,31 +1,31 @@
 {
     "zenplayer_url": "http://9.0.0.2:9001",
     "hotkeymap": {
-        "<alt>+z": {
+        "<cmd>+1": {
             "function": "zenplayer",
             "params": ["play_previous"]
         },
-        "<alt>+x": {
+        "<cmd>+2": {
             "function": "zenplayer",
             "params": ["play_pause"]
         },
-        "<alt>+v": {
+        "<cmd>+3": {
             "function": "zenplayer",
             "params": ["stop"]
         },
-        "<alt>+b": {
+        "<cmd>+4": {
             "function": "zenplayer",
             "params": ["play_next"]
         },
-        "<alt>+9": {
+        "<cmd>+9": {
             "function": "zenplayer",
             "params": ["volume_down"]
         },
-        "<alt>+0": {
+        "<cmd>+0": {
             "function": "zenplayer",
             "params": ["volume_up"]
         },
-        "<alt>+q": {
+        "<cmd>+8": {
             "function": "controller",
             "params": ["quit"]
         }
