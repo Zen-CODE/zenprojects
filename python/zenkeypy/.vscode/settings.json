@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/richard/.pyenv/versions/zenkeypy_3.8.6/bin/python3",
+    "python.pythonPath": "python",
     "python.envFile": "${workspaceFolder}/.env",
     "python.linting.flake8Enabled": true,
     "editor.rulers": [80],

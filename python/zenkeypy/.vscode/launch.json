@@ -24,7 +24,7 @@
             "name": "Python: FastAPI Server",
             "type": "python",
             "request": "launch",
-            "program": "/Users/richard/.pyenv/versions/zenkeypy_3.8.6/bin/uvicorn",
+            "program": "/home/fruitbat/.pyenv/versions/zenkeypy-3.8.7/bin/uvicorn",
             "args": ["main:app", "--reload"],
             "cwd": "${workspaceFolder}/src",
             "console": "integratedTerminal",
