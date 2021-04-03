@@ -1,6 +1,7 @@
 """This module houses the entrypoint for ZenKeyPy."""
 from config import Config
 from typing import Dict
+from sys import argv
 
 from fastapi import FastAPI
 
@@ -17,17 +18,16 @@ class ZenKeyApp():
     _ctrl: Controller = None
 
     @staticmethod
-    def start() -> None:
+    def start(wait=False) -> None:
         """Create and bind a properly configured ZenKeyApp instance."""
         config = Config.get_config()
         ZenKeyApp._ctrl = ctrl = Controller(config["zenplayer_url"])
         listener = HotKeyHandler.create_bindings(
             config["hotkeymap"], ctrl)
         ctrl.listener = listener
-        '''
-        If we want to wait and block for messages:
+
+        if wait:
             listener.join()
-        '''
 
     @staticmethod
     @app.get("/")
@@ -42,4 +42,9 @@ class ZenKeyApp():
         return {"items": ZenKeyApp._ctrl.messages}
 
 
-ZenKeyApp.start()
+if len(argv) > 1 and argv[1] == "basic":
+    print("Launching ZenKeyPy without FastAPI interface...")
+    ZenKeyApp.start(True)
+else:
+    print("Launching ZenKeyPy...")
+    ZenKeyApp.start()
