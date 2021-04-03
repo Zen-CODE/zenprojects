@@ -1,0 +1,14 @@
+{
+    "python.pythonPath": "python",
+    "python.envFile": "${workspaceFolder}/.env",
+    "python.linting.flake8Enabled": true,
+    "editor.rulers": [80],
+    "files.trimTrailingWhitespace": true,
+    "python.linting.enabled": true,
+    "terminal.integrated.cwd": "${workspaceFolder}/src",
+    "workbench.editor.enablePreview": false,
+    "files.watcherExclude": {
+        "**/venv": true
+      },
+      "restructuredtext.confPath": "",
+}
