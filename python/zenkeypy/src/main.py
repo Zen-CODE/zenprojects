@@ -1,15 +1,17 @@
 """This module houses the entrypoint for ZenKeyPy."""
+from requests.api import get
 from config import Config
 from typing import Dict
 from sys import argv
-
+from logging import basicConfig, DEBUG, getLogger, INFO
+import sys
 from fastapi import FastAPI
-
 from controller import Controller
-
 from hotkey_handler import HotKeyHandler
 
+basicConfig(stream=sys.stdout, level=DEBUG)
 app = FastAPI()
+logger = getLogger(__name__)
 
 
 class ZenKeyApp():
@@ -43,8 +45,8 @@ class ZenKeyApp():
 
 
 if len(argv) > 1 and argv[1] == "basic":
-    print("Launching ZenKeyPy without FastAPI interface...")
+    logger.info("Launching ZenKeyPy without FastAPI interface...")
     ZenKeyApp.start(True)
 else:
-    print("Launching ZenKeyPy...")
+    logger.info("Launching ZenKeyPy...")
     ZenKeyApp.start()
