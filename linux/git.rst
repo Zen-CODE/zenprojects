@@ -13,3 +13,8 @@ Undo last commit:
 To pip install from a branch
 
     pip install git+ssh://git@github.com/<username>/<repo>.git@<branch_name>
+
+To squash merges:
+
+   git reset --soft HEAD~3
+   git commit -m <commit_msg>
