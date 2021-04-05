@@ -2,8 +2,11 @@
 from typing import List
 from pynput.keyboard import Listener
 from datetime import datetime
-
+from logging import getLogger
 from requests import get
+
+
+logger = getLogger(__name__)
 
 
 class Controller:
@@ -21,7 +24,9 @@ class Controller:
     @staticmethod
     def _add_message(msg: str) -> None:
         """Add the specified message to the messages list."""
-        Controller.messages.append(f'{datetime.now().isoformat()}: {msg}')
+        message = f'{datetime.now().isoformat()}: {msg}'
+        logger.debug(message)
+        Controller.messages.append(message)
 
     def zenplayer(self: 'Controller', action: str) -> None:
         """Call the specified ZenPlayer function."""
