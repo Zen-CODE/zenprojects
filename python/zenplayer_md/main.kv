@@ -8,6 +8,9 @@
     min: 0
     max: 100
 
+<MDIconButton>:
+    size_hint: 1, 1
+
 Screen:
     MDBoxLayout:
         size_hint: 1, 1
@@ -30,20 +33,16 @@ Screen:
             MDSlider:
                 size_hint_x: 1
                 orientation: "vertical"
-        MDFloatLayout:
+        MDBoxLayout:
             size_hint: 1, 1
-            MDFloatingActionButton:
-                pos_hint:{'center_x': 0.2, 'center_y': 0.5}
+            spacing: 0.2 * self.width
+            MDIconButton:
                 icon: "stop"
-            MDFloatingActionButton:
+            MDIconButton:
                 icon: "rewind"
-                pos_hint:{'center_x': 0.325, 'center_y': 0.5}
-            MDFloatingActionButton:
+            MDIconButton:
                 icon: "pause"
-                pos_hint:{'center_x': 0.5, 'center_y': 0.5}
-            MDFloatingActionButton:
+            MDIconButton:
                 icon: "forward"
-                pos_hint:{'center_x': 0.625, 'center_y': 0.5}
-            MDFloatingActionButton:
+            MDIconButton:
                 icon: "recycle"
-                pos_hint:{'center_x': 0.8, 'center_y': 0.5}
