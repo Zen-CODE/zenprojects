@@ -1,0 +1,49 @@
+<MDFloatingActionButton>:
+    md_bg_color: app.theme_cls.primary_color
+
+<MDBoxLayout>:
+    md_bg_color: app.theme_cls.primary_color
+
+<MDSlider>:
+    min: 0
+    max: 100
+
+Screen:
+    MDBoxLayout:
+        size_hint: 1, 1
+        orientation: "vertical"
+        MDBoxLayout:
+            size_hint: 1, 1
+            MDLabel:
+                text: "Top row"
+        MDBoxLayout:
+            size_hint: 1, 8
+            MDSlider:
+                size_hint_x: 1
+                orientation: "vertical"
+            BoxLayout:
+                size_hint_x: 8
+                Image:
+                    allow_stretch: True
+                    source: '/home/richard/Music/Ace Ventura/Rebirth/cover.jpg'
+
+            MDSlider:
+                size_hint_x: 1
+                orientation: "vertical"
+        MDFloatLayout:
+            size_hint: 1, 1
+            MDFloatingActionButton:
+                pos_hint:{'center_x': 0.2, 'center_y': 0.5}
+                icon: "stop"
+            MDFloatingActionButton:
+                icon: "rewind"
+                pos_hint:{'center_x': 0.325, 'center_y': 0.5}
+            MDFloatingActionButton:
+                icon: "pause"
+                pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+            MDFloatingActionButton:
+                icon: "forward"
+                pos_hint:{'center_x': 0.625, 'center_y': 0.5}
+            MDFloatingActionButton:
+                icon: "recycle"
+                pos_hint:{'center_x': 0.8, 'center_y': 0.5}
