@@ -1,3 +1,5 @@
+#: set ROW_HEIGHT dp(64)
+
 <MDFloatingActionButton>:
     md_bg_color: app.theme_cls.primary_color
 
@@ -9,28 +11,34 @@
     max: 100
 
 <MDIconButton>:
-    size_hint: 1, 1
+    size_hint: None, 1
+    font_size: ROW_HEIGHT
 
 Screen:
     MDBoxLayout:
         size_hint: 1, 1
         orientation: "vertical"
         MDBoxLayout:
-            size_hint: 1, 1
-            spacing: 0.12 * self.width
+            size_hint: 1, None
+            height: ROW_HEIGHT
             MDIconButton:
                 icon: "music-note-quarter"
+            Widget:
             MDIconButton:
                 icon: "account-music"
+            Widget:
             MDIconButton:
                 icon: "album"
+            Widget:
             MDIconButton:
                 icon: "yin-yang"
-
+            Widget:
             MDIconButton:
                 icon: "folder-music"
+            Widget:
             MDIconButton:
                 icon: "playlist-music"
+            Widget:
             MDIconButton:
                 icon: "information"
         MDBoxLayout:
@@ -48,15 +56,19 @@ Screen:
                 size_hint_x: 1
                 orientation: "vertical"
         MDBoxLayout:
-            size_hint: 1, 1
-            spacing: 0.2 * self.width
+            size_hint: 1, None
+            height: ROW_HEIGHT
             MDIconButton:
                 icon: "stop"
+            Widget:
             MDIconButton:
                 icon: "rewind"
+            Widget:
             MDIconButton:
                 icon: "pause"
+            Widget:
             MDIconButton:
                 icon: "forward"
+            Widget:
             MDIconButton:
                 icon: "recycle"
