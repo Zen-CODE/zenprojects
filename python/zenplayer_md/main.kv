@@ -17,8 +17,22 @@ Screen:
         orientation: "vertical"
         MDBoxLayout:
             size_hint: 1, 1
-            MDLabel:
-                text: "Top row"
+            spacing: 0.12 * self.width
+            MDIconButton:
+                icon: "music-note-quarter"
+            MDIconButton:
+                icon: "account-music"
+            MDIconButton:
+                icon: "album"
+            MDIconButton:
+                icon: "yin-yang"
+
+            MDIconButton:
+                icon: "folder-music"
+            MDIconButton:
+                icon: "playlist-music"
+            MDIconButton:
+                icon: "information"
         MDBoxLayout:
             size_hint: 1, 8
             MDSlider:
