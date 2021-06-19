@@ -27,11 +27,8 @@
 }
 
 body {
-  /*
   color: #DDDDDD;
-  background-color: #111111;
-  */
-  background-image: url("/background.png");
+  background-image: url("/static/background.png");
 }
 
 .settings-icon {
