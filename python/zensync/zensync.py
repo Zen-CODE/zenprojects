@@ -63,7 +63,6 @@ class FileSystemOps(object):
         self.removed += 1
         remove(dest)
 
-    @print_inline
     def skip(self, _dest_folder, _dest_file):
         """ Skip processing on the specified file. """
         self.skipped += 1
