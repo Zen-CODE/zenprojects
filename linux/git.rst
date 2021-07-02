@@ -18,3 +18,7 @@ To squash merges:
 
    git reset --soft HEAD~3
    git commit -m <commit_msg>
+
+To prevent the `git branch` command from being interactive:
+
+   git config --global pager.branch false
