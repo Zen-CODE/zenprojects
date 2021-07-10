@@ -22,3 +22,8 @@ To squash merges:
 To prevent the `git branch` command from being interactive:
 
    git config --global pager.branch false
+
+To specify an SSH key for git commands:
+
+   GIT_SSH_COMMAND='ssh -i ~/.ssh/zen-code/id_rsa -o IdentitiesOnly=yes' git pull
+
