@@ -126,7 +126,7 @@ class SyncHandler(object):
         Return True if the files are different. The default check is for size
         only.
         """
-        return getsize(source) != getsize(dest)
+        return getsize(source) != getsize(dest) or source.endswith(".EPIM")
 
 
     def sync_folder(self, source, dest):
