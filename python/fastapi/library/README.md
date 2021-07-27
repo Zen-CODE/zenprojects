@@ -2,6 +2,12 @@
 
 This project explores the FastAPI library.
 
+## Running the App
+
+The launch the app using uvicorn:
+
+    uvicorn main:app --reload
+
 ## Tests
 
 To run tests:
