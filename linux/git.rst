@@ -27,3 +27,10 @@ To specify an SSH key for git commands:
 
    GIT_SSH_COMMAND='ssh -i ~/.ssh/zen-code/id_rsa -o IdentitiesOnly=yes' git pull
 
+To stop tracking changed file that are commited:
+
+    git update-index --skip-worktree <file>
+
+Resume tracking files with the following command:
+
+    git update-index --no-skip-worktree <file>
