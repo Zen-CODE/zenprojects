@@ -21,3 +21,17 @@ To create/synchronize the database:
 To initialize the models on first use:
 
     python manage.py makemigrations <app>
+
+To dumpdata from the shell to a json file:
+
+    import sys
+    from django.core.management import call_command
+
+    sysout = sys.stdout
+    sys.stdout = open('filename.json', 'w')
+    call_command('dumpdata', <app_name>)
+    sys.stdout = sysout
+
+To un-apply migrations
+
+    python manage.py migrate <app> <migration_no>
