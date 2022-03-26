@@ -24,4 +24,4 @@ app.include_router(sound_router)
 
 @app.get("/")
 async def zen_fast_api():
-    return {"message": "Welcome to the Zen FASP API Media Server"}
+    return {"message": "Welcome to the Zen FASY API Media Server"}
