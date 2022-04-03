@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from zenplayer.interaction import ZenFetcher
+from zenplayer.interaction import ZenFetcher, ZenCommand
 from django.views.generic.base import TemplateView
 from django.shortcuts import redirect
 
@@ -9,7 +9,7 @@ def index(request):
 
 
 def command(request, instruction):
-    print(f'Got command {instruction}')
+    ZenCommand().send_command(instruction)
     return redirect('/zenplayer/ui')
 
 

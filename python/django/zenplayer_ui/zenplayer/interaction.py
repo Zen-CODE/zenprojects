@@ -32,3 +32,12 @@ class ZenFetcher:
         """Return the cover of the current album."""
         response = get(ZENPLAYER_URL + 'zenplayer/get_track_cover')
         return response.content
+
+
+class ZenCommand:
+    """Issue the appropriate command to the active ZenPLayer."""
+
+    @staticmethod
+    def send_command(command):
+        """Issue the appropriate command to ZenPlayer."""
+        get(ZENPLAYER_URL + f'zenplayer/{command}')
