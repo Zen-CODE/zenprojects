@@ -13,6 +13,11 @@ def command(request, instruction):
     return redirect('/zenplayer/ui')
 
 
+def cover(request):
+    data = ZenFetcher.get_track_cover()
+    return HttpResponse(data, content_type="image/jpeg")
+
+
 class UIView(TemplateView):
 
     template_name = "ui.html"

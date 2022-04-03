@@ -26,3 +26,9 @@ class ZenFetcher:
             album=data['album'],
             track_number=data['track_number'])
         return asdict(np)
+
+    @staticmethod
+    def get_track_cover():
+        """Return the cover of the current album."""
+        response = get(ZENPLAYER_URL + 'zenplayer/get_track_cover')
+        return response.content
