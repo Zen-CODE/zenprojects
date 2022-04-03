@@ -1,3 +1,12 @@
-Zen PLayer Now Playing <br />
+{% extends 'base.html' %}
 
-{{track}} - {{artist}} - {{album}}<br />
+
+{% block track_number %}
+{{track_number}}
+{% endblock %}
+{% block artist %}
+{{artist}}
+{% endblock %}
+{% block album %}
+{{album}}
+{% endblock %}
