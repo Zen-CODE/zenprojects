@@ -1,10 +1,16 @@
 from django.http import HttpResponse
 from zenplayer.interaction import ZenFetcher
 from django.views.generic.base import TemplateView
+from django.shortcuts import redirect
 
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
+
+
+def command(request, instruction):
+    print(f'Got command {instruction}')
+    return redirect('/zenplayer/ui')
 
 
 class UIView(TemplateView):
