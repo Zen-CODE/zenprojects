@@ -1,16 +1,21 @@
 // The ZenTunez Node App
-var http = require("http");
+const express = require('express')
+const app = express()
+const port = 3000
 
-http.createServer(function (request, response) {
-    // Send the HTTP header 
-    // HTTP Status: 200 : OK
-    // Content Type: text/plain
-    response.writeHead(200, {'Content-Type': 'text/plain'});
-    
-    // Send the response body as "Hello World"
-    response.end('Hello World\n');
- }).listen(8081);
- 
- // Console will print the message
- console.log('Server running at http://127.0.0.1:8081/');
- 
+module.exports = app
+
+// respond with "hello world" when a GET request is made to the homepage
+app.get('/', (req, res) => {
+    res.send('======== ZenTunez Node ========')
+  })
+
+
+app.get('/now_playing', (req, res) => {
+    res.send('======== ZenTunez -> Now playing')
+})
+
+
+app.listen(port, () => {
+    console.log(`ZenTunez Node API app listening on port ${port}\r`)
+})
