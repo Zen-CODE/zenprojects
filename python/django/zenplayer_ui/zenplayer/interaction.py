@@ -11,6 +11,7 @@ class NowPlaying:
     artist: str
     album: str
     track_number: int
+    track_name: str
 
 
 class ZenFetcher:
@@ -24,7 +25,8 @@ class ZenFetcher:
         np = NowPlaying(
             artist=data['artist'],
             album=data['album'],
-            track_number=data['track_number'])
+            track_number=data['track_number'],
+            track_name=data['track_name'])
         return asdict(np)
 
     @staticmethod

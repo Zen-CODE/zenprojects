@@ -6,6 +6,7 @@ body {
     color:lightblue;
     background-color: #252525;
     background-image: url("../../zenplayer/cover");
-    background-position: center; /* Center the image */
+    background-position: inherit; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
+    background-blend-mode: multiply;  /* multiply */
 }
