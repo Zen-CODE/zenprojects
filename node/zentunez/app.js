@@ -7,12 +7,12 @@ module.exports = app
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', (req, res) => {
-    res.send('======== ZenTunez Node ========')
+    res.send('======== ZenTunez Node ========\r')
   })
 
 
 app.get('/now_playing', (req, res) => {
-    res.send('======== ZenTunez -> Now playing')
+    res.send('======== ZenTunez -> Now playing...\r')
 })
 
 
