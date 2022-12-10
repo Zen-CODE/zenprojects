@@ -1,5 +1,6 @@
 // The ZenTunez Node App
 const express = require('express')
+const { reset } = require('nodemon')
 const app = express()
 const port = 3000
 const ZENPLAYER_URL = "http://127.0.0.1:9001/"
@@ -12,16 +13,13 @@ app.get('/', (req, res) => {
   })
 
 
-app.get('/now_playing', (req, res) => {
-    res.send('======== ZenTunez -> Now playing...\r');
-    fetch(`${ZENPLAYER_URL}/zenplaylist/get_current_info`, 
-                           {cache: 'no-cache'})
-    .then((response) => response.json())
-    .then((data) => {
-        console.log(data);
-        return data;
-    });
-
+app.get('/now_playing', async (req, res) => {
+    // res.send('======== ZenTunez -> Now playing...\r');
+    response = await fetch(`${ZENPLAYER_URL}/zenplaylist/get_current_info`, 
+                           {cache: 'no-cache'});
+    const json = await response.json();
+    console.log(json);
+    res.json(json)
 })
 
 
