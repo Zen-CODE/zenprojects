@@ -17,7 +17,10 @@ app.get('/now_playing', (req, res) => {
     fetch(`${ZENPLAYER_URL}/zenplaylist/get_current_info`, 
                            {cache: 'no-cache'})
     .then((response) => response.json())
-    .then((data) => console.log(data));                           
+    .then((data) => {
+        console.log(data);
+        return data;
+    });
 
 })
 
