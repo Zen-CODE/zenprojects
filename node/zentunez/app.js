@@ -2,6 +2,7 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const ZENPLAYER_URL = "http://127.0.0.1:9001/"
 
 module.exports = app
 
@@ -12,7 +13,12 @@ app.get('/', (req, res) => {
 
 
 app.get('/now_playing', (req, res) => {
-    res.send('======== ZenTunez -> Now playing...\r')
+    res.send('======== ZenTunez -> Now playing...\r');
+    fetch(`${ZENPLAYER_URL}/zenplaylist/get_current_info`, 
+                           {cache: 'no-cache'})
+    .then((response) => response.json())
+    .then((data) => console.log(data));                           
+
 })
 
 
