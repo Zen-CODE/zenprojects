@@ -27,6 +27,11 @@ app.get('/now_playing', async (req, res) => {
     return get_response(req, res, "zenplaylist/get_current_info")
 })
 
+app.get('/get_state', (req, res) => {
+    return get_response(req, res, "/zenplayer/get_state")
+})
+
+
 
 app.listen(port, () => {
     console.log(`ZenTunez Node API app listening on port ${port}\r`)
