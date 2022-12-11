@@ -31,7 +31,9 @@ app.get('/get_state', (req, res) => {
     return get_response(req, res, "/zenplayer/get_state")
 })
 
-
+app.get('/get_play_pause', (req, res) => {
+    return get_response(req, res, "/zenplayer/play_pause")
+})
 
 app.listen(port, () => {
     console.log(`ZenTunez Node API app listening on port ${port}\r`)
