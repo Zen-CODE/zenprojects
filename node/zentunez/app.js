@@ -7,6 +7,15 @@ const ZENPLAYER_URL = "http://127.0.0.1:9001/"
 
 module.exports = app
 
+
+async function get_response(req, res, endpoint) {
+    response = await fetch(`${ZENPLAYER_URL}/${endpoint}`, 
+                           {cache: 'no-cache'});
+    const json = await response.json();
+    console.log(json);
+    return res.json(json)
+}
+
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', (req, res) => {
     res.send('======== ZenTunez Node ========\r')
@@ -15,11 +24,7 @@ app.get('/', (req, res) => {
 
 app.get('/now_playing', async (req, res) => {
     // res.send('======== ZenTunez -> Now playing...\r');
-    response = await fetch(`${ZENPLAYER_URL}/zenplaylist/get_current_info`, 
-                           {cache: 'no-cache'});
-    const json = await response.json();
-    console.log(json);
-    res.json(json)
+    return get_response(req, res, "zenplaylist/get_current_info")
 })
 
 
