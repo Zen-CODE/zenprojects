@@ -1,11 +1,8 @@
 // The ZenTunez Node App
 const express = require('express')
-const { reset } = require('nodemon')
 const app = express()
 const port = 3000
-// import get_response from './utils.mjs'
-const utils = require("./utils.js")
-
+const get_response = require("./utils.js").get_response
 
 module.exports = app
 
@@ -17,8 +14,7 @@ app.get('/', (req, res) => {
   })
 
 app.get('/now_playing', async (req, res) => {
-    // res.send('======== ZenTunez -> Now playing...\r');
-    return get_response(req, res, "zenplaylist/get_current_info")
+    return await get_response(req, res, "zenplaylist/get_current_info")
 })
 
 app.get('/get_state', (req, res) => {
