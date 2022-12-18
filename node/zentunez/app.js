@@ -8,9 +8,13 @@ module.exports = app
 
 
 
-// respond with "hello world" when a GET request is made to the homepage
+/*
+    Return the Title page of the ZenTunez node app.`
+*/
 app.get('/', (req, res) => {
-    res.send('======== ZenTunez Node ========\r')
+    res.send('======== ZenTunez Node ========\r\n' +
+            'This is ZenTunez node app. Please see the "curls" folder for ' +
+            'the available commands.\r\n')
   })
 
 app.get('/now_playing', async (req, res) => {
