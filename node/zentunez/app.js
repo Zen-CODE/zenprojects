@@ -16,9 +16,14 @@ app.get('/', (req, res) => {
             'the available commands.\r\n')
   })
 
-app.get('/now_playing', async (req, res) => {
+app.get('/get_current_info', async (req, res) => {
     return await get_response(req, res, "zenplaylist/get_current_info")
 })
+
+app.get('/get_playlist', async (req, res) => {
+    return await get_response(req, res, "zenplaylist/get_playlist")
+})
+
 
 app.get('/get_state', (req, res) => {
     return get_response(req, res, "/zenplayer/get_state")
