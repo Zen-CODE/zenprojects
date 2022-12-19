@@ -10,7 +10,6 @@ it('Test the we can fetch the "Now playing" data.', async () => {
     const response = await request.get('/now_playing')
   
     expect(response.status).toBe(200)
-    // expect(response.body.message).toBe('pass!')
-
+    expect(typeof(response.body)).toBe('object')
   })
   
