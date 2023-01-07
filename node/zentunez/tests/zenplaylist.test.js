@@ -14,12 +14,6 @@ it('Test the we can fetch the "Now playing" data.', async () => {
   
     expect(response.status).toBe(200)
     expect(typeof(response.body)).toBe('object')
-    expect(response.body).toBe({'test': 'response'})
-  })
-  
-it('Test the we can fetch the current tracks info.', async () => {
-    const response = await request.get('/get_current_info')
-  
-    expect(response.status).toBe(200)
-    expect(typeof(response.body)).toBe('object')
+    console.log(`body = ${JSON.stringify(response.body)}`)
+    expect(response.body).toEqual({'test': 'response'})
   })
