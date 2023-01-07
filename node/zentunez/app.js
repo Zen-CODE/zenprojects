@@ -2,6 +2,7 @@
 const express = require('express')
 const app = express()
 const get_response = require("./utils.js").get_response
+const os = require('os')
 
 module.exports = app
 
@@ -15,9 +16,20 @@ app.get('/', (req, res) => {
   })
 
 
-app.get('/*', async (req, res) => {
+app.get('/zen*', async (req, res) => {
     const endpoint = req.url.substring(1)
     console.log(`Forwarding call to ${endpoint}`)
     const json = await get_response(req, res, endpoint)
+    res.json(json)
+})
+
+
+app.get('/sysinfo*', async (req, res) => {
+    const json = {
+        "Arch" : os.arch(),
+        "CPU's": os.cpus(),
+        "Free memory": (os.freemem() / (1024 ** 3)).toString() + " GB",
+        "Load average (1, 5 15min)": os.loadavg()
+    }
     res.json(json)
 })
