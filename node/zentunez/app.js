@@ -19,7 +19,5 @@ app.get('/*', async (req, res) => {
     const endpoint = req.url.substring(1)
     console.log(`Forwarding call to ${endpoint}`)
     const json = await get_response(req, res, endpoint)
-    // res.append('json', json)
-    // res.send(JSON.stringify(json))
     res.json(json)
 })
