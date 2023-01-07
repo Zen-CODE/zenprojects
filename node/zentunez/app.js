@@ -5,8 +5,6 @@ const get_response = require("./utils.js").get_response
 
 module.exports = app
 
-
-
 /*
     Return the Title page of the ZenTunez node app.`
 */
@@ -16,23 +14,11 @@ app.get('/', (req, res) => {
             'the available commands.\r\n')
   })
 
-app.get('/get_current_info', async (req, res) => {
-    return await get_response(req, res, "zenplaylist/get_current_info")
-})
 
-app.get('/get_playlist', async (req, res) => {
-    return await get_response(req, res, "zenplaylist/get_playlist")
-})
-
-
-app.get('/get_state', (req, res) => {
-    return get_response(req, res, "/zenplayer/get_state")
-})
-
-app.get('/get_play_pause', (req, res) => {
-    return get_response(req, res, "/zenplayer/play_pause")
-})
-
-app.get('/get_track_meta', (req, res) => {
-    return get_response(req, res, "/zenplayer/get_track_meta")
+app.get('/*', async (req, res) => {
+    const endpoint = req.url.substring(1)
+    console.log(`Forwarding call to ${endpoint}`)
+    const json = await get_response(req, res, endpoint)
+    res.append('json', json)
+    res.send(JSON.stringify(json))
 })
