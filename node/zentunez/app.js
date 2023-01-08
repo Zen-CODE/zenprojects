@@ -29,7 +29,8 @@ app.get('/sysinfo*', async (req, res) => {
         "Arch" : os.arch(),
         "CPU's": os.cpus(),
         "Free memory": (os.freemem() / (1024 ** 3)).toString() + " GB",
-        "Load average (1, 5 15min)": os.loadavg()
+        "Total memory": (os.totalmem() / (1024 ** 3)).toString() + " GB",
+        "Load average (1, 5, 15min)": os.loadavg()
     }
     res.json(json)
 })
