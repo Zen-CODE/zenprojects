@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from routers.library.library_api import router as library_router
-from routers.sound.sound_api import router as sound_router
+# AM I seeing this comment?
+from .routers.library.library_api import router as library_router
+from .routers.sound.sound_api import router as sound_router
 from json import load
 
 
@@ -24,4 +25,4 @@ app.include_router(sound_router)
 
 @app.get("/")
 async def zen_fast_api():
-    return {"message": "Welcome to the Zen FASY API Media Server"}
+    return {"message": "Welcome to the Zen FAST API Media Server"}
