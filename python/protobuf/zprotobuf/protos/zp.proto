@@ -1,22 +1,18 @@
 syntax = "proto3";
 
+// Returns details of ZenPlayer states and accepts ZenPlayer commands
 service ZenPlayerService {
-    rpc getDetails(Artist) returns (Result);
+    rpc get_details(TrackDetailsRequest) returns (Result);
 }
 
-message Artist {
-    string name = 1;
+// Get the details of the given track
+message TrackDetailsRequest {
+    string artist = 1;
+    string album = 2;
+    string fileName = 3;
 }
 
-message Album {
-    string name = 1;
-}
-
-message File {
-    string name = 1;
-}
-
-
+// Return details of the requested track
 message Result {
     string text = 1;
 }
