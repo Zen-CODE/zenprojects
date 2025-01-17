@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+service ZenPlayerService {
+    rpc getDetails(Artist) returns (Result);
+}
+
+message Artist {
+    string name = 1;
+}
+
+message Album {
+    string name = 1;
+}
+
+message File {
+    string name = 1;
+}
+
+
+message Result {
+    string text = 1;
+}
