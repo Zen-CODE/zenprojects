@@ -1,6 +1,6 @@
 import grpc
-from protos_py import zp_pb2
-from protos_py import zp_pb2_grpc
+import zp_pb2
+import zp_pb2_grpc
 from concurrent import futures
 
 
@@ -8,7 +8,7 @@ class ZenplayerServicer(zp_pb2_grpc.ZenPlayerServiceServicer):
 
     def get_details(self, request, context):
         """ Return the details of the track."""
-        return Results(text="Yebo baby!!!")
+        return zp_pb2.Result(text="Yebo baby!!!")
 
 
 def main():
