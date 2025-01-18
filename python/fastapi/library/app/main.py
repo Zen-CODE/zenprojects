@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 # AM I seeing this comment?
-from .routers.library.library_api import router as library_router
-from .routers.sound.sound_api import router as sound_router
+from routers.library.library_api import router as library_router
+from routers.sound.sound_api import router as sound_router
 from json import load
 
 

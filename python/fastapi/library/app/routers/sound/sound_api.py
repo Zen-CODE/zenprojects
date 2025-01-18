@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from ...components.sound_vlc import Sound
+from components.sound_vlc import Sound
 from os.path import exists
-from ...routers.sound.sound_responses import SoundStateModel
+from routers.sound.sound_responses import SoundStateModel
 
 
 router = APIRouter()
