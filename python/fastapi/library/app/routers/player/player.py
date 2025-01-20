@@ -16,3 +16,10 @@ class ZenPlayerController:
         """Return the state of the current ZenPlayer instance."""
         response = get(ZENPLAYER_URL + "/zenplayer/get_state")
         return response.json()
+
+    @staticmethod
+    def get_track_meta():
+        """Return metadata giving technical details about the file."""
+        response = get(ZENPLAYER_URL + "/zenplayer/get_track_meta")
+        return response.json()
+

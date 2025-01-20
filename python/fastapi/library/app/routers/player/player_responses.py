@@ -16,3 +16,12 @@ class StateModel(BaseModel):
     track: str = ""
     volume: float = 0.0
 
+
+class MetaDataModel(BaseModel):
+    """
+    The the technical details of the currently playing track.
+    """
+    bitrate: int = 0
+    channels: int = 0
+    length: int = 0
+    sample_rate: int = 0
