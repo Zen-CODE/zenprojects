@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from starlette.responses import FileResponse
 from routers.player.player_responses import StateModel
+from routers.player.player import ZenPlayerController
 
 
 router = APIRouter()
-# library = Library()
 tag = "Player"
 
 
@@ -20,14 +20,4 @@ async def get_state():
     # if not artists:
     #     raise HTTPException(status_code=404, detail="Library folder not found")
     # return {"artists": artists}
-    return {
-        "album": "My album",
-        "artist": "My artist",
-        "cover": "",
-        "file_name": "My filename",
-        "position": 25,
-        "state": "PLaying",
-        "time_display": "Dispaly here",
-        "track" : 1,
-        "volume": 50
-    }
+    return ZenPlayerController.get_state()

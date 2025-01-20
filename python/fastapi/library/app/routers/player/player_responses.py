@@ -13,6 +13,6 @@ class StateModel(BaseModel):
     position: float = 0.0
     state: str = ""
     time_display: str = ""
-    track: int = 0
+    track: str = ""
     volume: float = 0.0
 
