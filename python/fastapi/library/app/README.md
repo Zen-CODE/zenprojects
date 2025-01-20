@@ -7,4 +7,5 @@ controlling ZenPlayer.
 
 From the root, run `pip install -r requirements.txt`.
 
-From the apps folder, run `fastapi dev main.py`.
+From the apps folder, run `fastapi dev main.py` or
+`uvicorn main:app --reload --port 8000`.
