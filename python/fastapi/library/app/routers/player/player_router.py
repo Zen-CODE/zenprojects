@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from starlette.responses import FileResponse
-from routers.player.player_responses import StateModel, MetaDataModel
+from routers.player.player_responses import StateModel, MetadataModel
 from routers.player.player import ZenPlayerController
 
 
@@ -26,7 +26,7 @@ async def get_state():
 @router.get("/player/get_track_meta",
             tags=[tag],
             responses={404: {"description": "ZenPlayer not found."}},
-            response_model=MetaDataModel)
+            response_model=MetadataModel)
 async def get_track_meta():
     """
     Return the technical details of the currently playing file.

@@ -17,7 +17,7 @@ class StateModel(BaseModel):
     volume: float = 0.0
 
 
-class MetaDataModel(BaseModel):
+class MetadataModel(BaseModel):
     """
     The the technical details of the currently playing track.
     """
