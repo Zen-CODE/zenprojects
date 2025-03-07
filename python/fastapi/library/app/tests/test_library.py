@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from app.main import app
+from main import app
 from unittest import TestCase
 
 client = TestClient(app)
@@ -59,18 +59,18 @@ class LibraryTests(TestCase):
         response = client.get("/library/path/album/BT/Escm")
         assert response.status_code == 200
         data = response.json()
-        assert data["path"] == "/home/fruitbat/Zen/Music/BT/Escm"
+        assert data["path"] == "/home/richard/Zen/Music/BT/Escm"
 
     def test_get_cover_path(self):
         """ Test that we can retrieve the full coverpath."""
         response = client.get("/library/path/cover/BT/Escm")
         assert response.status_code == 200
         data = response.json()
-        assert data["cover"] == "/home/fruitbat/Zen/Music/BT/Escm/cover.jpg"
+        assert data["cover"] == "/home/richard/Zen/Music/BT/Escm/cover.jpg"
 
     def test_search(self):
         """ Test that we can search for an album."""
         response = client.get("/library/search/Battles")
         assert response.status_code == 200
         data = response.json()
-        assert data["path"] == "/home/fruitbat/Zen/Music/In Flames/Battles"
+        assert data["path"] == "/home/richard/Zen/Music/In Flames/Battles"
