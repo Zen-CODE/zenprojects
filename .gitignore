@@ -15,3 +15,6 @@ python/django/tunez/static/
 python/django/tunez/keys/tunez-245820-047b7b31e116.json
 .env
 node/zentunez/node_modules/
+.python-version
+.vscode
+
