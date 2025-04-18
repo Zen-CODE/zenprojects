@@ -17,4 +17,8 @@ python/django/tunez/keys/tunez-245820-047b7b31e116.json
 node/zentunez/node_modules/
 .python-version
 .vscode
+# For pytorch leftovers
+*.pth
+t10k-*
+train-*
 
