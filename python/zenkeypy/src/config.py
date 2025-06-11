@@ -2,12 +2,13 @@
 """This module houses the ZenKeyPy configuration dictionary creator."""
 from json import load
 from typing import Dict
+from typing import Optional
 
 
 class Config:
     """This class is loads and provides the ZenKeyPy configuration dict."""
 
-    _config: Dict = None
+    _config: Dict = Optional[dict]
 
     @staticmethod
     def get_config() -> Dict:

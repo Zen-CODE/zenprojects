@@ -1,5 +1,6 @@
 #! /bin/bash
 echo "Running the NPM build...."
+export NODE_OPTIONS=--openssl-legacy-provider
 npm run build
 echo "Copying static files to static..."
 rsync -avz "build/static" "../../../zenplayer/zenplayer/webserver"
