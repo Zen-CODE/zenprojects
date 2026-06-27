@@ -6,7 +6,8 @@ from functools import partial
 
 def get_data(url: str) -> dict:
     """Fetch arbitrary data"""
-    print("                                                    > Fetching data")
+    print(" > Fetching data -> Pydantic model -|")
+    print(" < model_dump_json()               -|")
     data = get(url)
     return data.json()
 
