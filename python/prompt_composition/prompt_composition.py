@@ -15,7 +15,7 @@ def get_members(policy_no: int) -> list:
     """Return a list of members for the policy"""
     return ["Bob Chop", "Harry Houndini", "The other Guy"]
 
-def process_prompt(raw_prompt_text: str, roles: list, consents: list, fetches: dict[callable]) -> str:
+def process_prompt(raw_prompt_text: str, user_auth: dict[str, list[str]], fetches: dict[callable]) -> str:
     """Process the `raw_prompt_string` and insert data if role appropriate."""
 
     soup = BeautifulSoup("<root>" + raw_prompt_text + "</root>", "xml")
@@ -26,29 +26,20 @@ def process_prompt(raw_prompt_text: str, roles: list, consents: list, fetches: d
             del tag["callable"]
 
             # We have a tag for which data is defined
-            roles_attr = tag.get("requires_roles")
-            if roles_attr:
-                required_roles = ast.literal_eval(roles_attr)
-                if any(role in roles for role in required_roles):
-                    # Authorised
-                    func = fetches[fetch_name]  # Get the function to call for the data based on the tag name
-                    tag.append(str(func()) + "\n")
-                    del tag["requires_roles"]
-                else:
+            auth_attr = tag.get("auth")
+            if auth_attr:
+                required_auth: dict[str, list[str]] = ast.literal_eval(auth_attr)
+                authorised = False
+                for required_auth, required_values in required_auth.items():
+                    user_values = user_auth.get(required_auth, [])
+                    if any(user_value in required_values for user_value in user_values):
+                        authorised = True
+                        func = fetches[fetch_name]  # Get the function to call for the data based on the tag name
+                        tag.append(str(func()) + "\n")
+                                                        
+                del tag["auth"]
+                if not authorised:
                     tag.replace_with("Data omitted due to insufficient permissions.")
-
-            consents_attr = tag.get("requires_consents")
-            if consents_attr:
-                requires_consents = ast.literal_eval(consents_attr)
-                if any(consent in consents for consent in requires_consents):
-                    # Authorised
-                    func = fetches[fetch_name]  # Get the function to call for the data based on the tag name
-                    tag.append(str(func()) + "\n")
-                    del tag["requires_consents"]
-                else:
-                    tag.replace_with("Consent is required to view this data")
-
-
 
     final_output = "".join(str(child) for child in soup.find("root").contents)
     return final_output.strip()
@@ -59,11 +50,11 @@ Prompt
 ======
 
 # Claim Analysis
-<sec_fence callable="claim_data" requires_roles="['PP', 'PHA']">
+<sec_fence callable="claim_data" auth="{'roles': ['PP', 'PHA']}">
 </sec_fence>
 
 # View Policy
-<sec_fence callable="list_members" requires_consents="['VIEW_POLICY']">
+<sec_fence callable="list_members" auth="{'consents': ['VIEW_POLICY']}">
 </sec_fence>
 """
 
@@ -76,8 +67,8 @@ fetches = {
 
 
 print("\n================================================  1. Spouse prompt")
-print(process_prompt(markdown_template, roles=["CH"], consents=[], fetches=fetches))
+print(process_prompt(markdown_template, user_auth={"roles": ["CH"], "consents": []}, fetches=fetches))
 
 print("\n#================================================ 2. Principle pass")
-print(process_prompt(markdown_template, roles=["PH", "PP"], consents=["VIEW_POLICY"], fetches=fetches))
+print(process_prompt(markdown_template, user_auth={"roles": ["PH", "PP"], "consents": ["VIEW_POLICY"]}, fetches=fetches))
 
