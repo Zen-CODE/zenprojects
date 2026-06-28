@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import ast
 from requests import get
+from typing import Tuple
 from functools import partial
 
 
@@ -9,8 +10,7 @@ AUTH_DICT = dict[str, list[str]]
 
 def get_data(url: str) -> dict:
     """Fetch arbitrary data"""
-    print(" > Fetching data -> Pydantic model -|")
-    print(" < model_dump_json()               -|")
+    print(" > Fetching data -> Pydantic model -> model_dump_json()\n")
     data = get(url)
     return data.json()
 
@@ -18,13 +18,13 @@ def get_members(policy_no: int) -> list:
     """Return a list of members for the policy"""
     return ["Bob Chop", "Harry Houndini", "The other Guy"]
 
-def has_all_auth(user_auth: AUTH_DICT, required_auth: AUTH_DICT) -> bool:
+def has_all_auth(user_auth: AUTH_DICT, required_auth: AUTH_DICT) -> Tuple[bool, str]:
     """Return True if the user has all on trhe required authentication, False otherwise"""                
     for required_key, required_values in required_auth.items():
         user_values = user_auth.get(required_key, [])
         if not any(user_value in required_values for user_value in user_values):
-            return False
-    return True                                                        
+            return False, f"Missing {required_values}"
+    return True, ""                                               
 
 def process_prompt(raw_prompt_text: str, user_auth: dict[str, list[str]], fetches: dict[callable]) -> str:
     """Process the `raw_prompt_string` and insert data if role appropriate."""
@@ -37,8 +37,8 @@ def process_prompt(raw_prompt_text: str, user_auth: dict[str, list[str]], fetche
             auth_attr = tag.get("auth")
             authorised = not bool(auth_attr)
             if not authorised:
-                required_auth: dict[str, list[str]] = ast.literal_eval(auth_attr)
-                authorised = has_all_auth(user_auth, required_auth)
+                required_auth: AUTH_DICT = ast.literal_eval(auth_attr)
+                authorised, reason = has_all_auth(user_auth, required_auth)
                                                         
                 del tag["auth"]
                 if authorised:
@@ -46,7 +46,7 @@ def process_prompt(raw_prompt_text: str, user_auth: dict[str, list[str]], fetche
                     func = fetches[tag.name]  # Get the function to call for the data based on the tag name
                     tag.append(str(func()) + "\n")  # TODO: model_dump_json
                 else:
-                    tag.replace_with("Data omitted due to insufficient permissions.")
+                    tag.replace_with(f"Data omitted due to insufficient permissions: {reason}")
 
     final_output = "".join(str(child) for child in soup.find("root").contents)
     return final_output.strip()
