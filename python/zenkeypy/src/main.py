@@ -7,7 +7,7 @@ from config import Config
 from controller import Controller
 from hotkey_handler import HotKeyHandler
 
-basicConfig(stream=sys.stdout, level=INFO)
+basicConfig(stream=sys.stdout, level=INFO, format="%(levelname)s: %(message)s:\t\t%(asctime)s")
 logger = getLogger(__name__)
 
 
