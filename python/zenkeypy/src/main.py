@@ -1,4 +1,5 @@
 """This module houses the entrypoint for ZenKeyPy."""
+
 from requests.api import get
 from config import Config
 from typing import Dict
@@ -14,7 +15,7 @@ app = FastAPI()
 logger = getLogger(__name__)
 
 
-class ZenKeyApp():
+class ZenKeyApp:
     """This class houses the ZenKeyPy API interface."""
 
     _ctrl: Controller = None
@@ -24,8 +25,7 @@ class ZenKeyApp():
         """Create and bind a properly configured ZenKeyApp instance."""
         config = Config.get_config()
         ZenKeyApp._ctrl = ctrl = Controller(config["zenplayer_url"])
-        listener = HotKeyHandler.create_bindings(
-            config["hotkeymap"], ctrl)
+        listener = HotKeyHandler.create_bindings(config["hotkeymap"], ctrl)
         ctrl.listener = listener
 
         if wait:

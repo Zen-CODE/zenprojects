@@ -1,5 +1,5 @@
-
 """This module houses the ZenKeyPy configuration dictionary creator."""
+
 from json import load
 from typing import Dict
 from typing import Optional

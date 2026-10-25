@@ -1,4 +1,5 @@
 """This module adds global hotkey support from ZenPlayer."""
+
 from functools import partial
 from typing import Dict
 
@@ -23,8 +24,7 @@ class HotKeyHandler:
         """
         mapdict = {}
         for k, v in mapping.items():
-            mapdict[k] = partial(getattr(ctrl, v["function"]),
-                                 *v["params"])
+            mapdict[k] = partial(getattr(ctrl, v["function"]), *v["params"])
         ghk = GlobalHotKeys(mapdict)
         ghk.start()
         return ghk
