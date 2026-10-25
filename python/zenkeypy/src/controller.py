@@ -2,8 +2,8 @@
 
 from collections.abc import Generator
 from contextlib import contextmanager
-from datetime import datetime
 from logging import getLogger
+from random import choice
 
 from mpd import MPDClient
 from pynput.keyboard import Listener
@@ -83,43 +83,48 @@ class ZenMPD:
             client.setvol(max(volume - 5, 0))
 
 
+    @staticmethod
+    def _choose_random_album(client: MPDClient) -> str | None:
+        all_files = client.listall("/")
+        chosen, count = None, 0
+        while count < 100 and not chosen:
+            candidate = choice(all_files)
+            if file_name := candidate.get("file"):
+                chosen = file_name.split("/", maxsplit=2)
+                chosen = "/".join(chosen)
+            count += 1
+        return chosen
+
+    @staticmethod
+    def playrandomalbum():
+        with get_mdp_client() as client:
+            if chosen := ZenMPD._choose_random_album(client):
+                client.clear()
+                client.add(chosen)
+                client.play(0)
+
 class Controller:
     """This class serves as the main delegator for Hotkey actions."""
 
     listener: Listener | None = None
 
-    messages: list | None = None
-    """A list of messages received for the Controller."""
-
     def __init__(self: "Controller", zenplayer_url: str) -> None:
         """Construct the Controller object."""
         self.zen_player_url = zenplayer_url
-        if Controller.messages is None:
-            Controller.messages = []
-
-    @staticmethod
-    def _add_message(msg: str) -> None:
-        """Add the specified message to the messages list."""
-        message = f"{datetime.now().isoformat()}: {msg}"
-        logger.debug(message)
-        Controller.messages.append(message)
 
     def zenplayer(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""
         resp = get(f"{self.zen_player_url}/zenplayer/{action}")
-        self._add_message(
+        logger.info(
             f"ZenPlayer called: {action} = {resp.status_code}. {resp.json()}"
         )
 
     def zenmpd(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""
         resp = getattr(ZenMPD, action)()
-        self._add_message(f"ZenMPD called: {action} - {resp}")
+        logger.info(f"ZenMPD called: {action}: {resp}")
 
     def controller(self: "Controller", action: str) -> None:
         """Call the specified Controller function."""
-        if self.listener is None:
-            self._add_message("Signal to quit but no listener set.")
-        else:
-            self._add_message("Signal to quit")
-            self.listener.stop()
+        logger.info("ZenMPD called: Exiting")
+        self.listener.stop()

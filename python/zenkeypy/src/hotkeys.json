@@ -25,6 +25,10 @@
             "function": "zenmpd",
             "params": ["volup"]
         },
+        "<alt>+r": {
+            "function": "zenmpd",
+            "params": ["playrandomalbum"]
+        },
         "<alt>+q": {
             "function": "controller",
             "params": ["quit"]
