@@ -1,14 +1,15 @@
 """This module houses the entrypoint for ZenKeyPy."""
 
-from requests.api import get
-from config import Config
-from typing import Dict
-from sys import argv
-from logging import basicConfig, DEBUG, getLogger, INFO
 import sys
+from logging import DEBUG, basicConfig, getLogger
+from sys import argv
+
 from fastapi import FastAPI
+
+from config import Config
 from controller import Controller
 from hotkey_handler import HotKeyHandler
+
 
 basicConfig(stream=sys.stdout, level=DEBUG)
 app = FastAPI()
@@ -33,13 +34,13 @@ class ZenKeyApp:
 
     @staticmethod
     @app.get("/")
-    def read_root() -> Dict:
+    def read_root() -> dict:
         """Return the root of out API."""
         return {"Hello": "zen"}
 
     @staticmethod
     @app.get("/history/")
-    def history() -> Dict:
+    def history() -> dict:
         """Return the list of actions in our history."""
         return {"items": ZenKeyApp._ctrl.messages}
 
