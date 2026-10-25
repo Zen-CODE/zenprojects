@@ -6,6 +6,7 @@ from logging import getLogger
 from os import listdir
 from pathlib import Path
 from random import choice
+from threading import Timer
 
 from mpd import MPDClient
 from pynput.keyboard import Listener
@@ -130,14 +131,39 @@ class ZenMPD:
 
         return status | song
 
+    @staticmethod
+    def status() -> dict:
+        with get_mdp_client() as client:
+            return client.status()
+
 class Controller:
     """This class serves as the main delegator for Hotkey actions."""
 
     listener: Listener | None = None
+    timer: Timer | None = None
 
     def __init__(self: "Controller", zenplayer_url: str) -> None:
         """Construct the Controller object."""
         self.zen_player_url = zenplayer_url
+
+        if not Controller.timer:
+            Controller.set_timer()
+
+    @staticmethod
+    def set_timer():
+        Controller.timer = Timer(1, Controller.timed_event)
+        Controller.timer.start()
+
+    @staticmethod
+    def timed_event():
+        state = ZenMPD.status()
+        if state.get("state") == "stop":
+            logger.info("MPD is stopped, playing a random album.")
+            ZenMPD.playrandomalbum()
+        else:
+            logger.info("MPD is playing...")
+
+        Controller.set_timer()
 
     def zenplayer(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""
@@ -159,4 +185,5 @@ class Controller:
     def controller(self: "Controller", action: str) -> None:
         """Call the specified Controller function."""
         logger.info("ZenMPD called: Exiting")
+        self.timer.cancel()
         self.listener.stop()
