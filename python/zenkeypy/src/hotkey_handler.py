@@ -1,11 +1,10 @@
 """This module adds global hotkey support from ZenPlayer."""
 
 from functools import partial
-from typing import Dict
-
-from controller import Controller
 
 from pynput.keyboard import GlobalHotKeys
+
+from controller import Controller
 
 
 class HotKeyHandler:
@@ -15,7 +14,7 @@ class HotKeyHandler:
     """
 
     @staticmethod
-    def create_bindings(mapping: Dict, ctrl: Controller) -> GlobalHotKeys:
+    def create_bindings(mapping: dict, ctrl: Controller) -> GlobalHotKeys:
         """Create hotkey bindings from the mapping to the controller actions.
 
         Args:

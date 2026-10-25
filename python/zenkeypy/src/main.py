@@ -10,7 +10,6 @@ from config import Config
 from controller import Controller
 from hotkey_handler import HotKeyHandler
 
-
 basicConfig(stream=sys.stdout, level=DEBUG)
 app = FastAPI()
 logger = getLogger(__name__)

@@ -1,11 +1,10 @@
 """This module handle the ZenKeyPy Controller."""
 
-from typing import List
-from pynput.keyboard import Listener
 from datetime import datetime
 from logging import getLogger
-from requests import get
 
+from pynput.keyboard import Listener
+from requests import get
 
 logger = getLogger(__name__)
 
@@ -13,9 +12,9 @@ logger = getLogger(__name__)
 class Controller:
     """This class serves as the main delegator for Hotkey actions."""
 
-    listener: Listener = None
+    listener: Listener | None = None
 
-    messages: List = []
+    messages: list | None = None
     """A list of messages received for the Controller."""
 
     def __init__(self: "Controller", zenplayer_url: str) -> None:
@@ -31,7 +30,7 @@ class Controller:
 
     def zenplayer(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""
-        resp = get("/".join([self.zen_player_url, "zenplayer", action]))
+        resp = get(f"{self.zen_player_url}/zenplayer/{action}")
         self._add_message(
             f"ZenPlayer called: {action} = {resp.status_code}. {resp.json()}"
         )
