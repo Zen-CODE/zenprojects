@@ -1,7 +1,4 @@
 pynput==1.8.2
-requests==2.34.2
-fastapi==0.162.0
-uvicorn==0.54.0
 ruff==0.17.2
 python-mpd2==3.1.1
 
