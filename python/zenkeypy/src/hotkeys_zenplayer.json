@@ -1,0 +1,37 @@
+{
+    "zenplayer_url": "http://9.0.0.2:9001",
+    "hotkeymap": {
+        "<alt>+z": {
+            "function": "zenplayer",
+            "params": ["play_previous"]
+        },
+        "<alt>+x": {
+            "function": "zenplayer",
+            "params": ["play_pause"]
+        },
+        "<alt>+v": {
+            "function": "zenplayer",
+            "params": ["stop"]
+        },
+        "<alt>+b": {
+            "function": "zenplayer",
+            "params": ["play_next"]
+        },
+        "<alt>+9": {
+            "function": "zenplayer",
+            "params": ["volume_down"]
+        },
+        "<alt>+0": {
+            "function": "zenplayer",
+            "params": ["volume_up"]
+        },
+        "<alt>+i": {
+            "function": "zenplayer",
+            "params": ["get_state"]
+        },
+        "<alt>+q": {
+            "function": "controller",
+            "params": ["quit"]
+        }
+    }
+}

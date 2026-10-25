@@ -5,15 +5,26 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python Debugger: FastAPI",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "main:app",
+                "--reload"
+            ],
+            "jinja": true
+        },
+        {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
         },
         {
             "name": "Python: Launch ZenKeyPy",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/src/main.py",
             "cwd": "${workspaceFolder}/src",
@@ -22,14 +33,16 @@
         },
         {
             "name": "Python: FastAPI Server",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
-            "program": "/home/fruitbat/.pyenv/versions/zenkeypy-3.8.7/bin/uvicorn",
-            "args": ["main:app", "--reload"],
+            "module": "uvicorn",
+            "args": [
+                "main:app",
+                "--reload"
+            ],
             "cwd": "${workspaceFolder}/src",
             "console": "integratedTerminal",
             "justMyCode": false
         }
-
     ]
 }
