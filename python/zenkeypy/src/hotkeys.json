@@ -29,6 +29,10 @@
             "function": "zenmpd",
             "params": ["playrandomalbum"]
         },
+        "<alt>+i": {
+            "function": "zenmpd",
+            "params": ["nowplaying"]
+        },
         "<alt>+q": {
             "function": "controller",
             "params": ["quit"]

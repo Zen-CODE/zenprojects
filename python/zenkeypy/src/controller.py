@@ -103,6 +103,14 @@ class ZenMPD:
                 client.add(chosen)
                 client.play(0)
 
+    @staticmethod
+    def nowplaying() -> dict:
+        with get_mdp_client() as client:
+            status: dict = client.status()
+            song: dict = client.currentsong()
+
+        return status | song
+
 class Controller:
     """This class serves as the main delegator for Hotkey actions."""
 
@@ -122,7 +130,11 @@ class Controller:
     def zenmpd(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""
         resp = getattr(ZenMPD, action)()
-        logger.info(f"ZenMPD called: {action}: {resp}")
+        if resp:
+            details = [f"  {k}: {v}" for k, v in resp.items()]
+            logger.info(f"ZenMPD called: {action}:\n" + "\n".join(details))
+        else:
+            logger.info(f"ZenMPD called: {action}")
 
     def controller(self: "Controller", action: str) -> None:
         """Call the specified Controller function."""
