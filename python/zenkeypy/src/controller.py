@@ -3,11 +3,15 @@
 from collections.abc import Generator
 from contextlib import contextmanager
 from logging import getLogger
+from os import listdir
+from pathlib import Path
 from random import choice
 
 from mpd import MPDClient
 from pynput.keyboard import Listener
 from requests import get
+
+MUSIC_DIR = "/home/richard/Zen/Music/"
 
 logger = getLogger(__name__)
 
@@ -29,6 +33,20 @@ def get_mdp_client() -> Generator[MPDClient, None, None]:
 
 class ZenMPD:
     _paused = 0
+
+    @staticmethod
+    def _get_library_files(folder: str, existing: list | None = None) -> list[str]:
+        top_level = bool(existing is None)
+        files = [] if top_level else existing
+        for f in sorted(listdir(folder), reverse=False):
+            file_path = Path(f"{folder}/{f}")
+            if file_path.is_dir():
+                ZenMPD._get_library_files(str(file_path), existing=files)
+            else:
+                ext = f.split(".")[-1].lower()
+                if ext in ["mp3", "flac", "wav", "m4a"]:
+                    files.append(str(file_path))
+        return [fname.replace(MUSIC_DIR, "") for fname in files]
 
     @staticmethod
     def play():
@@ -91,16 +109,17 @@ class ZenMPD:
             candidate = choice(all_files)
             if file_name := candidate.get("file"):
                 chosen = file_name.split("/", maxsplit=2)
-                chosen = "/".join(chosen)
+                chosen = "/".join(chosen[0:2])
             count += 1
-        return chosen
+        return f"{MUSIC_DIR}{chosen}"
 
     @staticmethod
     def playrandomalbum():
         with get_mdp_client() as client:
             if chosen := ZenMPD._choose_random_album(client):
                 client.clear()
-                client.add(chosen)
+                for file_ in ZenMPD._get_library_files(chosen):
+                    client.add(file_)
                 client.play(0)
 
     @staticmethod
@@ -131,7 +150,8 @@ class Controller:
         """Call the specified ZenPlayer function."""
         resp = getattr(ZenMPD, action)()
         if resp:
-            details = [f"  {k}: {v}" for k, v in resp.items()]
+            keys = ["volume", "state", "file", "bitrate", "elapsed", "duration"]
+            details = [f"  {k.title()}: {v}" for k, v in resp.items() if k in keys]
             logger.info(f"ZenMPD called: {action}:\n" + "\n".join(details))
         else:
             logger.info(f"ZenMPD called: {action}")
