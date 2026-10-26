@@ -62,7 +62,7 @@ def generate_dashboard(status: dict, current_song: dict):
         [bold cyan]Albumn:[/bold cyan] {current_song.get("album", "")}
         [bold cyan]Title:[/bold cyan] {current_song.get("title", "")}
         [bold cyan]File:[/bold cyan] {current_song.get("file", "")}
-        [bold cyan]Playlist:[/bold cyan] {current_song.get("song", "")} / {status.get("playlistlength", "")}
+        [bold cyan]Playlist:[/bold cyan] {int(current_song.get("pos", 0)) + 1} / {status.get("playlistlength", "")}
         [bold cyan]State:[/bold cyan] {status.get("state", "").title()}
         """)
 

@@ -6,6 +6,7 @@ from logging import INFO, basicConfig, getLogger
 from config import Config
 from controller import Controller
 from hotkey_handler import HotKeyHandler
+from rich_monitor import run as run_rich_monitor
 
 basicConfig(stream=sys.stdout, level=INFO, format="%(levelname)s: %(message)s:\t\t%(asctime)s")
 logger = getLogger(__name__)
@@ -24,7 +25,8 @@ class ZenKeyApp:
         listener = HotKeyHandler.create_bindings(config["hotkeymap"], ctrl)
         ctrl.listener = listener
 
-        listener.join()
+        # listener.join()
+        run_rich_monitor()
 
 
 if __name__ == "__main__":
