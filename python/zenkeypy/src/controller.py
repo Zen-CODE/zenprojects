@@ -17,23 +17,16 @@ MUSIC_DIR = "/home/richard/Zen/Music/"
 logger = getLogger(__name__)
 
 
-@contextmanager
-def get_mdp_client() -> Generator[MPDClient, None, None]:
-    try:
-        client = MPDClient()
-        client.connect("localhost", 6600)
-        yield client
-
-    finally:
-        try:
-            client.close()
-            client.disconnect()
-        except Exception as e:  # noqa: BLE001
-            logger.error("Error unloading MDPClient: %s", e)
-
-
 class ZenMPD:
     _paused = 0
+
+    client: MPDClient | None = None
+
+    @staticmethod
+    def connect_client():
+        """Initialise the connected client"""
+        ZenMPD.client = MPDClient()
+        ZenMPD.client.connect("localhost", 6600)
 
     @staticmethod
     def _get_library_files(folder: str, existing: list | None = None) -> list[str]:
@@ -51,60 +44,53 @@ class ZenMPD:
 
     @staticmethod
     def play():
-        with get_mdp_client() as client:
-            status = client.status()
-            if status.get("state") == "pause":
-                client.pause(0)
-            elif status.get("state") != "play":
-                client.play(int(status.get("song", 0)))
+        status = ZenMPD.client.status()
+        if status.get("state") == "pause":
+            ZenMPD.client.pause(0)
+        elif status.get("state") != "play":
+            ZenMPD.client.play(int(status.get("song", 0)))
         ZenMPD._paused = 1
 
     @staticmethod
     def pause():
-        with get_mdp_client() as client:
-            ZenMPD._paused = 1 - ZenMPD._paused
-            client.pause(ZenMPD._paused)
+        ZenMPD._paused = 1 - ZenMPD._paused
+        ZenMPD.client.pause(ZenMPD._paused)
 
     @staticmethod
     def stop():
-        with get_mdp_client() as client:
-            client.stop()
+        ZenMPD.client.stop()
         ZenMPD._paused = 0
 
     @staticmethod
     def previous():
-        with get_mdp_client() as client:
-            pos = int(client.status().get("song", 0))
-            client.play(max(pos - 1, 0))
+        pos = int(ZenMPD.client.status().get("song", 0))
+        ZenMPD.client.play(max(pos - 1, 0))
         ZenMPD._paused = 0
 
     @staticmethod
     def next():
-        with get_mdp_client() as client:
-            status = client.status()
-            pos = int(status.get("song", -1))
-            if pos + 1 < int(status.get("playlistlength", 0)):
-                client.play(pos + 1)
+        status = ZenMPD.client.status()
+        pos = int(status.get("song", -1))
+        if pos + 1 < int(status.get("playlistlength", 0)):
+            ZenMPD.client.play(pos + 1)
         ZenMPD._paused = 0
 
     @staticmethod
     def volup():
-        with get_mdp_client() as client:
-            status = client.status()
-            volume = int(status.get("volume", 0))
-            client.setvol(min(volume + 5, 100))
+        status = ZenMPD.client.status()
+        volume = int(status.get("volume", 0))
+        ZenMPD.client.setvol(min(volume + 5, 100))
 
     @staticmethod
     def voldown():
-        with get_mdp_client() as client:
-            status = client.status()
-            volume = int(status.get("volume", 0))
-            client.setvol(max(volume - 5, 0))
+        status = ZenMPD.client.status()
+        volume = int(status.get("volume", 0))
+        ZenMPD.client.setvol(max(volume - 5, 0))
 
 
     @staticmethod
     def _choose_random_album(client: MPDClient) -> str | None:
-        all_files = client.listall("/")
+        all_files = ZenMPD.client.listall("/")
         chosen, count = None, 0
         while count < 100 and not chosen:
             candidate = choice(all_files)
@@ -116,25 +102,29 @@ class ZenMPD:
 
     @staticmethod
     def playrandomalbum():
-        with get_mdp_client() as client:
-            if chosen := ZenMPD._choose_random_album(client):
-                client.clear()
-                for file_ in ZenMPD._get_library_files(chosen):
-                    client.add(file_)
-                client.play(0)
+        if chosen := ZenMPD._choose_random_album(ZenMPD.client):
+            ZenMPD.client.clear()
+            for file_ in ZenMPD._get_library_files(chosen):
+                ZenMPD.client.add(file_)
+            ZenMPD.client.play(0)
 
     @staticmethod
     def nowplaying() -> dict:
-        with get_mdp_client() as client:
-            status: dict = client.status()
-            song: dict = client.currentsong()
-
+        status: dict = ZenMPD.client.status()
+        song: dict = ZenMPD.client.currentsong()
         return status | song
 
     @staticmethod
     def status() -> dict:
-        with get_mdp_client() as client:
-            return client.status()
+        return ZenMPD.client.status()
+
+    @staticmethod
+    def disconnect_client():
+        """Initialise the connected client"""
+        ZenMPD.client.close()
+        ZenMPD.client.disconnect()
+        ZenMPD.client = None
+
 
 class Controller:
     """This class serves as the main delegator for Hotkey actions."""
@@ -145,6 +135,7 @@ class Controller:
     def __init__(self: "Controller", zenplayer_url: str) -> None:
         """Construct the Controller object."""
         self.zen_player_url = zenplayer_url
+        ZenMPD.connect_client()
 
         if not Controller.timer:
             Controller.set_timer()
@@ -156,14 +147,17 @@ class Controller:
 
     @staticmethod
     def timed_event():
-        state = ZenMPD.status()
-        if state.get("state") == "stop":
-            logger.info("MPD is stopped, playing a random album.")
-            ZenMPD.playrandomalbum()
-        else:
-            logger.info("MPD is playing...")
+        if ZenMPD.client:
+            state = ZenMPD.status()
+            if state.get("state") == "stop":
+                logger.info("MPD is stopped, playing a random album.")
+                ZenMPD.playrandomalbum()
+            else:
+                logger.info("MPD is playing...")
 
-        Controller.set_timer()
+            Controller.set_timer()
+        else:
+            logger.warning("Timer event: MPD client is not connected.")
 
     def zenplayer(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""
@@ -185,5 +179,6 @@ class Controller:
     def controller(self: "Controller", action: str) -> None:
         """Call the specified Controller function."""
         logger.info("ZenMPD called: Exiting")
+        ZenMPD.disconnect_client()
         self.timer.cancel()
         self.listener.stop()
