@@ -153,7 +153,7 @@ class Controller:
                 logger.info("MPD is stopped, playing a random album.")
                 ZenMPD.playrandomalbum()
             else:
-                logger.info("MPD is playing...")
+                logger.info(f"MPD is playing \tElapsed: {state.get("elapsed", "")}")
 
             Controller.set_timer()
         else:
