@@ -15,8 +15,9 @@ class ZenMPD:
     @staticmethod
     def connect_client():
         """Initialise the connected client"""
-        ZenMPD.client = MPDClient()
-        ZenMPD.client.connect("localhost", 6600)
+        if ZenMPD.client is None:
+            ZenMPD.client = MPDClient()
+            ZenMPD.client.connect("localhost", 6600)
 
     @staticmethod
     def _get_library_files(folder: str, existing: list | None = None) -> list[str]:
@@ -111,7 +112,8 @@ class ZenMPD:
     @staticmethod
     def disconnect_client():
         """Initialise the connected client"""
-        ZenMPD.client.close()
-        ZenMPD.client.disconnect()
-        ZenMPD.client = None
+        if ZenMPD.client is not None:
+            ZenMPD.client.close()
+            ZenMPD.client.disconnect()
+            ZenMPD.client = None
 

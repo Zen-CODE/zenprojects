@@ -6,22 +6,8 @@ from rich.layout import Layout
 from rich.live import Live
 from rich.panel import Panel
 from rich.progress import BarColumn, Progress, TextColumn
-from rich.table import Table
-from mpd import MPDClient
 
-
-class ZenMPDClient:
-
-    def __init__(self):
-        self.client = MPDClient()
-        self.client.connect("localhost", 6600)
-
-    def close(self):
-        try:
-            self.client.close()
-            self.client.disconnect()
-        except Exception as e:  # NOQA: BLE001
-            print(f"Error closing MPDClient: {e}")
+from zenmpd import ZenMPD
 
 
 def create_layout() -> Layout:
@@ -85,16 +71,15 @@ def generate_dashboard(status: dict, current_song: dict):
 
     return layout
 
-if __name__ == "__main__":
-    zen_mpd: ZenMPDClient = ZenMPDClient()
 
+def run():
     # Using Rich's Live display to dynamically update the screen in place
     with Live(refresh_per_second=4, screen=False) as live:
         try:
 
             while True:
-                status: dict = zen_mpd.client.status()
-                current_song: dict = zen_mpd.client.currentsong()
+                status: dict = ZenMPD.client.status()
+                current_song: dict = ZenMPD.client.currentsong()
 
                 # Update dashboard view
                 renderable = generate_dashboard(status=status, current_song=current_song)
@@ -105,4 +90,11 @@ if __name__ == "__main__":
 
         except KeyboardInterrupt:
             print("Exiting...")
-            zen_mpd.close()
+            ZenMPD.disconnect_client()
+
+
+if __name__ == "__main__":
+    if ZenMPD.client is None:
+        ZenMPD.connect_client()
+    run()
+
