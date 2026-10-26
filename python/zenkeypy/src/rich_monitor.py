@@ -34,8 +34,7 @@ def create_layout() -> Layout:
     )
 
     layout["main"].split_row(
-        Layout(name="left", ratio=1),
-        Layout(name="right", ratio=1)
+        Layout(name="left", ratio=1)
     )
     return layout
 
@@ -73,18 +72,6 @@ def generate_dashboard(current_song: dict):
 
     left_content = Group(info_text, progress_bar)
     layout["left"].update(Panel(left_content, title="Now Playing", border_style="green"))
-
-    queue_table = Table(show_header=True, header_style="bold blue", expand=True)
-    queue_table.add_column("#", width=3)
-    queue_table.add_column("Track")
-
-    # for idx, track in enumerate(playlist, 1):
-    #     if track == song_title:
-    #         queue_table.add_row(str(idx), f"[bold green]▶ {track}[/bold green]")
-    #     else:
-    #         queue_table.add_row(str(idx), track)
-
-    layout["right"].update(Panel(queue_table, title="Queue", border_style="blue"))
 
     return layout
 
