@@ -38,7 +38,7 @@ def create_layout() -> Layout:
     )
     return layout
 
-def generate_dashboard(current_song: dict):
+def generate_dashboard(status: dict, current_song: dict):
     """Generates the updated renderable content for the Live display."""
     # ------ Current song keys -------
     # {'file': 'Wumpscut/Blutkind - Disc 2/06 - Throbberstalk.mp3',
@@ -47,6 +47,14 @@ def generate_dashboard(current_song: dict):
     # 'album': 'Blutkind - Disc 2', 'track': '6', 'date': '2000',
     # 'genre': 'Industrial', 'time': '258', 'duration': '258.272',
     # 'pos': '5', 'id': '1055'}
+
+    # ------- Status keeys --------
+    # {'volume': '100', 'repeat': '0', 'random': '0', 'single': '0',
+    # 'consume': '0', 'partition': 'default', 'playlist': '720',
+    # 'playlistlength': '17', 'mixrampdb': '0', 'state': 'play', 'song': '11',
+    #  'songid': '1061', 'time': '257:290', 'elapsed': '256.803',
+    # 'bitrate': '192', 'duration': '290.351', 'audio': '44100:24:2',
+    # 'nextsong': '12', 'nextsongid': '1062'}
 
     layout = create_layout()
 
@@ -60,14 +68,16 @@ def generate_dashboard(current_song: dict):
         TextColumn("[progress.percentage]{task.completed}/{task.total}s"),
     )
     progress_bar.add_task("Playing",
-                          completed=float(current_song.get("time", 0)),
-                          total=float(current_song.get("duration", 1)))
+                          completed=float(status.get("elapsed", 0)),
+                          total=float(status.get("duration", 1)))
 
     info_text = dedent(f"""
         [bold cyan]Artist:[/bold cyan] {current_song.get("artist", "")}
         [bold cyan]Albumn:[/bold cyan] {current_song.get("album", "")}
         [bold cyan]Title:[/bold cyan] {current_song.get("title", "")}
         [bold cyan]File:[/bold cyan] {current_song.get("file", "")}
+        [bold cyan]Playlist:[/bold cyan] {current_song.get("song", "")} / {status.get("playlistlength", "")}
+        [bold cyan]State:[/bold cyan] {status.get("state", "").title()}
         """)
 
     left_content = Group(info_text, progress_bar)
@@ -83,10 +93,11 @@ if __name__ == "__main__":
         try:
 
             while True:
+                status: dict = zen_mpd.client.status()
                 current_song: dict = zen_mpd.client.currentsong()
 
                 # Update dashboard view
-                renderable = generate_dashboard(current_song=current_song)
+                renderable = generate_dashboard(status=status, current_song=current_song)
                 live.update(renderable)
 
                 # Simulate playback progression
