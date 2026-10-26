@@ -1,11 +1,12 @@
 import time
-from rich.live import Live
-from rich.layout import Layout
-from rich.panel import Panel
-from rich.table import Table
-from rich.progress import Progress, BarColumn, TextColumn
-from rich.console import Group
 from textwrap import dedent
+
+from rich.console import Group
+from rich.layout import Layout
+from rich.live import Live
+from rich.panel import Panel
+from rich.progress import BarColumn, Progress, TextColumn
+from rich.table import Table
 
 
 def create_layout() -> Layout:
