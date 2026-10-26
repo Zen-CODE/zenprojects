@@ -77,8 +77,12 @@ def run():
     with Live(refresh_per_second=4, screen=False) as live:
         try:
 
-            while True:
+            while ZenMPD.client:
                 status: dict = ZenMPD.client.status()
+                if status.get("state") == "stop":
+                    ZenMPD.playrandomalbum()
+                    status: dict = ZenMPD.client.status()
+
                 current_song: dict = ZenMPD.client.currentsong()
 
                 # Update dashboard view

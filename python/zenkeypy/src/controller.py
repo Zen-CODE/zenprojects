@@ -1,7 +1,5 @@
 """This module handle the ZenKeyPy Controller."""
 
-from threading import Timer
-
 from pynput.keyboard import Listener
 from requests import get
 
@@ -12,29 +10,11 @@ class Controller:
     """This class serves as the main delegator for Hotkey actions."""
 
     listener: Listener | None = None
-    timer: Timer | None = None
 
     def __init__(self: "Controller", zenplayer_url: str) -> None:
         """Construct the Controller object."""
         self.zen_player_url = zenplayer_url
         ZenMPD.connect_client()
-
-        if not Controller.timer:
-            Controller.set_timer()
-
-    @staticmethod
-    def set_timer():
-        Controller.timer = Timer(1, Controller.timed_event)
-        Controller.timer.start()
-
-    @staticmethod
-    def timed_event():
-        if ZenMPD.client:
-            state = ZenMPD.status()
-            if state.get("state") == "stop":
-                ZenMPD.playrandomalbum()
-
-            Controller.set_timer()
 
     def zenplayer(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""
@@ -56,5 +36,4 @@ class Controller:
     def controller(self: "Controller", action: str) -> None:
         """Call the specified Controller function."""
         ZenMPD.disconnect_client()
-        self.timer.cancel()
         self.listener.stop()
