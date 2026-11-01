@@ -140,11 +140,15 @@ class ZenMPD:
     def playrandomalbum():
         client = ZenMPD._ensure_client()
         if chosen := ZenMPD._choose_random_album(client):
-            client.stop()
-            client.clear()
-            for file_ in ZenMPD._get_library_files(chosen):
-                client.add(file_)
-            client.play(0)
+            files = ZenMPD._get_library_files(chosen)
+            if files:
+                client.stop()
+                client.clear()
+                for file_ in files:
+                    client.add(file_)
+                client.play(0)
+            else:
+                raise ValueError(f"Not files found to load from: {chosen}")
 
     @staticmethod
     def addrandomalbum():
