@@ -73,6 +73,19 @@ class ZenMPD:
             client.play(int(status.get("song", 0)))
 
     @staticmethod
+    def playpause():
+        client = ZenMPD._ensure_client()
+        status = client.status()
+        match status.get("state"):
+            case "play":
+                client.pause(1)
+            case "pause":
+                client.pause(0)
+            case _:
+                client.play(int(status.get("song", 0)))
+
+
+    @staticmethod
     def pause():
         client = ZenMPD._ensure_client()
         client.pause(1)
