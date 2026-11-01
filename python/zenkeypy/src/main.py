@@ -8,7 +8,9 @@ from controller import Controller
 from hotkey_handler import HotKeyHandler
 from rich_monitor import run as run_rich_monitor
 
-basicConfig(stream=sys.stdout, level=INFO, format="%(levelname)s: %(message)s:\t\t%(asctime)s")
+basicConfig(
+    stream=sys.stdout, level=INFO, format="%(levelname)s: %(message)s:\t\t%(asctime)s"
+)
 logger = getLogger(__name__)
 
 

@@ -19,10 +19,9 @@ def create_layout() -> Layout:
         Layout(name="main", ratio=1),
     )
 
-    layout["main"].split_row(
-        Layout(name="left", ratio=1)
-    )
+    layout["main"].split_row(Layout(name="left", ratio=1))
     return layout
+
 
 def generate_dashboard(status: dict, current_song: dict):
     """Generates the updated renderable content for the Live display."""
@@ -53,9 +52,11 @@ def generate_dashboard(status: dict, current_song: dict):
         BarColumn(bar_width=30),
         TextColumn("[progress.percentage]{task.completed}/{task.total}s"),
     )
-    progress_bar.add_task("Playing",
-                          completed=float(status.get("elapsed", 0)),
-                          total=float(status.get("duration", 1)))
+    progress_bar.add_task(
+        "Playing",
+        completed=float(status.get("elapsed", 0)),
+        total=float(status.get("duration", 1)),
+    )
 
     info_text = dedent(f"""
         [bold cyan]Artist:[/bold cyan] {current_song.get("artist", "")}
@@ -68,7 +69,9 @@ def generate_dashboard(status: dict, current_song: dict):
         """)
 
     left_content = Group(info_text, progress_bar)
-    layout["left"].update(Panel(left_content, title="Now Playing", border_style="green"))
+    layout["left"].update(
+        Panel(left_content, title="Now Playing", border_style="green")
+    )
 
     return layout
 
@@ -78,7 +81,6 @@ def run():
     ZenMPD._ensure_client()
     with Live(refresh_per_second=4, screen=False) as live:
         try:
-
             while ZenMPD.client:
                 status: dict = ZenMPD.client.status()
                 if status.get("state") == "stop":
@@ -88,7 +90,9 @@ def run():
                 current_song: dict = ZenMPD.client.currentsong()
 
                 # Update dashboard view
-                renderable = generate_dashboard(status=status, current_song=current_song)
+                renderable = generate_dashboard(
+                    status=status, current_song=current_song
+                )
                 live.update(renderable)
 
                 # Simulate playback progression
@@ -101,4 +105,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-

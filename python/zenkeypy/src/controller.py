@@ -18,9 +18,7 @@ class Controller:
     def zenplayer(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""
         resp = get(f"{self.zen_player_url}/zenplayer/{action}")
-        print(
-            f"ZenPlayer called: {action} = {resp.status_code}. {resp.json()}"
-        )
+        print(f"ZenPlayer called: {action} = {resp.status_code}. {resp.json()}")
 
     def zenmpd(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""

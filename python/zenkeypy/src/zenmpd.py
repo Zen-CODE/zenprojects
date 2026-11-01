@@ -1,7 +1,8 @@
-from mpd import MPDClient
 from os import listdir
-from random import choice
 from pathlib import Path
+from random import choice
+
+from mpd import MPDClient
 
 MUSIC_DIR = "/home/richard/Zen/Music/"
 
