@@ -64,6 +64,7 @@ def generate_dashboard(status: dict, current_song: dict):
         [bold cyan]File:[/bold cyan] {current_song.get("file", "")}
         [bold cyan]Playlist:[/bold cyan] {int(current_song.get("pos", 0)) + 1} / {status.get("playlistlength", "")}
         [bold cyan]State:[/bold cyan] {status.get("state", "").title()}
+        [bold cyan]Volume:[/bold cyan] {status.get("volume", "").title()}
         """)
 
     left_content = Group(info_text, progress_bar)

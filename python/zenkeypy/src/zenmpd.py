@@ -9,6 +9,7 @@ MUSIC_DIR = "/home/richard/Zen/Music/"
 
 class ZenMPD:
     _paused = 0
+    
 
     client: MPDClient | None = None
 
@@ -113,7 +114,10 @@ class ZenMPD:
     def disconnect_client():
         """Initialise the connected client"""
         if ZenMPD.client is not None:
-            ZenMPD.client.close()
-            ZenMPD.client.disconnect()
+            try:
+                ZenMPD.client.close()
+                ZenMPD.client.disconnect()
+            except:  # noqa BL001
+                pass
             ZenMPD.client = None
 
