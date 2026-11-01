@@ -1,31 +1,44 @@
-from os import listdir
-from pathlib import Path
-from random import choice
-
 from mpd import MPDClient
+from os import listdir
+from random import choice
+from pathlib import Path
 
 MUSIC_DIR = "/home/richard/Zen/Music/"
 
 
 class ZenMPD:
-    _paused = 0
-    
-
     client: MPDClient | None = None
 
     @staticmethod
-    def connect_client():
-        """Initialise the connected client"""
+    def _ensure_client() -> MPDClient:
+        """Ensure the MDPClient property is set and connected.
+        Note:
+            We take this approach to avoid the object management in streamlit
+            whilst tying to preserve compatibility with ZenPlayer (Kivy)
+        """
         if ZenMPD.client is None:
-            ZenMPD.client = MPDClient()
-            ZenMPD.client.connect("localhost", 6600)
+            ZenMPD.client = client = MPDClient()
+            client.connect("localhost", 6600)
+        else:
+            try:
+                # Verify connection is alive
+                ZenMPD.client.ping()
+            # except (ConnectionError, BrokenPipeError, OSError):
+            except Exception as e:
+                print(f"ZenMPD: Error pinging MPDClient: {e}")
+                try:
+                    ZenMPD.client.disconnect()
+                except Exception:
+                    pass
+                ZenMPD.client.connect("localhost", 6600)
+        return ZenMPD.client
 
     @staticmethod
     def _get_library_files(folder: str, existing: list | None = None) -> list[str]:
         top_level = bool(existing is None)
         files = [] if top_level else existing
         for f in sorted(listdir(folder), reverse=False):
-            file_path = Path(f"{folder}/{f}")
+            file_path = Path("/".join([folder, f]))
             if file_path.is_dir():
                 ZenMPD._get_library_files(str(file_path), existing=files)
             else:
@@ -35,80 +48,135 @@ class ZenMPD:
         return [fname.replace(MUSIC_DIR, "") for fname in files]
 
     @staticmethod
+    def add(folder: str):
+        client = ZenMPD._ensure_client()
+        for lib_file in ZenMPD._get_library_files(folder):
+            client.add(lib_file)
+
+    @staticmethod
+    def replace(folder: str):
+        client = ZenMPD._ensure_client()
+        client.stop()
+        client.clear()
+        for lib_file in ZenMPD._get_library_files(folder):
+            client.add(lib_file)
+        client.play(0)
+
+    @staticmethod
     def play():
-        status = ZenMPD.client.status()
+        client = ZenMPD._ensure_client()
+        status = client.status()
         if status.get("state") == "pause":
-            ZenMPD.client.pause(0)
+            client.pause(0)
         elif status.get("state") != "play":
-            ZenMPD.client.play(int(status.get("song", 0)))
-        ZenMPD._paused = 1
+            client.play(int(status.get("song", 0)))
 
     @staticmethod
     def pause():
-        ZenMPD._paused = 1 - ZenMPD._paused
-        ZenMPD.client.pause(ZenMPD._paused)
+        client = ZenMPD._ensure_client()
+        client.pause(1)
 
     @staticmethod
     def stop():
-        ZenMPD.client.stop()
-        ZenMPD._paused = 0
+        client = ZenMPD._ensure_client()
+        client.stop()
 
     @staticmethod
     def previous():
-        pos = int(ZenMPD.client.status().get("song", 0))
-        ZenMPD.client.play(max(pos - 1, 0))
-        ZenMPD._paused = 0
+        client = ZenMPD._ensure_client()
+        pos = int(client.status().get("song", 0))
+        client.play(max(pos - 1, 0))
 
     @staticmethod
     def next():
-        status = ZenMPD.client.status()
+        client = ZenMPD._ensure_client()
+        status = client.status()
         pos = int(status.get("song", -1))
         if pos + 1 < int(status.get("playlistlength", 0)):
-            ZenMPD.client.play(pos + 1)
-        ZenMPD._paused = 0
+            client.play(pos + 1)
 
     @staticmethod
     def volup():
-        status = ZenMPD.client.status()
+        client = ZenMPD._ensure_client()
+        status = client.status()
         volume = int(status.get("volume", 0))
-        ZenMPD.client.setvol(min(volume + 5, 100))
+        client.setvol(min(volume + 5, 100))
 
     @staticmethod
     def voldown():
-        status = ZenMPD.client.status()
+        client = ZenMPD._ensure_client()
+        status = client.status()
         volume = int(status.get("volume", 0))
-        ZenMPD.client.setvol(max(volume - 5, 0))
-
+        client.setvol(max(volume - 5, 0))
 
     @staticmethod
     def _choose_random_album(client: MPDClient) -> str | None:
-        all_files = ZenMPD.client.listall("/")
+        all_files = client.listall("/")
         chosen, count = None, 0
         while count < 100 and not chosen:
             candidate = choice(all_files)
             if file_name := candidate.get("file"):
-                chosen = file_name.split("/", maxsplit=2)
-                chosen = "/".join(chosen[0:2])
+                test_chosen = file_name.split("/")
+                if len(test_chosen) > 1:
+                    chosen = MUSIC_DIR + "/".join(chosen[:-1])
             count += 1
-        return f"{MUSIC_DIR}{chosen}"
+        return chosen
 
     @staticmethod
     def playrandomalbum():
-        if chosen := ZenMPD._choose_random_album(ZenMPD.client):
-            ZenMPD.client.clear()
+        client = ZenMPD._ensure_client()
+        if chosen := ZenMPD._choose_random_album(client):
+            client.stop()
+            client.clear()
             for file_ in ZenMPD._get_library_files(chosen):
-                ZenMPD.client.add(file_)
-            ZenMPD.client.play(0)
+                client.add(file_)
+            client.play(0)
 
     @staticmethod
-    def nowplaying() -> dict:
-        status: dict = ZenMPD.client.status()
-        song: dict = ZenMPD.client.currentsong()
-        return status | song
+    def addrandomalbum():
+        client = ZenMPD._ensure_client()
+        if chosen := ZenMPD._choose_random_album(client):
+            for file_ in ZenMPD._get_library_files(chosen):
+                client.add(file_)
 
     @staticmethod
-    def status() -> dict:
-        return ZenMPD.client.status()
+    def _get_folder_art(file_path: str) -> str | None:
+        folder_path = Path(MUSIC_DIR + file_path).parent
+        for file_name in folder_path.iterdir():
+            if file_name.is_file() and file_name.name.lower().endswith(
+                (".jpg", ".jpeg", ".png")
+            ):
+                return str(file_name)
+        return None
+
+    @staticmethod
+    def nowplaying() -> dict | str | None:
+        client = ZenMPD._ensure_client()
+        status = client.status()
+        song = client.currentsong()
+        file_ = song.get("file", "")
+        if file_ and Path(file_).exists():
+            albumart = client.albumart(file_)
+        else:
+            albumart = ZenMPD._get_folder_art(file_)
+        return status, song, albumart
+
+    @staticmethod
+    def playlist() -> tuple[list[dict], str | None]:
+        client = ZenMPD._ensure_client()
+        playlist_info = client.playlistinfo()
+        current_id = client.currentsong().get("id")
+        return playlist_info, current_id
+
+    @staticmethod
+    def get_status() -> dict:
+        client = ZenMPD._ensure_client()
+        return client.status()
+
+    @staticmethod
+    def get_currentsong() -> dict:
+        client = ZenMPD._ensure_client()
+        return client.currentsong()
 
     @staticmethod
     def disconnect_client():
@@ -120,4 +188,3 @@ class ZenMPD:
             except:  # noqa BL001
                 pass
             ZenMPD.client = None
-

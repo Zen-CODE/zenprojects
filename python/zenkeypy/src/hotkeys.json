@@ -7,6 +7,10 @@
         },
         "<alt>+x": {
             "function": "zenmpd",
+            "params": ["play"]
+        },
+        "<alt>+c": {
+            "function": "zenmpd",
             "params": ["pause"]
         },
         "<alt>+v": {

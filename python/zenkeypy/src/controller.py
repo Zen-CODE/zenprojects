@@ -14,7 +14,6 @@ class Controller:
     def __init__(self: "Controller", zenplayer_url: str) -> None:
         """Construct the Controller object."""
         self.zen_player_url = zenplayer_url
-        ZenMPD.connect_client()
 
     def zenplayer(self: "Controller", action: str) -> None:
         """Call the specified ZenPlayer function."""

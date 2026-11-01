@@ -75,6 +75,7 @@ def generate_dashboard(status: dict, current_song: dict):
 
 def run():
     # Using Rich's Live display to dynamically update the screen in place
+    ZenMPD._ensure_client()
     with Live(refresh_per_second=4, screen=False) as live:
         try:
 
@@ -99,7 +100,5 @@ def run():
 
 
 if __name__ == "__main__":
-    if ZenMPD.client is None:
-        ZenMPD.connect_client()
     run()
 
