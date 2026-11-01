@@ -8,6 +8,8 @@ MUSIC_DIR = "/home/richard/Zen/Music/"
 
 
 class ZenMPD:
+
+    version: str = "0.1"
     client: MPDClient | None = None
 
     @staticmethod
@@ -25,12 +27,12 @@ class ZenMPD:
                 # Verify connection is alive
                 ZenMPD.client.ping()
             # except (ConnectionError, BrokenPipeError, OSError):
-            except Exception as e:
+            except Exception as e: # noqa BL001
                 print(f"ZenMPD: Error pinging MPDClient: {e}")
                 try:
                     ZenMPD.client.disconnect()
-                except Exception:
-                    pass
+                except Exception as e:  # noqa BL001
+                    print(f"ZenMPD: Error disconnecting MPDClient: {e}")
                 ZenMPD.client.connect("localhost", 6600)
         return ZenMPD.client
 
@@ -39,7 +41,7 @@ class ZenMPD:
         top_level = bool(existing is None)
         files = [] if top_level else existing
         for f in sorted(listdir(folder), reverse=False):
-            file_path = Path("/".join([folder, f]))
+            file_path = Path(f"/{folder}/{f}")
             if file_path.is_dir():
                 ZenMPD._get_library_files(str(file_path), existing=files)
             else:
